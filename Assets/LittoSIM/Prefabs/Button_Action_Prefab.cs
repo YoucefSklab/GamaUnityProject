@@ -16,7 +16,7 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
 
         private void FixedUpdate()
         {
-            Debug.Log("The action code to do is: " + LittosimManager.actionToDo);
+//            Debug.Log("The action code to do is: " + LittosimManager.actionToDo);
             if (LittosimManager.actionToDo == code)
             {
                 ColorBlock cb = gameObject.GetComponent<Button>().colors;

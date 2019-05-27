@@ -32,6 +32,7 @@ namespace ummisco.gama.unity.littosim
             if (pos_nbr >= 2)
             {
                 x = (((max_x + (-1 * min_x)) / (action_nbr + 1)) * (pos_nbr - 1 ) ) + min_x;
+              //  x = (((min_x + (-1 * max_x)) / (action_nbr + 1)) * (pos_nbr - 1)) + max_x;
                 return new Vector3(x, y, z);
             }
             else

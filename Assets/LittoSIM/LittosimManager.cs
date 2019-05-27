@@ -27,8 +27,11 @@ namespace ummisco.gama.unity.littosim
         public List<GameObject> recapActionsList = new List<GameObject>();
         public List<GameObject> messagesList = new List<GameObject>();
 
-        public Vector3 initialPosition = new Vector3(1976.2f, 1159.5f, 0.0f);
-        public Vector3 lastPosition = new Vector3(1976.2f, 1159.5f, 0.0f);
+        // public Vector3 initialPosition = new Vector3(1976.2f, 1159.5f, 0.0f);
+        // public Vector3 lastPosition = new Vector3(1976.2f, 1159.5f, 0.0f);
+
+        public Vector3 initialPosition = new Vector3(-1492.7f, 9139.1f, 0.0f);
+        public Vector3 lastPosition = new Vector3(-492.7f, 39.1f, 0.0f);
 
         public Vector3 initialRecapPosition = new Vector3(2020.0f, -135.3f, 0.0f);
         public Vector3 lastRecapPosition = new Vector3(2020.0f, -135.3f, 0.0f);
@@ -48,7 +51,7 @@ namespace ummisco.gama.unity.littosim
         public float lineHeight = 80f;
         public float zCoordinate = 60;
 
-        public Canvas uiCanvas;
+        public Canvas uiCanvas = null;
         private GameObject uiManager;
         private GameObject main_canvas;
 
@@ -57,11 +60,19 @@ namespace ummisco.gama.unity.littosim
         {
             initialRecapPosition = new Vector3(2020.0f, -135.3f, 0.0f);
             lastRecapPosition = new Vector3(2020.0f, -135.3f, 0.0f);
-
+           //
             uiManager = GameObject.Find(IUILittoSim.UI_MANAGER_GAMEOBJECT);
             main_canvas = GameObject.Find(IUILittoSim.MAIN_CANVAS);
 
-      //      Debug.Log(" The position is: " + GameObject.Find("Button_Action_Prefab").transform.position);
+
+           
+            // Debug.Log(" The Action_Panel_Prefab position is: " + GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).transform.position);
+
+            initialPosition = GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).transform.localPosition;
+            lastPosition = initialPosition;
+
+
+            //      Debug.Log(" The position is: " + GameObject.Find("Button_Action_Prefab").transform.position);
 
             /*
 
@@ -94,16 +105,25 @@ namespace ummisco.gama.unity.littosim
             // initialPosition = GameObject.Find("IUILittoSim.ACTION_PANEL_PREFAB").transform.position;
             // lastPosition = initialPosition;
 
-//            Debug.Log("The hight of " + IUILittoSim.MESSAGE_PANEL_PREFAB + " is : " + GameObject.Find(IUILittoSim.MESSAGE_PANEL_PREFAB).GetComponent<RectTransform>().rect.height);
+            //            Debug.Log("The hight of " + IUILittoSim.MESSAGE_PANEL_PREFAB + " is : " + GameObject.Find(IUILittoSim.MESSAGE_PANEL_PREFAB).GetComponent<RectTransform>().rect.height);
 
             initialMessagePosition = new Vector3(-836.3f, -136.2f, 0.0f);
             lastMessagePosition = initialMessagePosition;
 
+            Debug.Log(" The Action_Panel_Prefab position is: " + GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).transform.position);
+            Debug.Log("initial position is : " + initialPosition);
+            //initialPosition = GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).transform.position;
+            //initialPosition = new Vector3(-492.7f, 39.1f, 0.0f);
+            Debug.Log("initial position 2 is : " + initialPosition);
+
             Destroy(GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB));
+            //GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).SetActive(false);
+ 
             Destroy(GameObject.Find(IUILittoSim.MESSAGE_PANEL_PREFAB));
             Destroy(GameObject.Find(IUILittoSim.ACTION_RECAP_PANEL_PREFAB));
 
             deactivateValider();
+            //addObjectOnPanel(1, "TTTESTTTE", "Test test", 5, 200);
         }
 
         void Awak()
@@ -120,7 +140,7 @@ namespace ummisco.gama.unity.littosim
                 //   GameObject.Find(IUILittoSim.MESSAGE_PANEL).transform.position = initialMessagePosition;
             }
             */
-
+         //   Debug.Log(" The Action_Panel_Prefab position is: " + GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).transform.position);
             Debug.Log("The active panel is " + uiManager.GetComponent<UIManager>().getActivePanel());
 
             Vector3 mouse = Input.mousePosition;
@@ -242,7 +262,7 @@ namespace ummisco.gama.unity.littosim
             texture.Apply();
             GUI.skin.box.normal.background = texture;
             GUI.Box(bounds, GUIContent.none);
-
+            /*
             // --------
             if (GUI.Button(new Rect(150, 1, 150, 20), "Send Mqtt message!"))
             {
@@ -254,6 +274,7 @@ namespace ummisco.gama.unity.littosim
                 Debug.Log("msgId is: " + msgId + " -> " + message);
                 Debug.Log("Message sent to topic: " + topic);
             }
+            */
         }
 
 
@@ -518,10 +539,10 @@ namespace ummisco.gama.unity.littosim
 
         public void createActionPaneChild(int type, string name, GameObject panelParent, string texte, string delay, string montant)
         {
-
+           
             GameObject panelChild = Instantiate(ActionPanelPrefab);
             panelChild.name = name;
-            panelChild.transform.position = getAtActionPanelPosition();
+            panelChild.transform.localPosition = getAtActionPanelPosition();
             panelChild.transform.SetParent(panelParent.transform);
             actionsList.Add(panelChild);
             panelChild.transform.Find(IUILittoSim.ACTION_TITLE).GetComponent<Text>().text = texte;
@@ -537,6 +558,7 @@ namespace ummisco.gama.unity.littosim
                 rt.sizeDelta = new Vector2(rt.sizeDelta.x, (rt.sizeDelta.y + (actionsList.Count - 10) * lineHeight));
             }
             actionCounter++;
+
         }
 
         public void updateValiderPosition()

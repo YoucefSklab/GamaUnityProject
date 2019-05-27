@@ -62,10 +62,10 @@ namespace ummisco.gama.unity.littosim
             foreach (KeyValuePair<string, Langue> lng in langueDic)
             {
                 ILangue.current_langue.Add(lng.Key, lng.Value.value);
-                Debug.Log("Langue element added is : " + lng.Key + " it's value is "+ lng.Value.value);
+//                Debug.Log("Langue element added is : " + lng.Key + " it's value is "+ lng.Value.value);
             }
 
-            Debug.Log("The dic size is " + ILangue.current_langue.Count);
+ //           Debug.Log("The dic size is " + ILangue.current_langue.Count);
 
         }
     }
