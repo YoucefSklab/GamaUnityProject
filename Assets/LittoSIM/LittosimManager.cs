@@ -52,8 +52,6 @@ namespace ummisco.gama.unity.littosim
         public float zCoordinate = 60;
 
         public Canvas uiCanvas = null;
-        public Canvas mapCanvas = null;
-
         private GameObject uiManager;
         private GameObject main_canvas;
 
