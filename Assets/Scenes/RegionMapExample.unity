@@ -1285,11 +1285,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 284944362}
   m_Direction: 2
   m_Value: 0
-<<<<<<< HEAD
   m_Size: 0.99999297
-=======
-  m_Size: 0.85783523
->>>>>>> parent of c9a8ab8... Desapear GameObjects when outside the map canvas
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1788,7 +1784,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 501700997}
   m_CullTransparentMesh: 0
-<<<<<<< HEAD
 --- !u!1 &511532923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1908,8 +1903,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 511532923}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-=======
->>>>>>> parent of c9a8ab8... Desapear GameObjects when outside the map canvas
 --- !u!1 &513209715
 GameObject:
   m_ObjectHideFlags: 0
@@ -2588,79 +2581,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 746464976}
   m_CullTransparentMesh: 0
-<<<<<<< HEAD
-=======
---- !u!1 &755364942
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 755364943}
-  - component: {fileID: 755364945}
-  - component: {fileID: 755364944}
-  m_Layer: 9
-  m_Name: Panel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 16
-  m_IsActive: 1
---- !u!224 &755364943
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 755364942}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1467025257}
-  m_Father: {fileID: 1098426278}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00006501051}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &755364944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 755364942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.101960786, g: 0.54509807, b: 1, a: 0.392}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
---- !u!222 &755364945
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 755364942}
-  m_CullTransparentMesh: 0
->>>>>>> parent of c9a8ab8... Desapear GameObjects when outside the map canvas
 --- !u!1 &757583018
 GameObject:
   m_ObjectHideFlags: 0
@@ -3881,11 +3801,11 @@ GameObject:
   - component: {fileID: 1098426283}
   - component: {fileID: 1098426282}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: MapCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 16
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!224 &1098426278
 RectTransform:
@@ -3904,13 +3824,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-<<<<<<< HEAD
   m_AnchoredPosition: {x: 1511.0221, y: 634.0782}
   m_SizeDelta: {x: 3022.444, y: 1268.195}
-=======
-  m_AnchoredPosition: {x: 295, y: 1127.4}
-  m_SizeDelta: {x: 3049.3, y: 1258.1}
->>>>>>> parent of c9a8ab8... Desapear GameObjects when outside the map canvas
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1098426279
 MonoBehaviour:
@@ -5260,11 +5175,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-<<<<<<< HEAD
   m_AnchoredPosition: {x: 0, y: 0.00010171221}
-=======
-  m_AnchoredPosition: {x: 0, y: 1.0311147}
->>>>>>> parent of c9a8ab8... Desapear GameObjects when outside the map canvas
   m_SizeDelta: {x: 0, y: 1111}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &1355097074
@@ -5554,12 +5465,13 @@ GameObject:
   - component: {fileID: 1467025260}
   - component: {fileID: 1467025259}
   - component: {fileID: 1467025258}
+  - component: {fileID: 1467025262}
   m_Layer: 9
-  m_Name: Cube
+  m_Name: Cube0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 16
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!224 &1467025257
 RectTransform:
@@ -5648,6 +5560,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1467025256}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1467025262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1467025256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ffbe5dd4b8e4a53a53d595dcfaf588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 1098426281}
 --- !u!1 &1500176518
 GameObject:
   m_ObjectHideFlags: 0
@@ -6927,6 +6851,7 @@ MonoBehaviour:
   lineHeight: 80
   zCoordinate: 60
   uiCanvas: {fileID: 647947878}
+  mapCanvas: {fileID: 1098426281}
 --- !u!4 &1882931954
 Transform:
   m_ObjectHideFlags: 0
@@ -7128,7 +7053,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1943879415}
   m_CullTransparentMesh: 0
-<<<<<<< HEAD
 --- !u!1 &1950271625
 GameObject:
   m_ObjectHideFlags: 0
@@ -7248,8 +7172,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1950271625}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-=======
->>>>>>> parent of c9a8ab8... Desapear GameObjects when outside the map canvas
 --- !u!1 &1981866018
 GameObject:
   m_ObjectHideFlags: 0
@@ -7325,7 +7247,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1981866018}
   m_CullTransparentMesh: 0
-<<<<<<< HEAD
 --- !u!1 &1983788776
 GameObject:
   m_ObjectHideFlags: 0
@@ -7445,8 +7366,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1983788776}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-=======
->>>>>>> parent of c9a8ab8... Desapear GameObjects when outside the map canvas
 --- !u!1 &2078360054
 GameObject:
   m_ObjectHideFlags: 0

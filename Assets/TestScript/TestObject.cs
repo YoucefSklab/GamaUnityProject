@@ -11,7 +11,6 @@ public class TestObject : MonoBehaviour
         m_Speed = 20.0f;
         //Rotate the GameObject a little at the start to show the difference between Space and Local
         transform.Rotate(60, 0, 60);
-<<<<<<< HEAD
 
 
         Vector3 p;
@@ -44,8 +43,6 @@ public class TestObject : MonoBehaviour
         g4.transform.localScale = new Vector3(40, 40, 40);
         g4.AddComponent<CheckIfContainedInCanvas>();
 
-=======
->>>>>>> parent of c9a8ab8... Desapear GameObjects when outside the map canvas
     }
 
     void Update()
