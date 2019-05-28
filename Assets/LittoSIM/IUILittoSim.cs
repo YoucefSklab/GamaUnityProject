@@ -49,7 +49,7 @@ namespace ummisco.gama.unity.littosim
 
         public static string MESSAGE_TITRE = "Message_Titre";
 
-        public const string UI_MANAGER_GAMEOBJECT = "UIManager";
+        public const string UI_MANAGER = "UIManager";
 
 
 

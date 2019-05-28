@@ -10,6 +10,7 @@ namespace ummisco.gama.unity.littosim
 
         public string activePanel = IUILittoSim.UA_PANEL;
 
+
         public UIManager()
         {
 

@@ -10,7 +10,7 @@ public class SceneInitializer : MonoBehaviour {
 #if UNITY_EDITOR
   Debug.unityLogger.logEnabled = true;
 #else
-  Debug.logger.logEnabled = false;
+  Debug.unityLogger.logEnabled = false;
 #endif
 
     }

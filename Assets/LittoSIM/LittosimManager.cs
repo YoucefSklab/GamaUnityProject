@@ -63,7 +63,7 @@ namespace ummisco.gama.unity.littosim
             initialRecapPosition = new Vector3(2020.0f, -135.3f, 0.0f);
             lastRecapPosition = new Vector3(2020.0f, -135.3f, 0.0f);
            //
-            uiManager = GameObject.Find(IUILittoSim.UI_MANAGER_GAMEOBJECT);
+            uiManager = GameObject.Find(IUILittoSim.UI_MANAGER);
             main_canvas = GameObject.Find(IUILittoSim.MAIN_CANVAS);
 
 
