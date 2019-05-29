@@ -272,6 +272,15 @@ namespace Nextzen.Unity
 
                     gameObject.isStatic = gameObjectOptions.IsStatic;
 
+
+                    gameObject.transform.parent = GameObject.Find("Ua_Panel").transform;
+                    gameObject.AddComponent<RectTransform>();
+                    Vector3 newPosition = PositionTranslateToCanvas.PositionTransalteToCanvas(gameObject, GameObject.Find("MapCanvas").GetComponent<Canvas>());
+
+                    gameObject.GetComponent<RectTransform>().position = newPosition;
+                   
+                    gameObject.GetComponent<RectTransform>().position = new Vector3(-331, 401, -20);
+
                     var mesh = new Mesh();
 
                     mesh.Clear();
@@ -411,6 +420,8 @@ namespace Nextzen.Unity
                 }
             }
         }
+
+
 
         private void Destroy(GameObject gameObject)
         {
