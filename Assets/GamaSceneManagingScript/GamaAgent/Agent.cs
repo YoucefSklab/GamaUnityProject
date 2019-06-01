@@ -15,6 +15,7 @@ namespace ummisco.gama.unity.GamaAgent
         public GamaCoordinateSequence agentCoordinate { set; get; }
         public GamaColor color { set; get; }
         public Vector3 rotation { set; get; }
+        public Vector3 location { set; get; }
         public Vector3 scale { set; get; }
         public bool isRotate { set; get; }
         public bool isOnInputMove { set; get; }

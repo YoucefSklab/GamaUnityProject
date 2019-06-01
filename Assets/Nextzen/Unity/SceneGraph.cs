@@ -268,18 +268,25 @@ namespace Nextzen.Unity
                     }
 
                     gameObject = new GameObject(meshBucket.gamaAgent.agentName);
-                    gameObject.transform.parent = root.transform;
-
-                    gameObject.isStatic = gameObjectOptions.IsStatic;
-
-
                     gameObject.transform.parent = GameObject.Find("Ua_Panel").transform;
-                    gameObject.AddComponent<RectTransform>();
-                    Vector3 newPosition = PositionTranslateToCanvas.PositionTransalteToCanvas(gameObject, GameObject.Find("MapCanvas").GetComponent<Canvas>());
 
-                    gameObject.GetComponent<RectTransform>().position = newPosition;
+                    //gameObject.transform.parent = root.transform;
+
+                    //gameObject.isStatic = gameObjectOptions.IsStatic;
+
+
                    
-                    gameObject.GetComponent<RectTransform>().position = new Vector3(-331, 401, -20);
+                    //gameObject.AddComponent<RectTransform>();
+                    //Vector3 newPosition = PositionTranslateToCanvas.PositionTransalteToCanvas(gameObject, GameObject.Find("MapCanvas").GetComponent<Canvas>());
+
+                    // gameObject.GetComponent<RectTransform>().position = newPosition;
+
+                    // gameObject.GetComponent<RectTransform>().localPosition = new Vector3 ( 7313.0f, 12997.300825000275f, 0.0f );
+                    //gameObject.GetComponent<RectTransform>().localPosition = meshBucket.gamaAgent.location;
+
+                    //gameObject.transform.localPosition = meshBucket.gamaAgent.location;
+
+                   // gameObject.transform.position = meshBucket.gamaAgent.location;
 
                     var mesh = new Mesh();
 

@@ -18,6 +18,7 @@ namespace ummisco.gama.unity.GamaAgent
         public Content contents { get; set; }
 
 
+
         public UnityAgent(string agentName)
         {
 
@@ -35,11 +36,12 @@ namespace ummisco.gama.unity.GamaAgent
             agent.isDrawed = false;
             agent.isRotate = false;
             agent.species = this.contents.species;
-
+            agent.location = this.contents.location.toVector3D();
             agent.geometry = this.contents.geometryType;
             agent.height = this.contents.height;
             agent.color = this.contents.color;
             agent.agentCoordinate = getCoordinateSequence();
+
 
             return agent;
         }
@@ -84,6 +86,8 @@ namespace ummisco.gama.unity.GamaAgent
         public GamaColor color { get; set; }
         [XmlElement("height")]
         public float height { get; set; }
+        [XmlElement("location")]
+        public GamaPoint location { get; set; }
 
         public Content()
         {

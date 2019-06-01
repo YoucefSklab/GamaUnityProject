@@ -74,40 +74,6 @@ namespace ummisco.gama.unity.littosim
             lastPosition = initialPosition;
 
 
-            //      Debug.Log(" The position is: " + GameObject.Find("Button_Action_Prefab").transform.position);
-
-            /*
-
-            IActionButton.action_nbr = 10;
-
-            for (int i = 1; i <=10; i++)
-            {
-                if (i != 2) { 
-                GameObject obj = Instantiate(ButtonActionPrefab);
-                obj.name = "Action"+i;
-                Vector3 position = IActionButton.GetPosition(i);
-                obj.GetComponent<Button_Action_Prefab>().SetUp("actionName"+i, i, "help"+i, "I_naturel", "UA", IActionButton.GetPosition(i));
-                obj.transform.SetParent(main_canvas.transform);
-                }
-            }
-            */
-
-
-
-
-
-            //obj.GetComponent<Button_Action_Prefab>().code = 20;
-
-
-            //obj = Instantiate(ButtonActionPrefab);
-            //obj.name = "Action2";
-            //obj.GetComponent<ActionManager>().action = new Action("actionName2", 21, 23, 80f, "DEF_COTE", "This is help", "This is icon");
-
-
-            // initialPosition = GameObject.Find("IUILittoSim.ACTION_PANEL_PREFAB").transform.position;
-            // lastPosition = initialPosition;
-
-            //            Debug.Log("The hight of " + IUILittoSim.MESSAGE_PANEL_PREFAB + " is : " + GameObject.Find(IUILittoSim.MESSAGE_PANEL_PREFAB).GetComponent<RectTransform>().rect.height);
 
             initialMessagePosition = new Vector3(-836.3f, -136.2f, 0.0f);
             lastMessagePosition = initialMessagePosition;
@@ -126,6 +92,8 @@ namespace ummisco.gama.unity.littosim
 
             deactivateValider();
             //addObjectOnPanel(1, "TTTESTTTE", "Test test", 5, 200);
+
+            GameObject.Find("Ua_Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(80000, 80000);
         }
 
         void Awak()
