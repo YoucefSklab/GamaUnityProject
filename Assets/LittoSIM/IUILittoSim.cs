@@ -7,6 +7,10 @@ namespace ummisco.gama.unity.littosim
     {
         public static string UA_PANEL = "Ua_Panel";
         public static string DEF_COTE_PANEL = "Def_Cote_Panel";
+
+        public static string UA_MAP_PANEL = "Ua_Map_Panel";
+        public static string DEF_COTE_MAP_PANEL = "Def_Cote_Map_Panel";
+
         public static string ONGLET_AMENAGEMENT = "Onglet_Amenagement";
         public static string ONGLET_DEFENSE = "Onglet_Defense";
 
@@ -69,8 +73,8 @@ namespace ummisco.gama.unity.littosim
         public const string UI_IMG_Button_zone_ag = "Button_zone_ag";
         public const string UI_IMG_Button_zone_na = "Button_zone_na";
         public const string UI_IMG_Button_Info = "Button_Info";
-        public const string UI_LBL_Onglet_Action_Titre = "Actions envisagées"; 
-        public const string UI_LBL_Budget_Initial_Label = "Budget initial"; 
+        public const string UI_LBL_Onglet_Action_Titre = "Actions envisagées";
+        public const string UI_LBL_Budget_Initial_Label = "Budget initial";
         public const string UI_LBL_Budget_Restant_Label = "Budget restant";
         public const string UI_LBL_Valider_Text = "Valider";
 

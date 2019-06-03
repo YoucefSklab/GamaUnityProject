@@ -15,15 +15,10 @@ namespace ummisco.gama.unity.littosim
         public const string LEGEND_DYKE = "Legend_Dyke";
         public const string LEGEND_NAME_ACTIONS = "Legend_Name_Aactions";
 
-
-
-
-
         public const int ACTION_URBANISE = 1;
         public const int ACTION_DENSIFIE = 2;
         public const int ACTION_DIGUE = 3;
         public const int ACTION_AGRICULTURAL = 4;
         public const int ACTION_NATURAL = 5;
-
     }
 }

@@ -4,7 +4,9 @@ using System.IO;
 using ummisco.gama.unity.littosim.ActionPrefab;
 using ummisco.gama.unity.SceneManager;
 using UnityEngine;
+using UnityEngine.UI;
 
+//TODO  Use the class CSVParsing to read the data from csv file
 namespace ummisco.gama.unity.littosim
 {
     public class ActionManager : MonoBehaviour
@@ -12,6 +14,13 @@ namespace ummisco.gama.unity.littosim
 
         public Dictionary<string, Action> actions_dic = new Dictionary<string, Action>();
         public string path = IGamaManager.RESOURCES_PATH + "actions.csv";
+
+        public InputField rollNoInputField;// Reference of rollno input field
+        public InputField nameInputField; // Reference of name input filed
+        public string contentArea; // Reference of contentArea where records are displayed
+
+        public char lineSeperater = '\n'; // It defines line seperate character
+        public char fieldSeperator = ';'; // It defines field seperate chracter
 
         public ActionManager()
         {
@@ -41,15 +50,31 @@ namespace ummisco.gama.unity.littosim
 
         }
 
+        // Read data from CSV file
+        private void readData(string fileContent)
+        {
+            string[] records = fileContent.Split(lineSeperater);
+
+             foreach (string record in records)
+            {
+               string[] fields = record.Split(fieldSeperator);
+
+                foreach (string field in fields)
+                {
+                   contentArea += field + "\t";
+                }
+                contentArea += '\n';
+            }
+        }
+
         public Dictionary<string, Action> GetActionsList(string fileContent)
         {
             Dictionary<string, Action> actions_list = new Dictionary<string, Action>();
-            string[] lines = fileContent.Split("\n"[0]);
+            string[] lines = fileContent.Split(lineSeperater);
 
-            for (int i = 0; i < lines.Length; i++)
+           for (int i = 1; i < lines.Length; i++)
             {
                 Action act = GetActionElement(lines[i]);
-                //Debug.Log("----->  The langue element is  " + langueElement.ToString());
                 if ((act.def_cote_index >= 1) || (act.UA_index >= 1))
                 {
                     actions_list.Add(act.name, act);
@@ -58,23 +83,25 @@ namespace ummisco.gama.unity.littosim
             return actions_list;
         }
 
-        public static Action GetActionElement(string line)
+       
+        public Action GetActionElement(string line)
         {
-            string[] splitString = line.Split(new string[] { ";" }, StringSplitOptions.None);
+            string[] fields = line.Split(fieldSeperator);
 
             Action act = new Action();
-            act.name = splitString[0];
-            if (!Int32.TryParse(splitString[1], out act.code)) { act.code = -1; }
-            act.button_help_message = splitString[5];
-            act.button_icon_file = splitString[6];
-            if (!Int32.TryParse(splitString[7], out act.def_cote_index)) { act.def_cote_index = -1; }
-            if (!Int32.TryParse(splitString[8], out act.UA_index)) { act.UA_index = -1; }
+
+            act.name = fields[0];
+            if (!Int32.TryParse(fields[1], out act.code)) { act.code = -1; }
+            act.button_help_message = fields[5];
+            act.button_icon_file = fields[6];
+            if (!Int32.TryParse(fields[7], out act.def_cote_index)) { act.def_cote_index = -1; }
+            if (!Int32.TryParse(fields[8], out act.UA_index)) { act.UA_index = -1; }
 
             return act;
         }
 
 
-        public Dictionary<string, Action> GetUAActionsList()
+       public Dictionary<string, Action> GetUAActionsList()
         {
             Dictionary<string, Action> ua_actions_list = new Dictionary<string, Action>();
 

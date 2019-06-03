@@ -92,8 +92,7 @@ namespace ummisco.gama.unity.littosim
 
             deactivateValider();
             //addObjectOnPanel(1, "TTTESTTTE", "Test test", 5, 200);
-
-            GameObject.Find("Ua_Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(80000, 80000);
+            //  GameObject.Find("Ua_Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(80000, 80000);
         }
 
         void Awak()
@@ -103,13 +102,6 @@ namespace ummisco.gama.unity.littosim
 
         void FixedUpdate()
         {
-            /*
-            if (GameObject.Find(IUILittoSim.MESSAGES_PANEL))
-            {
-              //  Debug.Log("--+-> " + GameObject.Find(IUILittoSim.MESSAGES_PANEL).transform.position);
-                //   GameObject.Find(IUILittoSim.MESSAGE_PANEL).transform.position = initialMessagePosition;
-            }
-            */
          //   Debug.Log(" The Action_Panel_Prefab position is: " + GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).transform.position);
             Debug.Log("The active panel is " + uiManager.GetComponent<UIManager>().getActivePanel());
 
@@ -127,21 +119,6 @@ namespace ummisco.gama.unity.littosim
                     }
                 // Debug.Log("Goooood--------->  Selected is : "+bj.name);
             }
-
-            // Left-half of the screen.
-            //Rect bounds = new Rect(0, 0, Screen.width / 2, Screen.height);
-
-            /*
-             Rect bounds = new Rect(58, 843, 1320, 200);
-             bounds = new Rect(58, 43, 1320, 200);
-             bounds = new Rect(268, 113, 1020, 200);
-                         
-             GameObject panel = GameObject.Find("Panel-Map");
-             var firstPlayerHand = GameObject.Find("First Player Hand");
-             var position1 = panel.transform.position;
-             var position2 = panel.GetComponent<RectTransform>().rect;
-             bounds = new Rect(position2.x, position2.y, position2.width, position2.height);
-             */
         }
 
         public void createNewElement()

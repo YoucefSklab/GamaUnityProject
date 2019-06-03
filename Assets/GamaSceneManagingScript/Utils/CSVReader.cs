@@ -19,6 +19,8 @@ using ummisco.gama.unity.littosim;
 using System;
 using ummisco.gama.unity.SceneManager;
 
+
+//TODO  Use the class CSVParsing to read the data from csv file
 public class CSVReader : MonoBehaviour
 {
     public string path = IGamaManager.RESOURCES_PATH + "langs_def.csv";
