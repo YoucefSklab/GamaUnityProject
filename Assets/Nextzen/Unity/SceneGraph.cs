@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ummisco.gama.unity.GamaAgent;
+using ummisco.gama.unity.littosim;
 using ummisco.gama.unity.utils;
 using UnityEditor;
 using UnityEngine;
@@ -268,14 +269,17 @@ namespace Nextzen.Unity
                     }
 
                     gameObject = new GameObject(meshBucket.gamaAgent.agentName);
-                    gameObject.transform.parent = GameObject.Find("Ua_Panel").transform;
+
+                    gameObject.transform.parent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).transform;
+                   // gameObject.transform.SetParent(GameObject.Find(IUILittoSim.UA_MAP_PANEL).transform);
+                   // gameObject.transform.parent = GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL).transform;
 
                     //gameObject.transform.parent = root.transform;
 
                     //gameObject.isStatic = gameObjectOptions.IsStatic;
 
 
-                   
+
                     //gameObject.AddComponent<RectTransform>();
                     //Vector3 newPosition = PositionTranslateToCanvas.PositionTransalteToCanvas(gameObject, GameObject.Find("MapCanvas").GetComponent<Canvas>());
 
@@ -286,7 +290,7 @@ namespace Nextzen.Unity
 
                     //gameObject.transform.localPosition = meshBucket.gamaAgent.location;
 
-                   // gameObject.transform.position = meshBucket.gamaAgent.location;
+                    // gameObject.transform.position = meshBucket.gamaAgent.location;
 
                     var mesh = new Mesh();
 

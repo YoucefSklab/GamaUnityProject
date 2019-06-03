@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ummisco.gama.unity.littosim;
 using UnityEngine;
 using UnityEngine.UI;
 public class PinchableScrollRect : ScrollRect
@@ -19,6 +20,7 @@ public class PinchableScrollRect : ScrollRect
     protected override void Awake()
     {
         Input.multiTouchEnabled = true;
+        content = GameObject.Find(UIManager.getActiveMapPanel()).GetComponent<RectTransform>();
     }
 
     private void Update()

@@ -68,7 +68,7 @@ public class PinchZoom : MonoBehaviour
         float ROTSpeed  = 10;
 
         //GameObject gameObj = GameObject.Find("Def_Cote_Panel");
-        GameObject gameObj = GameObject.Find(uiMananger.GetComponent<UIManager>().activePanel);
+        GameObject gameObj = GameObject.Find(UIManager.activePanel);
         ZoomAmount += Input.GetAxis("Mouse ScrollWheel");
         ZoomAmount = Mathf.Clamp(ZoomAmount, -MaxToClamp, MaxToClamp);
         var translate = Mathf.Min(Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")), MaxToClamp - Mathf.Abs(ZoomAmount));

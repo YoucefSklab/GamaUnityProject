@@ -6,7 +6,7 @@ namespace ummisco.gama.unity.littosim
 {
     public class UIManager : MonoBehaviour
     {
-        public string activePanel = IUILittoSim.UA_PANEL;
+        public static string activePanel = IUILittoSim.UA_PANEL;
 
         public UIManager()
         {
@@ -37,20 +37,29 @@ namespace ummisco.gama.unity.littosim
             if (panelName.Equals(IUILittoSim.ONGLET_AMENAGEMENT))
             {
                 setCanvasVisible(IUILittoSim.UA_PANEL);
+                setCanvasVisible(IUILittoSim.UA_MAP_PANEL);
                 setCanvasInvisible(IUILittoSim.DEF_COTE_PANEL);
+                setCanvasInvisible(IUILittoSim.DEF_COTE_MAP_PANEL);
+
 
                 SetTargetInvisible(GameObject.Find(IUILittoSim.DEF_COTE_PANEL));
+                SetTargetInvisible(GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL));
                 SetTargetVisible(GameObject.Find(IUILittoSim.UA_PANEL));
+                SetTargetVisible(GameObject.Find(IUILittoSim.UA_MAP_PANEL));
 
                 activePanel = IUILittoSim.UA_PANEL;
             }
             else if (panelName.Equals(IUILittoSim.ONGLET_DEFENSE))
             {
                 setCanvasVisible(IUILittoSim.DEF_COTE_PANEL);
+                setCanvasVisible(IUILittoSim.DEF_COTE_MAP_PANEL);
                 setCanvasInvisible(IUILittoSim.UA_PANEL);
+                setCanvasInvisible(IUILittoSim.UA_MAP_PANEL);
 
                 SetTargetInvisible(GameObject.Find(IUILittoSim.UA_PANEL));
+                SetTargetInvisible(GameObject.Find(IUILittoSim.UA_MAP_PANEL));
                 SetTargetVisible(GameObject.Find(IUILittoSim.DEF_COTE_PANEL));
+                SetTargetVisible(GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL));
 
                 activePanel = IUILittoSim.DEF_COTE_PANEL;
             }
@@ -101,6 +110,18 @@ namespace ummisco.gama.unity.littosim
         public string getActivePanel()
         {
             return activePanel;
+        }
+
+        public static string getActiveMapPanel()
+        {
+            if (activePanel.Equals(IUILittoSim.UA_PANEL)) {
+                return IUILittoSim.UA_MAP_PANEL;
+            }
+            else
+            {
+                return IUILittoSim.DEF_COTE_MAP_PANEL;
+            }
+
         }
 
     }

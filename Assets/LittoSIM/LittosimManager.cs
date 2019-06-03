@@ -130,12 +130,25 @@ namespace ummisco.gama.unity.littosim
             sendGamaMessage(position);
 
             // To delete
+            // TODELETE  To delete this part of code. 
+            if (UIManager.activePanel.Equals(IUILittoSim.UA_PANEL))
+            {
+                GameObject panelChild = Instantiate(UA);
+                panelChild.name = "UA" + position.x + "_" + position.y;
+                panelChild.transform.position = position;
+                GameObject panelParent = GameObject.Find(IUILittoSim.UA_MAP_PANEL);
+                panelChild.transform.SetParent(panelParent.transform);
+            }
+            else if (UIManager.activePanel.Equals(IUILittoSim.DEF_COTE_PANEL))
+            {
+                GameObject panelChild = Instantiate(UA);
+                panelChild.name = "UA" + position.x + "_" + position.y;
+                panelChild.transform.position = position;
+                GameObject panelParent = GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL);
+                panelChild.transform.SetParent(panelParent.transform);
+            }
 
-            GameObject panelChild = Instantiate(UA);
-            panelChild.name = "UA"+position.x+"_"+position.y;
-            panelChild.transform.position = position;
-            GameObject panelParent = GameObject.Find(IUILittoSim.ACTION_LIST_RECAP_PANEL);
-            panelChild.transform.SetParent(panelParent.transform);
+          
  
             // to delete
             /*
@@ -324,7 +337,7 @@ namespace ummisco.gama.unity.littosim
             float z = float.Parse((string)obj[7]);
 
             Vector3 position = new Vector3(x, y, z);
-            GameObject parentObject = GameObject.Find(uiManager.GetComponent<UIManager>().activePanel);
+            GameObject parentObject = GameObject.Find(UIManager.activePanel);
             switch (type)
             {
                 case 1:
