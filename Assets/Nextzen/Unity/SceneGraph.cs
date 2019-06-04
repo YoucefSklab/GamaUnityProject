@@ -271,8 +271,11 @@ namespace Nextzen.Unity
                     gameObject = new GameObject(meshBucket.gamaAgent.agentName);
 
                     gameObject.transform.parent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).transform;
-                   // gameObject.transform.SetParent(GameObject.Find(IUILittoSim.UA_MAP_PANEL).transform);
-                   // gameObject.transform.parent = GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL).transform;
+
+                    gameObject.transform.localPosition = meshBucket.gamaAgent.location;
+
+                    // gameObject.transform.SetParent(GameObject.Find(IUILittoSim.UA_MAP_PANEL).transform);
+                    // gameObject.transform.parent = GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL).transform;
 
                     //gameObject.transform.parent = root.transform;
 
