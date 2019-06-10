@@ -29,8 +29,8 @@ public class PinchZoom : MonoBehaviour
     {
         //ZoomInOut();
         //ZoomInOutScene();
-        ZoomInOutPanel();
-        DragDropPanel();
+        //ZoomInOutPanel();
+        //DragDropPanel();
     }
 
     private void ZoomInOut()

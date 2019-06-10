@@ -25,6 +25,8 @@ public class PinchableScrollRect : ScrollRect
 
     private void Update()
     {
+        content = GameObject.Find(UIManager.getActiveMapPanel()).GetComponent<RectTransform>();
+
         if (Input.touchCount == 2)
         {
             if (!_isPinching)

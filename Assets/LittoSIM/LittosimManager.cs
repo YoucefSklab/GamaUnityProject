@@ -67,7 +67,12 @@ namespace ummisco.gama.unity.littosim
             main_canvas = GameObject.Find(IUILittoSim.MAIN_CANVAS);
 
 
-           
+            // make the panel trasparent
+            //GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<CanvasGroup>().alpha = 0;
+            //GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL).GetComponent<CanvasGroup>().alpha = 0;
+
+
+
             // Debug.Log(" The Action_Panel_Prefab position is: " + GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).transform.position);
 
             initialPosition = GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).transform.localPosition;
@@ -93,6 +98,16 @@ namespace ummisco.gama.unity.littosim
             deactivateValider();
             //addObjectOnPanel(1, "TTTESTTTE", "Test test", 5, 200);
             //  GameObject.Find("Ua_Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(80000, 80000);
+        }
+
+
+        public void SetMapPanelSize(object args)
+        {
+            object[] obj = (object[])args;
+            string mapName = (string)obj[0];
+            float x = float.Parse((string)obj[1]);
+            float y = float.Parse((string)obj[2]);
+            GameObject.Find(mapName).GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
         }
 
         void Awak()

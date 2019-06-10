@@ -269,21 +269,54 @@ namespace Nextzen.Unity
                     }
 
                     gameObject = new GameObject(meshBucket.gamaAgent.agentName);
+                    gameObject.AddComponent<MeshRenderer>();
+                    gameObject.AddComponent<MeshFilter>();
 
-                    gameObject.transform.parent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).transform;
+                    Vector3 p = meshBucket.gamaAgent.location;
+                    int dif = 1000;
+                    int z = -2;
 
-                    gameObject.transform.localPosition = meshBucket.gamaAgent.location;
+                    // gameObject.transform.parent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).transform;
+                    /*
+                                        gameObject.AddComponent<RectTransform>();
+
+
+                                        RectTransform _parent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<RectTransform>();
+                                        RectTransform _mRect = gameObject.GetComponent<RectTransform>();
+
+                                        _mRect.anchoredPosition = _parent.position;
+                                        _mRect.anchorMin = new Vector2(0, 1);
+                                        _mRect.anchorMax = new Vector2(0, 1);
+                                        _mRect.pivot = new Vector2(0.5f, 0.5f);
+                                        _mRect.sizeDelta = _parent.rect.size;
+                                        _mRect.transform.SetParent(_parent);
+
+                                        
+                                        Vector3 p2 = _mRect.position;
+                                       
+                                        _mRect.position = new Vector3(p2.x- dif, p2.y- dif, -1);
+                                        */
+
+                    Transform _tran = gameObject.GetComponent<Transform>(); 
+                    Transform _tranParent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<Transform>();
+                    _tran.SetParent(_tranParent);
+
+                    Vector3 p2 = _tran.position;
+                    //_tran.localPosition = new Vector3(p2.x - dif, p2.y - dif, -z);
+
+                    gameObject.AddComponent<CheckIfContainedInCanvas>();
+
+                    // gameObject.transform.localPosition = meshBucket.gamaAgent.location;
 
                     // gameObject.transform.SetParent(GameObject.Find(IUILittoSim.UA_MAP_PANEL).transform);
                     // gameObject.transform.parent = GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL).transform;
 
-                    //gameObject.transform.parent = root.transform;
+                    // gameObject.transform.parent = root.transform;
 
-                    //gameObject.isStatic = gameObjectOptions.IsStatic;
+                    // gameObject.isStatic = gameObjectOptions.IsStatic;
 
 
-
-                    //gameObject.AddComponent<RectTransform>();
+                   
                     //Vector3 newPosition = PositionTranslateToCanvas.PositionTransalteToCanvas(gameObject, GameObject.Find("MapCanvas").GetComponent<Canvas>());
 
                     // gameObject.GetComponent<RectTransform>().position = newPosition;
@@ -496,6 +529,7 @@ namespace Nextzen.Unity
                 Debug.Log(" \t\t\t -> P"+i+ "  ["+mesh.vertices[i].x+", "+ mesh.vertices[i].y+", "+ mesh.vertices[i].z+"]");
             }
 
+            if(1==2)
             for (int i = 0; i < mesh.vertices.Length-3; i += 3)
             {
                 Vector3 v0 = mesh.vertices[i + 0]; Vector3 v1 = mesh.vertices[i + 1]; Vector3 v2 = mesh.vertices[i + 2];

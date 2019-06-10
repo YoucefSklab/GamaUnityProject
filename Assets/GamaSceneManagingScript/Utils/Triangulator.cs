@@ -376,7 +376,7 @@ namespace ummisco.gama.unity.utils
                 // triangles[i + 0] = tris[i + 2];
                 // triangles[i + 1] = tris[i + 1];
                 // triangles[i + 2] = tris[i + 0];
-                if (1 == 1)
+                if (1 == 2)
                     if (!IsTriangleOrientedClockwise(m_points[triangles[i]], m_points[triangles[i + 1]], m_points[triangles[i + 2]]))
                     {
                         triangles[i + 0] = tris[i + 0];
@@ -422,7 +422,7 @@ namespace ummisco.gama.unity.utils
                 triangles[count_tris + i + 1] = tris[i + 1] + m_points.Count;
                 triangles[count_tris + i + 2] = tris[i + 2] + m_points.Count;
 
-                if (1 == 1)
+                if (1 == 2)
                     if (!IsTriangleOrientedClockwise(all_points[triangles[count_tris + i + 0]], all_points[triangles[count_tris + i + 1]], all_points[triangles[count_tris + i + 2]]))
                     {
                         //Debug.Log("Back Triangle not  Clockwise > ");
@@ -473,7 +473,7 @@ namespace ummisco.gama.unity.utils
                 triangles[count_tris + 1] = i + m_points.Count;
                 triangles[count_tris + 2] = n;
 
-                if (1 == 1)
+                if (1 == 2)
                     if (!IsTriangleOrientedClockwise(all_points[triangles[count_tris + 0]], all_points[triangles[count_tris + 1]], all_points[triangles[count_tris + 2]]))
                     {
                         triangles[count_tris + 0] = n;
@@ -521,7 +521,7 @@ namespace ummisco.gama.unity.utils
                 triangles[count_tris + 4] = n + m_points.Count;
                 triangles[count_tris + 5] = i + m_points.Count;
 
-                if (1 == 1)
+                if (1 == 2)
                     if (!IsTriangleOrientedClockwise(all_points[triangles[count_tris + 3]], all_points[triangles[count_tris + 4]], all_points[triangles[count_tris + 5]]))
                     {
                         triangles[count_tris + 3] = i + m_points.Count;
@@ -591,7 +591,7 @@ namespace ummisco.gama.unity.utils
                 // triangles[i + 0] = tris[i + 2];
                 // triangles[i + 1] = tris[i + 1];
                 // triangles[i + 2] = tris[i + 0];
-                if (1 == 1)
+                if (1 == 2)
                     if (!IsTriangleOrientedClockwise(m_points[triangles[i]], m_points[triangles[i + 1]], m_points[triangles[i + 2]]))
                     {
                         triangles[i + 0] = tris[i + 0];
@@ -620,7 +620,7 @@ namespace ummisco.gama.unity.utils
                 triangles[count_tris + i + 1] = tris[i + 1] + m_points.Count;
                 triangles[count_tris + i + 2] = tris[i + 2] + m_points.Count;
 
-                if (1 == 1)
+                if (1 == 2)
                     if (IsTriangleOrientedClockwise(all_points[triangles[count_tris + i + 0]], all_points[triangles[count_tris + i + 1]], all_points[triangles[count_tris + i + 2]]))
                     {
                         //Debug.Log("Back Triangle not  Clockwise > ");
@@ -650,7 +650,7 @@ namespace ummisco.gama.unity.utils
                 triangles[count_tris + 1] = i + m_points.Count;
                 triangles[count_tris + 2] = n;
 
-                if (1 == 1)
+                if (1 == 2)
                     if (IsTriangleOrientedClockwise(all_points[triangles[count_tris + 0]], all_points[triangles[count_tris + 1]], all_points[triangles[count_tris + 2]]))
                     {
                         triangles[count_tris + 0] = n;
@@ -691,6 +691,7 @@ namespace ummisco.gama.unity.utils
            
           // Mesh mesh = new Mesh();
 
+            if(1 ==2)
             for (int i = 0; i < mesh.vertices.Length; i += 3)
             {
                 Vector3 v0 = mesh.vertices[i + 0]; Vector3 v1 = mesh.vertices[i + 1]; Vector3 v2 = mesh.vertices[i + 2];
