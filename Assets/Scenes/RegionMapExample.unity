@@ -1285,7 +1285,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 284944362}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9994961
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3880,6 +3880,9 @@ GameObject:
   - component: {fileID: 1098426279}
   - component: {fileID: 1098426283}
   - component: {fileID: 1098426282}
+  - component: {fileID: 1098426284}
+  - component: {fileID: 1098426286}
+  - component: {fileID: 1098426285}
   m_Layer: 5
   m_Name: MapCanvas
   m_TagString: Untagged
@@ -3975,7 +3978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe4e6c634d9f49aca353b03262ef6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Content: {fileID: 1365384223}
+  m_Content: {fileID: 1386569596}
   m_Horizontal: 1
   m_Vertical: 1
   m_MovementType: 1
@@ -4007,6 +4010,52 @@ OcclusionPortal:
   m_Open: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_Size: {x: 1, y: 1, z: 1}
+--- !u!114 &1098426284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1098426277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1200242548, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 0
+--- !u!114 &1098426285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1098426277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.12941177, g: 1, b: 0.95686275, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1098426286
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1098426277}
+  m_CullTransparentMesh: 0
 --- !u!224 &1116014693 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224552928621943050, guid: c8c0ff59ded3c4bd5867bb3486b71f6e,
@@ -5248,7 +5297,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000008593574}
+  m_AnchoredPosition: {x: 0, y: 0.000069552916}
   m_SizeDelta: {x: 0, y: 1111}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &1355097074
@@ -5467,9 +5516,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1365384223}
   - component: {fileID: 1365384227}
-  - component: {fileID: 1365384226}
   - component: {fileID: 1365384225}
   - component: {fileID: 1365384224}
+  - component: {fileID: 1365384226}
   m_Layer: 5
   m_Name: Def_Cote_Map_Panel
   m_TagString: Untagged
@@ -5570,15 +5619,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.11764706, g: 0.78431374, b: 0.0627451, a: 1}
+  m_Color: {r: 0.5686275, g: 1, b: 0.56078434, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -5601,9 +5650,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1386569596}
   - component: {fileID: 1386569600}
-  - component: {fileID: 1386569599}
   - component: {fileID: 1386569598}
   - component: {fileID: 1386569597}
+  - component: {fileID: 1386569599}
   m_Layer: 5
   m_Name: Ua_Map_Panel
   m_TagString: Untagged
