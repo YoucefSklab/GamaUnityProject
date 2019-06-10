@@ -268,42 +268,44 @@ namespace Nextzen.Unity
                         gameObject = root.gameObject;
                     }
 
+
                     gameObject = new GameObject(meshBucket.gamaAgent.agentName);
                     gameObject.AddComponent<MeshRenderer>();
                     gameObject.AddComponent<MeshFilter>();
 
                     Vector3 p = meshBucket.gamaAgent.location;
-                    int dif = 1000;
+                    int dif = 0;
                     int z = -2;
 
                     // gameObject.transform.parent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).transform;
+
+                    gameObject.AddComponent<RectTransform>();
+
+
+                    RectTransform _parent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<RectTransform>();
+                    RectTransform _mRect = gameObject.GetComponent<RectTransform>();
+
+                    _mRect.anchorMin = new Vector2(0, 1);
+                    _mRect.anchorMax = new Vector2(0, 1);
+                    _mRect.pivot = new Vector2(0.5f, 0.5f);
+                    _mRect.sizeDelta = new Vector2(2, 2);  //_parent.rect.size;
+                    _mRect.transform.SetParent(_parent);
+
+
+                    Vector3 p2 = _mRect.position;
+
+                    //_mRect.position = new Vector3(p2.x - dif, p2.y - dif, -1);
+
+                    _mRect.anchoredPosition = new Vector3(p2.x - dif, p2.y - dif, z);
+
                     /*
-                                        gameObject.AddComponent<RectTransform>();
+Transform _tran = gameObject.GetComponent<Transform>(); 
+Transform _tranParent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<Transform>();
+_tran.SetParent(_tranParent);
 
-
-                                        RectTransform _parent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<RectTransform>();
-                                        RectTransform _mRect = gameObject.GetComponent<RectTransform>();
-
-                                        _mRect.anchoredPosition = _parent.position;
-                                        _mRect.anchorMin = new Vector2(0, 1);
-                                        _mRect.anchorMax = new Vector2(0, 1);
-                                        _mRect.pivot = new Vector2(0.5f, 0.5f);
-                                        _mRect.sizeDelta = _parent.rect.size;
-                                        _mRect.transform.SetParent(_parent);
-
-                                        
-                                        Vector3 p2 = _mRect.position;
-                                       
-                                        _mRect.position = new Vector3(p2.x- dif, p2.y- dif, -1);
-                                        */
-
-                    Transform _tran = gameObject.GetComponent<Transform>(); 
-                    Transform _tranParent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<Transform>();
-                    _tran.SetParent(_tranParent);
-
-                    Vector3 p2 = _tran.position;
-                    //_tran.localPosition = new Vector3(p2.x - dif, p2.y - dif, -z);
-
+Vector3 p2 = _tran.position;
+_tran.position = new Vector3(p2.x - dif, p2.y - dif, z);
+*/
                     gameObject.AddComponent<CheckIfContainedInCanvas>();
 
                     // gameObject.transform.localPosition = meshBucket.gamaAgent.location;
@@ -316,7 +318,7 @@ namespace Nextzen.Unity
                     // gameObject.isStatic = gameObjectOptions.IsStatic;
 
 
-                   
+
                     //Vector3 newPosition = PositionTranslateToCanvas.PositionTransalteToCanvas(gameObject, GameObject.Find("MapCanvas").GetComponent<Canvas>());
 
                     // gameObject.GetComponent<RectTransform>().position = newPosition;
@@ -356,8 +358,8 @@ namespace Nextzen.Unity
                         line.endColor = c1;
                         line.startWidth = 5.0f;
                         line.endWidth = 5.0f;
-                        
-                       
+
+
 
 
 
@@ -378,14 +380,14 @@ namespace Nextzen.Unity
                         gameObject.transform.localScale = new Vector3(10, 10, 10);
                         //gameObject.AddComponent<LineRenderer>();
                         Color col = Utils.getColorFromGamaColor(meshBucket.gamaAgent.color);
-                        
-                         Renderer rend = gameObject.GetComponent<Renderer>();
+
+                        Renderer rend = gameObject.GetComponent<Renderer>();
                         rend.material.color = UnityEngine.Random.ColorHSV();// Color.green; //("green");//col;
-                       
+
                         //col.a = 0.5f;
                         //rend.material.color = col;
 
-                         Debug.Log(" =========>>>>>> the color is : " + col);
+                        Debug.Log(" =========>>>>>> the color is : " + col);
                     }
                     else if (meshBucket.gamaAgent.geometry.Equals(IGeometry.POLYGON))
                     {
@@ -403,15 +405,15 @@ namespace Nextzen.Unity
                         // meshBucket.setUvs();
 
                         // For Android Build
-//                        Unwrapping.GeneratePerTriangleUV(mesh);
-//                        Unwrapping.GenerateSecondaryUVSet(mesh);
+                        //                        Unwrapping.GeneratePerTriangleUV(mesh);
+                        //                        Unwrapping.GenerateSecondaryUVSet(mesh);
 
                         mesh.RecalculateNormals();
                         mesh.RecalculateBounds();
                         //  mesh.vertices.
 
                         // For Android Build
-                  //      MeshUtility.Optimize(mesh);
+                        //      MeshUtility.Optimize(mesh);
                         //mesh.triangles.
                         // Associate the mesh filter and mesh renderer components with this game object
 
@@ -422,10 +424,12 @@ namespace Nextzen.Unity
                         var meshRendererComponent = gameObject.AddComponent<MeshRenderer>();
 
 
-                        if(meshFilterComponent == null){
+                        if (meshFilterComponent == null)
+                        {
                             meshFilterComponent = gameObject.GetComponent<MeshFilter>();
                         }
-                        if(meshRendererComponent == null) {
+                        if (meshRendererComponent == null)
+                        {
                             meshRendererComponent = gameObject.GetComponent<MeshRenderer>();
                         }
 
@@ -441,10 +445,10 @@ namespace Nextzen.Unity
                             meshColliderComponent.material = gameObjectOptions.PhysicMaterial;
                             meshColliderComponent.sharedMesh = mesh;
                         }
- 
-                        
+
+
                         Renderer rend = gameObject.GetComponent<Renderer>();
-                        
+
                         //Set the main Color of the Material to green
                         rend.material.shader = Shader.Find("_Color");
                         rend.material.SetColor("_Color", Color.green);
@@ -452,7 +456,7 @@ namespace Nextzen.Unity
                         //Find the Specular shader and change its Color to red
                         rend.material.shader = Shader.Find("Specular");
                         rend.material.SetColor("_SpecColor", Color.red);
-                        
+
 
                         Material material = new Material(Shader.Find("Standard"));
                         material.color = Color.blue;
@@ -460,7 +464,7 @@ namespace Nextzen.Unity
 
                         // assign the material to the renderer
                         gameObject.GetComponent<Renderer>().material = material;
-                        
+
                     }
 
 
@@ -506,14 +510,14 @@ namespace Nextzen.Unity
             m.triangles = triangles;
 
             // For Android Build
-//            Unwrapping.GenerateSecondaryUVSet(m);
+            //            Unwrapping.GenerateSecondaryUVSet(m);
 
             m.RecalculateNormals();
             m.RecalculateBounds();
 
             // For Android Build
-//            MeshUtility.Optimize(m);
-            
+            //            MeshUtility.Optimize(m);
+
             Debug.Log("Triangles are: " + triangles.ToString());
             return m;
         }
@@ -526,59 +530,59 @@ namespace Nextzen.Unity
             Debug.Log("--------> All vertices are: ->   " + mesh.vertices);
             for (int i = 0; i < mesh.vertices.Length; i++)
             {
-                Debug.Log(" \t\t\t -> P"+i+ "  ["+mesh.vertices[i].x+", "+ mesh.vertices[i].y+", "+ mesh.vertices[i].z+"]");
+                Debug.Log(" \t\t\t -> P" + i + "  [" + mesh.vertices[i].x + ", " + mesh.vertices[i].y + ", " + mesh.vertices[i].z + "]");
             }
 
-            if(1==2)
-            for (int i = 0; i < mesh.vertices.Length-3; i += 3)
-            {
-                Vector3 v0 = mesh.vertices[i + 0]; Vector3 v1 = mesh.vertices[i + 1]; Vector3 v2 = mesh.vertices[i + 2];
-                if (!IsClockwise(mesh.vertices[i], mesh.vertices[i + 1], mesh.vertices[i + 2]))
+            if (1 == 2)
+                for (int i = 0; i < mesh.vertices.Length - 3; i += 3)
                 {
-                    v0 = mesh.vertices[i + 0];
-                    v1 = mesh.vertices[i + 1];
-                    v2 = mesh.vertices[i + 2];
-                    mesh.vertices[i + 0] = v0;
-                    mesh.vertices[i + 1] = v2;
-                    mesh.vertices[i + 2] = v1;
+                    Vector3 v0 = mesh.vertices[i + 0]; Vector3 v1 = mesh.vertices[i + 1]; Vector3 v2 = mesh.vertices[i + 2];
                     if (!IsClockwise(mesh.vertices[i], mesh.vertices[i + 1], mesh.vertices[i + 2]))
                     {
                         v0 = mesh.vertices[i + 0];
                         v1 = mesh.vertices[i + 1];
                         v2 = mesh.vertices[i + 2];
-                        mesh.vertices[i + 0] = v1;
+                        mesh.vertices[i + 0] = v0;
                         mesh.vertices[i + 1] = v2;
-                        mesh.vertices[i + 2] = v0;
+                        mesh.vertices[i + 2] = v1;
                         if (!IsClockwise(mesh.vertices[i], mesh.vertices[i + 1], mesh.vertices[i + 2]))
                         {
                             v0 = mesh.vertices[i + 0];
                             v1 = mesh.vertices[i + 1];
                             v2 = mesh.vertices[i + 2];
                             mesh.vertices[i + 0] = v1;
-                            mesh.vertices[i + 1] = v0;
-                            mesh.vertices[i + 2] = v2;
+                            mesh.vertices[i + 1] = v2;
+                            mesh.vertices[i + 2] = v0;
                             if (!IsClockwise(mesh.vertices[i], mesh.vertices[i + 1], mesh.vertices[i + 2]))
                             {
                                 v0 = mesh.vertices[i + 0];
                                 v1 = mesh.vertices[i + 1];
                                 v2 = mesh.vertices[i + 2];
-                                mesh.vertices[i + 0] = v2;
-                                mesh.vertices[i + 1] = v1;
-                                mesh.vertices[i + 2] = v0;
+                                mesh.vertices[i + 0] = v1;
+                                mesh.vertices[i + 1] = v0;
+                                mesh.vertices[i + 2] = v2;
                                 if (!IsClockwise(mesh.vertices[i], mesh.vertices[i + 1], mesh.vertices[i + 2]))
                                 {
                                     v0 = mesh.vertices[i + 0];
                                     v1 = mesh.vertices[i + 1];
                                     v2 = mesh.vertices[i + 2];
                                     mesh.vertices[i + 0] = v2;
-                                    mesh.vertices[i + 1] = v0;
-                                    mesh.vertices[i + 2] = v1;
+                                    mesh.vertices[i + 1] = v1;
+                                    mesh.vertices[i + 2] = v0;
+                                    if (!IsClockwise(mesh.vertices[i], mesh.vertices[i + 1], mesh.vertices[i + 2]))
+                                    {
+                                        v0 = mesh.vertices[i + 0];
+                                        v1 = mesh.vertices[i + 1];
+                                        v2 = mesh.vertices[i + 2];
+                                        mesh.vertices[i + 0] = v2;
+                                        mesh.vertices[i + 1] = v0;
+                                        mesh.vertices[i + 2] = v1;
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
 
             return mesh;
         }
