@@ -9,8 +9,10 @@ using UnityEngine;
 
 namespace Nextzen.Unity
 {
-    public class SceneGraph
+    public class SceneGraph :MonoBehaviour
     {
+
+
         // Merged mesh data for each game object group
         private Dictionary<GameObject, MeshData> gameObjectMeshData;
 
@@ -257,7 +259,7 @@ namespace Nextzen.Unity
                 {
                     var meshBucket = meshData.Meshes[i];
                     GameObject gameObject;
-
+                    GameObject ggg;
                     if (meshData.Meshes.Count > 1)
                     {
                         gameObject = new GameObject(root.name + "_Part" + i);
@@ -268,12 +270,34 @@ namespace Nextzen.Unity
                         gameObject = root.gameObject;
                     }
 
+                    //    GameObject UaPrefab = (GameObject)Resources.Load("LittoSIM/Prefabs/UI/UA", typeof(GameObject));
+                    //  gameObject = Instantiate(UaPrefab);
 
-                    gameObject = new GameObject(meshBucket.gamaAgent.agentName);
+                    GameObject UaPrefab = (GameObject)Resources.Load("Prefabs/UA", typeof(GameObject));
+
+                    gameObject = Instantiate(UaPrefab);
+
+                    ggg = Instantiate(UaPrefab);
+                    ggg.name = meshBucket.gamaAgent.agentName+"1111";
+                   // ggg.GetComponent<RectTransform>().transform.SetParent(GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<RectTransform>());
+
+                    gameObject.name = meshBucket.gamaAgent.agentName;
+
+                    //gameObject = new GameObject(meshBucket.gamaAgent.agentName);
+
                     gameObject.AddComponent<MeshRenderer>();
                     gameObject.AddComponent<MeshFilter>();
+                   
+                    Renderer renderer = gameObject.GetComponent<Renderer>();
+                   // renderer.enabled = false;
+                    /*
+                   renderer.material.shader = Shader.Find("_Color");
+                   renderer.material.SetColor("_Color", Color.green);
+                   renderer.material.shader = Shader.Find("Specular");
+                   renderer.material.SetColor("_SpecColor", Color.red);
+                   */
+                    //renderer.material.SetColor("_Color", meshBucket.gamaAgent.color.getColorFromGamaColor());
 
-                    gameObject.GetComponent<Renderer>().enabled = false;
 
                     Vector3 p = meshBucket.gamaAgent.location;
                     int dif = 0;
@@ -309,12 +333,28 @@ namespace Nextzen.Unity
                     _mRect.localScale = new Vector3(0.1f, 0.1f, 0.1f);
                     _mRect.anchoredPosition3D = new Vector3(p3.x - dif, p3.y - dif, z);
 
+
+                    _mRect.localScale = new Vector3(0.8f, 0.8f, 0.8f);
                     //_mRect.localScale = new Vector3(0.1f, 0.1f, 0.1f);
                     //_mRect.position = new Vector3(p2.x - dif, p2.y - dif, -1);
                     //_mRect.anchoredPosition = new Vector2(p2.x - dif, p2.y - dif);
                     //_mRect.anchoredPosition = new Vector3(p2.x - dif, p2.y - dif, z);
                     //_mRect.transform.position = new Vector3(p2.x - dif, p2.y - dif, z); 
 
+                    Debug.Log("The agent color is : ");
+                    Debug.Log("The agent color is : " + meshBucket.gamaAgent.color.ToString());
+                    Color colo = meshBucket.gamaAgent.color.getColorFromGamaColor();
+
+                    Material materi = new Material(Shader.Find("Standard"));
+                    //material.color = Color.blue;
+
+                    materi.color = meshBucket.gamaAgent.color.getColorFromGamaColor();
+                    //material.color = UnityEngine.Random.ColorHSV();
+
+                    // assign the material to the renderer
+                    gameObject.GetComponent<Renderer>().material = materi;
+
+           
 
 
                     /*
@@ -452,11 +492,29 @@ _tran.position = new Vector3(p2.x - dif, p2.y - dif, z);
                             meshRendererComponent = gameObject.GetComponent<MeshRenderer>();
                         }
 
+                        mesh.name = "CostumeMesh";
+                        mesh.RecalculateBounds();
+                        mesh.RecalculateNormals();
+                        mesh.RecalculateTangents();
+
                         meshRendererComponent.materials = materials;
                         meshFilterComponent.mesh = mesh;
 
+                        ggg.AddComponent<MeshRenderer>();
+                        ggg.AddComponent<MeshFilter>();
+                        ggg.GetComponent<MeshFilter>().mesh = mesh;
 
+                        // GameObject.Find("UA").GetComponent<MeshFilter>().mesh = mesh;
+                        /*
+                        GameObject ga = GameObject.Find("UA");
+                        ga.GetComponent<MeshFilter>().mesh = mesh;
+                        ga.GetComponent<MeshFilter>().mesh = mesh;
 
+                        MeshUtility.Optimize(ga.GetComponent<MeshFilter>().mesh);
+                        //   ga.GetComponent<MeshFilter>().mesh. = mesh.vertices;
+
+                        Debug.Log("The mesh name is ----------> " + ga.GetComponent<MeshFilter>().mesh.name);
+                          */  
 
                         if (gameObjectOptions.GeneratePhysicMeshCollider)
                         {
@@ -465,21 +523,23 @@ _tran.position = new Vector3(p2.x - dif, p2.y - dif, z);
                             meshColliderComponent.sharedMesh = mesh;
                         }
 
-
+                        /*
                         Renderer rend = gameObject.GetComponent<Renderer>();
 
                         //Set the main Color of the Material to green
                         rend.material.shader = Shader.Find("_Color");
-                        rend.material.SetColor("_Color", Color.green);
+                       // rend.material.SetColor("_Color", Color.green);
 
                         //Find the Specular shader and change its Color to red
                         rend.material.shader = Shader.Find("Specular");
-                        rend.material.SetColor("_SpecColor", Color.red);
+                       // rend.material.SetColor("_SpecColor", Color.red);
 
-
+                        */
                         Material material = new Material(Shader.Find("Standard"));
-                        material.color = Color.blue;
-                        material.color = UnityEngine.Random.ColorHSV();
+                        //material.color = Color.blue;
+
+                        material.color = meshBucket.gamaAgent.color.getColorFromGamaColor();
+                        //material.color = UnityEngine.Random.ColorHSV();
 
                         // assign the material to the renderer
                         gameObject.GetComponent<Renderer>().material = material;

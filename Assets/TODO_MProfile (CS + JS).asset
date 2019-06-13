@@ -44,9 +44,12 @@ MonoBehaviour:
         identified: []
     - key: 1000dfbe1c14f424bb16c2f81939791e
       file:
-        lastProcessedTime: 636951575281193170
-        lastModifiedTime: 636951563650000000
-        identified: []
+        lastProcessedTime: 636959189678774510
+        lastModifiedTime: 636959189520000000
+        identified:
+        - filters: []
+          comment: to detete
+          line: 144
     - key: 1232b251574d74d1db2f6df4cdeea187
       file:
         lastProcessedTime: 636951563059844010
@@ -74,9 +77,13 @@ MonoBehaviour:
         identified: []
     - key: 23ffbe5dd4b8e4a53a53d595dcfaf588
       file:
-        lastProcessedTime: 636951563059844010
-        lastModifiedTime: 636946380550000000
-        identified: []
+        lastProcessedTime: 636959188513385850
+        lastModifiedTime: 636957965550000000
+        identified:
+        - filters: []
+          comment: this class in no longer needed as the UI element are hiden by the
+            mask defined on the MapCanvas.
+          line: 6
     - key: 246224635ee5a4ea6b7732e22d3357ea
       file:
         lastProcessedTime: 636951563059844010
@@ -185,9 +192,12 @@ MonoBehaviour:
         identified: []
     - key: 5575a74f25ca846d38c758c39e5bb616
       file:
-        lastProcessedTime: 636951563059844010
-        lastModifiedTime: 636945337730000000
-        identified: []
+        lastProcessedTime: 636959188513385850
+        lastModifiedTime: 636957458580000000
+        identified:
+        - filters: []
+          comment: to delete. Don't needed.
+          line: 4
     - key: 55e5178910308451ab6beaab1423a7d1
       file:
         lastProcessedTime: 636951563059844010
@@ -215,8 +225,8 @@ MonoBehaviour:
         identified: []
     - key: 696417c7862ff4b9dbeced34b1a1cccf
       file:
-        lastProcessedTime: 636951563059844010
-        lastModifiedTime: 636951528520000000
+        lastProcessedTime: 636959188513385850
+        lastModifiedTime: 636957457410000000
         identified: []
     - key: 6a070479f2c7049598105795015f43cd
       file:
@@ -453,8 +463,8 @@ MonoBehaviour:
         identified: []
     - key: e4dd4f92c4c6340fbaefd2d58f0b55b2
       file:
-        lastProcessedTime: 636951563059844010
-        lastModifiedTime: 636951528060000000
+        lastProcessedTime: 636959188513385850
+        lastModifiedTime: 636958563750000000
         identified: []
     - key: e6ee78d30227b45bc9ad793ae6890585
       file:
@@ -469,10 +479,15 @@ MonoBehaviour:
         lastProcessedTime: 636951563059844010
         lastModifiedTime: 636940404280000000
         identified: []
+    - key: ef0dec218dab89645b48415de3df9113
+      file:
+        lastProcessedTime: 636959188513385850
+        lastModifiedTime: 636742784910000000
+        identified: []
     - key: f26e17931df8d40a2b04a6fdf8a6eb1f
       file:
-        lastProcessedTime: 636951563059844010
-        lastModifiedTime: 636935226830000000
+        lastProcessedTime: 636959188513385850
+        lastModifiedTime: 636956902970000000
         identified: []
     - key: f330ea1d2932649538d924aa7b497d37
       file:
@@ -501,8 +516,8 @@ MonoBehaviour:
         identified: []
     - key: fbe4e6c634d9f49aca353b03262ef6a6
       file:
-        lastProcessedTime: 636951563059844010
-        lastModifiedTime: 636951527910000000
+        lastProcessedTime: 636959188513385850
+        lastModifiedTime: 636952366260000000
         identified: []
     - key: fcdb88830caba45a5b67d86f79730881
       file:

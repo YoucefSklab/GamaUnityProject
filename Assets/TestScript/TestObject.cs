@@ -9,6 +9,15 @@ public class TestObject : MonoBehaviour
        
        transform.Rotate(60, 0, 60);
 
+        GameObject UaPrefab= (GameObject)Resources.Load("Prefabs/UA", typeof(GameObject));
+
+        Debug.Log("the name " );
+        Debug.Log("the name is " + UaPrefab.name);
+        GameObject go = new GameObject();
+        go = Instantiate(UaPrefab);
+        go.name = "uuuuuuuuuuuuuuuu";
+
+
         Vector3 p;
         GameObject g1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         g1.name = "Cube4";

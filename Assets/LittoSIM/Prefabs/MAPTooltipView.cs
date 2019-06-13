@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace ummisco.gama.unity.littosim.ActionPrefab
 {
-    public class TooltipView : MonoBehaviour
+    public class MAPTooltipView : MonoBehaviour
     {
         public string help_text = " ";
         public Vector3 pos = new Vector3();
@@ -14,7 +14,7 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
 
         private void FixedUpdate()
         {
-           
+
         }
 
         public bool IsActive
@@ -45,7 +45,7 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
         {
             //Debug.Log("The game object name is " + gameObject.name);
             //Debug.Log("The game object text value is " + gameObject.GetComponent<Text>().text);
-            //Debug.Log("The game object text value is " + GameObject.Find("TooltipView").GetComponent<Text>().text);
+            //Debug.Log("The game object text value is " + GameObject.Find("ActionButtonTooltipView").GetComponent<Text>().text);
             //gameObject.SetActive(true);
             gameObject.GetComponent<Text>().text = help_text;
             transform.position = new Vector3(pos.x, pos.y - 80f, 0f);
@@ -76,14 +76,14 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
 
 
         // Standard Singleton Access 
-        private static TooltipView instance;
+        private static MAPTooltipView instance;
 
-        public static TooltipView Instance
+        public static MAPTooltipView Instance
         {
             get
             {
                 if (instance == null)
-                    instance = GameObject.FindObjectOfType<TooltipView>();
+                    instance = GameObject.FindObjectOfType<MAPTooltipView>();
                 return instance;
             }
         }
