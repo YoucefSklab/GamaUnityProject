@@ -298,7 +298,10 @@ namespace Nextzen.Unity
                    */
                     //renderer.material.SetColor("_Color", meshBucket.gamaAgent.color.getColorFromGamaColor());
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 324fbef... Changed first map panel focus to UA map panel
                     Vector3 p = meshBucket.gamaAgent.location;
                     int dif = 0;
                     int z = -2;
@@ -306,7 +309,6 @@ namespace Nextzen.Unity
                     // gameObject.transform.parent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).transform;
 
                     gameObject.AddComponent<RectTransform>();
-
 
 
                     RectTransform _parent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<RectTransform>();
@@ -319,17 +321,9 @@ namespace Nextzen.Unity
                     _mRect.transform.SetParent(_parent);
 
 
-                    Vector3 p2 = _mRect.anchoredPosition;
-                    Vector3 p3 = _mRect.transform.localPosition;
-                    p2 = _mRect.transform.position;
+                    Vector3 p2 = _mRect.position;
 
-                    Debug.Log(meshBucket.gamaAgent.agentName + " ------>>>    anchoredPosition Position is " + _mRect.anchoredPosition);
-                    Debug.Log(meshBucket.gamaAgent.agentName + " ------>>>    Position is " + _mRect.position);
-                    Debug.Log(meshBucket.gamaAgent.agentName + " ------>>>    local position "+ _mRect.localPosition);
-                    Debug.Log(meshBucket.gamaAgent.agentName + " ------>>>    tran Position is " + _mRect.transform.position);
-                    Debug.Log(meshBucket.gamaAgent.agentName + " ------>>>    tran local Position is " + _mRect.transform.localPosition);
-                    Debug.Log(meshBucket.gamaAgent.agentName + " ------>>>    tran local Position is " + _mRect.anchoredPosition3D);
-
+<<<<<<< HEAD
                     _mRect.localScale = new Vector3(0.1f, 0.1f, 0.1f);
                     _mRect.anchoredPosition3D = new Vector3(p3.x - dif, p3.y - dif, z);
 
@@ -355,7 +349,11 @@ namespace Nextzen.Unity
                     gameObject.GetComponent<Renderer>().material = materi;
 
            
+=======
+                    //_mRect.position = new Vector3(p2.x - dif, p2.y - dif, -1);
+>>>>>>> parent of 324fbef... Changed first map panel focus to UA map panel
 
+                    _mRect.anchoredPosition = new Vector3(p2.x - dif, p2.y - dif, z);
 
                     /*
 Transform _tran = gameObject.GetComponent<Transform>(); 

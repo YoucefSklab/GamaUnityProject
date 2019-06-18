@@ -19,7 +19,7 @@ namespace ummisco.gama.unity.littosim
 
         void Start()
         {
-            setActivePanel(IUILittoSim.ONGLET_AMENAGEMENT);
+
         }
 
         // Update is called once per frame
@@ -114,12 +114,12 @@ namespace ummisco.gama.unity.littosim
 
         public static string getActiveMapPanel()
         {
-            if (activePanel.Equals(IUILittoSim.DEF_COTE_PANEL)) {
-                return IUILittoSim.DEF_COTE_MAP_PANEL;
+            if (activePanel.Equals(IUILittoSim.UA_PANEL)) {
+                return IUILittoSim.UA_MAP_PANEL;
             }
             else
             {
-                return IUILittoSim.UA_MAP_PANEL;
+                return IUILittoSim.DEF_COTE_MAP_PANEL;
             }
 
         }

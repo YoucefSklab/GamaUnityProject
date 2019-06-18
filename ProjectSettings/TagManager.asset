@@ -17,7 +17,7 @@ TagManager:
   - 
   - PostProcessing
   - MapCanvas
-  - Ua_Map_Panel
+  - 
   - 
   - 
   - 
@@ -42,10 +42,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: 10
-    uniqueID: 497130347
-    locked: 0
-  - name: 5
-    uniqueID: 2636366157
     locked: 0
