@@ -275,10 +275,10 @@ namespace Nextzen.Unity
 
                     GameObject UaPrefab = (GameObject)Resources.Load("Prefabs/UA", typeof(GameObject));
 
-                    gameObject = Instantiate(UaPrefab);
+                   // gameObject = Instantiate(UaPrefab);
 
-                    ggg = Instantiate(UaPrefab);
-                    ggg.name = meshBucket.gamaAgent.agentName+"1111";
+                   // ggg = Instantiate(UaPrefab);
+                   // ggg.name = meshBucket.gamaAgent.agentName+"1111";
                    // ggg.GetComponent<RectTransform>().transform.SetParent(GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<RectTransform>());
 
                     gameObject.name = meshBucket.gamaAgent.agentName;
@@ -286,7 +286,7 @@ namespace Nextzen.Unity
                     //gameObject = new GameObject(meshBucket.gamaAgent.agentName);
 
                     gameObject.AddComponent<MeshRenderer>();
-                    gameObject.AddComponent<MeshFilter>();
+                   // gameObject.AddComponent<MeshFilter>();
                    
                     Renderer renderer = gameObject.GetComponent<Renderer>();
                    // renderer.enabled = false;
@@ -500,9 +500,10 @@ _tran.position = new Vector3(p2.x - dif, p2.y - dif, z);
                         meshRendererComponent.materials = materials;
                         meshFilterComponent.mesh = mesh;
 
-                        ggg.AddComponent<MeshRenderer>();
-                        ggg.AddComponent<MeshFilter>();
-                        ggg.GetComponent<MeshFilter>().mesh = mesh;
+                        //ggg.AddComponent<MeshRenderer>();
+                        //ggg.AddComponent<MeshFilter>();
+                      
+                        // ggg.GetComponent<MeshFilter>().mesh = mesh;
 
                         // GameObject.Find("UA").GetComponent<MeshFilter>().mesh = mesh;
                         /*

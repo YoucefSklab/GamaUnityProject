@@ -16,24 +16,6 @@ public class CheckIfContainedInCanvas : MonoBehaviour
     {
         canvas = GameObject.Find(ILittoSimConcept.LITTOSIM_MANANGER).GetComponent<LittosimManager>().mapCanvas;
 
-
-        // -----
-
-        EventTrigger trigger = GetComponent<EventTrigger>();
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerDown;
-        entry.callback.AddListener((data) => { OnPointerDownDelegate((PointerEventData)data); });
-        trigger.triggers.Add(entry);
-
-
-        EventTrigger trigger1 = GetComponent<EventTrigger>();
-        EventTrigger.Entry entry1 = new EventTrigger.Entry();
-        entry1.eventID = EventTriggerType.PointerEnter;
-        entry1.callback.AddListener((data) => { OnPointerEnter((PointerEventData)data); });
-        trigger1.triggers.Add(entry1);
-
-        
-        // -----
     }
 
     public void OnPointerEnter(PointerEventData data)
@@ -59,8 +41,23 @@ public class CheckIfContainedInCanvas : MonoBehaviour
         Vector3 p = gameObject.transform.position;
 
         isInCanvas(corners,p);
-          */     
+          */
 
+      //  checkUpdate();
+
+
+    }
+
+
+    // TODO: toDelete 
+    public void checkUpdate()
+    {
+        if (Input.GetMouseButtonDown(0)){
+           
+            if (gameObject.transform.tag == "clickableCube"){
+                Debug.Log("Ceci est un test sur le map panel -> "+gameObject.transform.tag);
+            }
+        }
     }
 
     Vector3[] getCanvasWorldCorners()

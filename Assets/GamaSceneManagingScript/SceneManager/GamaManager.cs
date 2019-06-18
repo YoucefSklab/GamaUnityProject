@@ -151,7 +151,12 @@ namespace ummisco.gama.unity.SceneManager
 
         void FixedUpdate()
         {
+            handleMessage();
+        }
 
+
+        public void handleMessage() 
+        { 
             if (msgList.Count > 0)
             {
 

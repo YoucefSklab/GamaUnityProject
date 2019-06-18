@@ -114,23 +114,32 @@ namespace ummisco.gama.unity.littosim
 
         void FixedUpdate()
         {
-         //   Debug.Log(" The Action_Panel_Prefab position is: " + GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).transform.position);
-         //   Debug.Log("The active panel is " + uiManager.GetComponent<UIManager>().getActivePanel());
+            //   Debug.Log(" The Action_Panel_Prefab position is: " + GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).transform.position);
+            //   Debug.Log("The active panel is " + uiManager.GetComponent<UIManager>().getActivePanel());
 
-            Vector3 mouse = Input.mousePosition;
-
+           
             if (Input.GetMouseButtonDown(0))
             {
-                GameObject bj = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
-                if (bj is GameObject)
-                    if (bj.tag.Equals("DeleteActionButton"))
-                    {
-                        Debug.Log("Goooood");
-                        Debug.Log("Goooood--------->  to delete is : " + bj.name);
-                        sendDeleteAction(bj.transform.parent.name);
-                    }
-                // Debug.Log("Goooood--------->  Selected is : "+bj.name);
+                GameObject bj;
+                bj = (UnityEngine.EventSystems.EventSystem.current != null) ? UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject : null;
+
+                if (bj!= null)
+                {
+                    Vector3 mouse = Input.mousePosition;
+                   // GameObject bj = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+                    if (bj is GameObject)
+                        if (bj.tag.Equals("DeleteActionButton"))
+                        {
+                            Debug.Log("Goooood");
+                            Debug.Log("Goooood--------->  to delete is : " + bj.name);
+                            sendDeleteAction(bj.transform.parent.name);
+                        }
+                }
+               
+
+            // Debug.Log("Goooood--------->  Selected is : "+bj.name);
             }
+            
         }
 
         public void createNewElement()
@@ -141,10 +150,11 @@ namespace ummisco.gama.unity.littosim
             position.z = -80;
             sendGamaMessage(position);
 
-            // To delete
-            // TODO to detete 
-            if(1==2)
-            if (UIManager.activePanel.Equals(IUILittoSim.UA_PANEL))
+        // To delete
+        // TODO to detete 
+      //  if (1 == 2) 
+        { 
+        if (UIManager.activePanel.Equals(IUILittoSim.UA_PANEL))
             {
                 GameObject panelChild = Instantiate(UA);
                 panelChild.name = "UA" + position.x + "_" + position.y;
@@ -160,18 +170,19 @@ namespace ummisco.gama.unity.littosim
                 GameObject panelParent = GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL);
                 panelChild.transform.SetParent(panelParent.transform);
             }
+        }
 
-          
- 
-            // to delete
-            /*
-            GameObject game = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            game.transform.position = position;
-            game.transform.localScale = new Vector3(30, 30, 30);
-            Renderer rend = game.GetComponent<Renderer>();
-            rend.material.color = Color.red;
-            */
-            Debug.Log("Final created position is :" + position);
+
+
+        // to delete
+        /*
+        GameObject game = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        game.transform.position = position;
+        game.transform.localScale = new Vector3(30, 30, 30);
+        Renderer rend = game.GetComponent<Renderer>();
+        rend.material.color = Color.red;
+        */
+        Debug.Log("Final created position is :" + position);
 
         }
 
