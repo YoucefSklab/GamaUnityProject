@@ -124,5 +124,15 @@ namespace ummisco.gama.unity.littosim
 
         }
 
+        public static void HideObject(string object_name)
+        {
+            Debug.Log("The introduced object name is " + object_name);
+        }
+
+        public static void HideObjectNoParameter()
+        {
+            Debug.Log("The Methode is without parameter ");
+        }
+
     }
 }
