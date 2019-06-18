@@ -67,20 +67,20 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
         {
             if (!isOn)
             {
-                GameObject showTooltip = GameObject.Find("ActionButtonTooltipView");
+                GameObject showTooltip = GameObject.Find("TooltipView");
                 showTooltip.SetActive(true);
-                showTooltip.GetComponent<ActionButtonTooltipView>().SetVisible();//.SendMessage("SetVisible");
+                showTooltip.GetComponent<TooltipView>().SetVisible();//.SendMessage("SetVisible");
                 string lng = "";
 
                 if (ILangue.current_langue.TryGetValue(this.button_help_message, out lng)) {
-                    showTooltip.GetComponent<ActionButtonTooltipView>().help_text = lng;
+                    showTooltip.GetComponent<TooltipView>().help_text = lng;
                 }
                 else
                 {
-                    showTooltip.GetComponent<ActionButtonTooltipView>().help_text = "??";
+                    showTooltip.GetComponent<TooltipView>().help_text = "??";
                 }
 
-                showTooltip.GetComponent<ActionButtonTooltipView>().pos = this.transform.position;
+                showTooltip.GetComponent<TooltipView>().pos = this.transform.position;
                 showTooltip.SendMessage("ShowTooltip");
                 isOn = true;
                 Debug.Log("Tooltip showed");
@@ -91,8 +91,8 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
         {
             if (isOn)
             {
-                GameObject showTooltip = GameObject.Find("ActionButtonTooltipView");
-                showTooltip.GetComponent<ActionButtonTooltipView>().HideTooltip();//.SendMessage("HideTooltip");
+                GameObject showTooltip = GameObject.Find("TooltipView");
+                showTooltip.GetComponent<TooltipView>().HideTooltip();//.SendMessage("HideTooltip");
                 isOn = false;
             }
         }

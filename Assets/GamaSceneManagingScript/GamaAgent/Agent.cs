@@ -6,7 +6,7 @@ using Nextzen.VectorData;
 
 namespace ummisco.gama.unity.GamaAgent
 {
-    public class Agent : MonoBehaviour
+    public class Agent 
     
     {
         private string _geometry;

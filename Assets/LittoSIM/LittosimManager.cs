@@ -15,7 +15,6 @@ namespace ummisco.gama.unity.littosim
         // Use this for initialization
         public static int actionToDo = 0;
         public static int gameNbr = 0;
-        public static GameObject UAPrefab;
 
         public GameObject ActionPanelPrefab;
         public GameObject ActionRecapPanelPrefab;
@@ -114,8 +113,15 @@ namespace ummisco.gama.unity.littosim
 
         void FixedUpdate()
         {
+<<<<<<< HEAD
             //   Debug.Log(" The Action_Panel_Prefab position is: " + GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).transform.position);
             //   Debug.Log("The active panel is " + uiManager.GetComponent<UIManager>().getActivePanel());
+=======
+         //   Debug.Log(" The Action_Panel_Prefab position is: " + GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).transform.position);
+            Debug.Log("The active panel is " + uiManager.GetComponent<UIManager>().getActivePanel());
+
+            Vector3 mouse = Input.mousePosition;
+>>>>>>> parent of fcb35b4... Save
 
            
             if (Input.GetMouseButtonDown(0))
@@ -150,11 +156,17 @@ namespace ummisco.gama.unity.littosim
             position.z = -80;
             sendGamaMessage(position);
 
+<<<<<<< HEAD
         // To delete
         // TODO to detete 
       //  if (1 == 2) 
         { 
         if (UIManager.activePanel.Equals(IUILittoSim.UA_PANEL))
+=======
+            // To delete
+            // TODELETE  To delete this part of code. 
+            if (UIManager.activePanel.Equals(IUILittoSim.UA_PANEL))
+>>>>>>> parent of fcb35b4... Save
             {
                 GameObject panelChild = Instantiate(UA);
                 panelChild.name = "UA" + position.x + "_" + position.y;

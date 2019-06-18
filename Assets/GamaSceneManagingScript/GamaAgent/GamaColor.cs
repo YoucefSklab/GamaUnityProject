@@ -40,22 +40,6 @@ namespace ummisco.gama.unity.GamaAgent
             return newColor;
         }
 
-        public Color getColorFromGamaColor()
-        {
-            Color newColor = new Color();
-
-            var bigint = (int) this.value;
-            var r = (bigint >> 16) & 255;
-            var g = (bigint >> 8) & 255;
-            var b = bigint & 255;
-
-            newColor.r = r;
-            newColor.b = b;
-            newColor.g = g;
-
-            return newColor;
-        }
-
 
     }
 }
