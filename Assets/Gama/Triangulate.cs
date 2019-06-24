@@ -10,13 +10,17 @@ public class Triangulate : MonoBehaviour
 
     public Material myNewMaterial;
     public Triangulator triangulator;
+    public Material material;
+
 
     Vector2[] vertices2D;
+
 
     // Use this for initialization
     void Start()
     {
 
+    
         // Create Vector2 vertices
         vertices2D = new Vector2[] { new Vector2(0, 0), new Vector2(10, 5), new Vector2(10, 10) };
         Vector2[] vertices2D2 = new Vector2[] { new Vector2(0, 0), new Vector2(2, 2), new Vector2(4, 0), new Vector2(4, 8), new Vector2(2, 6), new Vector2(0, 8) };
@@ -47,6 +51,62 @@ public class Triangulate : MonoBehaviour
         poly.GetComponent<MeshFilter>().mesh.Clear();
         poly.GetComponent<MeshFilter>().mesh = CreateMesh(10);
         poly.GetComponent<Renderer>().material = myNewMaterial;
+
+
+        // -------------------------------------------------------
+
+        GameObject ua2 = GameObject.Find("UA2");
+        ua2.AddComponent(typeof(MeshRenderer));
+        ua2.AddComponent(typeof(MeshFilter));
+        ua2.name = "testtttttt";
+        CanvasRenderer canvasRend = ua2.GetComponent<CanvasRenderer>();
+        Mesh m = poly.GetComponent<MeshFilter>().mesh;
+
+        /*
+         * Mesh m2 = canvasRend.GetComponent<Mesh>();
+        m2.Clear();
+        m2 = m;
+        m2.vertices = m.vertices;
+        m2.normals = m.normals;
+
+        canvasRend.SetMesh(m);
+        */
+
+                                    
+            Mesh mesh = poly.GetComponent<MeshFilter>().sharedMesh;
+
+            CanvasRenderer canvasRenderer = ua2.GetComponent<CanvasRenderer>();
+
+            Vector3[] vertices = mesh.vertices;
+            int[] triangles = mesh.triangles;
+            Vector3[] normals = mesh.normals;
+
+            Vector2[] UVs = mesh.uv;
+
+            List<UIVertex> uiVertices = new List<UIVertex>();
+
+            for (int i = 0; i < triangles.Length; ++i)
+            {
+                UIVertex temp = new UIVertex();
+                temp.position = vertices[triangles[i]];
+                temp.uv0 = UVs[triangles[i]];
+                temp.normal = normals[triangles[i]];
+                uiVertices.Add(temp);
+                if (i % 3 == 0)
+                {
+                    uiVertices.Add(temp);
+                }
+                    
+            }
+
+            canvasRenderer.Clear();
+            canvasRenderer.SetMaterial(material, null);
+            canvasRenderer.SetVertices(uiVertices);
+           
+
+
+        // canvasRend.SetVertices(poly.GetComponent<MeshFilter>().mesh.GetVertices(canvasRend.SetVertices()));
+        // -------------------------------------------------------
 
         /*
         vertices2D = vertices2D83;
@@ -80,7 +140,7 @@ public class Triangulate : MonoBehaviour
         poly.GetComponent<MeshFilter>().mesh = CreateMesh(10);
         poly.GetComponent<Renderer>().material = myNewMaterial;
         */
-        
+
         /* 
         vertices2D = verticesWorldShape;
         triangulator.setPoints(vertices2D);
@@ -230,6 +290,10 @@ public class Triangulate : MonoBehaviour
 
         //-----------------------------------------------------------------------------
         //-----------------------------------------------------------------------------
+
+
+
+
     }
 
 

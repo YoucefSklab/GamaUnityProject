@@ -8,7 +8,7 @@ namespace ummisco.gama.unity.littosim.Agents
 {
     public class UA : Agent
     {
-      
+
         string ua_name = "";
         int id;
         int ua_code = 0;
@@ -42,7 +42,9 @@ namespace ummisco.gama.unity.littosim.Agents
 
         public void Start()
         {
-      //       gameObject.GetComponent<Renderer>().material.color = Color.red;
+            //       gameObject.GetComponent<Renderer>().material.color = Color.red;
+
+          
         }
 
 
@@ -95,6 +97,9 @@ namespace ummisco.gama.unity.littosim.Agents
             Debug.Log(" THIS THE MESSAGE ... ");
         }
 
+        public void Update()
+        {
 
+        }
     }
 }

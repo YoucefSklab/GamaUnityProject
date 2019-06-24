@@ -2,16 +2,16 @@
 
 public class TestObject : MonoBehaviour
 {
-  
+
 
     void Start()
     {
-       
-       transform.Rotate(60, 0, 60);
 
-        GameObject UaPrefab= (GameObject)Resources.Load("Prefabs/UA", typeof(GameObject));
+        transform.Rotate(60, 0, 60);
 
-        Debug.Log("the name " );
+        GameObject UaPrefab = (GameObject)Resources.Load("Prefabs/UA", typeof(GameObject));
+
+        Debug.Log("the name ");
         Debug.Log("the name is " + UaPrefab.name);
         GameObject go = new GameObject();
         go = Instantiate(UaPrefab);
@@ -30,7 +30,7 @@ public class TestObject : MonoBehaviour
         GameObject g2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         g2.name = "Cube5";
         p = GameObject.Find("Cube1").transform.position;
-       g2.transform.position = new Vector3(p.x - 150, p.y - 50, p.z);
+        g2.transform.position = new Vector3(p.x - 150, p.y - 50, p.z);
         g2.transform.localScale = new Vector3(40, 40, 40);
         g2.AddComponent<CheckIfContainedInCanvas>();
 
@@ -52,6 +52,52 @@ public class TestObject : MonoBehaviour
 
     void Update()
     {
+        GameObject target = null;
+        bool isMouseDrag = false;
+        Vector3 screenPosition = new Vector3();
+        Vector3 offset = new Vector3();
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hitInfo;
+            target = ReturnClickedObject(out hitInfo);
+            if (target != null)
+            {
+                isMouseDrag = true;
+                Debug.Log("target position :" + target.transform.position);
+                //Convert world position to screen position.
+                screenPosition = Camera.main.WorldToScreenPoint(target.transform.position);
+                offset = target.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPosition.z));
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            isMouseDrag = false;
+        }
+
+        if (isMouseDrag)
+        {
+            //track mouse position.
+            Vector3 currentScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPosition.z);
+
+            //convert screen position to world position with offset changes.
+            Vector3 currentPosition = Camera.main.ScreenToWorldPoint(currentScreenSpace) + offset;
+
+            //It will update target gameobject's current postion.
+            target.transform.position = currentPosition;
+        }
+
+    }
+
+    GameObject ReturnClickedObject(out RaycastHit hit)
+    {
+        GameObject target = null;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray.origin, ray.direction * 10, out hit))
+        {
+            target = hit.collider.gameObject;
+        }
+        return target;
     }
 }

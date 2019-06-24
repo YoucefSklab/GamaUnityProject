@@ -13,7 +13,11 @@ public class CubeGenerator : MonoBehaviour {
 	public float inverseMoveTime;
 	public float moveTime = 10000.1f;
 
-	public MapBuilder mapBuilder ; //= new MapBuilder();
+    public List<Vector3> listVertices;
+    public List<UIVertex> pList = new List<UIVertex>();
+    public Material pMat;
+
+    public MapBuilder mapBuilder ; //= new MapBuilder();
 
 	GameObject objectTest;
 
@@ -21,26 +25,94 @@ public class CubeGenerator : MonoBehaviour {
 	Boolean isMove = false;
 
 	void Start () {
-		
-		//objectTest = CreateCube ("testCube");
 
-		//rb = GetComponent<Rigidbody> ();
-
-		//inverseMoveTime = 1f / moveTime;
-
-		//Debug.Log ("The script Type is : "+gameObject.GetComponent ("CubeGenerator").GetType ());
-
-		//mapBuilder = new MapBuilder();
+        objectTest = CreateCube ("testCube");
+        SetPolygonShape("ButtonMeshPolygon");
 
 
-	}
+        //rb = GetComponent<Rigidbody> ();
+
+        //inverseMoveTime = 1f / moveTime;
+
+        //Debug.Log ("The script Type is : "+gameObject.GetComponent ("CubeGenerator").GetType ());
+
+        //mapBuilder = new MapBuilder();
+
+
+    }
+
+    [Obsolete]
+    private void SetPolygonShape(string name)
+    {
+
+        GameObject ob = GameObject.Find(name);
+
+        ob.AddComponent<MeshFilter>();
+        ob.AddComponent<MeshRenderer>();
+        //ob.AddComponent<Rigidbody>();
+        //ob.AddComponent<BoxCollider>();
+
+        Color objectColor = ConvertType.stringToColor("red");
+        Renderer rend = ob.GetComponent<Renderer>();
+        rend.material.color = objectColor;
+
+
+        Vector3[] vertices = {
+            new Vector3 (0, 0, 0),
+            new Vector3 (20, 0, 0),
+            new Vector3 (30, 10f, 0),
+            new Vector3 (10, 40, 0),
+            new Vector3 (5, 30, 0)
+        };
+
+        int[] triangles = {
+            0, 4, 1, //face front
+			4, 3, 2,
+            4, 2, 1			
+        };
 
 
 
+        Mesh mesh = new Mesh();//= ob.GetComponent<MeshFilter>().mesh;
+        mesh.Clear();
+        mesh.name = "TestMesh";
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+ 
+        mesh.RecalculateNormals();
 
 
+       ob.GetComponent<MeshFilter>().mesh = mesh;
+        /*
+        CanvasRenderer CanvRend = ob.GetComponent<CanvasRenderer>();
+        CanvRend.SetMesh(mesh);
+        CanvRend.Clear();
+        CanvRend.SetColor(Color.blue);
+        
+        mesh.GetVertices(listVertices);
 
-	private GameObject CreateCube (string name) {
+        Debug.Log("Number of vertices is: " + listVertices.Count);
+
+
+        UIVertex pUIVertex = new UIVertex();
+        
+
+        foreach(Vector3 v in listVertices)
+        {
+            pUIVertex.position = v;
+            pUIVertex.uv0 = new Vector2(v.x, v.y);
+            pList.Add(pUIVertex);
+        }
+
+        CanvRend.SetMaterial(pMat, null);
+        CanvRend.SetVertices(pList);
+     
+        */
+
+    }
+
+
+    private GameObject CreateCube (string name) {
 
 		GameObject ob = new GameObject(name);
 
@@ -48,8 +120,8 @@ public class CubeGenerator : MonoBehaviour {
 
 		ob.AddComponent<MeshFilter>();
 		ob.AddComponent<MeshRenderer>();
-		ob.AddComponent<Rigidbody>();
-		ob.AddComponent<BoxCollider>();
+		//ob.AddComponent<Rigidbody>();
+		//ob.AddComponent<BoxCollider>();
 
 		Color objectColor = ConvertType.stringToColor ("red");
 		Renderer rend = ob.GetComponent<Renderer>();

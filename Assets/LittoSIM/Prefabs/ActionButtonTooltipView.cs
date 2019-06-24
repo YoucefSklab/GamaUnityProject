@@ -83,7 +83,7 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
             get
             {
                 if (instance == null)
-                    instance = GameObject.FindObjectOfType<ActionButtonTooltipView>();
+                    instance = Object.FindObjectOfType<ActionButtonTooltipView>();
                 return instance;
             }
         }

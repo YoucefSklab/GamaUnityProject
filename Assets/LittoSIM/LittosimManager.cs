@@ -477,7 +477,7 @@ namespace ummisco.gama.unity.littosim
             }
             else
             {
-                return  new Vector2(0, 0);
+                return  new Vector2(0f, 0);
                 //return initialPosition;
             }
         }

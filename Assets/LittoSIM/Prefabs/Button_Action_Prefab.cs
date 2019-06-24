@@ -54,7 +54,7 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
 
             Sprite ImageIcon = Resources.Load<Sprite>(icon);
             gameObject.GetComponent<Image>().overrideSprite = ImageIcon;
-            gameObject.transform.position = position;
+            gameObject.GetComponent<RectTransform>().anchoredPosition = position;
         }
 
         public void onAddButtonClicked()
@@ -65,6 +65,7 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
 
         public void ShowTooltip()
         {
+            Debug.Log("ShowTooltip Method called ");    
             if (!isOn)
             {
                 GameObject showTooltip = GameObject.Find("ActionButtonTooltipView");

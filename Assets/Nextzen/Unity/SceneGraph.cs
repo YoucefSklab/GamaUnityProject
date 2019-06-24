@@ -283,6 +283,8 @@ namespace Nextzen.Unity
 
                     gameObject.name = meshBucket.gamaAgent.agentName;
 
+                   
+
                     //gameObject = new GameObject(meshBucket.gamaAgent.agentName);
 
                     gameObject.AddComponent<MeshRenderer>();
