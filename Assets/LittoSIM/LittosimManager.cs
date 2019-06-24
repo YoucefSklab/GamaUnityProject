@@ -545,18 +545,19 @@ namespace ummisco.gama.unity.littosim
         {
             if (actionsList.Count > 0)
             {
-                Vector2 newPosition = actionsList[actionsList.Count - 1].GetComponent<RectTransform>().anchoredPosition;
-                Vector2 position = valider.GetComponent<RectTransform>().anchoredPosition;
-                position.y = newPosition.y - lineHeight;
-                valider.GetComponent<RectTransform>().anchoredPosition = position;
+                Vector3 lastActionPosition = actionsList[actionsList.Count - 1].GetComponent<RectTransform>().anchoredPosition;
+                Vector3 validerosition = valider.GetComponent<RectTransform>().anchoredPosition;
 
-                position = valider_text.GetComponent<RectTransform>().anchoredPosition;
-                position.y = newPosition.y - lineHeight;
-                valider_text.GetComponent<RectTransform>().anchoredPosition = position;
+                validerosition.y = lastActionPosition.y - (lineHeight * 2);
+                valider.GetComponent<RectTransform>().anchoredPosition = validerosition;
 
-                position = valider_montant.GetComponent<RectTransform>().anchoredPosition;
-                position.y = newPosition.y - lineHeight;
-                valider_montant.GetComponent<RectTransform>().anchoredPosition = position;
+                validerosition = valider_text.GetComponent<RectTransform>().anchoredPosition;
+                validerosition.y = lastActionPosition.y - (lineHeight * 2);
+                valider_text.GetComponent<RectTransform>().anchoredPosition = validerosition;
+
+                validerosition = valider_montant.GetComponent<RectTransform>().anchoredPosition;
+                validerosition.y = lastActionPosition.y - (lineHeight * 2);
+                valider_montant.GetComponent<RectTransform>().anchoredPosition = validerosition;
             }
             else
             {
