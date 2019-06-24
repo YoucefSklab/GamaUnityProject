@@ -69,13 +69,8 @@ namespace ummisco.gama.unity.littosim
             //GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<CanvasGroup>().alpha = 0;
             //GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL).GetComponent<CanvasGroup>().alpha = 0;
 
-
-
-             Debug.Log(" The Action_Panel_Prefab anchoredPosition is: " + GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).GetComponent<RectTransform>().anchoredPosition);
-
-          
-
-
+            Debug.Log(" The Action_Panel_Prefab anchoredPosition is: " + GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).GetComponent<RectTransform>().anchoredPosition);
+            
             initialMessagePosition = new Vector3(-836.3f, -136.2f, 0.0f);
             lastMessagePosition = initialMessagePosition;
 
@@ -87,14 +82,8 @@ namespace ummisco.gama.unity.littosim
             Destroy(GameObject.Find(IUILittoSim.ACTION_RECAP_PANEL_PREFAB));
 
             deactivateValider();
-            //addObjectOnPanel(1, "TTTESTTTE", "Test test", 5, 200);
-            //  GameObject.Find("Ua_Panel").GetComponent<RectTransform>().sizeDelta = new Vector2(80000, 80000);
+           
 
-            createActionPaneChild(1, "MayName", GameObject.Find("Action_List_Panel"), "Example 1", "3", "400");
-
-            createActionPaneChild(2, "MayName1", GameObject.Find("Action_List_Panel"), "Example 2", "4", "500");
-
-            createActionPaneChild(1, "MayName3", GameObject.Find("Action_List_Panel"), "Example 3", "2", "300");
         }
 
 
@@ -527,42 +516,29 @@ namespace ummisco.gama.unity.littosim
         {
            
             GameObject panelChild = Instantiate(ActionPanelPrefab);
-            RectTransform rectTrans = panelChild.GetComponent<RectTransform>();
-            RectTransform rtPanel = panelParent.GetComponent<RectTransform>();
+            RectTransform childRectTrans = panelChild.GetComponent<RectTransform>();
+            RectTransform parentRectTran = panelParent.GetComponent<RectTransform>();
             panelChild.name = name;
 
-
-            //panelChild.transform.SetParent(panelParent.transform);
-            //panelChild.transform.SetParent(panelParent.transform);
-            //panelChild.GetComponent<RectTransform>().anchoredPosition = getAtActionPanelPosition();
-
-            rectTrans.parent = rtPanel;
-
-           
+            childRectTrans.parent = parentRectTran;
+            childRectTrans.anchoredPosition = getAtActionPanelPosition();
 
             actionsList.Add(panelChild);
             panelChild.transform.Find(IUILittoSim.ACTION_TITLE).GetComponent<Text>().text = texte;
-
             panelChild.transform.Find(IUILittoSim.ACTION_CYCLE).transform.Find(IUILittoSim.ACTION_CYCLE_VALUE).GetComponent<Text>().text = (delay);
             panelChild.transform.Find(IUILittoSim.ACTION_BUDGET).GetComponent<Text>().text = (montant);
-
-            rectTrans.anchoredPosition = getAtActionPanelPosition();
-
-           // rectTrans.SetAsLastSibling();
-
+            
+            
             updateValiderPosition();
 
             if (actionsList.Count >= 10)
             {
-                rtPanel.sizeDelta = new Vector2(rtPanel.sizeDelta.x, (rtPanel.sizeDelta.y + (actionsList.Count - 10) * lineHeight));
+                parentRectTran.sizeDelta = new Vector2(parentRectTran.sizeDelta.x, (parentRectTran.sizeDelta.y + (actionsList.Count - 10) * lineHeight));
             }
             actionCounter++;
 
+        //    Debug.Log(" ---+++++++ >>>> Created element anchored position is " + panelChild.GetComponent<RectTransform>().anchoredPosition);
 
-
-            Debug.Log(" ---+++++++ >>>> Created element anchored position is " + panelChild.GetComponent<RectTransform>().anchoredPosition);
-
-          //  panelChild.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -0);
         }
 
         public void updateValiderPosition()
