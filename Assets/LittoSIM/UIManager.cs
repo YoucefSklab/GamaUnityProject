@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.UI;
 
 namespace ummisco.gama.unity.littosim
 {
     public class UIManager : MonoBehaviour
     {
         public static string activePanel = IUILittoSim.UA_PANEL;
+
+        private Sprite selectedOnglet;
+        private Sprite notSelectedOnglet;
 
         public UIManager()
         {
@@ -15,7 +18,9 @@ namespace ummisco.gama.unity.littosim
         void Awake()
         {
             activePanel = IUILittoSim.UA_PANEL;
-        }
+            selectedOnglet = Resources.Load<Sprite>("onglet_selectionne");
+            notSelectedOnglet = Resources.Load<Sprite>("onglet_non_selectionne");
+    }
 
         void Start()
         {
@@ -41,13 +46,17 @@ namespace ummisco.gama.unity.littosim
                 setCanvasInvisible(IUILittoSim.DEF_COTE_PANEL);
                 setCanvasInvisible(IUILittoSim.DEF_COTE_MAP_PANEL);
 
+                SetSpriteSelected(IUILittoSim.ONGLET_AMENAGEMENT);
 
                 SetTargetInvisible(GameObject.Find(IUILittoSim.DEF_COTE_PANEL));
                 SetTargetInvisible(GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL));
                 SetTargetVisible(GameObject.Find(IUILittoSim.UA_PANEL));
                 SetTargetVisible(GameObject.Find(IUILittoSim.UA_MAP_PANEL));
 
+                SetSpriteDeselected(IUILittoSim.ONGLET_DEFENSE);
+
                 activePanel = IUILittoSim.UA_PANEL;
+
             }
             else if (panelName.Equals(IUILittoSim.ONGLET_DEFENSE))
             {
@@ -56,13 +65,28 @@ namespace ummisco.gama.unity.littosim
                 setCanvasInvisible(IUILittoSim.UA_PANEL);
                 setCanvasInvisible(IUILittoSim.UA_MAP_PANEL);
 
+                SetSpriteSelected(IUILittoSim.ONGLET_DEFENSE);
+
                 SetTargetInvisible(GameObject.Find(IUILittoSim.UA_PANEL));
                 SetTargetInvisible(GameObject.Find(IUILittoSim.UA_MAP_PANEL));
                 SetTargetVisible(GameObject.Find(IUILittoSim.DEF_COTE_PANEL));
                 SetTargetVisible(GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL));
 
+                SetSpriteDeselected(IUILittoSim.ONGLET_AMENAGEMENT);
+
                 activePanel = IUILittoSim.DEF_COTE_PANEL;
             }
+        }
+
+
+        public void SetSpriteSelected(string ongletName)
+        {
+            GameObject.Find(ongletName).GetComponent<Image>().sprite = selectedOnglet;
+        }
+
+        public void SetSpriteDeselected(string ongletName)
+        {
+            GameObject.Find(ongletName).GetComponent<Image>().sprite = notSelectedOnglet;
         }
 
         void SetTargetInvisible(GameObject Target)
