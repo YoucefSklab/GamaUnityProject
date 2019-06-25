@@ -34,8 +34,8 @@ namespace ummisco.gama.unity.littosim
         public Vector2 initialRecapPosition = new Vector2(480f, -40f);
         public Vector2 lastRecapPosition = new Vector2(480f, -40f);
 
-        public Vector3 initialMessagePosition;
-        public Vector3 lastMessagePosition;
+        public Vector2 initialMessagePosition;
+        public Vector2 lastMessagePosition;
 
         public int elementCounter = 0;
         public int actionCounter = 0;
@@ -76,8 +76,8 @@ namespace ummisco.gama.unity.littosim
             initialRecapPosition = new Vector2(480f, -40f);
             lastRecapPosition = new Vector2(480f, -40f);
 
-            initialMessagePosition = new Vector3(-836.3f, -136.2f, 0.0f);
-            lastMessagePosition = initialMessagePosition;
+            initialMessagePosition = new Vector2(1032f, -40f);
+            lastMessagePosition = new Vector2(1032f, -40f);
 
 
             Destroy(GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB));
@@ -501,13 +501,11 @@ namespace ummisco.gama.unity.littosim
             }
         }
 
-        public Vector3 getAtMessagePanelPosition()
+        public Vector2 getAtMessagePanelPosition()
         {
             if (messagesList.Count > 0)
             {
-                lastMessagePosition = (messagesList[(messagesList.Count - 1)]).transform.position;
-                lastMessagePosition.y = lastMessagePosition.y - lineHeight;
-                return lastMessagePosition;
+               return new Vector2(initialMessagePosition.x, -((messagesList.Count * lineHeight) + initialMessagePosition.y));
             }
             else
             {
@@ -654,14 +652,21 @@ namespace ummisco.gama.unity.littosim
             string name = (string)obj[1];
             string texte = (string)obj[2];
 
-            GameObject panelParent = GameObject.Find(IUILittoSim.MESSAGES_PANEL);
+
             GameObject panelChild = Instantiate(MessagePanelPrefab);
+            GameObject panelParent = GameObject.Find(IUILittoSim.MESSAGES_PANEL);
+
+            RectTransform childRectTrans = panelChild.GetComponent<RectTransform>();
+            RectTransform parentRectTran = panelParent.GetComponent<RectTransform>();
             panelChild.name = name;
-            panelChild.transform.position = getAtMessagePanelPosition();
-            panelChild.transform.SetParent(panelParent.transform);
-            panelChild.transform.Find(IUILittoSim.MESSAGE_TITRE).GetComponent<Text>().text = (texte);
+            childRectTrans.SetParent(parentRectTran);
+            
+            childRectTrans.anchoredPosition = getAtMessagePanelPosition();
+
             messagesList.Add(panelChild);
 
+            panelChild.transform.Find(IUILittoSim.MESSAGE_TITRE).GetComponent<Text>().text = (texte);
+            
             if (messagesList.Count > 5)
             {
                 GameObject gameObj = messagesList[0];
@@ -670,7 +675,7 @@ namespace ummisco.gama.unity.littosim
                 lastMessagePosition = initialMessagePosition;
                 foreach (var gameObject in messagesList)
                 {
-                    gameObject.transform.position = lastMessagePosition;
+                    gameObject.GetComponent<RectTransform>().anchoredPosition = lastMessagePosition;
                     lastMessagePosition.y = lastMessagePosition.y - lineHeight;
                 }
             }
