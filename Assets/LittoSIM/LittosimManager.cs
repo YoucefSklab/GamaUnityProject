@@ -31,8 +31,8 @@ namespace ummisco.gama.unity.littosim
         public Vector2 initialPosition = new Vector2(0f, 0f);
         public Vector2 lastPosition = new Vector2(0f, 0f);
 
-        public Vector3 initialRecapPosition = new Vector3(2020.0f, -135.3f, 0.0f);
-        public Vector3 lastRecapPosition = new Vector3(2020.0f, -135.3f, 0.0f);
+        public Vector2 initialRecapPosition = new Vector2(480f, -40f);
+        public Vector2 lastRecapPosition = new Vector2(480f, -40f);
 
         public Vector3 initialMessagePosition;
         public Vector3 lastMessagePosition;
@@ -58,9 +58,8 @@ namespace ummisco.gama.unity.littosim
 
         void Start()
         {
-            initialRecapPosition = new Vector3(2020.0f, -135.3f, 0.0f);
-            lastRecapPosition = new Vector3(2020.0f, -135.3f, 0.0f);
-           //
+           
+          
             uiManager = GameObject.Find(IUILittoSim.UI_MANAGER);
             main_canvas = GameObject.Find(IUILittoSim.MAIN_CANVAS);
 
@@ -70,7 +69,13 @@ namespace ummisco.gama.unity.littosim
             //GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL).GetComponent<CanvasGroup>().alpha = 0;
 
             Debug.Log(" The Action_Panel_Prefab anchoredPosition is: " + GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).GetComponent<RectTransform>().anchoredPosition);
-            
+
+            initialPosition = new Vector2(0f, 0f);
+            lastPosition = new Vector2(0f, 0f);
+
+            initialRecapPosition = new Vector2(480f, -40f);
+            lastRecapPosition = new Vector2(480f, -40f);
+
             initialMessagePosition = new Vector3(-836.3f, -136.2f, 0.0f);
             lastMessagePosition = initialMessagePosition;
 
@@ -471,13 +476,11 @@ namespace ummisco.gama.unity.littosim
             }
         }
 
-        public Vector3 getAtRecapActionPanelPosition()
+        public Vector2 getAtRecapActionPanelPosition()
         {
             if (recapActionsList.Count > 0)
             {
-                lastRecapPosition = (recapActionsList[(recapActionsList.Count - 1)]).transform.position;
-                lastRecapPosition.y = lastRecapPosition.y - lineHeight;
-                return lastRecapPosition;
+               return new Vector2(initialRecapPosition.x, - (( recapActionsList.Count * lineHeight) + initialRecapPosition.y));
             }
             else
             {
@@ -492,7 +495,7 @@ namespace ummisco.gama.unity.littosim
                 lastRecapPosition = initialRecapPosition;
                 foreach (var gameObject in recapActionsList)
                 {
-                    gameObject.transform.position = lastRecapPosition;
+                    gameObject.GetComponent<RectTransform>().anchoredPosition = lastRecapPosition;
                     lastRecapPosition.y = lastRecapPosition.y - lineHeight;
                 }
             }
@@ -608,14 +611,19 @@ namespace ummisco.gama.unity.littosim
         public void createRecapActionPaneChild(int type, string name, GameObject panelParent, string texte, int delay)
         {
             GameObject panelChild = Instantiate(ActionRecapPanelPrefab);
+            RectTransform childRectTrans = panelChild.GetComponent<RectTransform>();
+            RectTransform parentRectTran = panelParent.GetComponent<RectTransform>();
+            panelChild.name = name;
+            childRectTrans.SetParent(parentRectTran);
+       
+            childRectTrans.anchoredPosition = getAtRecapActionPanelPosition();
+            recapActionsList.Add(panelChild);
+
             string CycleIcon = geObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_ICON, name);
             string ValideIcon = geObjectComposedName(IUILittoSim.ACTION_RECAP_VALIDE_ICON, name);
             string CyclePlus = geObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_PLUS, name);
             string ActionTitre = geObjectComposedName(IUILittoSim.ACTION_RECAP_TITRE, name);
 
-            panelChild.name = name;
-            panelChild.transform.position = getAtRecapActionPanelPosition();
-            panelChild.transform.SetParent(panelParent.transform);
             panelChild.transform.Find(IUILittoSim.ACTION_RECAP_TITRE).transform.name = ActionTitre;
             panelChild.transform.Find(IUILittoSim.ACTION_RECAP_CYCLE_ICON).transform.name = CycleIcon;
             panelChild.transform.Find(IUILittoSim.ACTION_RECAP_VALIDE_ICON).transform.name = ValideIcon;
@@ -628,7 +636,7 @@ namespace ummisco.gama.unity.littosim
             GameObject.Find(ValideIcon).SetActive(false);
             GameObject.Find(CyclePlus).SetActive(false);
 
-            recapActionsList.Add(panelChild);
+            
 
             if (recapActionsList.Count >= 5)
             {

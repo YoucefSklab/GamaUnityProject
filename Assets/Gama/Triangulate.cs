@@ -95,7 +95,7 @@ public class Triangulate : MonoBehaviour
                 if (i % 3 == 0)
                 {
                     uiVertices.Add(temp);
-                }
+                }   
                     
             }
 

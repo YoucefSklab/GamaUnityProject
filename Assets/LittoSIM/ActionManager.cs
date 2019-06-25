@@ -155,7 +155,6 @@ namespace ummisco.gama.unity.littosim
                 action_button.name = "Def_Cote_" + act.Key;
                 action_button.GetComponent<RectTransform>().SetParent(Def_Cote_Panel.GetComponent<RectTransform>());
                 action_button.GetComponent<Button_Action_Prefab>().SetUp("Def_Cote_" + act.Key, act.Value.def_cote_index, act.Value.button_help_message, act.Value.button_icon_file, "Def_Cote", IActionButton.GetPosition(act.Value.def_cote_index));
-               
             }
         }
 
