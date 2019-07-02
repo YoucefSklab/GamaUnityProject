@@ -176,15 +176,11 @@ namespace ummisco.gama.unity.SceneManager
                 {
                     case MqttSetting.MAIN_TOPIC:
                         //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
-                        print(" .........  message deserialization : ");
-
+                        //Debug.Log("-> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
+                       
                         UnityAgent unityAgent = (UnityAgent)MsgSerialization.deserialization(receivedMsg, new UnityAgent());
-
-                        print(receivedMsg);
-
-
-
+                                             
+                        /*
                         Debug.Log("-*----------------- - >  Deserialization: Sender is: " + unityAgent.sender);
 
                         Debug.Log("-*----------------- - >  Deserialization: Agent Name is:  " + unityAgent.contents.agentName);
@@ -199,7 +195,7 @@ namespace ummisco.gama.unity.SceneManager
                         Debug.Log("-*----------------- - >  Deserialization: Agent height is:  " + unityAgent.contents.height);
 
                         Debug.Log("-*----------------- - >  Deserialization: Agent emissionTimeStamp is:  " + unityAgent.emissionTimeStamp);
-
+                        */
 
 
                         // ----------------------------
@@ -243,7 +239,7 @@ namespace ummisco.gama.unity.SceneManager
                     case MqttSetting.MULTIPLE_FREE_TOPIC:
                         //------------------------------------------------------------------------------
                         Debug.Log("-> Topic to deal with is : " + MqttSetting.MULTIPLE_FREE_TOPIC);
-
+                        
                         MultipleFreeTopicMessage multipleFreetopicMessage = (MultipleFreeTopicMessage)MsgSerialization.deserialization(receivedMsg, new MultipleFreeTopicMessage());
                         targetGameObject = GameObject.Find(multipleFreetopicMessage.objectName);
                         obj = new object[] { multipleFreetopicMessage, targetGameObject };
@@ -446,7 +442,6 @@ namespace ummisco.gama.unity.SceneManager
             if (mapBuilder != null)
             {
                 mapBuilder.GetComponent<RegionMap>().SendMessage("DrawNewAgents");
-
             }
             else
             {
@@ -462,8 +457,8 @@ namespace ummisco.gama.unity.SceneManager
         {
             msgList.Add(e);
             receivedMsg = System.Text.Encoding.UTF8.GetString(e.Message);
-            Debug.Log(">  New Message received on topic : " + e.Topic);
-            Debug.Log(">  content is :" + e.Message);
+        //    Debug.Log(">  New Message received on topic : " + e.Topic);
+        //    Debug.Log(">  content is :" + e.Message);
         }
 
 
@@ -531,8 +526,8 @@ namespace ummisco.gama.unity.SceneManager
             {
                 System.Reflection.ParameterInfo par1 = par[j];
 
-                Debug.Log("->>>>>>>>>>>>>>--> parametre Name >>=>>=>>=  " + par1.Name);
-                Debug.Log("->>>>>>>>>>>>>>--> parametre Type >>=>>=>>=  " + par1.ParameterType);
+             //   Debug.Log("->>>>>>>>>>>>>>--> parametre Name >>=>>=>>=  " + par1.Name);
+             //   Debug.Log("->>>>>>>>>>>>>>--> parametre Type >>=>>=>>=  " + par1.ParameterType);
 
             }
 
@@ -581,6 +576,7 @@ namespace ummisco.gama.unity.SceneManager
 
         public void checkForNotifications()
         {
+   
             if (NotificationRegistry.notificationsList.Count >= 1)
             {
                 foreach (NotificationEntry el in NotificationRegistry.notificationsList)

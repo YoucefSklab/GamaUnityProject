@@ -38,15 +38,8 @@ namespace ummisco.gama.unity.littosim
             Dictionary<string, Action> us_actions_dic = GetUAActionsList();
             Dictionary<string, Action> def_cote_actions_dic = GetDefCotActionsList();
 
-            Debug.Log("Actions total is " + actions_dic.Count);
-
-            Debug.Log("UA Actions total is " + us_actions_dic.Count);
-
             SetUpUAActions(us_actions_dic);
             SetUpDefCoteActions(def_cote_actions_dic);
-
-
-            Debug.Log("Def Cote total is " + def_cote_actions_dic.Count);
 
         }
 

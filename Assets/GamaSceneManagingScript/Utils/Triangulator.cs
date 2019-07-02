@@ -358,8 +358,6 @@ namespace ummisco.gama.unity.utils
             // convert the initial polygon to triangles
             int[] tris = Triangulate();
 
-            Mesh m = new Mesh();
-
             // Array to contain all the triangules of the mesh
             int[] triangles = new int[tris.Length * 2 + m_points.Count * 6];
 
@@ -465,6 +463,25 @@ namespace ummisco.gama.unity.utils
 
 
             count_tris += tris.Length;
+            for (int i = 0; i < m_points.Count; i++)
+            {
+                // triangles around the perimeter of the object
+                int n = (i + 1) % m_points.Count;
+                triangles[count_tris + 0] = i;
+                triangles[count_tris + 1] = i + m_points.Count;
+                triangles[count_tris + 2] = n;
+
+                triangles[count_tris + 0] = n;
+                triangles[count_tris + 1] = i + m_points.Count;
+                triangles[count_tris + 2] = i;
+                count_tris += 6;
+            }
+
+
+
+
+
+            if (1==2)
             for (int i = 0; i < m_points.Count; i++)
             {
                 // triangles around the perimeter of the object

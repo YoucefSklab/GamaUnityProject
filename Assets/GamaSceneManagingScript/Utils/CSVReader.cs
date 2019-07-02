@@ -47,7 +47,6 @@ public class CSVReader : MonoBehaviour
     static public Dictionary<string, Langue> GetInDictionnary(string csvText, string lng)
     {
         string[] lines = csvText.Split("\n"[0]);
-        Debug.Log("Langue file Total lines in files is " + lines.Length);
         Dictionary<string, Langue> langue = new Dictionary<string, Langue>();
 
         string allFile = "";
@@ -55,14 +54,10 @@ public class CSVReader : MonoBehaviour
         for (int i = 0; i < lines.Length; i++)
         {
             Langue langueElement = GetLangueElements(lines[i], lng);
-            //Debug.Log("----->  The langue element is  " + langueElement.ToString());
             langue.Add(langueElement.element, langueElement);
             allFile += "public static string " + langueElement.element + " = \"" + langueElement.value + "\"; \n";
         }
-
-        //Debug.Log("----->  All is " + allFile);
-        //Debug.Log("----->  The lines length is " + lines.Length);
-
+               
         return langue;
     }
 

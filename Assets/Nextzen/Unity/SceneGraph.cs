@@ -84,10 +84,7 @@ namespace Nextzen.Unity
                 data.Merge(featureMesh.Mesh, true);
                 gameObjectMeshData.Add(gameObject, data);
 
-                Debug.Log("Game Object Created: " + gameObject.name);
-                Debug.Log("         Its Vertices: " + data.MeshDataVerticesToString());
-                Debug.Log("         Its UVs: " + data.MeshDataUVsToString());
-                Debug.Log("         Its Submeshes: " + data.MeshDataSubmeshesToString());
+               
             }
         }
 
@@ -262,7 +259,8 @@ namespace Nextzen.Unity
                     GameObject ggg;
                     if (meshData.Meshes.Count > 1)
                     {
-                        gameObject = new GameObject(root.name + "_Part" + i);
+                        //gameObject = new GameObject(root.name + "_Part" + i);
+                        gameObject = new GameObject(root.name);
                         gameObject.transform.parent = root.transform;
                     }
                     else
@@ -270,134 +268,13 @@ namespace Nextzen.Unity
                         gameObject = root.gameObject;
                     }
 
-                    //    GameObject UaPrefab = (GameObject)Resources.Load("LittoSIM/Prefabs/UI/UA", typeof(GameObject));
+                    //  GameObject UaPrefab = (GameObject)Resources.Load("LittoSIM/Prefabs/UI/UA", typeof(GameObject));
                     //  gameObject = Instantiate(UaPrefab);
+     
 
-                    GameObject UaPrefab = (GameObject)Resources.Load("Prefabs/UA", typeof(GameObject));
-
-                   // gameObject = Instantiate(UaPrefab);
-
-                   // ggg = Instantiate(UaPrefab);
-                   // ggg.name = meshBucket.gamaAgent.agentName+"1111";
-                   // ggg.GetComponent<RectTransform>().transform.SetParent(GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<RectTransform>());
-
-                    gameObject.name = meshBucket.gamaAgent.agentName;
-
-                   
-
-                    //gameObject = new GameObject(meshBucket.gamaAgent.agentName);
-
-                    gameObject.AddComponent<MeshRenderer>();
-                   // gameObject.AddComponent<MeshFilter>();
-                   
-                    Renderer renderer = gameObject.GetComponent<Renderer>();
-                   // renderer.enabled = false;
-                    /*
-                   renderer.material.shader = Shader.Find("_Color");
-                   renderer.material.SetColor("_Color", Color.green);
-                   renderer.material.shader = Shader.Find("Specular");
-                   renderer.material.SetColor("_SpecColor", Color.red);
-                   */
-                    //renderer.material.SetColor("_Color", meshBucket.gamaAgent.color.getColorFromGamaColor());
-
-
-                    Vector3 p = meshBucket.gamaAgent.location;
-                    int dif = 0;
-                    int z = -2;
-
-                    // gameObject.transform.parent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).transform;
-
-                    gameObject.AddComponent<RectTransform>();
-
-
-
-                    RectTransform _parent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<RectTransform>();
-                    RectTransform _mRect = gameObject.GetComponent<RectTransform>();
-
-                    _mRect.anchorMin = new Vector2(0, 1);
-                    _mRect.anchorMax = new Vector2(0, 1);
-                    _mRect.pivot = new Vector2(0.5f, 0.5f);
-                    _mRect.sizeDelta = new Vector2(2, 2);  //_parent.rect.size;
-                    _mRect.transform.SetParent(_parent);
-
-
-                    Vector3 p2 = _mRect.anchoredPosition;
-                    Vector3 p3 = _mRect.transform.localPosition;
-                    p2 = _mRect.transform.position;
-
-                    Debug.Log(meshBucket.gamaAgent.agentName + " ------>>>    anchoredPosition Position is " + _mRect.anchoredPosition);
-                    Debug.Log(meshBucket.gamaAgent.agentName + " ------>>>    Position is " + _mRect.position);
-                    Debug.Log(meshBucket.gamaAgent.agentName + " ------>>>    local position "+ _mRect.localPosition);
-                    Debug.Log(meshBucket.gamaAgent.agentName + " ------>>>    tran Position is " + _mRect.transform.position);
-                    Debug.Log(meshBucket.gamaAgent.agentName + " ------>>>    tran local Position is " + _mRect.transform.localPosition);
-                    Debug.Log(meshBucket.gamaAgent.agentName + " ------>>>    tran local Position is " + _mRect.anchoredPosition3D);
-
-                    _mRect.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-                    _mRect.anchoredPosition3D = new Vector3(p3.x - dif, p3.y - dif, z);
-
-
-                    _mRect.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-                    //_mRect.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-                    //_mRect.position = new Vector3(p2.x - dif, p2.y - dif, -1);
-                    //_mRect.anchoredPosition = new Vector2(p2.x - dif, p2.y - dif);
-                    //_mRect.anchoredPosition = new Vector3(p2.x - dif, p2.y - dif, z);
-                    //_mRect.transform.position = new Vector3(p2.x - dif, p2.y - dif, z); 
-
-                    Debug.Log("The agent color is : ");
-                    Debug.Log("The agent color is : " + meshBucket.gamaAgent.color.ToString());
-                    Color colo = meshBucket.gamaAgent.color.getColorFromGamaColor();
-
-                    Material materi = new Material(Shader.Find("Standard"));
-                    //material.color = Color.blue;
-
-                    materi.color = meshBucket.gamaAgent.color.getColorFromGamaColor();
-                    //material.color = UnityEngine.Random.ColorHSV();
-
-                    // assign the material to the renderer
-                    gameObject.GetComponent<Renderer>().material = materi;
-
-           
-
-
-                    /*
-Transform _tran = gameObject.GetComponent<Transform>(); 
-Transform _tranParent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<Transform>();
-_tran.SetParent(_tranParent);
-
-Vector3 p2 = _tran.position;
-_tran.position = new Vector3(p2.x - dif, p2.y - dif, z);
-*/
-                    gameObject.AddComponent<CheckIfContainedInCanvas>();
-
-                    // gameObject.transform.localPosition = meshBucket.gamaAgent.location;
-
-                    // gameObject.transform.SetParent(GameObject.Find(IUILittoSim.UA_MAP_PANEL).transform);
-                    // gameObject.transform.parent = GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL).transform;
-
-                    // gameObject.transform.parent = root.transform;
-
-                    // gameObject.isStatic = gameObjectOptions.IsStatic;
-
-
-
-                    //Vector3 newPosition = PositionTranslateToCanvas.PositionTransalteToCanvas(gameObject, GameObject.Find("MapCanvas").GetComponent<Canvas>());
-
-                    // gameObject.GetComponent<RectTransform>().position = newPosition;
-
-                    // gameObject.GetComponent<RectTransform>().localPosition = new Vector3 ( 7313.0f, 12997.300825000275f, 0.0f );
-                    //gameObject.GetComponent<RectTransform>().localPosition = meshBucket.gamaAgent.location;
-
-                    //gameObject.transform.localPosition = meshBucket.gamaAgent.location;
-
-                    // gameObject.transform.position = meshBucket.gamaAgent.location;
-
-                    var mesh = new Mesh();
-
-                    mesh.Clear();
                     //meshBucket.meshGeometry = "LineString";
                     //-----------------------------------
-                    Debug.Log("Geometry ++------> " + meshBucket.gamaAgent.geometry);
-                    Debug.Log("game Object Name >    " + gameObject.name);
+          
 
                     if (meshBucket.gamaAgent.geometry.Equals(IGeometry.LINESTRING))
                     {
@@ -419,14 +296,6 @@ _tran.position = new Vector3(p2.x - dif, p2.y - dif, z);
                         line.endColor = c1;
                         line.startWidth = 5.0f;
                         line.endWidth = 5.0f;
-
-
-
-
-
-
-
-
                     }
                     else if (meshBucket.gamaAgent.geometry.Equals(IGeometry.POINTS))
                     {
@@ -445,113 +314,100 @@ _tran.position = new Vector3(p2.x - dif, p2.y - dif, z);
                         Renderer rend = gameObject.GetComponent<Renderer>();
                         rend.material.color = UnityEngine.Random.ColorHSV();// Color.green; //("green");//col;
 
-                        //col.a = 0.5f;
-                        //rend.material.color = col;
-
-                        Debug.Log(" =========>>>>>> the color is : " + col);
+                       
                     }
                     else if (meshBucket.gamaAgent.geometry.Equals(IGeometry.POLYGON))
                     {
-                        mesh.SetVertices(meshBucket.Vertices);
-                        mesh.SetUVs(0, meshBucket.UVs);
-                        mesh.subMeshCount = meshBucket.Submeshes.Count;
-                        for (int s = 0; s < meshBucket.Submeshes.Count; s++)
-                        {
-                            mesh.SetTriangles(meshBucket.Submeshes[s].Indices, s);
 
-                        }
-
-                        mesh = clockwiseMesh(mesh);
-                        // Automatic Uvs Calculator
-                        // meshBucket.setUvs();
-
-                        // For Android Build
-                        //                        Unwrapping.GeneratePerTriangleUV(mesh);
-                        //                        Unwrapping.GenerateSecondaryUVSet(mesh);
-
-                        mesh.RecalculateNormals();
-                        mesh.RecalculateBounds();
-                        //  mesh.vertices.
-
-                        // For Android Build
-                        //      MeshUtility.Optimize(mesh);
-                        //mesh.triangles.
-                        // Associate the mesh filter and mesh renderer components with this game object
-
+                        gameObject.name = meshBucket.gamaAgent.agentName;
+                        gameObject.AddComponent<MeshRenderer>();
+                        gameObject.AddComponent<MeshFilter>();
+                        gameObject.AddComponent<RectTransform>();
+                        gameObject.AddComponent<CheckIfContainedInCanvas>();
 
 
                         var materials = meshBucket.Submeshes.Select(s => s.Material).ToArray();
-                        var meshFilterComponent = gameObject.AddComponent<MeshFilter>();
-                        var meshRendererComponent = gameObject.AddComponent<MeshRenderer>();
+                        var meshFilter = gameObject.GetComponent<MeshFilter>();
+                        var meshRenderer = gameObject.GetComponent<MeshRenderer>();
+                        
+                        RectTransform _parent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<RectTransform>();
+                        RectTransform _mRect = gameObject.GetComponent<RectTransform>();
 
+                        _mRect.transform.SetParent(_parent);
+                        _mRect.anchoredPosition = meshBucket.gamaAgent.location;
 
-                        if (meshFilterComponent == null)
+                        _mRect.anchorMin = new Vector2(0, 0);
+                        _mRect.anchorMax = new Vector2(0, 0);
+                        _mRect.pivot = new Vector2(0.5f, 0.5f);
+                        _mRect.sizeDelta = new Vector2(2, 2);  //_parent.rect.size;
+
+                        //_mRect.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                        //_mRect.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+
+                        meshFilter.mesh.name = "CostumeMesh";
+                        meshFilter.mesh.vertices = worldToUISpaceMeshVertices(GameObject.Find("MapCanvas").GetComponent<Canvas>(), meshFilter.mesh.vertices);
+
+                        Material mat = new Material(Shader.Find("Standard"));
+                        mat.color = meshBucket.gamaAgent.color.getColorFromGamaColor();
+                        meshRenderer.material = mat;
+                        meshRenderer.materials = materials;
+
+                        meshFilter.mesh.SetVertices(meshBucket.Vertices);
+                        meshFilter.mesh.SetUVs(0, meshBucket.UVs);
+                        meshFilter.mesh.subMeshCount = meshBucket.Submeshes.Count;
+                                                                                                                                                         
+                        for (int s = 0; s < meshBucket.Submeshes.Count; s++)
                         {
-                            meshFilterComponent = gameObject.GetComponent<MeshFilter>();
+                            meshFilter.mesh.SetTriangles(meshBucket.Submeshes[s].Indices, s);
                         }
-                        if (meshRendererComponent == null)
-                        {
-                            meshRendererComponent = gameObject.GetComponent<MeshRenderer>();
-                        }
+                        meshFilter.mesh = clockwiseMesh(meshFilter.mesh);
+                                        
 
-                        mesh.name = "CostumeMesh";
-                        mesh.RecalculateBounds();
-                        mesh.RecalculateNormals();
-                        mesh.RecalculateTangents();
+                        // For Android Build
+                        // Unwrapping.GeneratePerTriangleUV(meshFilter.mesh);
+                        // Unwrapping.GenerateSecondaryUVSet(meshFilter.mesh);
 
-                        meshRendererComponent.materials = materials;
-                        meshFilterComponent.mesh = mesh;
+                        // For Android Build
+                        // MeshUtility.Optimize(meshFilter.mesh);
+                        // -------------------------------------
 
-                        //ggg.AddComponent<MeshRenderer>();
-                        //ggg.AddComponent<MeshFilter>();
-                      
-                        // ggg.GetComponent<MeshFilter>().mesh = mesh;
 
-                        // GameObject.Find("UA").GetComponent<MeshFilter>().mesh = mesh;
-                        /*
-                        GameObject ga = GameObject.Find("UA");
-                        ga.GetComponent<MeshFilter>().mesh = mesh;
-                        ga.GetComponent<MeshFilter>().mesh = mesh;
-
-                        MeshUtility.Optimize(ga.GetComponent<MeshFilter>().mesh);
-                        //   ga.GetComponent<MeshFilter>().mesh. = mesh.vertices;
-
-                        Debug.Log("The mesh name is ----------> " + ga.GetComponent<MeshFilter>().mesh.name);
-                          */  
-
+                        meshFilter.mesh.RecalculateBounds();
+                        meshFilter.mesh.RecalculateNormals();
+                        meshFilter.mesh.RecalculateTangents();
+                        
                         if (gameObjectOptions.GeneratePhysicMeshCollider)
                         {
                             var meshColliderComponent = gameObject.AddComponent<MeshCollider>();
                             meshColliderComponent.material = gameObjectOptions.PhysicMaterial;
-                            meshColliderComponent.sharedMesh = mesh;
+                            meshColliderComponent.sharedMesh = meshFilter.mesh;
                         }
-
-                        /*
-                        Renderer rend = gameObject.GetComponent<Renderer>();
-
-                        //Set the main Color of the Material to green
-                        rend.material.shader = Shader.Find("_Color");
-                       // rend.material.SetColor("_Color", Color.green);
-
-                        //Find the Specular shader and change its Color to red
-                        rend.material.shader = Shader.Find("Specular");
-                       // rend.material.SetColor("_SpecColor", Color.red);
-
-                        */
-                        Material material = new Material(Shader.Find("Standard"));
-                        //material.color = Color.blue;
-
-                        material.color = meshBucket.gamaAgent.color.getColorFromGamaColor();
-                        //material.color = UnityEngine.Random.ColorHSV();
-
-                        // assign the material to the renderer
-                        gameObject.GetComponent<Renderer>().material = material;
-
+                                       
                     }
 
 
                 }
             }
+        }
+
+
+        public Vector3[] worldToUISpaceMeshVertices(Canvas parentCanvas, Vector3[] vertices)
+        {
+            Vector3[] vert = new Vector3[vertices.Length];
+            
+            for(int i=0; i< vertices.Length; i++)
+            {
+                Vector3 v = vertices[i]; 
+                //Convert the world for screen point so that it can be used with ScreenPointToLocalPointInRectangle function
+                Vector3 screenPos = Camera.main.WorldToScreenPoint(v);
+                Vector2 movePos;
+                //Convert the screenpoint to ui rectangle local point
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(parentCanvas.transform as RectTransform, screenPos, parentCanvas.worldCamera, out movePos);
+                //Convert the local point to world point
+                vert[i] = parentCanvas.transform.TransformPoint(movePos);
+            }
+
+            return vert;
         }
 
 
@@ -577,7 +433,7 @@ _tran.position = new Vector3(p2.x - dif, p2.y - dif, z);
             int position = 6;
             for (int i = 0; i < (triangles.Length / 6); i++)
             {
-                Debug.Log("Triangles are: " + i);
+               
                 triangles[i * position] = 2 * i;
                 triangles[i * position + 3] = 2 * i;
 
@@ -600,7 +456,7 @@ _tran.position = new Vector3(p2.x - dif, p2.y - dif, z);
             // For Android Build
             //            MeshUtility.Optimize(m);
 
-            Debug.Log("Triangles are: " + triangles.ToString());
+           
             return m;
         }
 
@@ -609,12 +465,6 @@ _tran.position = new Vector3(p2.x - dif, p2.y - dif, z);
 
         public Mesh clockwiseMesh(Mesh mesh)
         {
-            Debug.Log("--------> All vertices are: ->   " + mesh.vertices);
-            for (int i = 0; i < mesh.vertices.Length; i++)
-            {
-                Debug.Log(" \t\t\t -> P" + i + "  [" + mesh.vertices[i].x + ", " + mesh.vertices[i].y + ", " + mesh.vertices[i].z + "]");
-            }
-
             if (1 == 2)
                 for (int i = 0; i < mesh.vertices.Length - 3; i += 3)
                 {
@@ -679,11 +529,11 @@ _tran.position = new Vector3(p2.x - dif, p2.y - dif, z);
             if (determinant >= 0f)
             {
                 isClockWise = false;
-                Debug.Log("--> No IT IS NOT CLOCKWISE --------------------------->>> [" + p1 + ";" + p2 + ";" + p3 + "] ->  " + determinant);
+               
             }
             else
             {
-                Debug.Log("--> YES IT IS CLOCKWISE ------------------------------>>> [" + p1 + ";" + p2 + ";" + p3 + "] ->  " + determinant);
+                
             }
             return isClockWise;
         }

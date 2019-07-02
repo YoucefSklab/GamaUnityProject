@@ -7,15 +7,14 @@ public class TestObject : MonoBehaviour
     void Start()
     {
 
+        
         transform.Rotate(60, 0, 60);
 
         GameObject UaPrefab = (GameObject)Resources.Load("Prefabs/UA", typeof(GameObject));
 
-        Debug.Log("the name ");
-        Debug.Log("the name is " + UaPrefab.name);
         GameObject go = new GameObject();
         go = Instantiate(UaPrefab);
-        go.name = "uuuuuuuuuuuuuuuu";
+        go.name = "_ToDelete";
 
 
         Vector3 p;
@@ -52,6 +51,9 @@ public class TestObject : MonoBehaviour
 
     void Update()
     {
+
+        var nbrObject = GameObject.FindObjectsOfType(typeof(GameObject)).Length;
+       // Debug.Log("The total of agents is " + nbrObject);
         GameObject target = null;
         bool isMouseDrag = false;
         Vector3 screenPosition = new Vector3();

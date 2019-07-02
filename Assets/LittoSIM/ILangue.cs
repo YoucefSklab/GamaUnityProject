@@ -131,23 +131,9 @@ namespace ummisco.gama.unity.littosim
         {
             string langue_value = "!!";
             current_langue.TryGetValue(lng, out langue_value);
-            Debug.Log("-----------_>>>> search for " + lng);
             return langue_value;
         }
-
-
-        public static void GetAllAsVariables()
-        {
-            string all = "";
-            foreach (KeyValuePair<string, string> lng in current_langue)
-            {
-
-                all += "\n public static string " + lng.Key + " = \"" + lng.Key + "\";";
-            }
-
-            Debug.Log(all);
-        }
-
+        
         public ILangue()
         {
 

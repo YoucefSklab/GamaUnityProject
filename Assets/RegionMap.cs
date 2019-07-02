@@ -167,10 +167,7 @@ namespace Nextzen
                                 task.Start(mvtTile.FeatureCollections);
 
                                 tasks.Add(task);
-                                // Debug.Log("New Task (from else) to add is " + task.Address.ToString());
-                                // Debug.Log("Data is " + task.Data.Count);
-                                // string result = System.Text.Encoding.UTF8.GetString(response.data);
-                                // Debug.Log("---->>>   Response is " + result);
+              
                             }
                         });
                     };
@@ -373,7 +370,7 @@ namespace Nextzen
 
         void Start()
         {
-            Debug.Log("This is the map builder Agent");
+           
             this.elevation = 0f;
             /* 
             ApiKey = "NO9atv-JQf289NztiKv45g";
@@ -430,37 +427,21 @@ namespace Nextzen
                     }
                     //Vertices = triangulator.get3dVerticesList(elevation);
                     Vertices = triangulator.get3dVerticesList(agent.height);
-
-                    Debug.Log("-------------->>>>  " + agent.agentName + " hight is ---------------> " + agent.height +  " and collection is  " + agent.getCollection());
-
+                                      
                     Indices = triangulator.getTriangulesList();
                     Vector3[] VerticesArray = Vertices.ToArray();
                     Vector2[] UvArray = UvCalculator.CalculateUVs(VerticesArray, 100);
                     UVs = new List<Vector2>();
                     UVs = UvArray.ToList();
                     
-                    /* 
-                    if (agent.geometry.Equals("Point"))
-                    { 
-                        Vertices = agent.agentCoordinate.getVector3Coordinates().ToList();
-                        Indices = new List<int>();
-                        Indices.Add(1);Indices.Add(1);Indices.Add(1);
-                        UVs = new List<Vector2>();
-                    }
-                   */
-
-
                     submesh.Indices = Indices;
 
                     submesh.Material = buildingMaterial;
 
                     Submeshes.Add(submesh);
 
-                    Debug.Log("addGamaMeshData ------> " + agent.geometry + " Agent name -> " + agent.agentName);
-
                     meshData.addGamaMeshData(Vertices, UVs, Submeshes, agent);
-
-
+                    
                     featureMesh.Mesh = meshData;
                     meshList.Add(featureMesh);
 
@@ -488,7 +469,7 @@ namespace Nextzen
                 {
                     regionMap = new GameObject(RegionName);
                 }
-                Debug.Log("The rgion Name is : " + RegionName);
+               
                 //regionMap = new GameObject(RegionName);
                 var sceneGraph = new SceneGraph(regionMap, GroupOptions, GameObjectOptions, features);
                 //sceneGraph

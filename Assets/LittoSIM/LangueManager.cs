@@ -34,8 +34,7 @@ namespace ummisco.gama.unity.littosim
             GameObject.Find(ILittoSimConcept.LEGEND_UNAM).GetComponentInChildren<Text>().text = "  " + ILangue.GetLangueElement(ILangue.LEGEND_UNAM);
             GameObject.Find(ILittoSimConcept.LEGEND_DYKE).GetComponentInChildren<Text>().text = "  " + ILangue.GetLangueElement(ILangue.LEGEND_DYKE);
             GameObject.Find(ILittoSimConcept.LEGEND_NAME_ACTIONS).GetComponent<Text>().text = ILangue.GetLangueElement(ILangue.LEGEND_NAME_ACTIONS);
-
-            ILangue.GetAllAsVariables();
+                      
 
         }
 

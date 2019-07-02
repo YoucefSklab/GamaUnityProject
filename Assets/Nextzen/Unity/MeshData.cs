@@ -321,7 +321,6 @@ namespace Nextzen.Unity
             meshBucket.UVs = uVs;
             meshBucket.Submeshes = Submeshes;
             meshBucket.gamaAgent = gamaAgent;
-            Debug.Log("-----------------------------------========================++++++++++++++++++++++++>>>>>>>>>>>> " + meshBucket.gamaAgent.geometry);
             this.Meshes.Add(meshBucket);
         }
 

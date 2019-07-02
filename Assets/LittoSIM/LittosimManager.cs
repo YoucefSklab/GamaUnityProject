@@ -70,8 +70,7 @@ namespace ummisco.gama.unity.littosim
             //GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<CanvasGroup>().alpha = 0;
             //GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL).GetComponent<CanvasGroup>().alpha = 0;
 
-            Debug.Log(" The Action_Panel_Prefab anchoredPosition is: " + GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).GetComponent<RectTransform>().anchoredPosition);
-
+         
             initialPosition = new Vector2(0f, 0f);
             lastPosition = new Vector2(0f, 0f);
 
@@ -110,10 +109,7 @@ namespace ummisco.gama.unity.littosim
 
         void FixedUpdate()
         {
-            //   Debug.Log(" The Action_Panel_Prefab position is: " + GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).transform.position);
-            //   Debug.Log("The active panel is " + uiManager.GetComponent<UIManager>().getActivePanel());
-
-           
+                      
             if (Input.GetMouseButtonDown(0))
             {
                 GameObject bj;
@@ -133,7 +129,7 @@ namespace ummisco.gama.unity.littosim
                 }
                
 
-            // Debug.Log("Goooood--------->  Selected is : "+bj.name);
+
             }
             
         }
@@ -191,31 +187,14 @@ namespace ummisco.gama.unity.littosim
             Vector3 objectPosition = Object.transform.position;
             Vector3 objectLocalPosition = Object.transform.localPosition;
 
-            Debug.Log("Object Position is : " + Object.transform.position);
-            Debug.Log("Object local Position is : " + Object.transform.localPosition);
-            Debug.Log("Object transform local Position is : " + Object.transform.TransformPoint(objectLocalPosition.x, objectLocalPosition.y, objectLocalPosition.z));
-
-
             GameObject Canvas_Actions = GameObject.Find(IUILittoSim.MAIN_CANVAS);
             //GameObject Canvas_Actions = GameObject.Find("IUILittoSim.MAP_PANEL");
             RectTransform Canvas = Canvas_Actions.GetComponent<RectTransform>();
             Camera cam = GamaManager.MainCamera.GetComponent<Camera>();
 
-            Debug.Log("1 Panel cam position is: " + cam.WorldToViewportPoint(position));
-            Debug.Log("2 Panel cam position is: " + cam.WorldToScreenPoint(position));
-            Debug.Log("3 Panel cam position is: " + cam.ScreenToWorldPoint(position));
-            Debug.Log("4 Panel cam position is: " + cam.ScreenToViewportPoint(position));
-
-            Debug.Log("5 Object cam position is: " + cam.WorldToViewportPoint(objectPosition));
-            Debug.Log("6 Object cam position is: " + cam.WorldToScreenPoint(objectPosition));
-            Debug.Log("7 Object cam position is: " + cam.ScreenToWorldPoint(objectPosition));
-            Debug.Log("8 Object cam position is: " + cam.ScreenToViewportPoint(objectPosition));
-
             panelPosition = uiManager.GetComponent<UIManager>().worldToUISpace(uiCanvas, position);
 
-            Debug.Log("WorldToCanvasPosition position is: " + panelPosition);
-
-            Vector3[] localCorners = new Vector3[4];
+              Vector3[] localCorners = new Vector3[4];
             Vector3[] worldCorners = new Vector3[4];
             Canvas.GetLocalCorners(localCorners);
             Canvas.GetWorldCorners(worldCorners);
@@ -223,14 +202,7 @@ namespace ummisco.gama.unity.littosim
 
             Object.transform.localPosition = localCorners[2];
 
-            Debug.Log("newRect Before : 0 = " + localCorners[0] + " 1 = " + localCorners[1] + " 2 = " + localCorners[2] + " 3 = " + localCorners[3]);
-            Debug.Log("newRect After : 0 = " + cam.WorldToScreenPoint(localCorners[0]) + " 1 = " + cam.WorldToScreenPoint(localCorners[1]) + " 2 = " + cam.WorldToScreenPoint(localCorners[2]) + " 3 = " + cam.WorldToScreenPoint(localCorners[3]));
-
-            Debug.Log("Panel position is: " + panelPosition);
-
-            //game.transform.position  = position - cam.WorldToScreenPoint(corners[0]);
-            //Debug.Log("-----> "+newRect.Contains(Input.mousePosition));
-
+    
         }
 
         void OnGUI()

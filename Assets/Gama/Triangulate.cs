@@ -44,6 +44,7 @@ public class Triangulate : MonoBehaviour
 
         //vertices2D = vertices2D5;
         triangulator.setPoints(vertices2D);
+
         poly = new GameObject("Poly_1");
 
         poly.AddComponent(typeof(MeshRenderer));
@@ -52,6 +53,28 @@ public class Triangulate : MonoBehaviour
         poly.GetComponent<MeshFilter>().mesh = CreateMesh(10);
         poly.GetComponent<Renderer>().material = myNewMaterial;
 
+        if(1==2)
+        for(int i=0; i < 10000; i++)
+        {
+
+            poly = new GameObject("Poly_i_"+i);
+
+            poly.AddComponent(typeof(MeshRenderer));
+            filter = poly.AddComponent(typeof(MeshFilter)) as MeshFilter;
+            poly.GetComponent<MeshFilter>().mesh.Clear();
+            poly.GetComponent<MeshFilter>().mesh = CreateMesh(10);
+            poly.GetComponent<Renderer>().material = myNewMaterial;
+            poly.transform.localScale = new Vector3(45f, 45f, 45f);
+
+        }
+
+        if(1==2)
+        for (int i = 0; i < 20000; i++)
+        {
+            poly = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            poly.name = "Cube_i_" + i;
+            poly.transform.localScale = new Vector3(45f, 45f, 45f);
+        }
 
         // -------------------------------------------------------
 
@@ -89,7 +112,7 @@ public class Triangulate : MonoBehaviour
             {
                 UIVertex temp = new UIVertex();
                 temp.position = vertices[triangles[i]];
-                temp.uv0 = UVs[triangles[i]];
+             //   temp.uv0 = UVs[triangles[i]];
                 temp.normal = normals[triangles[i]];
                 uiVertices.Add(temp);
                 if (i % 3 == 0)
@@ -314,7 +337,7 @@ public class Triangulate : MonoBehaviour
         int position = 6;
         for (int i = 0; i < (triangles.Length / 6); i++)
         {
-            Debug.Log("Triangles are: " + i);
+           
             triangles[i * position] = 2 * i;
             triangles[i * position + 3] = 2 * i;
 
@@ -336,7 +359,7 @@ public class Triangulate : MonoBehaviour
         
         // For Android Build
  //       MeshUtility.Optimize(m);
-        Debug.Log("Triangles are: " + triangles.ToString());
+
         return m;
     }
 
@@ -369,7 +392,7 @@ public class Triangulate : MonoBehaviour
         // For Android Build
   //        MeshUtility.Optimize(m);
 
-        //Debug.Log("After -> " + m.uv.Length);
+
 
         return m;
     }

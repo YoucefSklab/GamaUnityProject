@@ -1583,7 +1583,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 284944362}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1750,30 +1750,30 @@ MonoBehaviour:
       latitude: 40.706939
     zoom: 16
   UnitsPerMeter: 1
-  RegionName: 
-  GroupOptions: 0
+  RegionName: GamaMap
+  GroupOptions: -1
   GameObjectOptions:
     IsStatic: 0
     GeneratePhysicMeshCollider: 0
     PhysicMaterial: {fileID: 0}
-  Style: {fileID: 0}
+  Style: {fileID: 11400000, guid: 55b6d5ee799474205b5745d930cce11d, type: 2}
   tempTransform:
-    e00: 0
+    e00: 611.4962
     e01: 0
     e02: 0
-    e03: 0
+    e03: 1222.9924
     e10: 0
-    e11: 0
+    e11: 611.4962
     e12: 0
     e13: 0
     e20: 0
     e21: 0
-    e22: 0
+    e22: 611.4962
     e23: 0
     e30: 0
     e31: 0
     e32: 0
-    e33: 0
+    e33: 1
   elevation: 0
 --- !u!4 &349009245
 Transform:
@@ -4994,7 +4994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe4e6c634d9f49aca353b03262ef6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Content: {fileID: 1365384223}
+  m_Content: {fileID: 1386569596}
   m_Horizontal: 1
   m_Vertical: 1
   m_MovementType: 1
@@ -6617,7 +6617,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.00012403357, y: 0.0008315816}
+  m_AnchoredPosition: {x: -0.00012403357, y: -0.00005793569}
   m_SizeDelta: {x: 1121.2, y: 1111}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &1355937138
@@ -6697,10 +6697,10 @@ RectTransform:
   m_Father: {fileID: 1098426278}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1514.6, y: -634.9}
-  m_SizeDelta: {x: 3029.2, y: 1269.81}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 5.0360107, y: -4.0457764}
+  m_SizeDelta: {x: 3030, y: 1270}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1365384224
 CanvasGroup:
@@ -6850,8 +6850,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1514.6, y: -630.9542}
-  m_SizeDelta: {x: 3029.2, y: 1260}
+  m_AnchoredPosition: {x: 1509.9646, y: -633.0007}
+  m_SizeDelta: {x: 3019.9001, y: 1266}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1386569597
 CanvasGroup:
@@ -10135,11 +10135,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1460834440}
     m_Modifications:
-    - target: {fileID: 942469699462527036, guid: 0ec4e5989c90e428496e7432db00aed0,
-        type: 3}
-      propertyPath: m_Name
-      value: Action_Recap_Panel_Prefab
-      objectReference: {fileID: 0}
     - target: {fileID: 942469698396042115, guid: 0ec4e5989c90e428496e7432db00aed0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10245,6 +10240,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 942469699462527036, guid: 0ec4e5989c90e428496e7432db00aed0,
+        type: 3}
+      propertyPath: m_Name
+      value: Action_Recap_Panel_Prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ec4e5989c90e428496e7432db00aed0, type: 3}
 --- !u!1001 &4565523140985835450
@@ -10254,11 +10254,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 241594036}
     m_Modifications:
-    - target: {fileID: 4565523142257470767, guid: 75568bb23c7cc42eca6fc35fa2ebea39,
-        type: 3}
-      propertyPath: m_Name
-      value: Message_Panel_Prefab
-      objectReference: {fileID: 0}
     - target: {fileID: 4565523142186495742, guid: 75568bb23c7cc42eca6fc35fa2ebea39,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10364,6 +10359,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4565523142257470767, guid: 75568bb23c7cc42eca6fc35fa2ebea39,
+        type: 3}
+      propertyPath: m_Name
+      value: Message_Panel_Prefab
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75568bb23c7cc42eca6fc35fa2ebea39, type: 3}
 --- !u!1001 &8000114219557176644
@@ -10373,11 +10373,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1351246917}
     m_Modifications:
-    - target: {fileID: 8000114221212220677, guid: d5a4d8a74ad0548ef9ec98fa953b3478,
-        type: 3}
-      propertyPath: m_Name
-      value: Action_Panel_Prefab
-      objectReference: {fileID: 0}
     - target: {fileID: 8000114219893415406, guid: d5a4d8a74ad0548ef9ec98fa953b3478,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10482,6 +10477,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8000114221212220677, guid: d5a4d8a74ad0548ef9ec98fa953b3478,
+        type: 3}
+      propertyPath: m_Name
+      value: Action_Panel_Prefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5a4d8a74ad0548ef9ec98fa953b3478, type: 3}

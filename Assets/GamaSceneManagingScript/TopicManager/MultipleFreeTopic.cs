@@ -37,13 +37,12 @@ namespace ummisco.gama.unity.topics
 		public void ProcessTopic (object obj)
 		{
 
-			//Debug.Log (" --->>>  this is from multiple free Topic");
-
 			setAllProperties (obj);
 
 			BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
 			MethodInfo[] info = getMethodsInfo (flags);
 
+            /*
 			for (int i = 0; i < info.Length; i++) {
 				MethodInfo infoItem = info [i];
 				ParameterInfo[] par = infoItem.GetParameters ();
@@ -52,7 +51,7 @@ namespace ummisco.gama.unity.topics
 					//Debug.Log ("->>>>>>>>>>>>>>--> parametre Name >>=>>=>>=  " + parInfo.Name);
 					//Debug.Log ("->>>>>>>>>>>>>>--> parametre Type>>=>>=>>=  " + parInfo.ParameterType);
 				}
-			}
+			}*/
 
 			if (targetGameObject != null) {
 
@@ -77,10 +76,6 @@ namespace ummisco.gama.unity.topics
 					dataDictionary.Add (atr, vl);
 				}
 
-				foreach (KeyValuePair<object, object> pair in dataDictionary) {
-					//	Debug.Log (pair.Key + "  +++++  " + pair.Value);
-				}
-
 				sendTopic (targetGameObject, (string)topicMessage.methodName, dataDictionary);
 
 			} 
@@ -102,13 +97,12 @@ namespace ummisco.gama.unity.topics
 			foreach (KeyValuePair<object, object> pair in data) {
 				obj [nbr] = (string)pair.Value;
 				nbr++;
-				//	Debug.Log (pair.Key + "  +++++  " + pair.Value);
 			}
 
 			//= data [keyList.ElementAt (0)];
 			targetGameObject.SendMessage (methodName, obj);
 
-			Debug.Log ("Method called");
+		
 		}
 
 

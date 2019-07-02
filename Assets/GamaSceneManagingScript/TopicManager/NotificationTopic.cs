@@ -33,6 +33,7 @@ namespace ummisco.gama.unity.topics
         // Update is called once per frame
         public override void Update()
         {
+            if(1==2)
             if (NotificationRegistry.notificationsList.Count >= 1)
             {
                 foreach (NotificationEntry el in NotificationRegistry.notificationsList)
