@@ -277,8 +277,11 @@ namespace ummisco.gama.unity.SceneManager
                     case MqttSetting.MOVE_TOPIC:
                         //------------------------------------------------------------------------------
                         Debug.Log("-> Topic to deal with is : " + MqttSetting.MOVE_TOPIC);
-
+                        Debug.Log("-> the message is : " + receivedMsg);
                         MoveTopicMessage moveTopicMessage = (MoveTopicMessage)MsgSerialization.deserialization(receivedMsg, new MoveTopicMessage());
+                        Debug.Log("-> the position to move to is : " + moveTopicMessage.position);
+                        Debug.Log("-> the speed is : " + moveTopicMessage.speed);
+                        Debug.Log("-> the object to move is : " + moveTopicMessage.objectName);
                         targetGameObject = GameObject.Find(moveTopicMessage.objectName);
                         obj = new object[] { moveTopicMessage, targetGameObject };
 
@@ -336,7 +339,7 @@ namespace ummisco.gama.unity.SceneManager
 
                         SetTopicMessage setTopicMessage = (SetTopicMessage)MsgSerialization.deserialization(receivedMsg, new SetTopicMessage());
                         // Debug.Log("-> Target game object name: " + setTopicMessage.objectName);
-                        // Debug.Log("-> Message: " + receivedMsg);
+                         Debug.Log("-> Message: " + receivedMsg);
                         targetGameObject = GameObject.Find(setTopicMessage.objectName);
 
                         if (targetGameObject == null)

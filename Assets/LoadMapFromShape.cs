@@ -83,9 +83,9 @@ public class LoadMapFromSHape: MonoBehaviour
 
     public void CreateMesh(int elevation, Mesh m)
     {
-        m.vertices = triangulator.get3dVertices(elevation);
-        triangulator.setAllPoints(triangulator.get2dVertices());
-        m.triangles = triangulator.get3DTriangulesFrom2D();
+        m.vertices = triangulator.VerticesWithElevation(elevation);
+        triangulator.setAllPoints(triangulator.Convert2dTo3dVertices());
+        m.triangles = triangulator.Triangulate3dMesh();
 
         // For Android Build
         //        Unwrapping.GenerateSecondaryUVSet(m);

@@ -140,11 +140,10 @@ namespace ummisco.gama.unity.utils
 
 
 
-        public Vector3[] get3dVertices(int elevation)
+        public Vector3[] VerticesWithElevation(int elevation)
         {
 
             Vector3[] vertices = new Vector3[m_points.Count * 2];
-            Vector2[] vertices2D = new Vector2[m_points.Count * 2];
 
             for (int i = 0; i < m_points.Count; i++)
             {
@@ -155,20 +154,12 @@ namespace ummisco.gama.unity.utils
                 vertices[i + m_points.Count].x = m_points[i].x;
                 vertices[i + m_points.Count].y = m_points[i].y;
                 vertices[i + m_points.Count].z = elevation;  // back vertex   
-
-                // front vertex
-                vertices2D[i].x = m_points[i].x;
-                vertices2D[i].y = m_points[i].y;
-                // back vertex  
-                vertices2D[i + m_points.Count].x = m_points[i].x;
-                vertices2D[i + m_points.Count].y = m_points[i].y;
             }
-
             return vertices;
         }
 
 
-        public Vector2[] get2dVertices()
+        public Vector2[] Convert2dTo3dVertices()
         {
             Vector2[] vertices2D = new Vector2[m_points.Count * 2];
             for (int i = 0; i < m_points.Count; i++)
@@ -250,7 +241,7 @@ namespace ummisco.gama.unity.utils
 
         public List<int> getTriangulesList()
         {
-            return get3DTriangulesFrom2D().OfType<int>().ToList();
+            return Triangulate3dMesh().OfType<int>().ToList();
         }
 
 
@@ -351,7 +342,7 @@ namespace ummisco.gama.unity.utils
 
 
 
-        public int[] get3DTriangulesFrom2D()
+        public int[] Triangulate3dMesh()
         {
             // convert the initial polygon to triangles
             int[] tris = Triangulate();
@@ -386,13 +377,35 @@ namespace ummisco.gama.unity.utils
             {
                 // triangles around the perimeter of the object
                 int n = (i + 1) % m_points.Count;
-                triangles[count_tris + 0] = i;
-                triangles[count_tris + 1] = i + m_points.Count;
-                triangles[count_tris + 2] = n;
+                //triangles[count_tris + 0] = i;
+                //triangles[count_tris + 1] = i + m_points.Count;
+                //triangles[count_tris + 2] = n;
 
+                //triangles[count_tris + 0] = n;
+                //triangles[count_tris + 1] = i + m_points.Count;
+                //triangles[count_tris + 2] = i;
+
+
+
+                //triangles[count_tris + 0] = i;
+                //triangles[count_tris + 1] = n;
+                //triangles[count_tris + 2] = i + m_points.Count; 
+
+                //triangles[count_tris + 3] = n;
+                //triangles[count_tris + 4] = i + m_points.Count;
+                //triangles[count_tris + 5] = i;
+
+                // correct
                 triangles[count_tris + 0] = n;
-                triangles[count_tris + 1] = i + m_points.Count;
-                triangles[count_tris + 2] = i;
+                triangles[count_tris + 1] = i;
+                triangles[count_tris + 2] = i + m_points.Count;
+
+                triangles[count_tris + 3] = i + m_points.Count;
+                triangles[count_tris + 4] = i;
+                triangles[count_tris + 5] = n;
+
+
+
                 count_tris += 6;
             }
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
+using ummisco.gama.unity.GamaAgent;
 
 namespace ummisco.gama.unity.messages
 {
@@ -8,16 +10,19 @@ namespace ummisco.gama.unity.messages
 	public class MoveTopicMessage : TopicMessage
 	{
 
-		public object position { set; get; }
-		public float speed { set; get; }
-		public bool smoothMove { set; get; }
+        [XmlElement("position")]
+        public GamaPoint position { set; get; }
+        [XmlElement("speed")]
+        public float speed { set; get; }
+        [XmlElement("smoothMove")]
+        public bool smoothMove { set; get; }
 
 		public MoveTopicMessage()
 		{
 
 		}
 
-		public MoveTopicMessage (string unread, string sender, string receivers, string contents, string emissionTimeStamp, string objectName, object position, float speed, bool smoothMove) : base (unread, sender, receivers, contents, objectName, emissionTimeStamp)
+		public MoveTopicMessage (string unread, string sender, string receivers, string contents, string emissionTimeStamp, string objectName, GamaPoint position, float speed, bool smoothMove) : base (unread, sender, receivers, contents, objectName, emissionTimeStamp)
 		{
 			this.position = position;
 			this.speed = speed;

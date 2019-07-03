@@ -45,8 +45,7 @@ namespace ummisco.gama.unity.topics
 
             rb = targetGameObject.GetComponent<Rigidbody>();
 
-            XmlNode[] positionNode = (XmlNode[])topicMessage.position;
-            Vector3 movement = ConvertType.vector3FromXmlNode(positionNode, IGamaConcept.GAMA_POINT_CLASS);
+            Vector3 movement = topicMessage.position.toVector3D();
 
             sendTopic(movement);
 

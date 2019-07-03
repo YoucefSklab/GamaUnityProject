@@ -42,10 +42,7 @@ namespace ummisco.gama.unity.topics
 
             if (targetGameObject != null)
             {
-
-                XmlNode[] positionNode = (XmlNode[])topicMessage.position;
-
-                Vector3 position = ConvertType.vector3FromXmlNode(positionNode, IGamaConcept.GAMA_POINT_CLASS);
+                Vector3 position = topicMessage.position.toVector3D();
 
                 sendTopic(position);
             }

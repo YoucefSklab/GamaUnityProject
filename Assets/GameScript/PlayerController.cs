@@ -148,10 +148,7 @@ public class PlayerController : MonoBehaviour
 		}
 
 		*/
-
-	
-		EventTrigger myEventTrigger = GetComponent<EventTrigger> (); //you need to have an EventTrigger component attached this gameObject
-		myEventTrigger.AddListener (EventTriggerType.Move, OnMoveEvent);
+        
 
 	}
 
