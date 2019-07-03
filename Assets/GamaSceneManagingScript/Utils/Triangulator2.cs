@@ -384,34 +384,23 @@ namespace ummisco.gama.unity.utils
                 //triangles[count_tris + 0] = n;
                 //triangles[count_tris + 1] = i + m_points.Count;
                 //triangles[count_tris + 2] = i;
-
-
-
-                //triangles[count_tris + 0] = i;
-                //triangles[count_tris + 1] = n;
-                //triangles[count_tris + 2] = i + m_points.Count; 
-
-                //triangles[count_tris + 3] = n;
-                //triangles[count_tris + 4] = i + m_points.Count;
-                //triangles[count_tris + 5] = i;
-
+                                                             
                 // correct
                 triangles[count_tris + 0] = n;
                 triangles[count_tris + 1] = i;
                 triangles[count_tris + 2] = i + m_points.Count;
-
+                
+               // triangles[count_tris + 3] = i + m_points.Count;
+               // triangles[count_tris + 4] = i;
+               // triangles[count_tris + 5] = n;
                 triangles[count_tris + 3] = i + m_points.Count;
-                triangles[count_tris + 4] = i;
+                int i2 = (i + m_points.Count + 1) < ( m_points.Count * 2 ) ? (i + m_points.Count + 1) : m_points.Count;
+                triangles[count_tris + 4] = i2;
                 triangles[count_tris + 5] = n;
-
-
 
                 count_tris += 6;
             }
-
-
-
-
+                                 
             return triangles;
         }
 

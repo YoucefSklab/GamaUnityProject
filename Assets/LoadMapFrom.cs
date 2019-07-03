@@ -33,9 +33,9 @@ public class LoadMapFrom : MonoBehaviour
         string communesFileName = "/Users/sklab/Desktop/TODELETE/zone_etude/communes.shp";
         string defCoteFileName = "/Users/sklab/Desktop/TODELETE/zone_etude/defense_cote_littoSIM-05122015.shp";
 
-       // loadShape(communesFileName, "Communes", commeunesMaterial);
-        loadShape(uaFileName, "UA", uaMaterial);
-        loadShape(defCoteFileName, "DefCote", defCoteMaterial);
+        //loadShape(communesFileName, "Communes", "Commune",commeunesMaterial);
+        //loadShape(uaFileName, "UA", "UA", uaMaterial);
+        loadShape(defCoteFileName, "DefCote", "DefCote", defCoteMaterial);
 
     }
 
@@ -48,7 +48,7 @@ public class LoadMapFrom : MonoBehaviour
     }
 
 
-    public void loadShape(string fileName, string parentName, Material mat)
+    public void loadShape(string fileName, string parentName, string prefix, Material mat)
     {
         GameObject parent = GameObject.Find(parentName);
         ShapeFile shapeFile = new ShapeFile();
@@ -87,7 +87,7 @@ public class LoadMapFrom : MonoBehaviour
 
             Debug.Log("The record vertices are : " + vert);
 
-            poly = new GameObject("Poly_" + i);
+            poly = new GameObject(prefix+"_" + i);
 
 
             poly.AddComponent(typeof(MeshRenderer));
