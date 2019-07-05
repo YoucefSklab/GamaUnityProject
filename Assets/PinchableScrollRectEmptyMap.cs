@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ummisco.gama.unity.littosim;
 using UnityEngine;
 using UnityEngine.UI;
-public class PinchableScrollRect : ScrollRect
+public class PinchableScrollRectEmptyMap : ScrollRect
 {
     [SerializeField] float _minZoom = .1f;
     [SerializeField] float _maxZoom = 2; // 10;
@@ -20,15 +20,14 @@ public class PinchableScrollRect : ScrollRect
     protected override void Awake()
     {
         Input.multiTouchEnabled = true;
-        content = GameObject.Find(UIManager.getActiveMapPanel()).GetComponent<RectTransform>();
-        
+        content = GameObject.Find("Ground").GetComponent<RectTransform>();
+      
     }
 
     private void Update()
     {
+        content = GameObject.Find("Ground").GetComponent<RectTransform>();
         
-        content = GameObject.Find(UIManager.getActiveMapPanel()).GetComponent<RectTransform>();
-       
         if (Input.touchCount == 2)
         {
             if (!_isPinching)

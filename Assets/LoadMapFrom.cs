@@ -12,7 +12,7 @@ public class LoadMapFrom : MonoBehaviour
     public Material uaMaterial;
     public Material commeunesMaterial;
     public Material defCoteMaterial;
-    public Triangulator2 triangulator;
+    public Triangulator triangulator;
     public Material material;
 
     public string parentName = "Ground";
@@ -27,15 +27,15 @@ public class LoadMapFrom : MonoBehaviour
         // Create Vector2 vertices
         vertices2D = new Vector2[] { new Vector2(0, 0), new Vector2(10, 5), new Vector2(10, 10) };
 
-        triangulator = new Triangulator2(vertices2D);
+        triangulator = new Triangulator(vertices2D);
         
         string uaFileName = "/Users/sklab/Desktop/TODELETE/zone_etude/zones241115.shp";
         string communesFileName = "/Users/sklab/Desktop/TODELETE/zone_etude/communes.shp";
         string defCoteFileName = "/Users/sklab/Desktop/TODELETE/zone_etude/defense_cote_littoSIM-05122015.shp";
 
-        //loadShape(communesFileName, "Communes", "Commune",commeunesMaterial);
-        //loadShape(uaFileName, "UA", "UA", uaMaterial);
-        loadShape(defCoteFileName, "DefCote", "DefCote", defCoteMaterial);
+        //loadShape(communesFileName, "Communes", "Commune",commeunesMaterial, 10);
+        loadShape(uaFileName, "UA", "UA", uaMaterial, 30);
+        //loadShape(defCoteFileName, "DefCote", "DefCote", defCoteMaterial, 50);
 
     }
 
@@ -48,7 +48,7 @@ public class LoadMapFrom : MonoBehaviour
     }
 
 
-    public void loadShape(string fileName, string parentName, string prefix, Material mat)
+    public void loadShape(string fileName, string parentName, string prefix, Material mat, int elevation)
     {
         GameObject parent = GameObject.Find(parentName);
         ShapeFile shapeFile = new ShapeFile();
@@ -60,17 +60,8 @@ public class LoadMapFrom : MonoBehaviour
         for (int k = 0; k < shapeFile.MyRecords.Count; k++)
         {
             ShapeFileRecord rec = shapeFile.MyRecords[k];
-            GameObject poly;
-            /*
-            Debug.Log("---> The record number is : " + rec.RecordNumber);
-            Debug.Log("---> The record Content length is : " + rec.ContentLength);
-            Debug.Log("---> The record Shape type is : " + rec.ShapeType);
-            Debug.Log("---> The record number of parts is : " + rec.NumberOfParts);
-            Debug.Log("---> The record number of points is : " + rec.NumberOfPoints);
-            Debug.Log("---> the record attributes are: " + rec.Attributes);
-            Debug.Log("---> the record points list size is " + rec.Points.Count);
-            */
-
+            GameObject newGameObject;
+           
             Vector2[] listPoint = new Vector2[rec.Points.Count - 1];
 
             string vert = "";
@@ -87,23 +78,28 @@ public class LoadMapFrom : MonoBehaviour
 
             Debug.Log("The record vertices are : " + vert);
 
-            poly = new GameObject(prefix+"_" + i);
+            newGameObject = new GameObject(prefix+"_" + i);
+            
+            newGameObject.AddComponent(typeof(MeshRenderer));
+            newGameObject.AddComponent(typeof(MeshFilter));
 
+            newGameObject.GetComponent<MeshFilter>().mesh = CreateMesh(elevation, listPoint);
+            newGameObject.GetComponent<MeshFilter>().mesh.name = "CustomMesh";
+            newGameObject.GetComponent<Renderer>().material = mat;
+            newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
 
-            poly.AddComponent(typeof(MeshRenderer));
-            poly.AddComponent(typeof(MeshFilter));
+            newGameObject.GetComponent<Transform>().SetParent(parent.GetComponent<Transform>());
+            newGameObject.AddComponent<UA>();
+            newGameObject.AddComponent<MeshCollider>();
 
-            poly.GetComponent<MeshFilter>().mesh = CreateMesh(100, listPoint);
-            poly.GetComponent<MeshFilter>().mesh.name = "CustomMesh";
-            poly.GetComponent<Renderer>().material = mat;
-            poly.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            newGameObject.GetComponent<UA>().ua_name = prefix + "_" + i;
+            newGameObject.GetComponent<UA>().ua_code = i;
+            newGameObject.GetComponent<UA>().population = i;
+            newGameObject.GetComponent<UA>().cout_expro = i;
+            newGameObject.GetComponent<UA>().fullNameOfUAname = prefix + "_FULLNAME_" + i;
+            newGameObject.GetComponent<UA>().classe_densite = prefix + "_CLASSE_DENSITE_" + i;
 
-            poly.GetComponent<Transform>().SetParent(parent.GetComponent<Transform>());
-            poly.AddComponent<TipsShow>();
-           // poly.AddComponent<Collider>();
-
-            poly.AddComponent<MeshCollider>();
-
+            
 
             i++;
         }
@@ -113,7 +109,7 @@ public class LoadMapFrom : MonoBehaviour
     public Mesh CreateMesh(int elevation, Vector2[] vect)
     {
         Mesh mesh = new Mesh();
-        Triangulator2 tri = new Triangulator2(vect);
+        Triangulator tri = new Triangulator(vect);
         tri.setAllPoints(tri.Convert2dTo3dVertices());
         mesh.vertices = tri.VerticesWithElevation(elevation);
         mesh.triangles = tri.Triangulate3dMesh();

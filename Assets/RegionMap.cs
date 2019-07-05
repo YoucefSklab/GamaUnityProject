@@ -418,7 +418,7 @@ namespace Nextzen
 
                     Triangulator triangulator = new Triangulator(vertices2D);
 
-                    triangulator.setAllPoints(triangulator.get2dVertices());
+                    triangulator.setAllPoints(triangulator.Convert2dTo3dVertices());
                     triangulator.Triangulate();
                     float elevation = this.elevation;
                     if (agent.geometry.Equals(IGeometry.LINESTRING))

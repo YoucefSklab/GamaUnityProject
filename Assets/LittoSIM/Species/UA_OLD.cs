@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ummisco.gama.unity.littosim.Agents
 {
-    public class UA : Agent
+    public class UA_OLD : Agent
     {
 
         string ua_name = "";
@@ -22,7 +22,7 @@ namespace ummisco.gama.unity.littosim.Agents
 
         public Boolean isOn = false;
 
-        public UA(string ua_name, int id, int ua_code, int population, int cout_expro, bool isUrbanType, bool isAdapte, bool isEnDensification)
+        public UA_OLD(string ua_name, int id, int ua_code, int population, int cout_expro, bool isUrbanType, bool isAdapte, bool isEnDensification)
         {
             this.ua_name = ua_name;
             this.id = id;

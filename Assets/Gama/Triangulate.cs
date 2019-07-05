@@ -380,9 +380,9 @@ public class Triangulate : MonoBehaviour
         Mesh m = new Mesh();
 
         m.Clear();
-        m.vertices = triangulator.get3dVertices(elevation);
-        triangulator.setAllPoints(triangulator.get2dVertices());
-        m.triangles = triangulator.get3DTriangulesFrom2D();
+        triangulator.setAllPoints(triangulator.Convert2dTo3dVertices());
+        m.vertices = triangulator.VerticesWithElevation(elevation);
+        m.triangles = triangulator.Triangulate3dMesh();
 
         // For Android Build
 //        Unwrapping.GenerateSecondaryUVSet(m);

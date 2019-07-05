@@ -10,7 +10,7 @@ public class LoadMapFromSHape: MonoBehaviour
 {
 
     public Material myNewMaterial;
-    public Triangulator2 triangulator;
+    public Triangulator triangulator;
     public Material material;
 
 
@@ -25,7 +25,7 @@ public class LoadMapFromSHape: MonoBehaviour
         // Create Vector2 vertices
         vertices2D = new Vector2[] { new Vector2(0, 0), new Vector2(10, 5), new Vector2(10, 10) };
 
-        triangulator = new Triangulator2(vertices2D);
+        triangulator = new Triangulator(vertices2D);
 
        
 
