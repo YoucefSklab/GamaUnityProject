@@ -46,7 +46,11 @@ public class UA : MonoBehaviour
 
     void OnMouseOver()
     {
-        GameObject.Find("Tips").GetComponent<RectTransform>().transform.position = worldToUISpace(GameObject.Find("Canvas").GetComponent<Canvas>(), Input.mousePosition);
+
+        Vector3 vect = worldToUISpace(GameObject.Find("Canvas").GetComponent<Canvas>(), Input.mousePosition);
+        vect.z = -200f;
+        GameObject.Find("Tips").GetComponent<RectTransform>().transform.position = vect;
+
         SetInfo();
         cg.interactable = true;
         cg.alpha = 1;

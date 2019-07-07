@@ -32,7 +32,6 @@ namespace ummisco.gama.unity.SceneManager
         public static GameObject MainCamera;
 
         public static GamaManager Instance { get { return m_Instance; } }
-        //Static instance of GamaManager which allows it to be accessed by any other script.
 
         public string receivedMsg = "";
         public string clientId;
@@ -82,15 +81,6 @@ namespace ummisco.gama.unity.SceneManager
 
             gamaManager = gameObject;
             MainCamera = GameObject.Find("MainCamera");
-
-            /* 
-
-                    // Create the plane game Object
-                    plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                    plane.transform.localScale = new Vector3(20, 1, 20);
-                    plane.GetComponent<Renderer>().material = planeMaterial;
-
-            */
 
             // Create the Topic's manager GameObjects
             new GameObject(MqttSetting.COLOR_TOPIC_MANAGER).AddComponent<ColorTopic>();
@@ -155,8 +145,8 @@ namespace ummisco.gama.unity.SceneManager
         }
 
 
-        public void handleMessage() 
-        { 
+        public void handleMessage()
+        {
             if (msgList.Count > 0)
             {
 
@@ -177,9 +167,9 @@ namespace ummisco.gama.unity.SceneManager
                     case MqttSetting.MAIN_TOPIC:
                         //------------------------------------------------------------------------------
                         //Debug.Log("-> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
-                       
+
                         UnityAgent unityAgent = (UnityAgent)MsgSerialization.deserialization(receivedMsg, new UnityAgent());
-                                             
+
                         /*
                         Debug.Log("-*----------------- - >  Deserialization: Sender is: " + unityAgent.sender);
 
@@ -239,7 +229,7 @@ namespace ummisco.gama.unity.SceneManager
                     case MqttSetting.MULTIPLE_FREE_TOPIC:
                         //------------------------------------------------------------------------------
                         Debug.Log("-> Topic to deal with is : " + MqttSetting.MULTIPLE_FREE_TOPIC);
-                        
+
                         MultipleFreeTopicMessage multipleFreetopicMessage = (MultipleFreeTopicMessage)MsgSerialization.deserialization(receivedMsg, new MultipleFreeTopicMessage());
                         targetGameObject = GameObject.Find(multipleFreetopicMessage.objectName);
                         obj = new object[] { multipleFreetopicMessage, targetGameObject };
@@ -339,7 +329,7 @@ namespace ummisco.gama.unity.SceneManager
 
                         SetTopicMessage setTopicMessage = (SetTopicMessage)MsgSerialization.deserialization(receivedMsg, new SetTopicMessage());
                         // Debug.Log("-> Target game object name: " + setTopicMessage.objectName);
-                         Debug.Log("-> Message: " + receivedMsg);
+                        Debug.Log("-> Message: " + receivedMsg);
                         targetGameObject = GameObject.Find(setTopicMessage.objectName);
 
                         if (targetGameObject == null)
@@ -460,8 +450,8 @@ namespace ummisco.gama.unity.SceneManager
         {
             msgList.Add(e);
             receivedMsg = System.Text.Encoding.UTF8.GetString(e.Message);
-        //    Debug.Log(">  New Message received on topic : " + e.Topic);
-        //    Debug.Log(">  content is :" + e.Message);
+            //    Debug.Log(">  New Message received on topic : " + e.Topic);
+            //    Debug.Log(">  content is :" + e.Message);
         }
 
 
@@ -529,8 +519,8 @@ namespace ummisco.gama.unity.SceneManager
             {
                 System.Reflection.ParameterInfo par1 = par[j];
 
-             //   Debug.Log("->>>>>>>>>>>>>>--> parametre Name >>=>>=>>=  " + par1.Name);
-             //   Debug.Log("->>>>>>>>>>>>>>--> parametre Type >>=>>=>>=  " + par1.ParameterType);
+                //   Debug.Log("->>>>>>>>>>>>>>--> parametre Name >>=>>=>>=  " + par1.Name);
+                //   Debug.Log("->>>>>>>>>>>>>>--> parametre Type >>=>>=>>=  " + par1.ParameterType);
 
             }
 
@@ -579,7 +569,7 @@ namespace ummisco.gama.unity.SceneManager
 
         public void checkForNotifications()
         {
-   
+
             if (NotificationRegistry.notificationsList.Count >= 1)
             {
                 foreach (NotificationEntry el in NotificationRegistry.notificationsList)

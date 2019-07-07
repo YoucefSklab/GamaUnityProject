@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Nextzen.Unity
 {
-    public class SceneGraph :MonoBehaviour
+    public class SceneGraph : MonoBehaviour
     {
 
 
@@ -84,7 +84,7 @@ namespace Nextzen.Unity
                 data.Merge(featureMesh.Mesh, true);
                 gameObjectMeshData.Add(gameObject, data);
 
-               
+
             }
         }
 
@@ -270,11 +270,10 @@ namespace Nextzen.Unity
 
                     //  GameObject UaPrefab = (GameObject)Resources.Load("LittoSIM/Prefabs/UI/UA", typeof(GameObject));
                     //  gameObject = Instantiate(UaPrefab);
-     
-
+                    
                     //meshBucket.meshGeometry = "LineString";
                     //-----------------------------------
-          
+
 
                     if (meshBucket.gamaAgent.geometry.Equals(IGeometry.LINESTRING))
                     {
@@ -314,7 +313,7 @@ namespace Nextzen.Unity
                         Renderer rend = gameObject.GetComponent<Renderer>();
                         rend.material.color = UnityEngine.Random.ColorHSV();// Color.green; //("green");//col;
 
-                       
+
                     }
                     else if (meshBucket.gamaAgent.geometry.Equals(IGeometry.POLYGON))
                     {
@@ -329,7 +328,7 @@ namespace Nextzen.Unity
                         var materials = meshBucket.Submeshes.Select(s => s.Material).ToArray();
                         var meshFilter = gameObject.GetComponent<MeshFilter>();
                         var meshRenderer = gameObject.GetComponent<MeshRenderer>();
-                        
+
                         RectTransform _parent = GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<RectTransform>();
                         RectTransform _mRect = gameObject.GetComponent<RectTransform>();
 
@@ -355,13 +354,13 @@ namespace Nextzen.Unity
                         meshFilter.mesh.SetVertices(meshBucket.Vertices);
                         meshFilter.mesh.SetUVs(0, meshBucket.UVs);
                         meshFilter.mesh.subMeshCount = meshBucket.Submeshes.Count;
-                                                                                                                                                         
+
                         for (int s = 0; s < meshBucket.Submeshes.Count; s++)
                         {
                             meshFilter.mesh.SetTriangles(meshBucket.Submeshes[s].Indices, s);
                         }
                         meshFilter.mesh = clockwiseMesh(meshFilter.mesh);
-                                        
+
 
                         // For Android Build
                         // Unwrapping.GeneratePerTriangleUV(meshFilter.mesh);
@@ -375,14 +374,14 @@ namespace Nextzen.Unity
                         meshFilter.mesh.RecalculateBounds();
                         meshFilter.mesh.RecalculateNormals();
                         meshFilter.mesh.RecalculateTangents();
-                        
+
                         if (gameObjectOptions.GeneratePhysicMeshCollider)
                         {
                             var meshColliderComponent = gameObject.AddComponent<MeshCollider>();
                             meshColliderComponent.material = gameObjectOptions.PhysicMaterial;
                             meshColliderComponent.sharedMesh = meshFilter.mesh;
                         }
-                                       
+
                     }
 
 
@@ -394,10 +393,10 @@ namespace Nextzen.Unity
         public Vector3[] worldToUISpaceMeshVertices(Canvas parentCanvas, Vector3[] vertices)
         {
             Vector3[] vert = new Vector3[vertices.Length];
-            
-            for(int i=0; i< vertices.Length; i++)
+
+            for (int i = 0; i < vertices.Length; i++)
             {
-                Vector3 v = vertices[i]; 
+                Vector3 v = vertices[i];
                 //Convert the world for screen point so that it can be used with ScreenPointToLocalPointInRectangle function
                 Vector3 screenPos = Camera.main.WorldToScreenPoint(v);
                 Vector2 movePos;
@@ -433,7 +432,7 @@ namespace Nextzen.Unity
             int position = 6;
             for (int i = 0; i < (triangles.Length / 6); i++)
             {
-               
+
                 triangles[i * position] = 2 * i;
                 triangles[i * position + 3] = 2 * i;
 
@@ -456,7 +455,7 @@ namespace Nextzen.Unity
             // For Android Build
             //            MeshUtility.Optimize(m);
 
-           
+
             return m;
         }
 
@@ -529,11 +528,11 @@ namespace Nextzen.Unity
             if (determinant >= 0f)
             {
                 isClockWise = false;
-               
+
             }
             else
             {
-                
+
             }
             return isClockWise;
         }

@@ -12,7 +12,6 @@ namespace ummisco.gama.unity.littosim
 {
     public class LittosimManager : MonoBehaviour
     {
-        // Use this for initialization
         public static int actionToDo = 0;
         public static int gameNbr = 0;
         public static GameObject UAPrefab;
@@ -55,22 +54,14 @@ namespace ummisco.gama.unity.littosim
         private GameObject uiManager;
         private GameObject main_canvas;
 
-
-
-
         void Start()
         {
-           
-          
+
+
             uiManager = GameObject.Find(IUILittoSim.UI_MANAGER);
             main_canvas = GameObject.Find(IUILittoSim.MAIN_CANVAS);
 
 
-            // make the panel trasparent
-            //GameObject.Find(IUILittoSim.UA_MAP_PANEL).GetComponent<CanvasGroup>().alpha = 0;
-            //GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL).GetComponent<CanvasGroup>().alpha = 0;
-
-         
             initialPosition = new Vector2(0f, 0f);
             lastPosition = new Vector2(0f, 0f);
 
@@ -82,13 +73,12 @@ namespace ummisco.gama.unity.littosim
 
 
             Destroy(GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB));
-            //GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB).SetActive(false);
- 
+           
             Destroy(GameObject.Find(IUILittoSim.MESSAGE_PANEL_PREFAB));
             Destroy(GameObject.Find(IUILittoSim.ACTION_RECAP_PANEL_PREFAB));
 
             deactivateValider();
-           
+
 
         }
 
@@ -109,16 +99,15 @@ namespace ummisco.gama.unity.littosim
 
         void FixedUpdate()
         {
-                      
+
             if (Input.GetMouseButtonDown(0))
             {
                 GameObject bj;
                 bj = (UnityEngine.EventSystems.EventSystem.current != null) ? UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject : null;
 
-                if (bj!= null)
+                if (bj != null)
                 {
                     Vector3 mouse = Input.mousePosition;
-                   // GameObject bj = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
                     if (bj is GameObject)
                         if (bj.tag.Equals("DeleteActionButton"))
                         {
@@ -127,11 +116,7 @@ namespace ummisco.gama.unity.littosim
                             sendDeleteAction(bj.transform.parent.name);
                         }
                 }
-               
-
-
             }
-            
         }
 
         public void createNewElement()
@@ -142,40 +127,28 @@ namespace ummisco.gama.unity.littosim
             position.z = -80;
             sendGamaMessage(position);
 
-        // To delete
-        // TODO to detete 
-      //  if (1 == 2) 
-        { 
-        if (UIManager.activePanel.Equals(IUILittoSim.UA_PANEL))
+            // To delete
+            // TODO to detete 
+            //  if (1 == 2) 
             {
-                GameObject panelChild = Instantiate(UA);
-                panelChild.name = "UA" + position.x + "_" + position.y;
-                panelChild.transform.position = position;
-                GameObject panelParent = GameObject.Find(IUILittoSim.UA_MAP_PANEL);
-                panelChild.transform.SetParent(panelParent.transform);
+                if (UIManager.activePanel.Equals(IUILittoSim.UA_PANEL))
+                {
+                    GameObject panelChild = Instantiate(UA);
+                    panelChild.name = "UA" + position.x + "_" + position.y;
+                    panelChild.transform.position = position;
+                    GameObject panelParent = GameObject.Find(IUILittoSim.UA_MAP_PANEL);
+                    panelChild.transform.SetParent(panelParent.transform);
+                }
+                else if (UIManager.activePanel.Equals(IUILittoSim.DEF_COTE_PANEL))
+                {
+                    GameObject panelChild = Instantiate(UA);
+                    panelChild.name = "UA" + position.x + "_" + position.y;
+                    panelChild.transform.position = position;
+                    GameObject panelParent = GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL);
+                    panelChild.transform.SetParent(panelParent.transform);
+                }
             }
-            else if (UIManager.activePanel.Equals(IUILittoSim.DEF_COTE_PANEL))
-            {
-                GameObject panelChild = Instantiate(UA);
-                panelChild.name = "UA" + position.x + "_" + position.y;
-                panelChild.transform.position = position;
-                GameObject panelParent = GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL);
-                panelChild.transform.SetParent(panelParent.transform);
-            }
-        }
-
-
-
-        // to delete
-        /*
-        GameObject game = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        game.transform.position = position;
-        game.transform.localScale = new Vector3(30, 30, 30);
-        Renderer rend = game.GetComponent<Renderer>();
-        rend.material.color = Color.red;
-        */
-        Debug.Log("Final created position is :" + position);
-
+           Debug.Log("Final created position is :" + position);
         }
 
         public void createNewElementOld()
@@ -188,13 +161,13 @@ namespace ummisco.gama.unity.littosim
             Vector3 objectLocalPosition = Object.transform.localPosition;
 
             GameObject Canvas_Actions = GameObject.Find(IUILittoSim.MAIN_CANVAS);
-            //GameObject Canvas_Actions = GameObject.Find("IUILittoSim.MAP_PANEL");
+          
             RectTransform Canvas = Canvas_Actions.GetComponent<RectTransform>();
             Camera cam = GamaManager.MainCamera.GetComponent<Camera>();
 
             panelPosition = uiManager.GetComponent<UIManager>().worldToUISpace(uiCanvas, position);
 
-              Vector3[] localCorners = new Vector3[4];
+            Vector3[] localCorners = new Vector3[4];
             Vector3[] worldCorners = new Vector3[4];
             Canvas.GetLocalCorners(localCorners);
             Canvas.GetWorldCorners(worldCorners);
@@ -202,7 +175,7 @@ namespace ummisco.gama.unity.littosim
 
             Object.transform.localPosition = localCorners[2];
 
-    
+
         }
 
         void OnGUI()
@@ -333,23 +306,18 @@ namespace ummisco.gama.unity.littosim
             switch (type)
             {
                 case 1:
-
                     addCube(position, Color.red, type, name, texte, delay, montant, parentObject);
                     break;
                 case 2:
-                    //addSphere(position, Color.red, type, name, texte, delay, montant, parentObject);
                     addCube(position, Color.blue, type, name, texte, delay, montant, parentObject);
                     break;
                 case 3:
-                    //addCapsule(position, Color.red, type, name, texte, delay, montant, parentObject);
                     addCube(position, Color.green, type, name, texte, delay, montant, parentObject);
                     break;
                 case 4:
-                    //addCylinder(position, Color.red, type, name, texte, delay, montant, parentObject);
                     addCube(position, Color.yellow, type, name, texte, delay, montant, parentObject);
                     break;
                 case 5:
-                    //addCube2(position, Color.red, type, name, texte, delay, montant, parentObject);
                     addCube(position, Color.white, type, name, texte, delay, montant, parentObject);
                     break;
             }
@@ -438,14 +406,14 @@ namespace ummisco.gama.unity.littosim
         {
             if (actionsList.Count > 0)
             {
-               
-               lastPosition = new Vector2(0, actionsList.Count * (-lineHeight));
+
+                lastPosition = new Vector2(0, actionsList.Count * (-lineHeight));
 
                 return lastPosition;
             }
             else
             {
-                return  new Vector2(0f, 0);
+                return new Vector2(0f, 0);
                 //return initialPosition;
             }
         }
@@ -454,7 +422,7 @@ namespace ummisco.gama.unity.littosim
         {
             if (recapActionsList.Count > 0)
             {
-               return new Vector2(initialRecapPosition.x, - (( recapActionsList.Count * lineHeight) + initialRecapPosition.y));
+                return new Vector2(initialRecapPosition.x, -((recapActionsList.Count * lineHeight) + initialRecapPosition.y));
             }
             else
             {
@@ -479,7 +447,7 @@ namespace ummisco.gama.unity.littosim
         {
             if (messagesList.Count > 0)
             {
-               return new Vector2(initialMessagePosition.x, -((messagesList.Count * lineHeight) + initialMessagePosition.y));
+                return new Vector2(initialMessagePosition.x, -((messagesList.Count * lineHeight) + initialMessagePosition.y));
             }
             else
             {
@@ -489,7 +457,7 @@ namespace ummisco.gama.unity.littosim
 
         public void createActionPaneChild(int type, string name, GameObject panelParent, string texte, string delay, string montant)
         {
-           
+
             GameObject panelChild = Instantiate(ActionPanelPrefab);
             RectTransform childRectTrans = panelChild.GetComponent<RectTransform>();
             RectTransform parentRectTran = panelParent.GetComponent<RectTransform>();
@@ -502,8 +470,8 @@ namespace ummisco.gama.unity.littosim
             panelChild.transform.Find(IUILittoSim.ACTION_TITLE).GetComponent<Text>().text = texte;
             panelChild.transform.Find(IUILittoSim.ACTION_CYCLE).transform.Find(IUILittoSim.ACTION_CYCLE_VALUE).GetComponent<Text>().text = (delay);
             panelChild.transform.Find(IUILittoSim.ACTION_BUDGET).GetComponent<Text>().text = (montant);
-            
-            
+
+
             updateValiderPosition();
 
             if (actionsList.Count >= 10)
@@ -511,9 +479,6 @@ namespace ummisco.gama.unity.littosim
                 parentRectTran.sizeDelta = new Vector2(parentRectTran.sizeDelta.x, (parentRectTran.sizeDelta.y + (actionsList.Count - 10) * lineHeight));
             }
             actionCounter++;
-
-        //    Debug.Log(" ---+++++++ >>>> Created element anchored position is " + panelChild.GetComponent<RectTransform>().anchoredPosition);
-
         }
 
         public void updateValiderPosition()
@@ -587,7 +552,7 @@ namespace ummisco.gama.unity.littosim
             RectTransform parentRectTran = panelParent.GetComponent<RectTransform>();
             panelChild.name = name;
             childRectTrans.SetParent(parentRectTran);
-       
+
             childRectTrans.anchoredPosition = getAtRecapActionPanelPosition();
             recapActionsList.Add(panelChild);
 
@@ -608,7 +573,7 @@ namespace ummisco.gama.unity.littosim
             GameObject.Find(ValideIcon).SetActive(false);
             GameObject.Find(CyclePlus).SetActive(false);
 
-            
+
 
             if (recapActionsList.Count >= 5)
             {
@@ -634,13 +599,13 @@ namespace ummisco.gama.unity.littosim
             RectTransform parentRectTran = panelParent.GetComponent<RectTransform>();
             panelChild.name = name;
             childRectTrans.SetParent(parentRectTran);
-            
+
             childRectTrans.anchoredPosition = getAtMessagePanelPosition();
 
             messagesList.Add(panelChild);
 
             panelChild.transform.Find(IUILittoSim.MESSAGE_TITRE).GetComponent<Text>().text = (texte);
-            
+
             if (messagesList.Count > 5)
             {
                 GameObject gameObj = messagesList[0];
@@ -685,7 +650,6 @@ namespace ummisco.gama.unity.littosim
             bool icon2 = Boolean.Parse((string)obj[2]);
             bool icon3 = Boolean.Parse((string)obj[3]);
 
-            Debug.Log("The action name to set valid icon is : --->  " + geObjectComposedName(IUILittoSim.ACTION_RECAP_VALIDE_ICON, actionName));
             GameObject Parent = GameObject.Find(actionName);
 
             Parent.transform.Find(geObjectComposedName(IUILittoSim.ACTION_RECAP_VALIDE_ICON, actionName)).gameObject.SetActive(icon1);
@@ -701,9 +665,7 @@ namespace ummisco.gama.unity.littosim
             string value2 = (string)obj[2];
 
             GameObject Parent = GameObject.Find(actionName);
-            Debug.Log("Change for the value of: " + geObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_ICON, actionName) + " and put the value: " + value1);
 
-            //Parent.transform.Find(IUILittoSim.ACTION_RECAP_VALIDE_ICON+"_"+actionName).GetComponentgameObject.SetActive(icon1);
             GameObject OB = Parent.transform.Find(geObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_ICON, actionName)).gameObject;
             OB.transform.Find(IUILittoSim.ACTION_RECAP_ROUND).GetComponent<Text>().text = value1;
             OB = Parent.transform.Find(geObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_PLUS, actionName)).gameObject;

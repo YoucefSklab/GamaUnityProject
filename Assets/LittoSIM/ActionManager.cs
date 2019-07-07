@@ -48,13 +48,13 @@ namespace ummisco.gama.unity.littosim
         {
             string[] records = fileContent.Split(lineSeperater);
 
-             foreach (string record in records)
+            foreach (string record in records)
             {
-               string[] fields = record.Split(fieldSeperator);
+                string[] fields = record.Split(fieldSeperator);
 
                 foreach (string field in fields)
                 {
-                   contentArea += field + "\t";
+                    contentArea += field + "\t";
                 }
                 contentArea += '\n';
             }
@@ -65,7 +65,7 @@ namespace ummisco.gama.unity.littosim
             Dictionary<string, Action> actions_list = new Dictionary<string, Action>();
             string[] lines = fileContent.Split(lineSeperater);
 
-           for (int i = 1; i < lines.Length; i++)
+            for (int i = 1; i < lines.Length; i++)
             {
                 Action act = GetActionElement(lines[i]);
                 if ((act.def_cote_index >= 1) || (act.UA_index >= 1))
@@ -76,7 +76,7 @@ namespace ummisco.gama.unity.littosim
             return actions_list;
         }
 
-       
+
         public Action GetActionElement(string line)
         {
             string[] fields = line.Split(fieldSeperator);
@@ -94,7 +94,7 @@ namespace ummisco.gama.unity.littosim
         }
 
 
-       public Dictionary<string, Action> GetUAActionsList()
+        public Dictionary<string, Action> GetUAActionsList()
         {
             Dictionary<string, Action> ua_actions_list = new Dictionary<string, Action>();
 
@@ -122,7 +122,7 @@ namespace ummisco.gama.unity.littosim
             return def_cote_actions_list;
         }
 
-        public void SetUpUAActions(Dictionary<string, Action>  actions)
+        public void SetUpUAActions(Dictionary<string, Action> actions)
         {
 
             GameObject Ua_Panel = GameObject.Find(IUILittoSim.UA_PANEL);
@@ -130,10 +130,10 @@ namespace ummisco.gama.unity.littosim
             foreach (KeyValuePair<string, Action> act in actions)
             {
                 GameObject action_button = Instantiate(GameObject.Find(ILittoSimConcept.LITTOSIM_MANANGER).GetComponent<LittosimManager>().ButtonActionPrefab);
-                action_button.name = "UA_"+act.Key;
+                action_button.name = "UA_" + act.Key;
                 action_button.GetComponent<RectTransform>().SetParent(Ua_Panel.GetComponent<RectTransform>());
                 action_button.GetComponent<Button_Action_Prefab>().SetUp("UA_" + act.Key, act.Value.UA_index, act.Value.button_help_message, act.Value.button_icon_file, "UA", IActionButton.GetPosition(act.Value.UA_index));
-               
+
             }
         }
 
@@ -150,8 +150,5 @@ namespace ummisco.gama.unity.littosim
                 action_button.GetComponent<Button_Action_Prefab>().SetUp("Def_Cote_" + act.Key, act.Value.def_cote_index, act.Value.button_help_message, act.Value.button_icon_file, "Def_Cote", IActionButton.GetPosition(act.Value.def_cote_index));
             }
         }
-
-      
-
     }
 }

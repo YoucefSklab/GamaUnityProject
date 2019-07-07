@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using ummisco.gama.unity.files.ShapefileImporter;
 using ummisco.gama.unity.utils;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoadMapFrom : MonoBehaviour
 {
@@ -37,6 +40,9 @@ public class LoadMapFrom : MonoBehaviour
         loadShape(uaFileName, "UA", "UA", uaMaterial, 30);
         //loadShape(defCoteFileName, "DefCote", "DefCote", defCoteMaterial, 50);
 
+        // Make the Game Object:  Ground transparent.
+        Color c = GameObject.Find("Ground").GetComponent<Image>().color;
+        c.a = 0;
     }
 
 
@@ -73,6 +79,26 @@ public class LoadMapFrom : MonoBehaviour
                 listPoint[j] = v2;
                 vert += v2;
             }
+            /*
+            DataRow row = rec.Attributes;
+            //Debug.Log("--------------> " + row["FID_1"]);
+
+            foreach (object item in row.ItemArray)
+            {
+                if (item is int)
+                {
+                    Debug.Log("Int: {0}", (UnityEngine.Object)item);
+                }
+                else if (item is string)
+                {
+                    Debug.Log("String: {0}", (UnityEngine.Object)item);
+                }
+                else if (item is DateTime)
+                {
+                    Debug.Log("DateTime: {0}", (UnityEngine.Object)item);
+                }
+            }
+            */
 
             //triangulator.setPoints(listPoint);
 
