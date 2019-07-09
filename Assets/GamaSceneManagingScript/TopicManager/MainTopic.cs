@@ -34,7 +34,7 @@ namespace ummisco.gama.unity.topics
         {
 
         }
-
+          
         // Update is called once per frame
         public override void Update()
         {

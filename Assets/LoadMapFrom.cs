@@ -36,9 +36,9 @@ public class LoadMapFrom : MonoBehaviour
         string communesFileName = "/Users/sklab/Desktop/TODELETE/zone_etude/communes.shp";
         string defCoteFileName = "/Users/sklab/Desktop/TODELETE/zone_etude/defense_cote_littoSIM-05122015.shp";
 
-        //loadShape(communesFileName, "Communes", "Commune",commeunesMaterial, 10);
+        loadShape(communesFileName, "Communes", "Commune",commeunesMaterial, 10);
         loadShape(uaFileName, "UA", "UA", uaMaterial, 30);
-        //loadShape(defCoteFileName, "DefCote", "DefCote", defCoteMaterial, 50);
+        loadShape(defCoteFileName, "DefCote", "DefCote", defCoteMaterial, 50);
 
         // Make the Game Object:  Ground transparent.
         Color c = GameObject.Find("Ground").GetComponent<Image>().color;
@@ -60,9 +60,13 @@ public class LoadMapFrom : MonoBehaviour
         ShapeFile shapeFile = new ShapeFile();
 
         shapeFile.ReadShapes(fileName, 2000000, 1, 2000000, 1);
-        int i = 0;
+        //shapeFile.ReadShapes(fileName, 0, 18120, 0, 12620.000100000063);
+        //shapeFile.Read(fileName);
 
-        //foreach (ShapeFileRecord rec in shapeFile.MyRecords)
+
+
+
+        int i = 0;
         for (int k = 0; k < shapeFile.MyRecords.Count; k++)
         {
             ShapeFileRecord rec = shapeFile.MyRecords[k];
@@ -75,14 +79,25 @@ public class LoadMapFrom : MonoBehaviour
             for (int j = 0; j < rec.Points.Count - 1; j++)
             {
                 Vector2 v = rec.Points[j];
-                Vector2 v2 = new Vector2(v.x - 371000, v.y - 6549000);
+                Vector2 v2 = v;//new Vector2(v.x - 371000, v.y - 6549000);
+                v2 = new Vector2(v.x - 371000, v.y - 6549000);
                 listPoint[j] = v2;
                 vert += v2;
             }
-            /*
+         
             DataRow row = rec.Attributes;
+          
+            if (rec.Attributes == null)
+            {
+                Debug.Log("--------------> there is a problem ");
+            }
+            else
+            {
+                Debug.Log("--------------> Good, there is a no problem ");
+            }
             //Debug.Log("--------------> " + row["FID_1"]);
 
+            /*
             foreach (object item in row.ItemArray)
             {
                 if (item is int)

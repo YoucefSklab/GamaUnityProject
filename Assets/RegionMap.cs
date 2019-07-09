@@ -10,6 +10,7 @@ using ummisco.gama.unity.GamaAgent;
 using ummisco.gama.unity.SceneManager;
 using ummisco.gama.unity.utils;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Nextzen
 {
@@ -167,7 +168,7 @@ namespace Nextzen
                                 task.Start(mvtTile.FeatureCollections);
 
                                 tasks.Add(task);
-              
+
                             }
                         });
                     };
@@ -370,7 +371,7 @@ namespace Nextzen
 
         void Start()
         {
-           
+
             this.elevation = 0f;
             /* 
             ApiKey = "NO9atv-JQf289NztiKv45g";
@@ -397,62 +398,100 @@ namespace Nextzen
 
             bool isNewAgentCreated = false;
             List<FeatureMesh> meshList = new List<FeatureMesh>();
-            foreach (var agent in GamaManager.gamaAgentList)
+
+            if (GamaManager.gamaAgentList.Count > 0)
             {
-                if (!agent.isDrawed)
-                {
-                    isNewAgentCreated = true;
-                    agent.isDrawed = true;
+                //SceneManager.LoadScene("LittoSIMInterface");
 
-                    //FeatureMesh featureMesh = new FeatureMesh("NameGama1", agent.geometry, "NameGama13", agent.agentName);
-                    
-                    FeatureMesh featureMesh = new FeatureMesh(agent.agentName, agent.getCollection(), agent.getLayer(), agent.agentName);
-                    List<Vector3> Vertices = new List<Vector3>();
-                    List<Vector2> UVs = new List<Vector2>();
-                    List<int> Indices = new List<int>();
-                    MeshData meshData = featureMesh.Mesh;
-                    List<MeshData.Submesh> Submeshes = new List<MeshData.Submesh>();
-                    MeshData.Submesh submesh = new MeshData.Submesh();
-
-                    Vector2[] vertices2D = agent.agentCoordinate.getVector2Coordinates();
-
-                    Triangulator triangulator = new Triangulator(vertices2D);
-
-                    triangulator.setAllPoints(triangulator.Convert2dTo3dVertices());
-                    triangulator.Triangulate();
-                    float elevation = this.elevation;
-                    if (agent.geometry.Equals(IGeometry.LINESTRING))
+                foreach (var agent in GamaManager.gamaAgentList)
+                {                   
+                    if (!agent.isDrawed)
                     {
-                        elevation = 0.0f;
+                        Debug.Log("Draw Agent ----  >");
+                        isNewAgentCreated = true;
+                        agent.isDrawed = true;
+
+                        //FeatureMesh featureMesh = new FeatureMesh("NameGama1", agent.geometry, "NameGama13", agent.agentName);
+
+                        FeatureMesh featureMesh = new FeatureMesh(agent.agentName, agent.getCollection(), agent.getLayer(), agent.agentName);
+                        List<Vector3> Vertices = new List<Vector3>();
+                        List<Vector2> UVs = new List<Vector2>();
+                        List<int> Indices = new List<int>();
+                        MeshData meshData = featureMesh.Mesh;
+                        List<MeshData.Submesh> Submeshes = new List<MeshData.Submesh>();
+                        MeshData.Submesh submesh = new MeshData.Submesh();
+
+                        Vector2[] vertices2D = agent.agentCoordinate.getVector2Coordinates();
+
+                        Triangulator triangulator = new Triangulator(vertices2D);
+                        triangulator.setAllPoints(triangulator.Convert2dTo3dVertices());
+                        triangulator.Triangulate();
+                        float elevation = this.elevation;
+                        if (agent.geometry.Equals(IGeometry.LINESTRING))
+                        {
+                            elevation = 0.0f;
+                        }
+                        //Vertices = triangulator.get3dVerticesList(elevation);
+                        Vertices = triangulator.get3dVerticesList(agent.height);
+
+                        Indices = triangulator.getTriangulesList();
+                        Vector3[] VerticesArray = Vertices.ToArray();
+                        Vector2[] UvArray = UvCalculator.CalculateUVs(VerticesArray, 100);
+                        UVs = new List<Vector2>();
+                        UVs = UvArray.ToList();
+
+                        Debug.Log("The vertices are: "+ Vertices.Count);
+
+                        submesh.Indices = Indices;
+
+                        submesh.Material = buildingMaterial;
+
+                        Submeshes.Add(submesh);
+
+                        meshData.addGamaMeshData(Vertices, UVs, Submeshes, agent);
+
+                        featureMesh.Mesh = meshData;
+                        meshList.Add(featureMesh);
+
+
+                        // ---------------------------------------------------
+                                                
+                        GameObject newGameObject;
+                        newGameObject = new GameObject(agent.agentName);
+                                               
+
+                        newGameObject.AddComponent(typeof(MeshRenderer));
+                        newGameObject.AddComponent(typeof(MeshFilter));
+
+                        newGameObject.GetComponent<MeshFilter>().mesh = CreateMesh(30, agent.agentCoordinate.getVector2Coordinates());
+                        newGameObject.GetComponent<MeshFilter>().mesh.name = "CustomMesh";
+                        //newGameObject.GetComponent<Renderer>().material = mat;
+                        newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+
+                        newGameObject.GetComponent<Transform>().SetParent(GameObject.Find("Ua_Map_Panel").GetComponent<Transform>());
+                        newGameObject.AddComponent<UA>();
+                        newGameObject.AddComponent<MeshCollider>();
+
+                        newGameObject.GetComponent<UA>().ua_name = agent.agentName + "_";
+                        newGameObject.GetComponent<UA>().ua_code = 12;
+                        newGameObject.GetComponent<UA>().population = 12;
+                        newGameObject.GetComponent<UA>().cout_expro = 12;
+                        newGameObject.GetComponent<UA>().fullNameOfUAname = agent.agentName + "_FULLNAME_" + 12;
+                        newGameObject.GetComponent<UA>().classe_densite = agent.agentName + "_CLASSE_DENSITE_" + 12;
+                        
+                        MainScene.gamaAgentList.Add(agent); //
+                        // ---------------------------------------------------
+
                     }
-                    //Vertices = triangulator.get3dVerticesList(elevation);
-                    Vertices = triangulator.get3dVerticesList(agent.height);
-                                      
-                    Indices = triangulator.getTriangulesList();
-                    Vector3[] VerticesArray = Vertices.ToArray();
-                    Vector2[] UvArray = UvCalculator.CalculateUVs(VerticesArray, 100);
-                    UVs = new List<Vector2>();
-                    UVs = UvArray.ToList();
-                    
-                    submesh.Indices = Indices;
-
-                    submesh.Material = buildingMaterial;
-
-                    Submeshes.Add(submesh);
-
-                    meshData.addGamaMeshData(Vertices, UVs, Submeshes, agent);
-                    
-                    featureMesh.Mesh = meshData;
-                    meshList.Add(featureMesh);
-
-
                 }
+
             }
 
 
 
             if (isNewAgentCreated)
             {
+                Debug.Log("Call to draw agent ");
 
                 if (regionMap != null)
                 {
@@ -469,13 +508,32 @@ namespace Nextzen
                 {
                     regionMap = new GameObject(RegionName);
                 }
-               
+
                 //regionMap = new GameObject(RegionName);
                 var sceneGraph = new SceneGraph(regionMap, GroupOptions, GameObjectOptions, features);
                 //sceneGraph
                 sceneGraph.DrawFromGama();
 
             }
+        }
+
+
+        public Mesh CreateMesh(int elevation, Vector2[] vect)
+        {
+            Mesh mesh = new Mesh();
+            Triangulator tri = new Triangulator(vect);
+            tri.setAllPoints(tri.Convert2dTo3dVertices());
+            mesh.vertices = tri.VerticesWithElevation(elevation);
+            mesh.triangles = tri.Triangulate3dMesh();
+
+            // For Android Build
+            //        Unwrapping.GenerateSecondaryUVSet(m);
+
+            mesh.RecalculateNormals();
+            mesh.RecalculateBounds();
+            // For Android Build
+            //        MeshUtility.Optimize(m);
+            return mesh;
         }
 
 

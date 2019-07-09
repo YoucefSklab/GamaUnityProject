@@ -16,8 +16,9 @@ public class ShapefileReader : MonoBehaviour
 
 		shapeFile = new ShapeFile();
 
-        shapeFile.ReadShapes(fileName, 200000, 1, 200000, 1);
-        
+        //shapeFile.ReadShapes(fileName, 200000, 1, 200000, 1);
+        shapeFile.ReadShapes(fileName, 18120, 0, 12620.000100000063, 0);
+
         //shapeFile.Read(fileName);
 
         Debug.Log("Good, file was read.");

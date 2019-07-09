@@ -12,6 +12,7 @@ public class Triangulate : MonoBehaviour
     public Triangulator triangulator;
     public Material material;
 
+    public string val = "Test";
 
     Vector2[] vertices2D;
 
@@ -77,14 +78,14 @@ public class Triangulate : MonoBehaviour
         }
 
         // -------------------------------------------------------
-
+    /*
         GameObject ua2 = GameObject.Find("UA2");
         ua2.AddComponent(typeof(MeshRenderer));
         ua2.AddComponent(typeof(MeshFilter));
         ua2.name = "testtttttt";
         CanvasRenderer canvasRend = ua2.GetComponent<CanvasRenderer>();
         Mesh m = poly.GetComponent<MeshFilter>().mesh;
-
+    */
         /*
          * Mesh m2 = canvasRend.GetComponent<Mesh>();
         m2.Clear();
@@ -95,7 +96,7 @@ public class Triangulate : MonoBehaviour
         canvasRend.SetMesh(m);
         */
 
-                                    
+           /*                       
             Mesh mesh = poly.GetComponent<MeshFilter>().sharedMesh;
 
             CanvasRenderer canvasRenderer = ua2.GetComponent<CanvasRenderer>();
@@ -125,7 +126,7 @@ public class Triangulate : MonoBehaviour
             canvasRenderer.Clear();
             canvasRenderer.SetMaterial(material, null);
             canvasRenderer.SetVertices(uiVertices);
-           
+           */
 
 
         // canvasRend.SetVertices(poly.GetComponent<MeshFilter>().mesh.GetVertices(canvasRend.SetVertices()));

@@ -244,19 +244,21 @@ namespace Nextzen.Unity
                 }
             }
 
+            Debug.Log("4-$$$$$$$$$$$$$$$$$ -------------------->");
             // 2. Initialize game objects and associate their components (physics, rendering)
             foreach (var pair in gameObjectMeshData)
             {
                 var meshData = pair.Value;
                 var root = pair.Key;
-
+                Debug.Log("3-$$$$$$$$$$$$$$$$$ -------------------->");
                 // Create one game object per mesh object 'bucket', each bucket is ensured to
                 // have less that 65535 vertices (valid under Unity mesh max vertex count).
                 for (int i = 0; i < meshData.Meshes.Count; ++i)
                 {
+                    Debug.Log("2-$$$$$$$$$$$$$$$$$ -------------------->");
                     var meshBucket = meshData.Meshes[i];
                     GameObject gameObject;
-                    GameObject ggg;
+
                     if (meshData.Meshes.Count > 1)
                     {
                         //gameObject = new GameObject(root.name + "_Part" + i);
@@ -270,10 +272,10 @@ namespace Nextzen.Unity
 
                     //  GameObject UaPrefab = (GameObject)Resources.Load("LittoSIM/Prefabs/UI/UA", typeof(GameObject));
                     //  gameObject = Instantiate(UaPrefab);
-                    
+
                     //meshBucket.meshGeometry = "LineString";
                     //-----------------------------------
-
+                    Debug.Log("111111-$$$$$$$$$$$$$$$$$ -------------------->");
 
                     if (meshBucket.gamaAgent.geometry.Equals(IGeometry.LINESTRING))
                     {
@@ -317,6 +319,7 @@ namespace Nextzen.Unity
                     }
                     else if (meshBucket.gamaAgent.geometry.Equals(IGeometry.POLYGON))
                     {
+                        Debug.Log("-$$$$$$$$$$$$$$$$$ -------------------->");
 
                         gameObject.name = meshBucket.gamaAgent.agentName;
                         gameObject.AddComponent<MeshRenderer>();

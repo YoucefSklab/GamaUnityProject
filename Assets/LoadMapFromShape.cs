@@ -28,12 +28,13 @@ public class LoadMapFromSHape: MonoBehaviour
 
         triangulator = new Triangulator(vertices2D);
 
-       
-
         string fileName = "/Users/sklab/Desktop/TODELETE/zone_etude/zones241115.shp";
         ShapeFile shapeFile = new ShapeFile();
 
         shapeFile.ReadShapes(fileName, 2000000, 1, 2000000, 1);
+        
+        
+
         int i = 0;
 
         foreach (ShapeFileRecord rec in shapeFile.MyRecords)

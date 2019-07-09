@@ -7,6 +7,7 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 
+
 namespace ummisco.gama.unity.files.ShapefileImporter
 {
     /// <summary>
@@ -87,7 +88,7 @@ namespace ummisco.gama.unity.files.ShapefileImporter
                 throw new ArgumentNullException("fileName");
 
             // Read shapes first (geometry).
-            //this.ReadShapes(fileName);
+            this.ReadShapes(fileName, 2000000, 1, 2000000, 1);
 
             // Construct name and path of dBASE file. It's basically
             // the same name as the shapefile except with a .dbf extension.
@@ -337,7 +338,7 @@ namespace ummisco.gama.unity.files.ShapefileImporter
 
             // Set the select query.
             string selectQuery = "SELECT * FROM [" + fileNameNoExt + "#DBF];";
-
+            //--//
             // Create a database connection object using the connection string.
             OleDbConnection connection = new OleDbConnection(connectionString);
 

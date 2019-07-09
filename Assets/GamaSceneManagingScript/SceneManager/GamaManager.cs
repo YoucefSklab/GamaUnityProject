@@ -74,7 +74,7 @@ namespace ummisco.gama.unity.SceneManager
                 Destroy(gameObject);
 
             //Sets this to not be destroyed when reloading scene
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
 
             MqttSetting.allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
             allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
@@ -166,7 +166,7 @@ namespace ummisco.gama.unity.SceneManager
                 {
                     case MqttSetting.MAIN_TOPIC:
                         //------------------------------------------------------------------------------
-                        //Debug.Log("-> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
+                        Debug.Log("-> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
 
                         UnityAgent unityAgent = (UnityAgent)MsgSerialization.deserialization(receivedMsg, new UnityAgent());
 
