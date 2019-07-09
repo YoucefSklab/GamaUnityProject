@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ummisco.gama.unity.GamaAgent;
+using ummisco.gama.unity.utils;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UA : MonoBehaviour
 {
-
-   
 
     public string ua_name;
     public int ua_code;
@@ -14,6 +14,9 @@ public class UA : MonoBehaviour
     public string classe_densite;
     public int cout_expro;
     public string fullNameOfUAname;
+    public int meshElevation = 30;
+
+    public Vector3 localScale = new Vector3(0.2f, 0.2f, 0.2f);
 
 
     private CanvasGroup cg;
@@ -24,8 +27,30 @@ public class UA : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cg = GameObject.Find("Canvas").GetComponent<CanvasGroup>();
+        cg = GameObject.Find("Canvas_Tips").GetComponent<CanvasGroup>();
     }
+
+    public void UAInit(UnityAgent unityAgent)
+    {
+        Agent agent = unityAgent.GetAgent();
+        MeshCreator meshCreator = new MeshCreator();
+        gameObject.AddComponent(typeof(MeshRenderer));
+        gameObject.AddComponent(typeof(MeshFilter));
+
+        gameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(meshElevation, agent.agentCoordinate.getVector2Coordinates());
+        gameObject.GetComponent<MeshFilter>().mesh.name = "Mesh_"+agent.name;
+        //gameObject.GetComponent<Renderer>().material = mat;
+        gameObject.transform.localScale = localScale;
+        gameObject.AddComponent<MeshCollider>();
+        this.ua_name = agent.agentName;
+        this.ua_code = 12;
+        this.population = 12;
+        this.cout_expro = 12;
+        this.fullNameOfUAname = agent.agentName + "_FULLNAME_" + 12;
+        this.classe_densite = agent.agentName + "_CLASSE_DENSITE_" + 12;
+    }
+
+
 
     // Update is called once per frame
     void Update()
@@ -47,8 +72,8 @@ public class UA : MonoBehaviour
     void OnMouseOver()
     {
 
-        Vector3 vect = worldToUISpace(GameObject.Find("Canvas").GetComponent<Canvas>(), Input.mousePosition);
-        vect.z = -200f;
+        Vector3 vect = worldToUISpace(GameObject.Find("Canvas_Tips").GetComponent<Canvas>(), Input.mousePosition);
+        vect.z = -400f;
         GameObject.Find("Tips").GetComponent<RectTransform>().transform.position = vect;
 
         SetInfo();
@@ -68,9 +93,11 @@ public class UA : MonoBehaviour
 
     void OnMouseExit()
     {
+        
         ResetSetInfo();
         cg.interactable = false;
         cg.alpha = 0;
+        
     }
 
     void SetInfo()
@@ -95,6 +122,8 @@ public class UA : MonoBehaviour
         GameObject.Find("full_name").GetComponent<Text>().text = "Full name: " ;
 
     }
+
+
 
     public Vector3 GetNewPosition()
     {

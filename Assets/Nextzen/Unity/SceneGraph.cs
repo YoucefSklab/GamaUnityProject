@@ -245,6 +245,7 @@ namespace Nextzen.Unity
             }
 
             Debug.Log("4-$$$$$$$$$$$$$$$$$ -------------------->");
+            if(1==2)
             // 2. Initialize game objects and associate their components (physics, rendering)
             foreach (var pair in gameObjectMeshData)
             {

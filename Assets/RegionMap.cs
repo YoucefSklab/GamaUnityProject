@@ -393,21 +393,24 @@ namespace Nextzen
 
         public void DrawNewAgents()
         {
-
+   
             RegionName = "GamaMap";
 
             bool isNewAgentCreated = false;
             List<FeatureMesh> meshList = new List<FeatureMesh>();
-
-            if (GamaManager.gamaAgentList.Count > 0)
+            if(1==2)
+            if (GamaManager.gamaAgentList.Length > 0)
             {
-                //SceneManager.LoadScene("LittoSIMInterface");
-
                 foreach (var agent in GamaManager.gamaAgentList)
                 {                   
                     if (!agent.isDrawed)
                     {
-                        Debug.Log("Draw Agent ----  >");
+                      // -------------------------------------------------------
+                      //  MainScene.gamaAgentList.Add(agent); //
+                      //  Debug.Log(" -->   New agent received ! " + agent.agentName);
+                      // -------------------------------------------------------
+
+                    /*
                         isNewAgentCreated = true;
                         agent.isDrawed = true;
 
@@ -440,8 +443,6 @@ namespace Nextzen
                         UVs = new List<Vector2>();
                         UVs = UvArray.ToList();
 
-                        Debug.Log("The vertices are: "+ Vertices.Count);
-
                         submesh.Indices = Indices;
 
                         submesh.Material = buildingMaterial;
@@ -453,9 +454,10 @@ namespace Nextzen
                         featureMesh.Mesh = meshData;
                         meshList.Add(featureMesh);
 
+                    */
 
                         // ---------------------------------------------------
-                                                
+                        /*                    
                         GameObject newGameObject;
                         newGameObject = new GameObject(agent.agentName);
                                                
@@ -478,8 +480,9 @@ namespace Nextzen
                         newGameObject.GetComponent<UA>().cout_expro = 12;
                         newGameObject.GetComponent<UA>().fullNameOfUAname = agent.agentName + "_FULLNAME_" + 12;
                         newGameObject.GetComponent<UA>().classe_densite = agent.agentName + "_CLASSE_DENSITE_" + 12;
-                        
-                        MainScene.gamaAgentList.Add(agent); //
+                        */
+
+                       
                         // ---------------------------------------------------
 
                     }

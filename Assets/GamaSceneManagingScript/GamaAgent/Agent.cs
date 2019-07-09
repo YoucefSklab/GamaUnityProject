@@ -85,13 +85,7 @@ namespace ummisco.gama.unity.GamaAgent
                     return IGeometry.EARTH;
             }
         }
-
-      
-
-
-
-
-
+        
     }
 }
 

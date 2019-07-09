@@ -61,7 +61,9 @@ namespace ummisco.gama.unity.topics
             // Agent gamaAgent = UtilXml.getAgent((XmlNode[])topicMessage.contents);
 
             Agent gamaAgent = unityAgent.GetAgent();
-            GamaManager.gamaAgentList.Add(gamaAgent);
+            GamaManager.gamaAgentList[GamaManager.nbrAgent] = gamaAgent;
+            GamaManager.nbrAgent++;
+            Debug.Log(" -->   New agent received ! " + gamaAgent.agentName);
 
         }
 

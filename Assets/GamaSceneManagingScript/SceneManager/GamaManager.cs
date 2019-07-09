@@ -30,6 +30,10 @@ namespace ummisco.gama.unity.SceneManager
 
         private static GamaManager m_Instance = null;
         public static GameObject MainCamera;
+        public long total = 0;
+        public int totalAgents = 0;
+        public int nbrMessage = 0;
+        public bool readMessage = false;
 
         public static GamaManager Instance { get { return m_Instance; } }
 
@@ -47,20 +51,28 @@ namespace ummisco.gama.unity.SceneManager
 
         public GameObject plane = null;
 
+        public Transform UA_Transform;
+        public Transform Def_Cote_Transform;
+
         public List<GameObject> objectsList = new List<GameObject>();
 
-        public static List<Agent> gamaAgentList = new List<Agent>();
-
+        public static Agent[] gamaAgentList = new Agent[5000];
+        public static int nbrAgent = 0;
+        
         public Material planeMaterial;
         public Material polygonMaterial;
         public Material lineMaterial;
+        public Material mat;
+
+        public Transform parentObjectTransform;
 
         public GameObject setTopicManager, getTotpicManager, moveTopicManager, notificationTopicManager;
 
+        private GameObject mainTopicManager;
+
+        private MeshCreator meshCreator = new MeshCreator();
 
         List<MqttMsgPublishEventArgs> msgList = new List<MqttMsgPublishEventArgs>();
-
-
 
         void Awake()
         {
@@ -94,7 +106,7 @@ namespace ummisco.gama.unity.SceneManager
             new GameObject(MqttSetting.MOVE_TOPIC_MANAGER).AddComponent<MoveTopic>();
             new GameObject(MqttSetting.NOTIFICATION_TOPIC_MANAGER).AddComponent<NotificationTopic>();
             new GameObject(MqttSetting.PROPERTY_TOPIC_MANAGER).AddComponent<PropertyTopic>();
-            new GameObject(MqttSetting.MAIN_TOPIC_MANAGER).AddComponent<MainTopic>();
+            (mainTopicManager = new GameObject(MqttSetting.MAIN_TOPIC_MANAGER)).AddComponent<MainTopic>();
 
             new GameObject(IGamaManager.CSVREADER).AddComponent<CSVReader>().transform.SetParent(gamaManager.transform);
 
@@ -105,8 +117,7 @@ namespace ummisco.gama.unity.SceneManager
         // Use this for initialization
         void Start()
         {
-
-            // To put only in start bloc
+          
 
             //MqttSetting.SERVER_URL = "localhost";
             //MqttSetting.SERVER_PORT = 1883;
@@ -147,9 +158,9 @@ namespace ummisco.gama.unity.SceneManager
 
         public void handleMessage()
         {
-            if (msgList.Count > 0)
+           // if(readMessage)
+            while(msgList.Count > 0)
             {
-
                 MqttMsgPublishEventArgs e = msgList[0];
                 if (!MqttSetting.getTopicsInList().Contains(e.Topic))
                 {
@@ -159,16 +170,30 @@ namespace ummisco.gama.unity.SceneManager
                 }
 
                 receivedMsg = System.Text.Encoding.UTF8.GetString(e.Message);
-                //Debug.Log ("-> Received Message is : " + receivedMsg);
-                allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+               // allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+
+                Debug.Log("-> Received Message is : " + receivedMsg);
 
                 switch (e.Topic)
                 {
                     case MqttSetting.MAIN_TOPIC:
                         //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
+                        Debug.Log(totalAgents+ "  -> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
+                        totalAgents++;
+
+                        DateTime currentDate = DateTime.Now;
 
                         UnityAgent unityAgent = (UnityAgent)MsgSerialization.deserialization(receivedMsg, new UnityAgent());
+
+                        DateTime NextDate = DateTime.Now;
+
+                        long elapsedTicks = NextDate.Ticks - currentDate.Ticks;
+                        total += elapsedTicks;
+                        TimeSpan elapsedSpan = new TimeSpan(total);
+
+                        // Debug.Log(" Elapsed time is : "+ elapsedTicks);
+                        // Debug.Log("  Elapsed time in seconds: " + elapsedSpan.TotalSeconds);
+                        // Debug.Log(" minutes : "+elapsedSpan.TotalMinutes);
 
                         /*
                         Debug.Log("-*----------------- - >  Deserialization: Sender is: " + unityAgent.sender);
@@ -187,15 +212,55 @@ namespace ummisco.gama.unity.SceneManager
                         Debug.Log("-*----------------- - >  Deserialization: Agent emissionTimeStamp is:  " + unityAgent.emissionTimeStamp);
                         */
 
-
                         // ----------------------------
+                        // ------------------------------------
+                        
+                        GameObject newGameObject;
+                        Agent agent = unityAgent.GetAgent();
+                        newGameObject = new GameObject(agent.agentName);
 
+                        if (agent.species.Equals("UA"))
+                        {
+                            newGameObject.GetComponent<Transform>().SetParent(UA_Transform);
+                          //  newGameObject.AddComponent<UA>().UAInit(unityAgent);
+                        }
+                        else if (agent.species.Equals("def_cote"))
+                        {
+                            newGameObject.GetComponent<Transform>().SetParent(Def_Cote_Transform);
+                        }
+                        else
+                        {
+                            //newGameObject.GetComponent<Transform>().SetParent(parentObjectTransform);
+                            newGameObject.GetComponent<Transform>().SetParent(UA_Transform);
+                        }
 
+                        newGameObject.AddComponent(typeof(MeshRenderer));
+                        newGameObject.AddComponent(typeof(MeshFilter));
+
+                        newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(30, agent.agentCoordinate.getVector2Coordinates());
+                        newGameObject.GetComponent<MeshFilter>().mesh.name = "CustomMesh";
+                        //mat.color = agent.color.getColorFromGamaColor();
+                        newGameObject.GetComponent<Renderer>().material = mat;
+                       
+                        newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+
+                        newGameObject.AddComponent<UA>();
+                        newGameObject.AddComponent<MeshCollider>();
+
+                        newGameObject.GetComponent<UA>().ua_name = agent.agentName + "_";
+                        newGameObject.GetComponent<UA>().ua_code = 12;
+                        newGameObject.GetComponent<UA>().population = 12;
+                        newGameObject.GetComponent<UA>().cout_expro = 12;
+                        newGameObject.GetComponent<UA>().fullNameOfUAname = agent.agentName + "_FULLNAME_" + 12;
+                        newGameObject.GetComponent<UA>().classe_densite = agent.agentName + "_CLASSE_DENSITE_" + 12;
+                        
+
+                        // - ---------------------------------
+                        
 
                         topicGameObject = gameObject;
                         //GamaMessage gamaMessage = (GamaMessage)MsgSerialization.deserialization(receivedMsg, new GamaMessage());
                         //targetGameObject = GameObject.Find(gamaMessage.receivers);
-
                         targetGameObject = GameObject.Find(unityAgent.receivers);
 
                         if (targetGameObject == null)
@@ -205,9 +270,8 @@ namespace ummisco.gama.unity.SceneManager
                         }
 
                         obj = new object[] { unityAgent, targetGameObject };
-                        //GamaManager obje = (GamaManager) FindObjectOfType(typeof(GamaManager));
-                        GameObject.Find(MqttSetting.MAIN_TOPIC_MANAGER).GetComponent(MqttSetting.MAIN_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
-
+                        mainTopicManager.GetComponent(MqttSetting.MAIN_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                        
                         //------------------------------------------------------------------------------
                         break;
                     case MqttSetting.MONO_FREE_TOPIC:
@@ -600,5 +664,7 @@ namespace ummisco.gama.unity.SceneManager
         {
             client.Publish(topic, System.Text.Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
         }
+
+        
     }
 }
