@@ -22,6 +22,8 @@ using ummisco.gama.unity.topics;
 using System.Globalization;
 using ummisco.gama.unity.GamaAgent;
 using Nextzen;
+using ummisco.gama.unity.littosim;
+
 namespace ummisco.gama.unity.SceneManager
 {
     public class GamaManager : MonoBehaviour
@@ -222,11 +224,25 @@ namespace ummisco.gama.unity.SceneManager
                         if (agent.species.Equals("UA"))
                         {
                             newGameObject.GetComponent<Transform>().SetParent(UA_Transform);
-                          //  newGameObject.AddComponent<UA>().UAInit(unityAgent);
+                            //  newGameObject.AddComponent<UA>().UAInit(unityAgent);
+                            newGameObject.AddComponent<UA>();
+                            newGameObject.GetComponent<UA>().ua_name = agent.agentName + "_";
+                            newGameObject.GetComponent<UA>().ua_code = 12;
+                            newGameObject.GetComponent<UA>().population = 12;
+                            newGameObject.GetComponent<UA>().cout_expro = 12;
+                            newGameObject.GetComponent<UA>().fullNameOfUAname = agent.agentName + "_FULLNAME_" + 12;
+                            newGameObject.GetComponent<UA>().classe_densite = agent.agentName + "_CLASSE_DENSITE_" + 12;
                         }
                         else if (agent.species.Equals("def_cote"))
                         {
                             newGameObject.GetComponent<Transform>().SetParent(Def_Cote_Transform);
+                            newGameObject.AddComponent<DefCote>();
+                            newGameObject.GetComponent<DefCote>().dike_id = 13;
+                            newGameObject.GetComponent<DefCote>().type = "type";
+                            newGameObject.GetComponent<DefCote>().height = 30;
+                            newGameObject.GetComponent<DefCote>().status = "status";
+                            newGameObject.GetComponent<DefCote>().length_def_cote = 13;
+                            newGameObject.GetComponent<DefCote>().meshElevation = 30;
                         }
                         else
                         {
@@ -241,18 +257,10 @@ namespace ummisco.gama.unity.SceneManager
                         newGameObject.GetComponent<MeshFilter>().mesh.name = "CustomMesh";
                         //mat.color = agent.color.getColorFromGamaColor();
                         newGameObject.GetComponent<Renderer>().material = mat;
-                       
                         newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-
-                        newGameObject.AddComponent<UA>();
                         newGameObject.AddComponent<MeshCollider>();
 
-                        newGameObject.GetComponent<UA>().ua_name = agent.agentName + "_";
-                        newGameObject.GetComponent<UA>().ua_code = 12;
-                        newGameObject.GetComponent<UA>().population = 12;
-                        newGameObject.GetComponent<UA>().cout_expro = 12;
-                        newGameObject.GetComponent<UA>().fullNameOfUAname = agent.agentName + "_FULLNAME_" + 12;
-                        newGameObject.GetComponent<UA>().classe_densite = agent.agentName + "_CLASSE_DENSITE_" + 12;
+                       
                         
 
                         // - ---------------------------------

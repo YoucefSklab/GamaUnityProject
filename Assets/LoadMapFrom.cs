@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using ummisco.gama.unity.files.ShapefileImporter;
+using ummisco.gama.unity.littosim;
 using ummisco.gama.unity.utils;
 using UnityEditor;
 using UnityEngine;
