@@ -221,10 +221,26 @@ namespace ummisco.gama.unity.SceneManager
                         Agent agent = unityAgent.GetAgent();
                         newGameObject = new GameObject(agent.agentName);
 
+                        newGameObject.AddComponent(typeof(MeshRenderer));
+                        newGameObject.AddComponent(typeof(MeshFilter));
+                        newGameObject.GetComponent<MeshFilter>().mesh.name = "CustomMesh";
+                        newGameObject.AddComponent<MeshCollider>();
+
                         if (agent.species.Equals("UA"))
                         {
                             newGameObject.GetComponent<Transform>().SetParent(UA_Transform);
-                            //  newGameObject.AddComponent<UA>().UAInit(unityAgent);
+                          
+                            newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(50, agent.agentCoordinate.getVector2Coordinates());
+                            //mat.color = agent.color.getColorFromGamaColor();
+                            newGameObject.GetComponent<Renderer>().material = planeMaterial;
+
+                            Material mat1 = new Material(Shader.Find("Standard"));
+                            mat1.color =agent.color.getColorFromGamaColor();
+                            newGameObject.GetComponent<Renderer>().material = mat1;
+                            //meshRenderer.materials = materials;
+
+                            newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+
                             newGameObject.AddComponent<UA>();
                             newGameObject.GetComponent<UA>().ua_name = agent.agentName + "_";
                             newGameObject.GetComponent<UA>().ua_code = 12;
@@ -236,6 +252,12 @@ namespace ummisco.gama.unity.SceneManager
                         else if (agent.species.Equals("def_cote"))
                         {
                             newGameObject.GetComponent<Transform>().SetParent(Def_Cote_Transform);
+
+                            newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(50, agent.agentCoordinate.getVector2Coordinates());
+                            //mat.color = agent.color.getColorFromGamaColor();
+                            newGameObject.GetComponent<Renderer>().material = lineMaterial;
+                            newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+
                             newGameObject.AddComponent<DefCote>();
                             newGameObject.GetComponent<DefCote>().dike_id = 13;
                             newGameObject.GetComponent<DefCote>().type = "type";
@@ -248,23 +270,20 @@ namespace ummisco.gama.unity.SceneManager
                         {
                             //newGameObject.GetComponent<Transform>().SetParent(parentObjectTransform);
                             newGameObject.GetComponent<Transform>().SetParent(UA_Transform);
+                            newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(10, agent.agentCoordinate.getVector2Coordinates());
+                            //mat.color = agent.color.getColorFromGamaColor();
+                            newGameObject.GetComponent<Renderer>().material = planeMaterial;
+                            newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
                         }
 
-                        newGameObject.AddComponent(typeof(MeshRenderer));
-                        newGameObject.AddComponent(typeof(MeshFilter));
 
-                        newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(30, agent.agentCoordinate.getVector2Coordinates());
-                        newGameObject.GetComponent<MeshFilter>().mesh.name = "CustomMesh";
-                        //mat.color = agent.color.getColorFromGamaColor();
-                        newGameObject.GetComponent<Renderer>().material = mat;
-                        newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                        newGameObject.AddComponent<MeshCollider>();
 
-                       
-                        
+
+
+
 
                         // - ---------------------------------
-                        
+
 
                         topicGameObject = gameObject;
                         //GamaMessage gamaMessage = (GamaMessage)MsgSerialization.deserialization(receivedMsg, new GamaMessage());

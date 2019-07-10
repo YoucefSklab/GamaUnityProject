@@ -19,12 +19,9 @@ public class MiniMapCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        miniMapCamera.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.localPosition.z);
-        // miniMapCamera.GetComponent<RectTransform>().anchoredPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
-        // miniMapCamera.transform.localPosition = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.localPosition.z));
-        miniMapCamera.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -800));
+        //miniMapCamera.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.localPosition.z);
+        //miniMapCamera.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -800));
         Vector3 p = uiManager.GetComponent<UIManager>().worldToUISpace(uiCanvas, Input.mousePosition);
-
         miniMapCamera.transform.position = new Vector3(p.x, p.y, -800);
 
     }
