@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using Nextzen.VectorData;
+using ummisco.gama.unity.littosim;
 
 namespace ummisco.gama.unity.GamaAgent
 {
@@ -37,6 +38,24 @@ namespace ummisco.gama.unity.GamaAgent
             this.agentName = agentName;
             this.isDrawed = false;
             this.height = 0.0f;
+        }
+
+        public Vector2[] ConvertVertices()
+        {
+            Vector3[] vertices = this.agentCoordinate.getVector3Coordinates();
+            Vector2[] newVertices = new Vector2[vertices.Length];
+
+            GameObject uiManager = GameObject.Find(IUILittoSim.UI_MANAGER);
+            Canvas canvas = GameObject.Find("MapCanvas").GetComponent<Canvas>();
+
+            for(int i=0; i < vertices.Length; i++)
+            {
+                Vector3 vect = vertices[i];
+                Vector3 p = uiManager.GetComponent<UIManager>().worldToUISpace(canvas, vect);
+                Vector2 p2 = p;
+                newVertices[i] = p2;
+            }
+            return newVertices;
         }
 
         public Agent()

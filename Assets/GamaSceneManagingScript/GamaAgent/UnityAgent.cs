@@ -54,7 +54,9 @@ namespace ummisco.gama.unity.GamaAgent
 
             foreach (GamaPoint point in contents.vertices)
             {
-                point.y = -point.y;
+               // point.x = point.x - (18120/2);
+               // point.y = point.y - (12620/2);
+                point.y = - point.y;
                 listPoints.Add(point);
             }
 

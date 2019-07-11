@@ -160,8 +160,12 @@ namespace ummisco.gama.unity.SceneManager
 
         public void handleMessage()
         {
-           // if(readMessage)
-            while(msgList.Count > 0)
+            GameObject uiManager = GameObject.Find(IUILittoSim.UI_MANAGER);
+            Canvas canvas = GameObject.Find("MapCanvas").GetComponent<Canvas>();
+
+
+            // if(readMessage)
+            while (msgList.Count > 0)
             {
                 MqttMsgPublishEventArgs e = msgList[0];
                 if (!MqttSetting.getTopicsInList().Contains(e.Topic))
@@ -181,18 +185,12 @@ namespace ummisco.gama.unity.SceneManager
                     case MqttSetting.MAIN_TOPIC:
                         //------------------------------------------------------------------------------
                         Debug.Log(totalAgents+ "  -> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
-                        totalAgents++;
-
-                        DateTime currentDate = DateTime.Now;
 
                         UnityAgent unityAgent = (UnityAgent)MsgSerialization.deserialization(receivedMsg, new UnityAgent());
 
-                        DateTime NextDate = DateTime.Now;
-
-                        long elapsedTicks = NextDate.Ticks - currentDate.Ticks;
-                        total += elapsedTicks;
-                        TimeSpan elapsedSpan = new TimeSpan(total);
-
+                        Debug.Log(" Information : ");
+                        Debug.Log("Agent name is: " + unityAgent.contents.agentName);
+                        Debug.Log("The location is : " + unityAgent.contents.location.toVector3D());
                         // Debug.Log(" Elapsed time is : "+ elapsedTicks);
                         // Debug.Log("  Elapsed time in seconds: " + elapsedSpan.TotalSeconds);
                         // Debug.Log(" minutes : "+elapsedSpan.TotalMinutes);
@@ -216,30 +214,62 @@ namespace ummisco.gama.unity.SceneManager
 
                         // ----------------------------
                         // ------------------------------------
-                        
+
                         GameObject newGameObject;
                         Agent agent = unityAgent.GetAgent();
                         newGameObject = new GameObject(agent.agentName);
-
+         
+                        
                         newGameObject.AddComponent(typeof(MeshRenderer));
                         newGameObject.AddComponent(typeof(MeshFilter));
                         newGameObject.GetComponent<MeshFilter>().mesh.name = "CustomMesh";
                         newGameObject.AddComponent<MeshCollider>();
-
+                        
                         if (agent.species.Equals("UA"))
                         {
-                            newGameObject.GetComponent<Transform>().SetParent(UA_Transform);
-                          
-                            newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(50, agent.agentCoordinate.getVector2Coordinates());
-                            //mat.color = agent.color.getColorFromGamaColor();
-                            newGameObject.GetComponent<Renderer>().material = planeMaterial;
+                           
+                            //newGameObject.GetComponent<Transform>().SetParent(UA_Transform);
+                            newGameObject.GetComponent<Transform>().SetParent(GameObject.Find("MapCanvas").GetComponent<RectTransform>());
 
-                            Material mat1 = new Material(Shader.Find("Standard"));
-                            mat1.color =agent.color.getColorFromGamaColor();
-                            newGameObject.GetComponent<Renderer>().material = mat1;
+                            
+                            //newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(30, agent.agentCoordinate.getVector2Coordinates());
+                            newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(30, agent.ConvertVertices());
+                            //mat.color = agent.color.getColorFromGamaColor();
+                            //newGameObject.GetComponent<Renderer>().material = polygonMaterial;
+    
+                            Vector3 posi = agent.location;
+                            posi.y = - posi.y;
+
+                            //posi = uiManager.GetComponent<UIManager>().worldToUISpace(canvas, posi);
+                            newGameObject.GetComponent<Transform>().position = posi;
+
+                            if (newGameObject.name.Equals("UA1510"))
+                            {
+                                newGameObject.GetComponent<Renderer>().material = polygonMaterial;
+                            }
+                          
+                            
+                            /*
+                            Vector3 posi = agent.location;
+                            posi.y = -posi.y;
+                            posi = uiManager.GetComponent<UIManager>().worldToUISpace(canvas, posi);
+                            */
+                          //  newGameObject.AddComponent(typeof(MeshRenderer));
+                          //  newGameObject.AddComponent(typeof(MeshFilter));
+                          //  newGameObject.AddComponent<MeshCollider>();
+
+                           // newGameObject.GetComponent<Transform>().localPosition = posi;
+
+                            RectTransform rt =  (newGameObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
+
+                            rt.anchorMin = new Vector2(0,1);
+                            rt.anchorMax = new Vector2(0, 1);
+                            rt.pivot = new Vector2(0, 1);
+                           // rt.localScale = new Vector2(0, 1);
+
                             //meshRenderer.materials = materials;
 
-                            newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                            //newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
 
                             newGameObject.AddComponent<UA>();
                             newGameObject.GetComponent<UA>().ua_name = agent.agentName + "_";
@@ -252,12 +282,12 @@ namespace ummisco.gama.unity.SceneManager
                         else if (agent.species.Equals("def_cote"))
                         {
                             newGameObject.GetComponent<Transform>().SetParent(Def_Cote_Transform);
-
                             newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(50, agent.agentCoordinate.getVector2Coordinates());
                             //mat.color = agent.color.getColorFromGamaColor();
                             newGameObject.GetComponent<Renderer>().material = lineMaterial;
-                            newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-
+                            //newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                            
+ 
                             newGameObject.AddComponent<DefCote>();
                             newGameObject.GetComponent<DefCote>().dike_id = 13;
                             newGameObject.GetComponent<DefCote>().type = "type";
@@ -273,7 +303,7 @@ namespace ummisco.gama.unity.SceneManager
                             newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(10, agent.agentCoordinate.getVector2Coordinates());
                             //mat.color = agent.color.getColorFromGamaColor();
                             newGameObject.GetComponent<Renderer>().material = planeMaterial;
-                            newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                            //newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
                         }
 
 
