@@ -55,14 +55,25 @@ namespace ummisco.gama.unity.littosim
 
         public const string UI_MANAGER = "UIManager";
 
+        // species code
+        public const int LAND_USE_ID = 1;
+        public const int COASTAL_DEFENSE_ID = 2;
+        public const int DISTRICT_ID = 3;
+        public const int PROTECTED_AREA_ID = 4;
+        public const int ROAD_ID = 5;
+        public const int FLOOD_RISK_AREA_ID = 6;
 
-
-
-
+        // species names
+        public const string LAND_USE = "Land_Use";
+        public const string COASTAL_DEFENSE = "Coastal_Defense";
+        public const string DISTRICT = "District";
+        public const string PROTECTED_AREA = "Protected_Area";
+        public const string ROAD = "Road";
+        public const string FLOOD_RISK_AREA = "Flood_Risk_Area";
 
 
         // Other UI Elements
-
+        /*
         public const string UI_TXT_Button_Amenagement = " Aménagement, PLU et habitat";
         public const string UI_TXT_Button_Defense = " Aménagement, PLU et habitat";
         public const string UI_LBL_Label_Ajouter = "Ajouter";
@@ -77,8 +88,7 @@ namespace ummisco.gama.unity.littosim
         public const string UI_LBL_Budget_Initial_Label = "Budget initial";
         public const string UI_LBL_Budget_Restant_Label = "Budget restant";
         public const string UI_LBL_Valider_Text = "Valider";
-
-
+        */
 
 
     }

@@ -65,8 +65,6 @@ public class LoadMapFrom : MonoBehaviour
         //shapeFile.Read(fileName);
 
 
-
-
         int i = 0;
         for (int k = 0; k < shapeFile.MyRecords.Count; k++)
         {
@@ -86,40 +84,6 @@ public class LoadMapFrom : MonoBehaviour
                 vert += v2;
             }
          
-            DataRow row = rec.Attributes;
-          
-            if (rec.Attributes == null)
-            {
-                Debug.Log("--------------> there is a problem ");
-            }
-            else
-            {
-                Debug.Log("--------------> Good, there is a no problem ");
-            }
-            //Debug.Log("--------------> " + row["FID_1"]);
-
-            /*
-            foreach (object item in row.ItemArray)
-            {
-                if (item is int)
-                {
-                    Debug.Log("Int: {0}", (UnityEngine.Object)item);
-                }
-                else if (item is string)
-                {
-                    Debug.Log("String: {0}", (UnityEngine.Object)item);
-                }
-                else if (item is DateTime)
-                {
-                    Debug.Log("DateTime: {0}", (UnityEngine.Object)item);
-                }
-            }
-            */
-
-            //triangulator.setPoints(listPoint);
-
-            Debug.Log("The record vertices are : " + vert);
-
             newGameObject = new GameObject(prefix+"_" + i);
             
             newGameObject.AddComponent(typeof(MeshRenderer));
@@ -131,21 +95,17 @@ public class LoadMapFrom : MonoBehaviour
             newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
 
             newGameObject.GetComponent<Transform>().SetParent(parent.GetComponent<Transform>());
-            newGameObject.AddComponent<UA>();
+            newGameObject.AddComponent<Land_Use>();
             newGameObject.AddComponent<MeshCollider>();
 
-            newGameObject.GetComponent<UA>().ua_name = prefix + "_" + i;
-            newGameObject.GetComponent<UA>().ua_code = i;
-            newGameObject.GetComponent<UA>().population = i;
-            newGameObject.GetComponent<UA>().cout_expro = i;
-            newGameObject.GetComponent<UA>().fullNameOfUAname = prefix + "_FULLNAME_" + i;
-            newGameObject.GetComponent<UA>().classe_densite = prefix + "_CLASSE_DENSITE_" + i;
-
-            
+            newGameObject.GetComponent<Land_Use>().lu_name = prefix + "_" + i;
+            newGameObject.GetComponent<Land_Use>().lu_code = i;
+            newGameObject.GetComponent<Land_Use>().population = i;
+            newGameObject.GetComponent<Land_Use>().expro_cost = i;
+            newGameObject.GetComponent<Land_Use>().density_class = prefix + "_CLASSE_DENSITE_" + i;
 
             i++;
         }
-
     }
 
     public Mesh CreateMesh(int elevation, Vector2[] vect)

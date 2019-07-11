@@ -11,7 +11,7 @@ namespace ummisco.gama.unity.utils
         }
 
 
-        public Mesh CreateMesh(int elevation, Vector2[] vect)
+        public Mesh CreateMesh(float elevation, Vector2[] vect)
         {
             Mesh mesh = new Mesh();
             Triangulator tri = new Triangulator(vect);

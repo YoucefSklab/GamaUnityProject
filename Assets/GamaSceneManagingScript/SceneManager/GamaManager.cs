@@ -71,8 +71,9 @@ namespace ummisco.gama.unity.SceneManager
         public GameObject setTopicManager, getTotpicManager, moveTopicManager, notificationTopicManager;
 
         private GameObject mainTopicManager;
+        private GameObject agentCreator; 
 
-        private MeshCreator meshCreator = new MeshCreator();
+     
 
         List<MqttMsgPublishEventArgs> msgList = new List<MqttMsgPublishEventArgs>();
 
@@ -149,6 +150,7 @@ namespace ummisco.gama.unity.SceneManager
 
             client.Publish("littosim", System.Text.Encoding.UTF8.GetBytes(client.ClientId));
 
+            agentCreator = GameObject.Find("AgentCreator");
         }
 
 
@@ -185,99 +187,88 @@ namespace ummisco.gama.unity.SceneManager
                     case MqttSetting.MAIN_TOPIC:
                         //------------------------------------------------------------------------------
                         Debug.Log(totalAgents+ "  -> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
-
                         UnityAgent unityAgent = (UnityAgent)MsgSerialization.deserialization(receivedMsg, new UnityAgent());
+                        Agent agent = unityAgent.GetAgent();
 
-                        Debug.Log(" Information : ");
-                        Debug.Log("Agent name is: " + unityAgent.contents.agentName);
-                        Debug.Log("The location is : " + unityAgent.contents.location.toVector3D());
-                        // Debug.Log(" Elapsed time is : "+ elapsedTicks);
-                        // Debug.Log("  Elapsed time in seconds: " + elapsedSpan.TotalSeconds);
-                        // Debug.Log(" minutes : "+elapsedSpan.TotalMinutes);
+                        switch (agent.species)
+                        {
+                            case IUILittoSim.LAND_USE:
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, UA_Transform, polygonMaterial, IUILittoSim.LAND_USE_ID);
+                                break;
+                            case IUILittoSim.COASTAL_DEFENSE:
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Def_Cote_Transform, lineMaterial, IUILittoSim.COASTAL_DEFENSE_ID);
+                                break;
+                            case IUILittoSim.DISTRICT:
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, UA_Transform, planeMaterial, IUILittoSim.DISTRICT_ID);
+                                break;
+                            case IUILittoSim.FLOOD_RISK_AREA:
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, UA_Transform, mat, IUILittoSim.FLOOD_RISK_AREA_ID);
+                                break;
+                            case IUILittoSim.PROTECTED_AREA:
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, UA_Transform, mat, IUILittoSim.PROTECTED_AREA_ID);
+                                break;
+                            case IUILittoSim.ROAD:
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, UA_Transform, mat, IUILittoSim.ROAD_ID);
+                                break;
+                            default:
+                                targetGameObject = GameObject.Find(unityAgent.receivers);
+                                if (targetGameObject == null)
+                                {
+                                    Debug.LogError(" Sorry, requested gameObject is null (" + unityAgent.receivers + "). Please check you code! ");
+                                    break;
+                                }
+                                else
+                                {
+                                    obj = new object[] { unityAgent, targetGameObject };
+                                    mainTopicManager.GetComponent(MqttSetting.MAIN_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                                }
+                                break;
+                        }
 
                         /*
-                        Debug.Log("-*----------------- - >  Deserialization: Sender is: " + unityAgent.sender);
-
-                        Debug.Log("-*----------------- - >  Deserialization: Agent Name is:  " + unityAgent.contents.agentName);
-
-                        Debug.Log("-*----------------- - >  Deserialization: Agent geometry is:  " + unityAgent.contents.geometryType);
-
-                        Debug.Log("-*----------------- - >  Deserialization: Agent vertices are:  " + unityAgent.contents.vertices.Count);
-                        Debug.Log("-*----------------- - >  Deserialization: Agent first vertex is:  " + unityAgent.contents.vertices[0].ToString());
-
-                        Debug.Log("-*----------------- - >  Deserialization: Agent color is:  " + unityAgent.contents.color.ToString());
-
-                        Debug.Log("-*----------------- - >  Deserialization: Agent height is:  " + unityAgent.contents.height);
-
-                        Debug.Log("-*----------------- - >  Deserialization: Agent emissionTimeStamp is:  " + unityAgent.emissionTimeStamp);
-                        */
-
-                        // ----------------------------
-                        // ------------------------------------
-
-                        GameObject newGameObject;
-                        Agent agent = unityAgent.GetAgent();
-                        newGameObject = new GameObject(agent.agentName);
-         
-                        
-                        newGameObject.AddComponent(typeof(MeshRenderer));
-                        newGameObject.AddComponent(typeof(MeshFilter));
-                        newGameObject.GetComponent<MeshFilter>().mesh.name = "CustomMesh";
-                        newGameObject.AddComponent<MeshCollider>();
-                        
-                        if (agent.species.Equals("UA"))
+                        if (unityAgent.contents.species.Equals(IUILittoSim.LAND_USE))
                         {
+
                            
-                            //newGameObject.GetComponent<Transform>().SetParent(UA_Transform);
-                            newGameObject.GetComponent<Transform>().SetParent(GameObject.Find("MapCanvas").GetComponent<RectTransform>());
+                           /// newGameObject.GetComponent<Transform>().SetParent(UA_Transform);
+                            //newGameObject.GetComponent<Transform>().SetParent(GameObject.Find("MapCanvas").GetComponent<RectTransform>());
 
                             
-                            //newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(30, agent.agentCoordinate.getVector2Coordinates());
-                            newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(30, agent.ConvertVertices());
+                           /// newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(30, agent.agentCoordinate.getVector2Coordinates());
+                            //newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(30, agent.ConvertVertices());
                             //mat.color = agent.color.getColorFromGamaColor();
                             //newGameObject.GetComponent<Renderer>().material = polygonMaterial;
     
-                            Vector3 posi = agent.location;
-                            posi.y = - posi.y;
+                           /// Vector3 posi = agent.location;
+                           /// posi.y = - posi.y;
 
                             //posi = uiManager.GetComponent<UIManager>().worldToUISpace(canvas, posi);
-                            newGameObject.GetComponent<Transform>().position = posi;
-
-                            if (newGameObject.name.Equals("UA1510"))
-                            {
-                                newGameObject.GetComponent<Renderer>().material = polygonMaterial;
-                            }
-                          
+                            //newGameObject.GetComponent<Transform>().position = posi;
+ 
+                           
+                           /// Vector3 posi = agent.location;
+                           /// posi.y = -posi.y;
+                           /// posi = uiManager.GetComponent<UIManager>().worldToUISpace(canvas, posi);
                             
-                            /*
-                            Vector3 posi = agent.location;
-                            posi.y = -posi.y;
-                            posi = uiManager.GetComponent<UIManager>().worldToUISpace(canvas, posi);
-                            */
                           //  newGameObject.AddComponent(typeof(MeshRenderer));
                           //  newGameObject.AddComponent(typeof(MeshFilter));
                           //  newGameObject.AddComponent<MeshCollider>();
 
                            // newGameObject.GetComponent<Transform>().localPosition = posi;
+                           
+                           /// RectTransform rt =  (newGameObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
 
-                            RectTransform rt =  (newGameObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
+                           /// rt.anchorMin = new Vector2(0,1);
+                           /// rt.anchorMax = new Vector2(0, 1);
+                           /// rt.pivot = new Vector2(0, 1);
 
-                            rt.anchorMin = new Vector2(0,1);
-                            rt.anchorMax = new Vector2(0, 1);
-                            rt.pivot = new Vector2(0, 1);
                            // rt.localScale = new Vector2(0, 1);
 
                             //meshRenderer.materials = materials;
 
                             //newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
 
-                            newGameObject.AddComponent<UA>();
-                            newGameObject.GetComponent<UA>().ua_name = agent.agentName + "_";
-                            newGameObject.GetComponent<UA>().ua_code = 12;
-                            newGameObject.GetComponent<UA>().population = 12;
-                            newGameObject.GetComponent<UA>().cout_expro = 12;
-                            newGameObject.GetComponent<UA>().fullNameOfUAname = agent.agentName + "_FULLNAME_" + 12;
-                            newGameObject.GetComponent<UA>().classe_densite = agent.agentName + "_CLASSE_DENSITE_" + 12;
+                  
                         }
                         else if (agent.species.Equals("def_cote"))
                         {
@@ -306,29 +297,16 @@ namespace ummisco.gama.unity.SceneManager
                             //newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
                         }
 
+                        */
 
 
 
 
-
-
+                        
                         // - ---------------------------------
 
 
-                        topicGameObject = gameObject;
-                        //GamaMessage gamaMessage = (GamaMessage)MsgSerialization.deserialization(receivedMsg, new GamaMessage());
-                        //targetGameObject = GameObject.Find(gamaMessage.receivers);
-                        targetGameObject = GameObject.Find(unityAgent.receivers);
-
-                        if (targetGameObject == null)
-                        {
-                            Debug.LogError(" Sorry, requested gameObject is null (" + unityAgent.receivers + "). Please check you code! ");
-                            break;
-                        }
-
-                        obj = new object[] { unityAgent, targetGameObject };
-                        mainTopicManager.GetComponent(MqttSetting.MAIN_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
-                        
+                       
                         //------------------------------------------------------------------------------
                         break;
                     case MqttSetting.MONO_FREE_TOPIC:

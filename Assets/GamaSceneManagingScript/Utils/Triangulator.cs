@@ -140,7 +140,7 @@ namespace ummisco.gama.unity.utils
 
 
 
-        public Vector3[] VerticesWithElevation(int elevation)
+        public Vector3[] VerticesWithElevation(float elevation)
         {
 
             Vector3[] vertices = new Vector3[m_points.Count * 2];

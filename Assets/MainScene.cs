@@ -45,15 +45,14 @@ public class MainScene : MonoBehaviour
             newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
 
             newGameObject.GetComponent<Transform>().SetParent(GameObject.Find("Test").GetComponent<Transform>());
-            newGameObject.AddComponent<UA>();
+            newGameObject.AddComponent<Land_Use>();
             newGameObject.AddComponent<MeshCollider>();
 
-            newGameObject.GetComponent<UA>().ua_name = agent.agentName + "_";
-            newGameObject.GetComponent<UA>().ua_code = 12;
-            newGameObject.GetComponent<UA>().population = 12;
-            newGameObject.GetComponent<UA>().cout_expro = 12;
-            newGameObject.GetComponent<UA>().fullNameOfUAname = agent.agentName + "_FULLNAME_" + 12;
-            newGameObject.GetComponent<UA>().classe_densite = agent.agentName + "_CLASSE_DENSITE_" + 12;
+            newGameObject.GetComponent<Land_Use>().lu_name = agent.agentName + "_";
+            newGameObject.GetComponent<Land_Use>().lu_code = 12;
+            newGameObject.GetComponent<Land_Use>().population = 12;
+            newGameObject.GetComponent<Land_Use>().expro_cost = 12;
+            newGameObject.GetComponent<Land_Use>().density_class = agent.agentName + "_CLASSE_DENSITE_" + 12;
         }
     }
 
@@ -92,15 +91,14 @@ public class MainScene : MonoBehaviour
             newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
 
             newGameObject.GetComponent<Transform>().SetParent(GameObject.Find("MapElements").GetComponent<Transform>());
-            newGameObject.AddComponent<UA>();
+            newGameObject.AddComponent<Land_Use>();
             newGameObject.AddComponent<MeshCollider>();
 
-            newGameObject.GetComponent<UA>().ua_name = agent.agentName + "_";
-            newGameObject.GetComponent<UA>().ua_code = 12;
-            newGameObject.GetComponent<UA>().population = 12;
-            newGameObject.GetComponent<UA>().cout_expro = 12;
-            newGameObject.GetComponent<UA>().fullNameOfUAname = agent.agentName + "_FULLNAME_" + 12;
-            newGameObject.GetComponent<UA>().classe_densite = agent.agentName + "_CLASSE_DENSITE_" + 12;
+            newGameObject.GetComponent<Land_Use>().lu_name = agent.agentName + "_";
+            newGameObject.GetComponent<Land_Use>().lu_code = 12;
+            newGameObject.GetComponent<Land_Use>().population = 12;
+            newGameObject.GetComponent<Land_Use>().expro_cost= 12;
+            newGameObject.GetComponent<Land_Use>().density_class = agent.agentName + "_CLASSE_DENSITE_" + 12;
         }
     }
 
