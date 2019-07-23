@@ -9,7 +9,7 @@ namespace ummisco.gama.unity.littosim
         public static float max_x = 1400;
         public static float min_x = -1400;
         public static int action_nbr = 10;
-
+        
         public static float y = 0f;
         public static float z = 0f;
 

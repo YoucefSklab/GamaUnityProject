@@ -64,9 +64,9 @@ namespace ummisco.gama.unity.littosim
         {
             Dictionary<string, Action> actions_list = new Dictionary<string, Action>();
             string[] lines = fileContent.Split(lineSeperater);
-
             for (int i = 1; i < lines.Length; i++)
             {
+               
                 Action act = GetActionElement(lines[i]);
                 if ((act.def_cote_index >= 1) || (act.UA_index >= 1))
                 {
@@ -124,11 +124,13 @@ namespace ummisco.gama.unity.littosim
 
         public void SetUpUAActions(Dictionary<string, Action> actions)
         {
+          
 
             GameObject Ua_Panel = GameObject.Find(IUILittoSim.UA_PANEL);
 
             foreach (KeyValuePair<string, Action> act in actions)
             {
+                
                 GameObject action_button = Instantiate(GameObject.Find(ILittoSimConcept.LITTOSIM_MANANGER).GetComponent<LittosimManager>().ButtonActionPrefab);
                 action_button.name = "UA_" + act.Key;
                 action_button.GetComponent<RectTransform>().SetParent(Ua_Panel.GetComponent<RectTransform>());

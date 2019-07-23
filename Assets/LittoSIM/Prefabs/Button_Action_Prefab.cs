@@ -31,30 +31,31 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
             }
         }
 
-        public Button_Action_Prefab(string action_name, int action_code, string msg_help, string icon, string type, Vector3 position)
+        public Button_Action_Prefab(string action_name, int action_code, string msg_help, string icon, string type, Vector3 posi)
         {
             this.action_name = action_name;
             code = action_code;
             button_help_message = msg_help;
             button_icon = icon;
             this.type = type;
-            this.position = position;
-
+            this.position = posi;
+    
             Debug.Log("--  --  --  --  > The action code is " + code);
         }
 
-        public void SetUp(string action_name, int action_code, string msg_help, string icon, string type, Vector3 position)
+        public void SetUp(string action_name, int action_code, string msg_help, string icon, string type, Vector3 posi)
         {
             this.action_name = action_name;
             code = action_code;
             button_help_message = msg_help;
             button_icon = icon;
             this.type = type;
-            this.position = position;
+            this.position = posi;
 
             Sprite ImageIcon = Resources.Load<Sprite>(icon);
             gameObject.GetComponent<Image>().overrideSprite = ImageIcon;
-            gameObject.GetComponent<RectTransform>().anchoredPosition = position;
+            gameObject.GetComponent<RectTransform>().localPosition = this.position;
+     
         }
 
         public void onAddButtonClicked()
