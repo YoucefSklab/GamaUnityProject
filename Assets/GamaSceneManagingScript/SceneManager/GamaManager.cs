@@ -53,8 +53,8 @@ namespace ummisco.gama.unity.SceneManager
 
         public GameObject plane = null;
 
-        public Transform UA_Transform;
-        public Transform Def_Cote_Transform;
+        public Transform Land_Use_Transform;
+        public Transform Coastal_Defense_Transform;
 
         public List<GameObject> objectsList = new List<GameObject>();
 
@@ -151,6 +151,8 @@ namespace ummisco.gama.unity.SceneManager
             client.Publish("littosim", System.Text.Encoding.UTF8.GetBytes(client.ClientId));
 
             agentCreator = GameObject.Find("AgentCreator");
+
+            agentCreator.GetComponent<AgentCreator>().CreateLine();
         }
 
 
@@ -178,8 +180,7 @@ namespace ummisco.gama.unity.SceneManager
                 }
 
                 receivedMsg = System.Text.Encoding.UTF8.GetString(e.Message);
-               // allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-
+              
                 Debug.Log("-> Received Message is : " + receivedMsg);
 
                 switch (e.Topic)
@@ -193,22 +194,30 @@ namespace ummisco.gama.unity.SceneManager
                         switch (agent.species)
                         {
                             case IUILittoSim.LAND_USE:
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, UA_Transform, polygonMaterial, IUILittoSim.LAND_USE_ID);
+                                agent.height = 50;
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, polygonMaterial, IUILittoSim.LAND_USE_ID, true);
                                 break;
                             case IUILittoSim.COASTAL_DEFENSE:
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Def_Cote_Transform, lineMaterial, IUILittoSim.COASTAL_DEFENSE_ID);
+                                agent.height = 80;
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Coastal_Defense_Transform, lineMaterial, IUILittoSim.COASTAL_DEFENSE_ID, true);
                                 break;
                             case IUILittoSim.DISTRICT:
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, UA_Transform, planeMaterial, IUILittoSim.DISTRICT_ID);
+                                agent.height = 30;
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, planeMaterial, IUILittoSim.DISTRICT_ID, true);
                                 break;
                             case IUILittoSim.FLOOD_RISK_AREA:
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, UA_Transform, mat, IUILittoSim.FLOOD_RISK_AREA_ID);
+                                agent.height = 80;
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.FLOOD_RISK_AREA_ID, true);
                                 break;
                             case IUILittoSim.PROTECTED_AREA:
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, UA_Transform, mat, IUILittoSim.PROTECTED_AREA_ID);
+                                agent.height = 80;
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.PROTECTED_AREA_ID, true);
                                 break;
                             case IUILittoSim.ROAD:
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, UA_Transform, mat, IUILittoSim.ROAD_ID);
+                                agent.height = 0;
+                                //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.ROAD_ID, false);
+                                agentCreator.GetComponent<AgentCreator>().CreateLineAgent(agent, Land_Use_Transform, mat, IUILittoSim.ROAD_ID, false);
+
                                 break;
                             default:
                                 targetGameObject = GameObject.Find(unityAgent.receivers);
@@ -225,88 +234,6 @@ namespace ummisco.gama.unity.SceneManager
                                 break;
                         }
 
-                        /*
-                        if (unityAgent.contents.species.Equals(IUILittoSim.LAND_USE))
-                        {
-
-                           
-                           /// newGameObject.GetComponent<Transform>().SetParent(UA_Transform);
-                            //newGameObject.GetComponent<Transform>().SetParent(GameObject.Find("MapCanvas").GetComponent<RectTransform>());
-
-                            
-                           /// newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(30, agent.agentCoordinate.getVector2Coordinates());
-                            //newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(30, agent.ConvertVertices());
-                            //mat.color = agent.color.getColorFromGamaColor();
-                            //newGameObject.GetComponent<Renderer>().material = polygonMaterial;
-    
-                           /// Vector3 posi = agent.location;
-                           /// posi.y = - posi.y;
-
-                            //posi = uiManager.GetComponent<UIManager>().worldToUISpace(canvas, posi);
-                            //newGameObject.GetComponent<Transform>().position = posi;
- 
-                           
-                           /// Vector3 posi = agent.location;
-                           /// posi.y = -posi.y;
-                           /// posi = uiManager.GetComponent<UIManager>().worldToUISpace(canvas, posi);
-                            
-                          //  newGameObject.AddComponent(typeof(MeshRenderer));
-                          //  newGameObject.AddComponent(typeof(MeshFilter));
-                          //  newGameObject.AddComponent<MeshCollider>();
-
-                           // newGameObject.GetComponent<Transform>().localPosition = posi;
-                           
-                           /// RectTransform rt =  (newGameObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
-
-                           /// rt.anchorMin = new Vector2(0,1);
-                           /// rt.anchorMax = new Vector2(0, 1);
-                           /// rt.pivot = new Vector2(0, 1);
-
-                           // rt.localScale = new Vector2(0, 1);
-
-                            //meshRenderer.materials = materials;
-
-                            //newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-
-                  
-                        }
-                        else if (agent.species.Equals("def_cote"))
-                        {
-                            newGameObject.GetComponent<Transform>().SetParent(Def_Cote_Transform);
-                            newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(50, agent.agentCoordinate.getVector2Coordinates());
-                            //mat.color = agent.color.getColorFromGamaColor();
-                            newGameObject.GetComponent<Renderer>().material = lineMaterial;
-                            //newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                            
- 
-                            newGameObject.AddComponent<DefCote>();
-                            newGameObject.GetComponent<DefCote>().dike_id = 13;
-                            newGameObject.GetComponent<DefCote>().type = "type";
-                            newGameObject.GetComponent<DefCote>().height = 30;
-                            newGameObject.GetComponent<DefCote>().status = "status";
-                            newGameObject.GetComponent<DefCote>().length_def_cote = 13;
-                            newGameObject.GetComponent<DefCote>().meshElevation = 30;
-                        }
-                        else
-                        {
-                            //newGameObject.GetComponent<Transform>().SetParent(parentObjectTransform);
-                            newGameObject.GetComponent<Transform>().SetParent(UA_Transform);
-                            newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(10, agent.agentCoordinate.getVector2Coordinates());
-                            //mat.color = agent.color.getColorFromGamaColor();
-                            newGameObject.GetComponent<Renderer>().material = planeMaterial;
-                            //newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                        }
-
-                        */
-
-
-
-
-                        
-                        // - ---------------------------------
-
-
-                       
                         //------------------------------------------------------------------------------
                         break;
                     case MqttSetting.MONO_FREE_TOPIC:

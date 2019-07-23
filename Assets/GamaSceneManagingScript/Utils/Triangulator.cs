@@ -28,7 +28,6 @@ namespace ummisco.gama.unity.utils
             all_points = new List<Vector2>(points);
         }
 
-
         public int[] Triangulate()
         {
             List<int> indices = new List<int>();

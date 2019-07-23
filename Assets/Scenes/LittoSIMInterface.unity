@@ -551,6 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668910d3e73214548bbf2c79cd86a6ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lineMaterial: {fileID: 2100000, guid: 004f68de98c144898a6b25059b2b09ca, type: 2}
 --- !u!4 &155904032
 Transform:
   m_ObjectHideFlags: 0
@@ -2179,8 +2180,8 @@ MonoBehaviour:
   targetGameObject: {fileID: 0}
   topicGameObject: {fileID: 0}
   plane: {fileID: 0}
-  UA_Transform: {fileID: 1386569596}
-  Def_Cote_Transform: {fileID: 1365384223}
+  Land_Use_Transform: {fileID: 1386569596}
+  Coastal_Defense_Transform: {fileID: 1365384223}
   objectsList: []
   planeMaterial: {fileID: 2100000, guid: 0d5b9ebd89f8742a9b0fed48c5e9230c, type: 2}
   polygonMaterial: {fileID: 2100000, guid: 9d51772f45c5546eea1924da0c265473, type: 2}
@@ -6864,7 +6865,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.00012403357, y: 0.0008651387}
+  m_AnchoredPosition: {x: -0.00012403357, y: 0.000098818135}
   m_SizeDelta: {x: 1121.2, y: 1111}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &1355937138
@@ -7090,7 +7091,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 1511.5511, y: -632.85}
-  m_SizeDelta: {x: 3023.1, y: 1265.7}
+  m_SizeDelta: {x: 12620, y: 18120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1386569597
 CanvasGroup:

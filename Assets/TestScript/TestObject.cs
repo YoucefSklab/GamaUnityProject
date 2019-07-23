@@ -16,7 +16,7 @@ public class TestObject : MonoBehaviour
         go = Instantiate(UaPrefab);
         go.name = "_ToDelete";
 
-
+        /*
         Vector3 p;
         GameObject g1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
         g1.name = "Cube4";
@@ -46,6 +46,7 @@ public class TestObject : MonoBehaviour
         g4.transform.position = new Vector3(p.x - 150, p.y - 50, p.z);
         g4.transform.localScale = new Vector3(40, 40, 40);
         g4.AddComponent<CheckIfContainedInCanvas>();
+        */
 
     }
 
