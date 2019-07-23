@@ -58,42 +58,38 @@ public class AgentCreator : MonoBehaviour
     }
 
     
-    public void CreateLineAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate)
+    public void CreateLineAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate, float lineWidth)
     {
         GameObject newObject = new GameObject(agent.agentName);
         newObject.GetComponent<Transform>().SetParent(parentTransform);
-        newObject.AddComponent<LineRenderer>();
-        LineRenderer line = (LineRenderer)newObject.GetComponent(typeof(LineRenderer));
+        var meshFilter = newObject.AddComponent<MeshFilter>();
+        LineRenderer line = newObject.AddComponent<LineRenderer>();
+        Mesh mesh = new Mesh();
+        var meshRenderer = newObject.AddComponent<MeshRenderer>();
+        meshRenderer.sharedMaterial = lineMaterial;
+        meshRenderer.sharedMaterial = mat;
+        //LineRenderer line = (LineRenderer)newObject.GetComponent(typeof(LineRenderer));
 
-        //line.useWorldSpace = true;
+        line.useWorldSpace = true;
 
         line.positionCount = agent.agentCoordinate.getVector3Coordinates().Length;
         line.SetPositions(agent.agentCoordinate.getVector3Coordinates());
         //line.positionCount = agent.agentCoordinate.getVector2Coordinates().Length / 2;
-
-        //line.material = new Material(Shader.Find("Particles/Additive"));
-        //line.material = new Material(Shader.Find("Standard"));
         line.material = lineMaterial;
-        line.startWidth = 2.0f;
-        line.endWidth = 2.0f;
-
-        
-        RectTransform rt = (newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
+        line.startWidth = lineWidth;
+        line.endWidth = lineWidth;
+        line.BakeMesh(mesh);
+        meshFilter.sharedMesh = mesh;
+       
+        RectTransform rt = newObject.AddComponent<RectTransform>(); //(newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
 
         rt.anchorMin = new Vector2(0, 1);
         rt.anchorMax = new Vector2(0, 1);
         rt.pivot = new Vector2(0, 1);
 
-        //newObject.GetComponent<Transform>().localPosition = posi;
-        newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);//posi;
+        rt.anchoredPosition = new Vector3(0, 0, 0);
 
-        var meshFilter = newObject.AddComponent<MeshFilter>();
-        Mesh mesh = new Mesh();
-        line.BakeMesh(mesh);
-        meshFilter.sharedMesh = mesh;
-
-        var meshRenderer = newObject.AddComponent<MeshRenderer>();
-        meshRenderer.sharedMaterial = lineMaterial;
+        GameObject.Destroy(line);
 
     }
 
@@ -131,8 +127,8 @@ public class AgentCreator : MonoBehaviour
         line.colorGradient = gradient;
         */
 
-        line.startWidth = 2.0f;
-        line.endWidth = 2.0f;
+        line.startWidth = 20.0f;
+        line.endWidth = 20.0f;
         line.Simplify(10);
         
         // line.        
@@ -162,7 +158,7 @@ public class AgentCreator : MonoBehaviour
         var meshRenderer = newObject.AddComponent<MeshRenderer>();
         meshRenderer.sharedMaterial = lineMaterial;
 
-        //GameObject.Destroy(line);
+        GameObject.Destroy(line);
 
     }
     public void AttacheCode(GameObject obj, int speciesId, Agent agent)

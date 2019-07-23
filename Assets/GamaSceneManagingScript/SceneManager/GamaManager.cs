@@ -152,7 +152,7 @@ namespace ummisco.gama.unity.SceneManager
 
             agentCreator = GameObject.Find("AgentCreator");
 
-            agentCreator.GetComponent<AgentCreator>().CreateLine();
+            //agentCreator.GetComponent<AgentCreator>().CreateLine();
         }
 
 
@@ -216,7 +216,7 @@ namespace ummisco.gama.unity.SceneManager
                             case IUILittoSim.ROAD:
                                 agent.height = 0;
                                 //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.ROAD_ID, false);
-                                agentCreator.GetComponent<AgentCreator>().CreateLineAgent(agent, Land_Use_Transform, mat, IUILittoSim.ROAD_ID, false);
+                                agentCreator.GetComponent<AgentCreator>().CreateLineAgent(agent, Land_Use_Transform, mat, IUILittoSim.ROAD_ID, false, 3f);
 
                                 break;
                             default:
