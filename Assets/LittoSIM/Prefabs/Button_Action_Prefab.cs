@@ -16,11 +16,11 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
 
         private void FixedUpdate()
         {
-//            Debug.Log("The action code to do is: " + LittosimManager.actionToDo);
+            //            Debug.Log("The action code to do is: " + LittosimManager.actionToDo);
             if (LittosimManager.actionToDo == code)
             {
                 ColorBlock cb = gameObject.GetComponent<Button>().colors;
-                cb.normalColor = Color.red;
+                cb.normalColor = Color.magenta;
                 gameObject.GetComponent<Button>().colors = cb;
             }
             else
@@ -39,8 +39,7 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
             button_icon = icon;
             this.type = type;
             this.position = posi;
-    
-            Debug.Log("--  --  --  --  > The action code is " + code);
+      
         }
 
         public void SetUp(string action_name, int action_code, string msg_help, string icon, string type, Vector3 posi)
@@ -53,11 +52,12 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
             this.position = posi;
 
             Sprite ImageIcon = Resources.Load<Sprite>(icon);
-            if(ImageIcon != null)
-            gameObject.GetComponent<Image>().sprite = ImageIcon;
+            if (ImageIcon != null)
+                gameObject.GetComponent<Image>().sprite = ImageIcon;
             gameObject.GetComponent<RectTransform>().localPosition = this.position;
-     
+
         }
+
 
         public void onAddButtonClicked()
         {
@@ -67,35 +67,35 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
 
         public void ShowTooltip()
         {
-           // Debug.Log("ShowTooltip Method called ");    
             if (!isOn)
             {
                 GameObject showTooltip = GameObject.Find("ActionButtonTooltipView");
-                showTooltip.SetActive(true);
-                showTooltip.GetComponent<ActionButtonTooltipView>().SetVisible();//.SendMessage("SetVisible");
                 string lng = "";
 
-                if (ILangue.current_langue.TryGetValue(this.button_help_message, out lng)) {
-                    showTooltip.GetComponent<ActionButtonTooltipView>().help_text = lng;
+                if (ILangue.current_langue.TryGetValue(this.button_help_message, out lng))
+                {
+                    GameObject.Find("action_help_message").GetComponent<Text>().text = "  "+lng;
                 }
                 else
                 {
-                    showTooltip.GetComponent<ActionButtonTooltipView>().help_text = "??";
+                    GameObject.Find("action_help_message").GetComponent<Text>().text = "  ??";
                 }
 
-                showTooltip.GetComponent<ActionButtonTooltipView>().pos = this.transform.position;
-                showTooltip.SendMessage("ShowTooltip");
+                Vector3 posi = this.transform.position;
+                showTooltip.transform.position = new Vector3(posi.x, posi.y - 130, posi.z + (-20));
+
                 isOn = true;
-                Debug.Log("Tooltip showed");
             }
+
         }
+
 
         public void HideTooltip()
         {
             if (isOn)
             {
                 GameObject showTooltip = GameObject.Find("ActionButtonTooltipView");
-                showTooltip.GetComponent<ActionButtonTooltipView>().HideTooltip();//.SendMessage("HideTooltip");
+                showTooltip.transform.localPosition = new Vector3(-1000, -300, 0);
                 isOn = false;
             }
         }
