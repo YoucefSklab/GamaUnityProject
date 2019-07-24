@@ -15,12 +15,11 @@ namespace ummisco.gama.unity.littosim
         public Dictionary<string, Action> actions_dic = new Dictionary<string, Action>();
         public string path = IGamaManager.RESOURCES_PATH + "actions.csv";
 
-        public InputField rollNoInputField;// Reference of rollno input field
-        public InputField nameInputField; // Reference of name input filed
-        public string contentArea; // Reference of contentArea where records are displayed
+       
+        public string contentArea; 
 
-        public char lineSeperater = '\n'; // It defines line seperate character
-        public char fieldSeperator = ';'; // It defines field seperate chracter
+        public char lineSeperater = '\n';
+        public char fieldSeperator = ';';
 
         public ActionManager()
         {

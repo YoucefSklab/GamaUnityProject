@@ -53,7 +53,8 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
             this.position = posi;
 
             Sprite ImageIcon = Resources.Load<Sprite>(icon);
-            gameObject.GetComponent<Image>().overrideSprite = ImageIcon;
+            if(ImageIcon != null)
+            gameObject.GetComponent<Image>().sprite = ImageIcon;
             gameObject.GetComponent<RectTransform>().localPosition = this.position;
      
         }

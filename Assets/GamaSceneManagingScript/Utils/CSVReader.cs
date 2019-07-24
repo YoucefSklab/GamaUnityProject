@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using ummisco.gama.unity.littosim;
 using System;
 using ummisco.gama.unity.SceneManager;
+using ummisco.gama.unity.utils;
 
 
 //TODO  Use the class CSVParsing to read the data from csv file
@@ -29,8 +30,9 @@ public class CSVReader : MonoBehaviour
 
     public void Start()
     {
-        StreamReader reader = new StreamReader(path);
-        string fileContent = reader.ReadToEnd();
+        
+       
+        string fileContent = CSVParser.readDataIntoString(path); 
         langueDic = GetInDictionnary(fileContent, lng);
 
       
