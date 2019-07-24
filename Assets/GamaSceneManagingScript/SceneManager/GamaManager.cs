@@ -181,13 +181,13 @@ namespace ummisco.gama.unity.SceneManager
 
                 receivedMsg = System.Text.Encoding.UTF8.GetString(e.Message);
               
-                Debug.Log("-> Received Message is : " + receivedMsg);
+               // Debug.Log("-> Received Message is : " + receivedMsg);
 
                 switch (e.Topic)
                 {
                     case MqttSetting.MAIN_TOPIC:
                         //------------------------------------------------------------------------------
-                        Debug.Log(totalAgents+ "  -> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
+                      //  Debug.Log(totalAgents+ "  -> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
                         UnityAgent unityAgent = (UnityAgent)MsgSerialization.deserialization(receivedMsg, new UnityAgent());
                         Agent agent = unityAgent.GetAgent();
 
@@ -248,7 +248,7 @@ namespace ummisco.gama.unity.SceneManager
                             Debug.LogError(" Sorry, requested gameObject is null (" + monoFreeTopicMessage.objectName + "). Please check your code! ");
                             break;
                         }
-                        Debug.Log("The message is to " + monoFreeTopicMessage.objectName + " about the methode " + monoFreeTopicMessage.methodName + " and attribute " + monoFreeTopicMessage.attribute);
+                    //    Debug.Log("The message is to " + monoFreeTopicMessage.objectName + " about the methode " + monoFreeTopicMessage.methodName + " and attribute " + monoFreeTopicMessage.attribute);
                         GameObject.Find(MqttSetting.MONO_FREE_TOPIC_MANAGER).GetComponent(MqttSetting.MONO_FREE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
                         //------------------------------------------------------------------------------
                         break;

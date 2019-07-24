@@ -26,19 +26,21 @@ public class AgentCreator : MonoBehaviour
     public void CreateAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate)
     {
         GameObject newObject = new GameObject(agent.agentName);
-        newObject.AddComponent(typeof(MeshRenderer));
-        newObject.AddComponent(typeof(MeshFilter));
-        newObject.AddComponent<MeshCollider>();
+        MeshRenderer meshRenderer = (MeshRenderer) newObject.AddComponent(typeof(MeshRenderer));
+        MeshFilter meshFilter = (MeshFilter) newObject.AddComponent(typeof(MeshFilter));
+        MeshCollider meshCollider = (MeshCollider) newObject.AddComponent<MeshCollider>();
 
         newObject.GetComponent<Transform>().SetParent(parentTransform);
         float elvation = elevate ? agent.height : 0;
-        newObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(elvation, agent.agentCoordinate.getVector2Coordinates());
+
+        meshFilter.mesh = meshCreator.CreateMesh(elvation, agent.agentCoordinate.getVector2Coordinates());
         //newObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(agent.height, agent.ConvertVertices());
 
-        newObject.GetComponent<MeshFilter>().mesh.name = "CustomMesh";
+        meshFilter.mesh.name = "CustomMesh";
         //newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(30, agent.ConvertVertices());
         //mat.color = agent.color.getColorFromGamaColor();
-        newObject.GetComponent<Renderer>().material = mat;
+        meshRenderer.material = mat;
+        meshCollider.sharedMesh = meshFilter.mesh;
 
         Vector3 posi = agent.location;
         posi.y = -posi.y;

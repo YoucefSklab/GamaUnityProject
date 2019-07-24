@@ -26,17 +26,8 @@ public class CubeGenerator : MonoBehaviour {
 
 	void Start () {
 
-        objectTest = CreateCube ("testCube");
-        SetPolygonShape("ButtonMeshPolygon");
-
-
-        //rb = GetComponent<Rigidbody> ();
-
-        //inverseMoveTime = 1f / moveTime;
-
-        //Debug.Log ("The script Type is : "+gameObject.GetComponent ("CubeGenerator").GetType ());
-
-        //mapBuilder = new MapBuilder();
+        
+        
 
 
     }

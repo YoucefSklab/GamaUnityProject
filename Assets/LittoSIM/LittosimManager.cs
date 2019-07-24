@@ -70,16 +70,22 @@ namespace ummisco.gama.unity.littosim
 
             initialMessagePosition = new Vector2(1032f, -40f);
             lastMessagePosition = new Vector2(1032f, -40f);
+                        
+            SetUpLittosimUI();
 
+        }
+
+        public void SetUpLittosimUI()
+        {
+            deactivateValider();
 
             Destroy(GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB));
-           
             Destroy(GameObject.Find(IUILittoSim.MESSAGE_PANEL_PREFAB));
             Destroy(GameObject.Find(IUILittoSim.ACTION_RECAP_PANEL_PREFAB));
 
-            deactivateValider();
-
-
+            CanvasGroup cg = GameObject.Find("Canvas_Tips").GetComponent<CanvasGroup>();
+            cg.interactable = false;
+            cg.alpha = 0;
         }
 
 
@@ -131,19 +137,17 @@ namespace ummisco.gama.unity.littosim
             // TODO to detete 
             //  if (1 == 2) 
             {
+                GameObject panelChild = GameObject.CreatePrimitive(PrimitiveType.Cube); //Instantiate(UA);
+                panelChild.name = "UA" + position.x + "_" + position.y;
+                panelChild.transform.position = position;
+                panelChild.transform.localScale = new Vector3(50f, 50f, 50f);
                 if (UIManager.activePanel.Equals(IUILittoSim.UA_PANEL))
                 {
-                    GameObject panelChild = Instantiate(UA);
-                    panelChild.name = "UA" + position.x + "_" + position.y;
-                    panelChild.transform.position = position;
                     GameObject panelParent = GameObject.Find(IUILittoSim.UA_MAP_PANEL);
                     panelChild.transform.SetParent(panelParent.transform);
                 }
                 else if (UIManager.activePanel.Equals(IUILittoSim.DEF_COTE_PANEL))
                 {
-                    GameObject panelChild = Instantiate(UA);
-                    panelChild.name = "UA" + position.x + "_" + position.y;
-                    panelChild.transform.position = position;
                     GameObject panelParent = GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL);
                     panelChild.transform.SetParent(panelParent.transform);
                 }

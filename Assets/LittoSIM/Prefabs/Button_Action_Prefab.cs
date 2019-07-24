@@ -66,7 +66,7 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
 
         public void ShowTooltip()
         {
-            Debug.Log("ShowTooltip Method called ");    
+           // Debug.Log("ShowTooltip Method called ");    
             if (!isOn)
             {
                 GameObject showTooltip = GameObject.Find("ActionButtonTooltipView");

@@ -28,6 +28,8 @@ namespace ummisco.gama.unity.littosim
 
 
         private CanvasGroup cg;
+        private Canvas canvas;
+        private GameObject tips;
 
         Ray ray;
         RaycastHit hit;
@@ -36,6 +38,8 @@ namespace ummisco.gama.unity.littosim
         void Start()
         {
             cg = GameObject.Find("Canvas_Tips").GetComponent<CanvasGroup>();
+            canvas = GameObject.Find("Canvas_Tips").GetComponent<Canvas>();
+            tips = GameObject.Find("Tips");
         }
 
         public void UAInit(UnityAgent unityAgent)
@@ -62,10 +66,10 @@ namespace ummisco.gama.unity.littosim
 
         void OnMouseOver()
         {
-
-            Vector3 vect = worldToUISpace(GameObject.Find("Canvas_Tips").GetComponent<Canvas>(), Input.mousePosition);
+           
+            Vector3 vect = worldToUISpace(canvas, Input.mousePosition);
             vect.z = -400f;
-            GameObject.Find("Tips").GetComponent<RectTransform>().transform.position = vect;
+            tips.GetComponent<RectTransform>().transform.position = vect;
 
             SetInfo();
             cg.interactable = true;
@@ -86,6 +90,7 @@ namespace ummisco.gama.unity.littosim
         {
 
             ResetSetInfo();
+            tips.GetComponent<RectTransform>().transform.position = new Vector3(-2500,400,-300);
             cg.interactable = false;
             cg.alpha = 0;
 
