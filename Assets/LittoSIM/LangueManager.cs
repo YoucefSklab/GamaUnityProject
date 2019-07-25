@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ummisco.gama.unity.files;
 using ummisco.gama.unity.SceneManager;
+using ummisco.gama.unity.utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +11,9 @@ namespace ummisco.gama.unity.littosim
     public class LangueManager : MonoBehaviour
     {
         public static string langue = "fr";
+
+        public string configFilePath = IGamaManager.RESOURCES_PATH + "config/littosim.conf";
+
         public Dictionary<string, Langue> langueDic = new Dictionary<string, Langue>();
 
         public LangueManager()
@@ -18,7 +23,9 @@ namespace ummisco.gama.unity.littosim
 
         void Start()
         {
-            string lng = "fr";
+            ReadConfigFile();
+            string lng = Config.LANGUAGE;
+            Debug.Log("The language is :  " + lng);
             GameObject obj = null;
             obj = GameObject.Find(IGamaManager.CSV_READER);
             obj.GetComponent<CSVReader>().lng = lng;
@@ -26,7 +33,7 @@ namespace ummisco.gama.unity.littosim
             langueDic = obj.GetComponent<CSVReader>().langueDic;
             SetUpLangueDictionnary();
 
-            //Debug.Log("The disctionnary length is " + langueDic.Count);
+            
             //Debug.Log(" -------------------------------> " + GetLangueElementValue(langueDic, ILangue.MSG_INITIAL_BUDGET, "en", ILangue.MSG_INITIAL_BUDGET));
 
             GameObject.Find(ILittoSimConcept.MSG_INITIAL_BUDGET).GetComponent<Text>().text = ILangue.GetLangueElement(ILangue.MSG_INITIAL_BUDGET);
@@ -67,5 +74,63 @@ namespace ummisco.gama.unity.littosim
  //           Debug.Log("The dic size is " + ILangue.current_langue.Count);
 
         }
+
+
+        public void ReadConfigFile()
+        {
+            CSVParser csvParser = new CSVParser();
+            configFilePath = IGamaManager.RESOURCES_PATH + "config/littosim.conf";
+            string fileContent = csvParser.readDataIntoString(configFilePath);
+
+            string[] lines = fileContent.Split("\n"[0]);
+            string allFile = "";
+
+            foreach (string line in lines)
+            {
+                string[] splitString = line.Split(new string[] { ";" }, StringSplitOptions.None);
+
+                if (splitString.Length > 1)
+                {
+                    string elt = splitString[0];
+                    switch (elt){
+                        case "SERVER_ADDRESS":
+                            Config.SERVER_ADDRESS = splitString[1];
+                            break;
+                        case "ACTIVEMQ_CONNECT":
+                            Config.ACTIVEMQ_CONNECT = bool.Parse(splitString[1]);
+                            break;
+                        case "LANGUAGE":
+                            Config.LANGUAGE = splitString[1];
+                            break;
+                        case "BUTTON_SIZE":
+                            Config.BUTTON_SIZE = Int32.Parse(splitString[1]);
+                            break;
+                        case "LOG_USER_ACTION":
+                            Config.LOG_USER_ACTION = bool.Parse(splitString[1]);
+                            break;
+                        case "SAVE_SHP":
+                            Config.SAVE_SHP = bool.Parse(splitString[1]);
+                            break;
+                        case "SHAPES_FILE":
+                            Config.SHAPES_FILE = splitString[1];
+                            break;
+                        case "LANGUAGES_FILE":
+                            Config.LANGUAGES_FILE = splitString[1];
+                            break;
+                        case "LEVERS_FILE":
+                            Config.LEVERS_FILE = splitString[1];
+                            break;
+                        case "LISFLOOD_PATH":
+                            Config.LISFLOOD_PATH = splitString[1];
+                            break;
+                        default :
+                            break;
+                    }
+                }
+            }
+
+        }
+
+
     }
 }

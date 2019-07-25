@@ -23,13 +23,12 @@ using System.Globalization;
 using ummisco.gama.unity.GamaAgent;
 using Nextzen;
 using ummisco.gama.unity.littosim;
+using ummisco.gama.unity.files;
 
 namespace ummisco.gama.unity.SceneManager
 {
     public class GamaManager : MonoBehaviour
     {
-
-
         private static GamaManager m_Instance = null;
         public static GameObject MainCamera;
         public long total = 0;
@@ -60,7 +59,7 @@ namespace ummisco.gama.unity.SceneManager
 
         public static Agent[] gamaAgentList = new Agent[5000];
         public static int nbrAgent = 0;
-        
+
         public Material planeMaterial;
         public Material polygonMaterial;
         public Material lineMaterial;
@@ -71,16 +70,16 @@ namespace ummisco.gama.unity.SceneManager
         public GameObject setTopicManager, getTotpicManager, moveTopicManager, notificationTopicManager;
 
         private GameObject mainTopicManager;
-        private GameObject agentCreator; 
+        private GameObject agentCreator;
 
-     
+
 
         List<MqttMsgPublishEventArgs> msgList = new List<MqttMsgPublishEventArgs>();
 
         void Awake()
         {
             m_Instance = this;
-            //Check if instance already exists 	
+            //Check if instance already exists
             //If instance already exists and it's not this:
             //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a gamaManager.
             if (m_Instance == null)
@@ -120,7 +119,7 @@ namespace ummisco.gama.unity.SceneManager
         // Use this for initialization
         void Start()
         {
-          
+
 
             //MqttSetting.SERVER_URL = "localhost";
             //MqttSetting.SERVER_PORT = 1883;
@@ -180,7 +179,7 @@ namespace ummisco.gama.unity.SceneManager
                 }
 
                 receivedMsg = System.Text.Encoding.UTF8.GetString(e.Message);
-              
+
                // Debug.Log("-> Received Message is : " + receivedMsg);
 
                 switch (e.Topic)
@@ -601,7 +600,7 @@ namespace ummisco.gama.unity.SceneManager
                 foreach (NotificationEntry el in NotificationRegistry.notificationsList)
                 {
                     if (!el.isSent)
-                    { // TODO Implement a mecanism of notification frequency! 
+                    { // TODO Implement a mecanism of notification frequency!
                         if (el.notify)
                         {
                             string msg = getReplayNotificationMessage(el);
@@ -627,6 +626,6 @@ namespace ummisco.gama.unity.SceneManager
             client.Publish(topic, System.Text.Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
         }
 
-        
+
     }
 }

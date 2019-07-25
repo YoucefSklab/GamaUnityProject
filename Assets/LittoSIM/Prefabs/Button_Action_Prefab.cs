@@ -14,6 +14,11 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
         public Vector3 position;
         public Boolean isOn = false;
 
+        private void Start()
+        {
+            isOn = false;
+        }
+
         private void FixedUpdate()
         {
             //            Debug.Log("The action code to do is: " + LittosimManager.actionToDo);
@@ -39,7 +44,6 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
             button_icon = icon;
             this.type = type;
             this.position = posi;
-      
         }
 
         public void SetUp(string action_name, int action_code, string msg_help, string icon, string type, Vector3 posi)
@@ -55,10 +59,8 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
             if (ImageIcon != null)
                 gameObject.GetComponent<Image>().sprite = ImageIcon;
             gameObject.GetComponent<RectTransform>().localPosition = this.position;
-
         }
-
-
+        
         public void onAddButtonClicked()
         {
             Debug.Log("--  --  --  --  > The action code is " + code);// + action.code);
@@ -88,7 +90,6 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
             }
 
         }
-
 
         public void HideTooltip()
         {
