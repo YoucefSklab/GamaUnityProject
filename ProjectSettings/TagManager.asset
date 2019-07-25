@@ -16,9 +16,9 @@ TagManager:
   - 
   - 
   - PostProcessing
+  - 
   - MapCanvas
-  - 
-  - 
+  - MapGameObjects
   - 
   - 
   - 
@@ -42,4 +42,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: MapGameObjects
+    uniqueID: 3927710843
+    locked: 0
+  - name: UI
+    uniqueID: 3836385171
+    locked: 0
+  - name: MapCanvas
+    uniqueID: 374612165
     locked: 0

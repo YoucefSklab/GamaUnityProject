@@ -117,8 +117,7 @@ namespace ummisco.gama.unity.littosim
                     if (bj is GameObject)
                         if (bj.tag.Equals("DeleteActionButton"))
                         {
-                            Debug.Log("Goooood");
-                            Debug.Log("Goooood--------->  to delete is : " + bj.name);
+                            Debug.Log(" --------->  to delete : " + bj.name);
                             sendDeleteAction(bj.transform.parent.name);
                         }
                 }
@@ -154,34 +153,7 @@ namespace ummisco.gama.unity.littosim
             }
            Debug.Log("Final created position is :" + position);
         }
-
-        public void createNewElementOld()
-        {
-            Vector3 position = Input.mousePosition;
-            Vector3 panelPosition = position;
-            Debug.Log("Mouse position is : " + position);
-            GameObject Object = GameObject.Find("Object");
-            Vector3 objectPosition = Object.transform.position;
-            Vector3 objectLocalPosition = Object.transform.localPosition;
-
-            GameObject Canvas_Actions = GameObject.Find(IUILittoSim.MAIN_CANVAS);
-          
-            RectTransform Canvas = Canvas_Actions.GetComponent<RectTransform>();
-            Camera cam = GamaManager.MainCamera.GetComponent<Camera>();
-
-            panelPosition = uiManager.GetComponent<UIManager>().worldToUISpace(uiCanvas, position);
-
-            Vector3[] localCorners = new Vector3[4];
-            Vector3[] worldCorners = new Vector3[4];
-            Canvas.GetLocalCorners(localCorners);
-            Canvas.GetWorldCorners(worldCorners);
-            Rect newRect = new Rect(localCorners[0], localCorners[2] - localCorners[0]);
-
-            Object.transform.localPosition = localCorners[2];
-
-
-        }
-
+               
         void OnGUI()
         {
             Rect bounds = new Rect(58, -843, 1320, 200);
@@ -191,19 +163,6 @@ namespace ummisco.gama.unity.littosim
             texture.Apply();
             GUI.skin.box.normal.background = texture;
             GUI.Box(bounds, GUIContent.none);
-            /*
-            // --------
-            if (GUI.Button(new Rect(150, 1, 150, 20), "Send Mqtt message!"))
-            {
-                string message = MsgSerialization.serialization(new LittosimMessage(ILittoSimConcept.GAMA_TOPIC, ILittoSimConcept.GAMA_AGENT, 1, 0, 0, DateTime.Now.ToString()));
-                message = "ceci est un test de message MQTT de unity vers Gama";
-                string topic = "li";
-                //int msgId = GamaManager.client.Publish(topic, System.Text.Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-                int msgId = GamaManager.client.Publish(topic, System.Text.Encoding.UTF8.GetBytes(message));
-                Debug.Log("msgId is: " + msgId + " -> " + message);
-                Debug.Log("Message sent to topic: " + topic);
-            }
-            */
         }
 
 

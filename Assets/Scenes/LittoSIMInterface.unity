@@ -1563,7 +1563,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 284944362}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99989474
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4164,6 +4164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   path: Assets/Resources/actions.csv
+  communActions: []
   contentArea: 
   lineSeperater: 10
   fieldSeperator: 59
@@ -4502,7 +4503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe4e6c634d9f49aca353b03262ef6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Content: {fileID: 1365384223}
+  m_Content: {fileID: 1386569596}
   m_Horizontal: 1
   m_Vertical: 1
   m_MovementType: 1
@@ -6317,7 +6318,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.00012403357, y: -0.000000057237894}
+  m_AnchoredPosition: {x: -0.00012403357, y: 0.0005589771}
   m_SizeDelta: {x: 1121.2, y: 1111}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1365384222
@@ -7295,8 +7296,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: c6d4b100871c74f069d4f8e4d0e3cda1, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: dda12cbd5d9424c83ba0d7f2915b3ee4, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

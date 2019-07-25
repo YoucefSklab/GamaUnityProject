@@ -11,6 +11,17 @@ namespace ummisco.gama.unity.littosim
         private Sprite selectedOnglet;
         private Sprite notSelectedOnglet;
 
+        GameObject Land_Use_ACTION_INSPECT = null;
+        GameObject Land_Use_ACTION_DISPLAY_FLOODING = null;
+        GameObject Land_Use_ACTION_DISPLAY_FLOODED_AREA = null;
+        GameObject Land_Use_ACTION_DISPLAY_PROTECTED_AREA = null;
+
+        GameObject Coastal_Defense_ACTION_INSPECT = null;
+        GameObject Coastal_Defense_ACTION_DISPLAY_FLOODING = null;
+        GameObject Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA = null;
+        GameObject Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA = null;
+
+
         public UIManager()
         {
 
@@ -76,7 +87,58 @@ namespace ummisco.gama.unity.littosim
 
                 activePanel = IUILittoSim.DEF_COTE_PANEL;
             }
+
+            SwitchCommonButton(panelName);
         }
+
+
+        public void SwitchCommonButton(string panelName)
+        {
+            if (Land_Use_ACTION_INSPECT == null)
+                Land_Use_ACTION_INSPECT = GameObject.Find("Land_Use_ACTION_INSPECT");
+            if (Land_Use_ACTION_DISPLAY_FLOODING == null)
+                Land_Use_ACTION_DISPLAY_FLOODING = GameObject.Find("Land_Use_ACTION_DISPLAY_FLOODING");
+            if (Land_Use_ACTION_DISPLAY_FLOODED_AREA == null)
+                Land_Use_ACTION_DISPLAY_FLOODED_AREA = GameObject.Find("Land_Use_ACTION_DISPLAY_FLOODED_AREA");
+            if (Land_Use_ACTION_DISPLAY_PROTECTED_AREA == null)
+                Land_Use_ACTION_DISPLAY_PROTECTED_AREA = GameObject.Find("Land_Use_ACTION_DISPLAY_PROTECTED_AREA");
+
+            if (Coastal_Defense_ACTION_INSPECT == null)
+                Coastal_Defense_ACTION_INSPECT = GameObject.Find("Coastal_Defense_ACTION_INSPECT");
+            if (Coastal_Defense_ACTION_DISPLAY_FLOODING == null)
+                Coastal_Defense_ACTION_DISPLAY_FLOODING = GameObject.Find("Coastal_Defense_ACTION_DISPLAY_FLOODING");
+            if (Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA == null)
+                Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA = GameObject.Find("Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA");
+            if (Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA == null)
+                Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA = GameObject.Find("Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA");
+
+            if (panelName.Equals(IUILittoSim.ONGLET_AMENAGEMENT))
+            {
+                Land_Use_ACTION_INSPECT.SetActive(true);
+                Land_Use_ACTION_DISPLAY_FLOODING.SetActive(true);
+                Land_Use_ACTION_DISPLAY_FLOODED_AREA.SetActive(true);
+                Land_Use_ACTION_DISPLAY_PROTECTED_AREA.SetActive(true);
+
+                Coastal_Defense_ACTION_INSPECT.SetActive(false);
+                Coastal_Defense_ACTION_DISPLAY_FLOODING.SetActive(false);
+                Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA.SetActive(false);
+                Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA.SetActive(false);
+                
+            }
+            else if (panelName.Equals(IUILittoSim.ONGLET_DEFENSE))
+            {
+                Land_Use_ACTION_INSPECT.SetActive(false);
+                Land_Use_ACTION_DISPLAY_FLOODING.SetActive(false);
+                Land_Use_ACTION_DISPLAY_FLOODED_AREA.SetActive(false);
+                Land_Use_ACTION_DISPLAY_PROTECTED_AREA.SetActive(false);
+
+                Coastal_Defense_ACTION_INSPECT.SetActive(true);
+                Coastal_Defense_ACTION_DISPLAY_FLOODING.SetActive(true);
+                Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA.SetActive(true);
+                Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA.SetActive(true);
+            }
+        }
+
 
 
         public void SetSpriteSelected(string ongletName)
