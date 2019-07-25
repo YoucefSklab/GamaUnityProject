@@ -13,10 +13,8 @@ namespace ummisco.gama.unity.littosim
     {
 
         public Dictionary<string, Action> actions_dic = new Dictionary<string, Action>();
-        //public string path = IGamaManager.RESOURCES_PATH + "actions.csv";
-        public string path = IGamaManager.RESOURCES_PATH + "config/actions.conf";
-
-
+        public string path;
+        public List<string> communActions; 
         public string contentArea; 
 
         public char lineSeperater = '\n';
@@ -30,19 +28,17 @@ namespace ummisco.gama.unity.littosim
 
         public void Start()
         {
+            communActions = new List<string>() { "ACTION_INSPECT", "ACTION_DISPLAY_FLOODING", "ACTION_DISPLAY_FLOODED_AREA", "ACTION_DISPLAY_PROTECTED_AREA" };
             path = IGamaManager.RESOURCES_PATH + "config/actions.conf";
             StreamReader reader = new StreamReader(path);
-
             string fileContent = reader.ReadToEnd();
-
-            //Debug.Log(" The actions file content is : " + fileContent);
             actions_dic = GetActionsList(fileContent);
-
             Dictionary<string, Action> us_actions_dic = GetUAActionsList();
             Dictionary<string, Action> def_cote_actions_dic = GetDefCotActionsList();
 
             SetUpUAActions(us_actions_dic);
             SetUpDefCoteActions(def_cote_actions_dic);
+            AddCommunButtons();
 
         }
 
@@ -72,7 +68,7 @@ namespace ummisco.gama.unity.littosim
                 if (lines[i].Length > 2)
                 {
                     Action act = GetActionElement(lines[i]);
-                    if ((act.coast_def_index >= 1) || (act.lu_index >= 1))
+                    if (((act.coast_def_index >= 1) || (act.lu_index >= 1)) ||  (communActions.Contains(act.action_name)))
                     {
                         actions_list.Add(act.action_name, act);
                     }
@@ -140,7 +136,7 @@ namespace ummisco.gama.unity.littosim
                 GameObject action_button = Instantiate(GameObject.Find(ILittoSimConcept.LITTOSIM_MANANGER).GetComponent<LittosimManager>().ButtonActionPrefab);
                 action_button.name = "Land_Use_" + act.Key;
                 action_button.GetComponent<RectTransform>().SetParent(Ua_Panel.GetComponent<RectTransform>());
-                action_button.GetComponent<Button_Action_Prefab>().SetUp("Land_Use" + act.Key, act.Value.lu_index, act.Value.button_help_message, act.Value.button_icon_file, "Land_Use", IActionButton.GetPosition(act.Value.lu_index));
+                action_button.GetComponent<Button_Action_Prefab>().SetUp("Land_Use_" + act.Key, act.Value.action_code, act.Value.button_help_message, act.Value.button_icon_file, "Land_Use", IActionButton.GetPosition(act.Value.lu_index));
 
             }
         }
@@ -155,8 +151,49 @@ namespace ummisco.gama.unity.littosim
                 GameObject action_button = Instantiate(GameObject.Find(ILittoSimConcept.LITTOSIM_MANANGER).GetComponent<LittosimManager>().ButtonActionPrefab);
                 action_button.name = "Coastal_Defense_" + act.Key;
                 action_button.GetComponent<RectTransform>().SetParent(Def_Cote_Panel.GetComponent<RectTransform>());
-                action_button.GetComponent<Button_Action_Prefab>().SetUp("Coastal_Defense" + act.Key, act.Value.coast_def_index, act.Value.button_help_message, act.Value.button_icon_file, "Coastal_Defense", IActionButton.GetPosition(act.Value.coast_def_index));
+                action_button.GetComponent<Button_Action_Prefab>().SetUp("Coastal_Defense_" + act.Key, act.Value.action_code, act.Value.button_help_message, act.Value.button_icon_file, "Coastal_Defense", IActionButton.GetPosition(act.Value.coast_def_index));
             }
+        }
+
+        public void AddCommunButtons()
+        {
+            GameObject Ua_Panel = GameObject.Find(IUILittoSim.UA_PANEL);
+            GameObject Def_Cote_Panel = GameObject.Find(IUILittoSim.DEF_COTE_PANEL);
+            Action act = null;
+
+            int nbrAct = communActions.Count;
+
+            foreach(string action in communActions)
+            {
+                actions_dic.TryGetValue(action, out act);
+
+                if (act != null)
+                {
+                    //Coastal Defense 
+                    GameObject action_button = Instantiate(GameObject.Find(ILittoSimConcept.LITTOSIM_MANANGER).GetComponent<LittosimManager>().ButtonActionPrefab);
+                    action_button.name = "Land_Use_" + action;
+                    action_button.GetComponent<RectTransform>().SetParent(Ua_Panel.GetComponent<RectTransform>());
+                    action_button.GetComponent<Button_Action_Prefab>().SetUp("Land_Use_" + action, act.action_code, act.button_help_message, act.button_icon_file, "Land_Use", IActionButton.GetPosition(13 - nbrAct));
+
+                    action_button = Instantiate(GameObject.Find(ILittoSimConcept.LITTOSIM_MANANGER).GetComponent<LittosimManager>().ButtonActionPrefab);
+                    action_button.name = "Coastal_Defense_" + action;
+                    action_button.GetComponent<RectTransform>().SetParent(Def_Cote_Panel.GetComponent<RectTransform>());
+                    action_button.GetComponent<Button_Action_Prefab>().SetUp("Coastal_Defense_" + action, act.action_code, act.button_help_message, act.button_icon_file, "Coastal_Defense", IActionButton.GetPosition(13 - nbrAct));
+                    nbrAct--;
+                }
+                
+
+            }
+
+
+           
+
+            
+
+
+
+
+
         }
     }
 }

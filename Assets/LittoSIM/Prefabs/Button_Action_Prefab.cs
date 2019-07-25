@@ -7,7 +7,7 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
     public class Button_Action_Prefab : MonoBehaviour
     {
         public string action_name;
-        public int code;
+        public int action_code;
         public string button_help_message;
         public string button_icon;
         public string type;
@@ -22,7 +22,7 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
         private void FixedUpdate()
         {
             //            Debug.Log("The action code to do is: " + LittosimManager.actionToDo);
-            if (LittosimManager.actionToDo == code)
+            if (LittosimManager.actionToDo == action_code)
             {
                 ColorBlock cb = gameObject.GetComponent<Button>().colors;
                 cb.normalColor = Color.magenta;
@@ -39,7 +39,7 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
         public Button_Action_Prefab(string action_name, int action_code, string msg_help, string icon, string type, Vector3 posi)
         {
             this.action_name = action_name;
-            code = action_code;
+            this.action_code = action_code;
             button_help_message = msg_help;
             button_icon = icon;
             this.type = type;
@@ -49,7 +49,7 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
         public void SetUp(string action_name, int action_code, string msg_help, string icon, string type, Vector3 posi)
         {
             this.action_name = action_name;
-            code = action_code;
+            this.action_code = action_code;
             button_help_message = msg_help;
             button_icon = icon.Remove(icon.Length - 4);
             button_icon = button_icon.Substring(3);
@@ -66,8 +66,8 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
         
         public void onAddButtonClicked()
         {
-            Debug.Log("--  --  --  --  > The action code is " + code);// + action.code);
-            LittosimManager.actionToDo = code;
+            Debug.Log("--  --  --  --  > The action code is " + action_code);// + action.code);
+            LittosimManager.actionToDo = action_code;
         }
 
         public void ShowTooltip()
