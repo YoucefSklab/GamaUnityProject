@@ -35,7 +35,7 @@ namespace ummisco.gama.unity.littosim
 
             string fileContent = reader.ReadToEnd();
 
-            Debug.Log(" The actions file content is : " + fileContent);
+            //Debug.Log(" The actions file content is : " + fileContent);
             actions_dic = GetActionsList(fileContent);
 
             Dictionary<string, Action> us_actions_dic = GetUAActionsList();

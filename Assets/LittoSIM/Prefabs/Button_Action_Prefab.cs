@@ -58,7 +58,10 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
             Sprite ImageIcon = Resources.Load<Sprite>(button_icon);
             if (ImageIcon != null)
                 gameObject.GetComponent<Image>().sprite = ImageIcon;
-            gameObject.GetComponent<RectTransform>().localPosition = this.position;
+
+            RectTransform rt = gameObject.GetComponent<RectTransform>();
+            rt.localPosition = this.position;
+            rt.sizeDelta = new Vector2(Config.BUTTON_SIZE/10, Config.BUTTON_SIZE/10);
         }
         
         public void onAddButtonClicked()
