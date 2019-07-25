@@ -51,11 +51,11 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
             this.action_name = action_name;
             code = action_code;
             button_help_message = msg_help;
-            button_icon = icon;
+            button_icon = icon.Remove(icon.Length - 4);
+            button_icon = button_icon.Substring(3);
             this.type = type;
             this.position = posi;
-
-            Sprite ImageIcon = Resources.Load<Sprite>(icon);
+            Sprite ImageIcon = Resources.Load<Sprite>(button_icon);
             if (ImageIcon != null)
                 gameObject.GetComponent<Image>().sprite = ImageIcon;
             gameObject.GetComponent<RectTransform>().localPosition = this.position;

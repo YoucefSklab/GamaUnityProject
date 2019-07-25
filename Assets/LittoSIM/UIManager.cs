@@ -18,8 +18,8 @@ namespace ummisco.gama.unity.littosim
         void Awake()
         {
             activePanel = IUILittoSim.UA_PANEL;
-            selectedOnglet = Resources.Load<Sprite>("onglet_selectionne");
-            notSelectedOnglet = Resources.Load<Sprite>("onglet_non_selectionne");
+            selectedOnglet = Resources.Load<Sprite>("images/ihm/onglet_selectionne");
+            notSelectedOnglet = Resources.Load<Sprite>("images/ihm/onglet_non_selectionne");
     }
 
         void Start()

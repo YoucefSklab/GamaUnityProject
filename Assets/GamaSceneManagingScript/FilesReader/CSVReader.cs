@@ -25,8 +25,9 @@ namespace ummisco.gama.unity.files
     //TODO  Use the class CSVParsing to read the data from csv file
     public class CSVReader : MonoBehaviour
     {
-        public string path = IGamaManager.RESOURCES_PATH + "langs_def.csv";
-        public string lng = "en";
+        //public string path = IGamaManager.RESOURCES_PATH + "langs_def.csv";
+        public string path = IGamaManager.RESOURCES_PATH + "config/langs.conf";
+        public string lng = Config.LANGUAGE;
         public Dictionary<string, Langue> langueDic = new Dictionary<string, Langue>();
 
         public void Start()

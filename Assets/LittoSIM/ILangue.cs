@@ -98,7 +98,7 @@ namespace ummisco.gama.unity.littosim
         public static string MSG_COST_APPLIED_PARCEL = "MSG_COST_APPLIED_PARCEL";
         public static string MSG_COST_ACTION = "MSG_COST_ACTION";
         public static string MSG_COST_EXPROPRIATION = "MSG_COST_EXPROPRIATION";
-        public static string LEGEND_UNAM = "LEGEND_UNAM";
+        public static string LEGEND_PLU = "LEGEND_PLU";
         public static string LEGEND_DYKE = "LEGEND_DYKE";
         public static string LEGEND_NAME_ACTIONS = "LEGEND_NAME_ACTIONS";
         public static string MSG_INITIAL_BUDGET = "MSG_INITIAL_BUDGET";

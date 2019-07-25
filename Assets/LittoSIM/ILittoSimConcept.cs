@@ -11,7 +11,7 @@ namespace ummisco.gama.unity.littosim
 
         public const string MSG_INITIAL_BUDGET = "Msg_Initial_Budget";
         public const string MSG_REMAINING_BUDGET = "Msg_Remaining_Budget";
-        public const string LEGEND_UNAM = "Legend_Unam";
+        public const string LEGEND_PLU = "Legend_Plu";
         public const string LEGEND_DYKE = "Legend_Dyke";
         public const string LEGEND_NAME_ACTIONS = "Legend_Name_Aactions";
 

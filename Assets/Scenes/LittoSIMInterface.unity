@@ -218,8 +218,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 2bae835103c004591ae0c8204420726a, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: eaca4d441c86a45e9a94c604f1432bf5, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -885,8 +885,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: d4c51404f389042799b79af5505ab2b2, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 91ee984cab22b44958eef90e61860370, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1114,8 +1114,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 00429aa58a708443aa5e58e8498836c4, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: b9d50695b2980419cb1f868cb2075f17, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1563,7 +1563,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 284944362}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999711
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2156,7 +2156,7 @@ GameObject:
   - component: {fileID: 513209718}
   - component: {fileID: 513209717}
   m_Layer: 5
-  m_Name: Legend_Unam
+  m_Name: Legend_Plu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3315,8 +3315,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 00429aa58a708443aa5e58e8498836c4, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: b9d50695b2980419cb1f868cb2075f17, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3774,6 +3774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ce900fa0f9cf443d8c27d2f5705c6a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  configFilePath: Assets/Resources/actions.csv
 --- !u!4 &922741250
 Transform:
   m_ObjectHideFlags: 0
@@ -5341,7 +5342,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 2913d36da8b86440f9bda73778cb9a4d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f6faeae73449b4872865b801f8ee3df5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6031,8 +6032,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 789118bb608794f06a52c01edfd3a92c, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 91ee984cab22b44958eef90e61860370, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -6316,7 +6317,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.00012403357, y: 0.0028849482}
+  m_AnchoredPosition: {x: -0.00012403357, y: -0.000000057237894}
   m_SizeDelta: {x: 1121.2, y: 1111}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1365384222
@@ -7892,8 +7893,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 2bae835103c004591ae0c8204420726a, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: eaca4d441c86a45e9a94c604f1432bf5, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -8882,8 +8883,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 42c55bc2df9f74e11b01046b6ffbb57c, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 303763151205c4c75974cd8414fa2ef2, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -9246,6 +9247,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: Action_Recap_Panel_Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 942469698793086953, guid: 0ec4e5989c90e428496e7432db00aed0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0ce100c41be3340c5b9056751ce2fd81,
+        type: 3}
+    - target: {fileID: 942469698793086953, guid: 0ec4e5989c90e428496e7432db00aed0,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 942469699523050239, guid: 0ec4e5989c90e428496e7432db00aed0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3bd3123ec01894f87a2072b95f342a66,
+        type: 3}
+    - target: {fileID: 942469700052325513, guid: 0ec4e5989c90e428496e7432db00aed0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4d52e725a3a5b43ff838f3b0b3001a9e,
+        type: 3}
+    - target: {fileID: 942469700052325513, guid: 0ec4e5989c90e428496e7432db00aed0,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 942469700384738127, guid: 0ec4e5989c90e428496e7432db00aed0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 942469700384738127, guid: 0ec4e5989c90e428496e7432db00aed0,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ec4e5989c90e428496e7432db00aed0, type: 3}
 --- !u!1001 &4565523140985835450
@@ -9365,6 +9404,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Message_Panel_Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 4565523142235991564, guid: 75568bb23c7cc42eca6fc35fa2ebea39,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4d52e725a3a5b43ff838f3b0b3001a9e,
+        type: 3}
+    - target: {fileID: 4565523142235991564, guid: 75568bb23c7cc42eca6fc35fa2ebea39,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75568bb23c7cc42eca6fc35fa2ebea39, type: 3}
 --- !u!1001 &8000114219557176644
@@ -9483,6 +9533,34 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Action_Panel_Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 8000114219623224076, guid: d5a4d8a74ad0548ef9ec98fa953b3478,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3bd3123ec01894f87a2072b95f342a66,
+        type: 3}
+    - target: {fileID: 8000114219890994927, guid: d5a4d8a74ad0548ef9ec98fa953b3478,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c33901801d5a44bbebbb0dd09011e1bb,
+        type: 3}
+    - target: {fileID: 8000114219890994927, guid: d5a4d8a74ad0548ef9ec98fa953b3478,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8000114221363781504, guid: d5a4d8a74ad0548ef9ec98fa953b3478,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d7ab1444a6da6475b8d3722b9bbf910d,
+        type: 3}
+    - target: {fileID: 8000114221363781504, guid: d5a4d8a74ad0548ef9ec98fa953b3478,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5a4d8a74ad0548ef9ec98fa953b3478, type: 3}
