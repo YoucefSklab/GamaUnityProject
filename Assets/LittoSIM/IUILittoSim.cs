@@ -71,7 +71,7 @@ namespace ummisco.gama.unity.littosim
         public const string ROAD = "Road";
         public const string FLOOD_RISK_AREA = "Flood_Risk_Area";
 
-
+               
         // Other UI Elements
         /*
         public const string UI_TXT_Button_Amenagement = " Aménagement, PLU et habitat";

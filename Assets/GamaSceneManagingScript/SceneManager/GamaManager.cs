@@ -19,11 +19,11 @@ using System.Xml;
 using System.Reflection;
 using System.ComponentModel;
 using ummisco.gama.unity.topics;
-using System.Globalization;
+
 using ummisco.gama.unity.GamaAgent;
-using Nextzen;
 using ummisco.gama.unity.littosim;
 using ummisco.gama.unity.files;
+using UnityEditor;
 
 namespace ummisco.gama.unity.SceneManager
 {
@@ -194,28 +194,28 @@ namespace ummisco.gama.unity.SceneManager
                         {
                             case IUILittoSim.LAND_USE:
                                 agent.height = 50;
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, polygonMaterial, IUILittoSim.LAND_USE_ID, true);
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, polygonMaterial, IUILittoSim.LAND_USE_ID, true, ILittoSimConcept.LAND_USE_TAG);
                                 break;
                             case IUILittoSim.COASTAL_DEFENSE:
                                 agent.height = 80;
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Coastal_Defense_Transform, lineMaterial, IUILittoSim.COASTAL_DEFENSE_ID, true);
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Coastal_Defense_Transform, lineMaterial, IUILittoSim.COASTAL_DEFENSE_ID, true, ILittoSimConcept.COASTAL_DEFENSE_TAG);
                                 break;
                             case IUILittoSim.DISTRICT:
                                 agent.height = 30;
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, planeMaterial, IUILittoSim.DISTRICT_ID, true);
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, planeMaterial, IUILittoSim.DISTRICT_ID, true, ILittoSimConcept.DISTRICT_TAG);
                                 break;
                             case IUILittoSim.FLOOD_RISK_AREA:
                                 agent.height = 80;
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.FLOOD_RISK_AREA_ID, true);
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.FLOOD_RISK_AREA_ID, true, ILittoSimConcept.FLOOD_RISK_AREA_TAG);
                                 break;
                             case IUILittoSim.PROTECTED_AREA:
                                 agent.height = 80;
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.PROTECTED_AREA_ID, true);
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.PROTECTED_AREA_ID, true, ILittoSimConcept.PROTECTED_AREA_TAG);
                                 break;
                             case IUILittoSim.ROAD:
                                 agent.height = 0;
                                 //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.ROAD_ID, false);
-                                agentCreator.GetComponent<AgentCreator>().CreateLineAgent(agent, Land_Use_Transform, mat, IUILittoSim.ROAD_ID, false, 3f);
+                                agentCreator.GetComponent<AgentCreator>().CreateLineAgent(agent, Land_Use_Transform, mat, IUILittoSim.ROAD_ID, false, 3f, ILittoSimConcept.ROAD_TAG);
 
                                 break;
                             default:
@@ -456,7 +456,7 @@ namespace ummisco.gama.unity.SceneManager
             //GameObject mapBuilder = GameObject.Find("MapBuilder");
             //regionMap = (RegionMap) FindObjectOfType(typeof(RegionMap));
             //GameObject mapBuilder  = (GameObject) FindObjectOfType(typeof(MapBuilder));
-
+            /*
             if (mapBuilder != null)
             {
                 mapBuilder.GetComponent<RegionMap>().SendMessage("DrawNewAgents");
@@ -465,6 +465,7 @@ namespace ummisco.gama.unity.SceneManager
             {
                 Debug.Log("No such Object. Sorry");
             }
+            */
 
 
         }
@@ -624,6 +625,30 @@ namespace ummisco.gama.unity.SceneManager
         public void publishMessage(string message, string topic)
         {
             client.Publish(topic, System.Text.Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+        }
+
+
+        public static void AddTag(string tag)
+        {
+            UnityEngine.Object[] asset = AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset");
+            if ((asset != null) && (asset.Length > 0))
+            {
+                SerializedObject so = new SerializedObject(asset[0]);
+                SerializedProperty tags = so.FindProperty("tags");
+
+                for (int i = 0; i < tags.arraySize; ++i)
+                {
+                    if (tags.GetArrayElementAtIndex(i).stringValue == tag)
+                    {
+                        return;     // Tag already present, nothing to do.
+                    }
+                }
+
+                tags.InsertArrayElementAtIndex(0);
+                tags.GetArrayElementAtIndex(0).stringValue = tag;
+                so.ApplyModifiedProperties();
+                so.Update();
+            }
         }
 
 

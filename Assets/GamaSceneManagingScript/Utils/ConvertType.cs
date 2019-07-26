@@ -1,13 +1,10 @@
 using System.Text;
 using System.Collections.Generic;
-using System.Xml.Serialization;
-using System.IO;
 using System;
 using UnityEngine;
 using System.Reflection;
 using System.Xml;
-using System.Xml.Schema;
-using Nextzen.VectorData;
+using gama.unity.datastructure;
 
 namespace ummisco.gama.unity.utils
 {

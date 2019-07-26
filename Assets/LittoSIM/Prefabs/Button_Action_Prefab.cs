@@ -21,7 +21,8 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
 
         private void FixedUpdate()
         {
-            //            Debug.Log("The action code to do is: " + LittosimManager.actionToDo);
+            // Debug.Log("The action code to do is: " + LittosimManager.actionToDo);
+            // TODO revoir la manière de gérer cette partie. Ajouter un agent qui gére les boutons;
             if (LittosimManager.actionToDo == action_code)
             {
                 ColorBlock cb = gameObject.GetComponent<Button>().colors;
@@ -68,6 +69,10 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
         {
             Debug.Log("--  --  --  --  > The action code is " + action_code);// + action.code);
             LittosimManager.actionToDo = action_code;
+
+            //GameObject.FindWithTag(ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG).tag = "Player";  
+            //GameObject.FindWithTag(ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG).SetActive(false);
+            gameObject.tag = ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG;
         }
 
         public void ShowTooltip()

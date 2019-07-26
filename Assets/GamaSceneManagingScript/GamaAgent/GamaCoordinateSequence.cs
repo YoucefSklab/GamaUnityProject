@@ -1,6 +1,5 @@
 
 using System.Collections.Generic;
-using Nextzen.VectorData;
 using UnityEngine;
 
 namespace ummisco.gama.unity.GamaAgent

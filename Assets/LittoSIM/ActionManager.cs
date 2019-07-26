@@ -163,22 +163,24 @@ namespace ummisco.gama.unity.littosim
 
             int nbrAct = communActions.Count;
 
-            foreach(string action in communActions)
+            foreach (string action in communActions)
             {
                 actions_dic.TryGetValue(action, out act);
 
                 if (act != null)
                 {
-                    //Coastal Defense 
                     GameObject action_button = Instantiate(GameObject.Find(ILittoSimConcept.LITTOSIM_MANANGER).GetComponent<LittosimManager>().ButtonActionPrefab);
                     action_button.name = "Land_Use_" + action;
                     action_button.GetComponent<RectTransform>().SetParent(Ua_Panel.GetComponent<RectTransform>());
                     action_button.GetComponent<Button_Action_Prefab>().SetUp("Land_Use_" + action, act.action_code, act.button_help_message, act.button_icon_file, "Land_Use", IActionButton.GetPosition(13 - nbrAct));
-
+                    action_button.tag = ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG;
+          
                     action_button = Instantiate(GameObject.Find(ILittoSimConcept.LITTOSIM_MANANGER).GetComponent<LittosimManager>().ButtonActionPrefab);
                     action_button.name = "Coastal_Defense_" + action;
                     action_button.GetComponent<RectTransform>().SetParent(Def_Cote_Panel.GetComponent<RectTransform>());
                     action_button.GetComponent<Button_Action_Prefab>().SetUp("Coastal_Defense_" + action, act.action_code, act.button_help_message, act.button_icon_file, "Coastal_Defense", IActionButton.GetPosition(13 - nbrAct));
+                    action_button.tag = ILittoSimConcept.COASTAL_DEFENSE_COMMON_BUTTON_TAG;
+                    
                     nbrAct--;
                 }
                 

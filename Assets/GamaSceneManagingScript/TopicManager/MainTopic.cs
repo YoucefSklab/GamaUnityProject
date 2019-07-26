@@ -6,11 +6,6 @@ using ummisco.gama.unity.utils;
 using System.Reflection;
 using System.Linq;
 using System;
-using System.Xml;
-using System.Globalization;
-using ummisco.gama.unity.Behaviour;
-using System.Xml.Linq;
-using Nextzen.VectorData;
 using ummisco.gama.unity.GamaAgent;
 using ummisco.gama.unity.SceneManager;
 

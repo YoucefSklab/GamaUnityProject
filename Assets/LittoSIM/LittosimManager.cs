@@ -54,9 +54,15 @@ namespace ummisco.gama.unity.littosim
         private GameObject uiManager;
         private GameObject main_canvas;
 
+        void Awak()
+        {
+           
+        }
+
         void Start()
         {
 
+            AddLittosimTags();
 
             uiManager = GameObject.Find(IUILittoSim.UI_MANAGER);
             main_canvas = GameObject.Find(IUILittoSim.MAIN_CANVAS);
@@ -72,6 +78,7 @@ namespace ummisco.gama.unity.littosim
             lastMessagePosition = new Vector2(1032f, -40f);
                         
             SetUpLittosimUI();
+           
 
         }
 
@@ -98,10 +105,7 @@ namespace ummisco.gama.unity.littosim
             GameObject.Find(mapName).GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
         }
 
-        void Awak()
-        {
-
-        }
+       
 
         void FixedUpdate()
         {
@@ -638,6 +642,19 @@ namespace ummisco.gama.unity.littosim
         public string geObjectComposedName(string constVar, string name)
         {
             return constVar + "_" + name;
+        }
+
+        public void AddLittosimTags()
+        {
+            GamaManager.AddTag(ILittoSimConcept.LAND_USE_TAG);
+            GamaManager.AddTag(ILittoSimConcept.COASTAL_DEFENSE_TAG);
+            GamaManager.AddTag(ILittoSimConcept.DISTRICT_TAG);
+            GamaManager.AddTag(ILittoSimConcept.FLOOD_RISK_AREA_TAG);
+            GamaManager.AddTag(ILittoSimConcept.PROTECTED_AREA_TAG);
+            GamaManager.AddTag(ILittoSimConcept.ROAD_TAG);
+
+            GamaManager.AddTag(ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG);
+            GamaManager.AddTag(ILittoSimConcept.COASTAL_DEFENSE_COMMON_BUTTON_TAG);
         }
 
     }

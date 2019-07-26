@@ -1,8 +1,4 @@
-﻿using Nextzen;
-
-using UnityEditor;
-using UnityEngine;
-
+﻿
 // For Android Build
 public class MapBuilder 
 {

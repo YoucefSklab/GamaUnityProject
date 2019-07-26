@@ -23,7 +23,7 @@ public class AgentCreator : MonoBehaviour
         
     }
 
-    public void CreateAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate)
+    public void CreateAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate, string tagName)
     {
         GameObject newObject = new GameObject(agent.agentName);
         MeshRenderer meshRenderer = (MeshRenderer) newObject.AddComponent(typeof(MeshRenderer));
@@ -56,11 +56,16 @@ public class AgentCreator : MonoBehaviour
         //newObject.GetComponent<Transform>().localPosition = posi;
         newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);//posi;
 
+       if(tagName != null)
+        {
+            newObject.tag = tagName;
+        }       
+
         AttacheCode(newObject, speciesId, agent);
     }
 
     
-    public void CreateLineAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate, float lineWidth)
+    public void CreateLineAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate, float lineWidth, string tagName)
     {
         GameObject newObject = new GameObject(agent.agentName);
         newObject.GetComponent<Transform>().SetParent(parentTransform);
@@ -90,7 +95,10 @@ public class AgentCreator : MonoBehaviour
         rt.pivot = new Vector2(0, 1);
 
         rt.anchoredPosition = new Vector3(0, 0, 0);
-
+        if (tagName != null)
+        {
+            newObject.tag = tagName;
+        }
         GameObject.Destroy(line);
 
     }

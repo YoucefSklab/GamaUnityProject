@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - DeleteActionButton
-  - clickableCube
   layers:
   - Default
   - TransparentFX

@@ -1,15 +1,9 @@
-using System.Text;
 using System.Collections.Generic;
-using System.Xml.Serialization;
-using System.IO;
 using System;
 using UnityEngine;
-using System.Reflection;
 using System.Xml;
-using System.Xml.Schema;
-using Nextzen.VectorData;
 using ummisco.gama.unity.GamaAgent;
-using System.Linq;
+using gama.unity.datastructure;
 
 namespace ummisco.gama.unity.utils
 {
@@ -327,62 +321,10 @@ namespace ummisco.gama.unity.utils
             }
             //  gamaAgent.color = new GamaColor(value, falpha, name);
         }
-        /*
-        public static string getAgentGeometry(XmlElement elt)
-        {
-
-            string geo = elt.Attributes["class"].Value;
-            if (geo != null)
-            {
-                return geo.Substring((geo.LastIndexOf(".") + 1), (geo.Length - (geo.LastIndexOf(".") + 1)));
-                 
-                //        if (elt.Attributes["class"].Value.Equals("com.vividsolutions.jts.geom.Polygon"))
-                //        {
-                //            return "Polygon";
-                //        }
-                //        if (elt.Attributes["class"].Value.Equals("com.vividsolutions.jts.geom.LineString"))
-                //        {
-                //            return "LineString";
-                //        }
-
-            }
-            else
-            {
-                return "Sphere";
-            }
-
-        }
-        */
+       
 
 
-        /*
-        public static Agent getAgent(XmlNode[] content)
-        {
 
-            Agent gamaAgent = new Agent();
-
-            gamaAgent.geometry = getAgentGeometry((XmlElement)content.GetValue(1));
-            Debug.Log("The agent geometry " + gamaAgent.geometry);
-
-            if (gamaAgent.geometry.Equals("Polygon"))
-            {
-                getAgentBuildingInfo(gamaAgent, content);
-                
-                ajustPolygonCoordinatesList(gamaAgent.agentCoordinate.Points);
-            }
-            if (gamaAgent.geometry.Equals("LineString"))
-            {
-                getAgentLineStringInfo(gamaAgent, content);
-            }
-            if (gamaAgent.geometry.Equals("Point"))
-            {
-                getAgentPointInfo(gamaAgent, content);
-
-                ajustPointsList(gamaAgent.agentCoordinate.Points);
-            }
-            return gamaAgent;
-        }
-        */
 
         public static void ajustPointsList(List<Point> list)
         {

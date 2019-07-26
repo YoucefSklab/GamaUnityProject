@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Data.OleDb;
-using System.Data.Common;
 using System.IO;
-using System.Text;
 using UnityEngine;
 
 
@@ -332,6 +329,7 @@ namespace ummisco.gama.unity.files.ShapefileImporter
                 }
                 fileNameNoExt = fileNameNoExt.Substring(0, 6) + "~1";
             }
+            /*
 
             // Set the connection string.
             string connectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source=" + directory + ";Extended Properties=dBASE 5.0";
@@ -377,6 +375,9 @@ namespace ummisco.gama.unity.files.ShapefileImporter
                 // Dispose of connection.
                 ((IDisposable)connection).Dispose();
             }
+
+        */
+
         }
 
         /// <summary>

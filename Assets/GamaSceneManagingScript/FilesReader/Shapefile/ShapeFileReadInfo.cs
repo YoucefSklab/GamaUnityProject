@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.OleDb;
-using System.IO;
+﻿using System.IO;
 using System.Text;
-using UnityEngine;
+
 
 namespace ummisco.gama.unity.files.ShapefileImporter
 {

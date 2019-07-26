@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using Nextzen.VectorData;
 using ummisco.gama.unity.littosim;
 
 namespace ummisco.gama.unity.GamaAgent
