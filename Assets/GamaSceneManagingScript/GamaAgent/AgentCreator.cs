@@ -24,7 +24,7 @@ public class AgentCreator : MonoBehaviour
         
     }
 
-    public void CreateAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate, string tagName)
+    public void CreateAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate, string tagName, float zAxis)
     {
         GameObject newObject = new GameObject(agent.agentName);
         MeshRenderer meshRenderer = (MeshRenderer) newObject.AddComponent(typeof(MeshRenderer));
@@ -56,7 +56,7 @@ public class AgentCreator : MonoBehaviour
                
         newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
         posi = newObject.GetComponent<RectTransform>().localPosition;
-        newObject.GetComponent<RectTransform>().localPosition = new Vector3(posi.x, posi.y, -60);
+        newObject.GetComponent<RectTransform>().localPosition = new Vector3(posi.x, posi.y, zAxis);
 
         if (tagName != null)
         {
@@ -69,7 +69,7 @@ public class AgentCreator : MonoBehaviour
     }
 
     
-    public void CreateLineAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate, float lineWidth, string tagName)
+    public void CreateLineAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate, float lineWidth, string tagName, float zPosition)
     {
         GameObject newObject = new GameObject(agent.agentName);
         newObject.GetComponent<Transform>().SetParent(parentTransform);
@@ -99,6 +99,9 @@ public class AgentCreator : MonoBehaviour
         rt.pivot = new Vector2(0, 1);
 
         rt.anchoredPosition = new Vector3(0, 0, 0);
+        Vector3 p = rt.localPosition;
+        rt.localPosition = new Vector3(p.x, p.y, zPosition);
+
         if (tagName != null)
         {
             newObject.tag = tagName;
@@ -175,6 +178,7 @@ public class AgentCreator : MonoBehaviour
         GameObject.Destroy(line);
 
     }
+
     public void AttacheCode(GameObject obj, int speciesId, Agent agent)
     {
         switch (speciesId)

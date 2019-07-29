@@ -52,10 +52,15 @@ namespace ummisco.gama.unity.SceneManager
         //public static Agent[] gamaAgentList = new Agent[5000];
         public static int nbrAgent = 0;
 
-        public Material planeMaterial;
-        public Material polygonMaterial;
-        public Material lineMaterial;
-        public Material mat;
+        public Material matGreen;
+        public Material matGreenLighter;
+        public Material matBlue;
+        public Material matBlueLighter;
+        public Material matRed;
+        public Material matRedLighter;
+        public Material matYellow;
+        public Material matYellowLighter;
+        public Material matWhite;
 
         public Transform parentObjectTransform;
 
@@ -188,30 +193,30 @@ namespace ummisco.gama.unity.SceneManager
                         switch (agent.species)
                         {
                             case IUILittoSim.LAND_USE:
-                                agent.height = 50;
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, polygonMaterial, IUILittoSim.LAND_USE_ID, true, ILittoSimConcept.LAND_USE_TAG);
+                                agent.height = 10;
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, matGreen, IUILittoSim.LAND_USE_ID, true, ILittoSimConcept.LAND_USE_TAG, -60);
                                 break;
                             case IUILittoSim.COASTAL_DEFENSE:
-                                agent.height = 50;
+                                agent.height = 10;
                                 //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Coastal_Defense_Transform, lineMaterial, IUILittoSim.COASTAL_DEFENSE_ID, true, ILittoSimConcept.COASTAL_DEFENSE_TAG);
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, lineMaterial, IUILittoSim.COASTAL_DEFENSE_ID, true, ILittoSimConcept.COASTAL_DEFENSE_TAG);
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, matYellow, IUILittoSim.COASTAL_DEFENSE_ID, true, ILittoSimConcept.COASTAL_DEFENSE_TAG, -80);
                                 break;
                             case IUILittoSim.DISTRICT:
-                                agent.height = 50;
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, planeMaterial, IUILittoSim.DISTRICT_ID, true, ILittoSimConcept.DISTRICT_TAG);
+                                agent.height = 10;
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, matBlue, IUILittoSim.DISTRICT_ID, true, ILittoSimConcept.DISTRICT_TAG, -40);
                                 break;
                             case IUILittoSim.FLOOD_RISK_AREA:
-                                agent.height = 50;
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.FLOOD_RISK_AREA_ID, true, ILittoSimConcept.FLOOD_RISK_AREA_TAG);
+                                agent.height = 10;
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, matRed, IUILittoSim.FLOOD_RISK_AREA_ID, true, ILittoSimConcept.FLOOD_RISK_AREA_TAG, -100);
                                 break;
                             case IUILittoSim.PROTECTED_AREA:
-                                agent.height = 50;
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.PROTECTED_AREA_ID, true, ILittoSimConcept.PROTECTED_AREA_TAG);
+                                agent.height = 10;
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, matGreenLighter, IUILittoSim.PROTECTED_AREA_ID, true, ILittoSimConcept.PROTECTED_AREA_TAG, -100);
                                 break;
                             case IUILittoSim.ROAD:
                                 agent.height = 0;
                                 //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.ROAD_ID, false);
-                                agentCreator.GetComponent<AgentCreator>().CreateLineAgent(agent, Land_Use_Transform, mat, IUILittoSim.ROAD_ID, false, 3f, ILittoSimConcept.ROAD_TAG);
+                                agentCreator.GetComponent<AgentCreator>().CreateLineAgent(agent, Land_Use_Transform, matWhite, IUILittoSim.ROAD_ID, false, 10f, ILittoSimConcept.ROAD_TAG, -151);
                                 break;
                             default:
                                 targetGameObject = GameObject.Find(unityAgent.receivers);
