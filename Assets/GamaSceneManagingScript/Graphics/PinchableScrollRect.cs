@@ -62,6 +62,8 @@ public class PinchableScrollRect : ScrollRect
 
         if (Mathf.Abs(content.localScale.x - _currentZoom) > 0.001f)
             content.localScale = Vector3.Lerp(content.localScale, Vector3.one * _currentZoom, _zoomLerpSpeed * Time.deltaTime);
+
+       // content.pivot = new Vector2(0.5f, 0.5f);
     }
 
     protected override void SetContentAnchoredPosition(Vector2 position)
@@ -84,6 +86,7 @@ public class PinchableScrollRect : ScrollRect
         Vector2 posFromBottomLeft = pivotPosition + _startPinchCenterPosition;
 
         SetPivot(content, new Vector2(posFromBottomLeft.x / content.rect.width, posFromBottomLeft.y / content.rect.height));
+        
         blockPan = true;
     }
 
@@ -104,7 +107,7 @@ public class PinchableScrollRect : ScrollRect
     static void SetPivot(RectTransform rectTransform, Vector2 pivot)
     {
         if (rectTransform == null) return;
-
+       
         Vector2 size = rectTransform.rect.size;
         Vector2 deltaPivot = rectTransform.pivot - pivot;
         Vector3 deltaPosition = new Vector3(deltaPivot.x * size.x, deltaPivot.y * size.y) * rectTransform.localScale.x;

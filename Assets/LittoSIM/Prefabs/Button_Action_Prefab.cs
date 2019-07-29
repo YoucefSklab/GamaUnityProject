@@ -1,4 +1,5 @@
 ﻿using System;
+using ummisco.gama.unity.SceneManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,9 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
         public string type;
         public Vector3 position;
         public Boolean isOn = false;
+        public bool isButtonActivated = false;
+        public bool OnOffButton = false;
+        public string species = "";
 
         private void Start()
         {
@@ -67,12 +71,26 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
         
         public void onAddButtonClicked()
         {
+            if(OnOffButton)
+            if (isButtonActivated)
+            {
+                isButtonActivated = false;
+                GamaManager.SetSpeciesEnabled(species, isButtonActivated);
+            }
+            else
+            {
+                isButtonActivated = true;
+                GamaManager.SetSpeciesEnabled(species, isButtonActivated);
+            }
+
             Debug.Log("--  --  --  --  > The action code is " + action_code);// + action.code);
             LittosimManager.actionToDo = action_code;
 
             //GameObject.FindWithTag(ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG).tag = "Player";  
             //GameObject.FindWithTag(ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG).SetActive(false);
             gameObject.tag = ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG;
+
+            
         }
 
         public void ShowTooltip()

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using ummisco.gama.unity.messages;
 using ummisco.gama.unity.utils;
@@ -7,17 +6,10 @@ using ummisco.gama.unity.notification;
 
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
-using uPLibrary.Networking.M2Mqtt.Utility;
-using uPLibrary.Networking.M2Mqtt.Exceptions;
 using System;
-using System.IO;
-
-using System.Xml.Serialization;
 using System.Xml.Linq;
 using System.Linq;
-using System.Xml;
 using System.Reflection;
-using System.ComponentModel;
 using ummisco.gama.unity.topics;
 
 using ummisco.gama.unity.GamaAgent;
@@ -55,9 +47,9 @@ namespace ummisco.gama.unity.SceneManager
         public Transform Land_Use_Transform;
         public Transform Coastal_Defense_Transform;
 
-        public List<GameObject> objectsList = new List<GameObject>();
+        public static Dictionary<string, List<GameObject>> gamaAgentList = new Dictionary<string, List<GameObject>>();
 
-        public static Agent[] gamaAgentList = new Agent[5000];
+        //public static Agent[] gamaAgentList = new Agent[5000];
         public static int nbrAgent = 0;
 
         public Material planeMaterial;
@@ -71,6 +63,9 @@ namespace ummisco.gama.unity.SceneManager
 
         private GameObject mainTopicManager;
         private GameObject agentCreator;
+
+
+
 
 
 
@@ -180,13 +175,13 @@ namespace ummisco.gama.unity.SceneManager
 
                 receivedMsg = System.Text.Encoding.UTF8.GetString(e.Message);
 
-               // Debug.Log("-> Received Message is : " + receivedMsg);
+                // Debug.Log("-> Received Message is : " + receivedMsg);
 
                 switch (e.Topic)
                 {
                     case MqttSetting.MAIN_TOPIC:
                         //------------------------------------------------------------------------------
-                      //  Debug.Log(totalAgents+ "  -> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
+                        //  Debug.Log(totalAgents+ "  -> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
                         UnityAgent unityAgent = (UnityAgent)MsgSerialization.deserialization(receivedMsg, new UnityAgent());
                         Agent agent = unityAgent.GetAgent();
 
@@ -197,26 +192,26 @@ namespace ummisco.gama.unity.SceneManager
                                 agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, polygonMaterial, IUILittoSim.LAND_USE_ID, true, ILittoSimConcept.LAND_USE_TAG);
                                 break;
                             case IUILittoSim.COASTAL_DEFENSE:
-                                agent.height = 80;
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Coastal_Defense_Transform, lineMaterial, IUILittoSim.COASTAL_DEFENSE_ID, true, ILittoSimConcept.COASTAL_DEFENSE_TAG);
+                                agent.height = 50;
+                                //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Coastal_Defense_Transform, lineMaterial, IUILittoSim.COASTAL_DEFENSE_ID, true, ILittoSimConcept.COASTAL_DEFENSE_TAG);
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, lineMaterial, IUILittoSim.COASTAL_DEFENSE_ID, true, ILittoSimConcept.COASTAL_DEFENSE_TAG);
                                 break;
                             case IUILittoSim.DISTRICT:
-                                agent.height = 30;
+                                agent.height = 50;
                                 agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, planeMaterial, IUILittoSim.DISTRICT_ID, true, ILittoSimConcept.DISTRICT_TAG);
                                 break;
                             case IUILittoSim.FLOOD_RISK_AREA:
-                                agent.height = 80;
+                                agent.height = 50;
                                 agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.FLOOD_RISK_AREA_ID, true, ILittoSimConcept.FLOOD_RISK_AREA_TAG);
                                 break;
                             case IUILittoSim.PROTECTED_AREA:
-                                agent.height = 80;
+                                agent.height = 50;
                                 agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.PROTECTED_AREA_ID, true, ILittoSimConcept.PROTECTED_AREA_TAG);
                                 break;
                             case IUILittoSim.ROAD:
                                 agent.height = 0;
                                 //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.ROAD_ID, false);
                                 agentCreator.GetComponent<AgentCreator>().CreateLineAgent(agent, Land_Use_Transform, mat, IUILittoSim.ROAD_ID, false, 3f, ILittoSimConcept.ROAD_TAG);
-
                                 break;
                             default:
                                 targetGameObject = GameObject.Find(unityAgent.receivers);
@@ -247,7 +242,7 @@ namespace ummisco.gama.unity.SceneManager
                             Debug.LogError(" Sorry, requested gameObject is null (" + monoFreeTopicMessage.objectName + "). Please check your code! ");
                             break;
                         }
-                    //    Debug.Log("The message is to " + monoFreeTopicMessage.objectName + " about the methode " + monoFreeTopicMessage.methodName + " and attribute " + monoFreeTopicMessage.attribute);
+                        //    Debug.Log("The message is to " + monoFreeTopicMessage.objectName + " about the methode " + monoFreeTopicMessage.methodName + " and attribute " + monoFreeTopicMessage.attribute);
                         GameObject.Find(MqttSetting.MONO_FREE_TOPIC_MANAGER).GetComponent(MqttSetting.MONO_FREE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
                         //------------------------------------------------------------------------------
                         break;
@@ -540,7 +535,6 @@ namespace ummisco.gama.unity.SceneManager
             System.Reflection.MethodInfo info = gameObject.GetComponent("PlayerController").GetType().GetMethod(methodName);
             ParameterInfo[] par = info.GetParameters();
 
-
             for (int j = 0; j < par.Length; j++)
             {
                 System.Reflection.ParameterInfo par1 = par[j];
@@ -570,7 +564,6 @@ namespace ummisco.gama.unity.SceneManager
                     gameObject.SendMessage(methodName, obj);
                     break;
             }
-
         }
 
         public object convertParameter(object val, ParameterInfo par)
@@ -579,23 +572,47 @@ namespace ummisco.gama.unity.SceneManager
             return propValue;
         }
 
-
-
-
-        public void addObjectToList(GameObject obj)
+        public static void addObjectToList(string species, GameObject obj)
         {
-            objectsList.Add(obj);
+            if (gamaAgentList.ContainsKey(species) == true)
+            {
+                gamaAgentList[species].Add(obj);
+            }
+            else
+            {
+                List<GameObject> list = new List<GameObject>();
+                list.Add(obj);
+                gamaAgentList.Add(species, list);
+            }
         }
 
-        public void removeObjectFromList(GameObject obj)
+        public static void removeObjectFromList(string species, GameObject obj)
         {
-            objectsList.Remove(obj);
+            if (gamaAgentList.ContainsKey(species))
+            {
+                if (gamaAgentList[species].Contains(obj))
+                {
+                    gamaAgentList[species].Remove(obj);
+                }
+            }
         }
 
+        public static void SetSpeciesEnabled(string species, bool enabled)
+        {
+            if (gamaAgentList.ContainsKey(species))
+            {
+                List<GameObject> list = gamaAgentList[species];
+
+                foreach(GameObject obj in list)
+                {
+                    obj.SetActive(enabled);
+                }
+                
+            }
+        }
 
         public void checkForNotifications()
         {
-
             if (NotificationRegistry.notificationsList.Count >= 1)
             {
                 foreach (NotificationEntry el in NotificationRegistry.notificationsList)
@@ -627,7 +644,6 @@ namespace ummisco.gama.unity.SceneManager
             client.Publish(topic, System.Text.Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
         }
 
-
         public static void AddTag(string tag)
         {
             UnityEngine.Object[] asset = AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset");
@@ -643,7 +659,6 @@ namespace ummisco.gama.unity.SceneManager
                         return;     // Tag already present, nothing to do.
                     }
                 }
-
                 tags.InsertArrayElementAtIndex(0);
                 tags.GetArrayElementAtIndex(0).stringValue = tag;
                 so.ApplyModifiedProperties();

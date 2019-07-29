@@ -183,17 +183,17 @@ namespace ummisco.gama.unity.littosim
                     
                     nbrAct--;
                 }
-                
-
             }
 
+            GameObject.Find("Land_Use_ACTION_DISPLAY_FLOODED_AREA").GetComponent<Button_Action_Prefab>().OnOffButton = true;
+            GameObject.Find("Land_Use_ACTION_DISPLAY_PROTECTED_AREA").GetComponent<Button_Action_Prefab>().OnOffButton = true;
+            GameObject.Find("Land_Use_ACTION_DISPLAY_FLOODED_AREA").GetComponent<Button_Action_Prefab>().species = IUILittoSim.FLOOD_RISK_AREA;
+            GameObject.Find("Land_Use_ACTION_DISPLAY_PROTECTED_AREA").GetComponent<Button_Action_Prefab>().species = IUILittoSim.PROTECTED_AREA;
 
-           
-
-            
-
-
-
+           // GameObject.Find("Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA").GetComponent<Button_Action_Prefab>().OnOffButton = true;
+           // GameObject.Find("Coastal_Defense_DISPLAY_PROTECTED_AREA").GetComponent<Button_Action_Prefab>().OnOffButton = true;
+           // GameObject.Find("Coastal_Defense_DISPLAY_FLOODED_AREA").GetComponent<Button_Action_Prefab>().species = IUILittoSim.FLOOD_RISK_AREA;
+           // GameObject.Find("Coastal_Defense_DISPLAY_PROTECTED_AREA").GetComponent<Button_Action_Prefab>().species = IUILittoSim.PROTECTED_AREA;
 
 
         }

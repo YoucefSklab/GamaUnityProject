@@ -53,6 +53,7 @@ namespace ummisco.gama.unity.littosim
 
         private GameObject uiManager;
         private GameObject main_canvas;
+        
 
         void Awak()
         {

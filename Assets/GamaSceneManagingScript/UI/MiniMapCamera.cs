@@ -22,7 +22,7 @@ public class MiniMapCamera : MonoBehaviour {
         //miniMapCamera.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.localPosition.z);
         //miniMapCamera.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -800));
         Vector3 p = uiManager.GetComponent<UIManager>().worldToUISpace(uiCanvas, Input.mousePosition);
-        miniMapCamera.transform.position = new Vector3(p.x, p.y, -800);
+        miniMapCamera.transform.position = new Vector3(p.x, p.y, -1050);
 
     }
 }

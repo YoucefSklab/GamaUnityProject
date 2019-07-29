@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ummisco.gama.unity.GamaAgent;
 using ummisco.gama.unity.littosim;
+using ummisco.gama.unity.SceneManager;
 using ummisco.gama.unity.utils;
 using UnityEngine;
 
@@ -52,16 +53,19 @@ public class AgentCreator : MonoBehaviour
         rt.anchorMin = new Vector2(0, 1);
         rt.anchorMax = new Vector2(0, 1);
         rt.pivot = new Vector2(0, 1);
+               
+        newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
+        posi = newObject.GetComponent<RectTransform>().localPosition;
+        newObject.GetComponent<RectTransform>().localPosition = new Vector3(posi.x, posi.y, -60);
 
-        //newObject.GetComponent<Transform>().localPosition = posi;
-        newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);//posi;
-
-       if(tagName != null)
+        if (tagName != null)
         {
             newObject.tag = tagName;
         }       
 
         AttacheCode(newObject, speciesId, agent);
+
+        GamaManager.addObjectToList(agent.species, newObject);
     }
 
     

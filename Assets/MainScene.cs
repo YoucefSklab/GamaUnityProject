@@ -69,13 +69,16 @@ public class MainScene : MonoBehaviour
 
     public void SceneLoad()
     {
+        /*
         MainScene.gamaAgentList = GamaManager.gamaAgentList;
         StartCoroutine(LoadYourAsyncScene("MainScene"));
         //SceneManager.LoadScene("LittoSIMInterface");
+        */
     }
 
     public void CreateMesh()
     {
+        /*
         MainScene.gamaAgentList = GamaManager.gamaAgentList;
         foreach (var agent in gamaAgentList)
         {
@@ -100,6 +103,7 @@ public class MainScene : MonoBehaviour
             newGameObject.GetComponent<Land_Use>().expro_cost= 12;
             newGameObject.GetComponent<Land_Use>().density_class = agent.agentName + "_CLASSE_DENSITE_" + 12;
         }
+        */
     }
 
     IEnumerator LoadYourAsyncScene(string sceneName)

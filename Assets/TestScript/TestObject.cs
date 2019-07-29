@@ -6,8 +6,8 @@ public class TestObject : MonoBehaviour
 
     void Start()
     {
-
         
+
         transform.Rotate(60, 0, 60);
 
         GameObject UaPrefab = (GameObject)Resources.Load("Prefabs/UA", typeof(GameObject));

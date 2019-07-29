@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace ummisco.gama.unity.littosim
 {
@@ -21,6 +22,7 @@ namespace ummisco.gama.unity.littosim
         GameObject Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA = null;
         GameObject Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA = null;
 
+        private List<string> UIElementUPLayerList; 
 
         public UIManager()
         {
@@ -31,10 +33,22 @@ namespace ummisco.gama.unity.littosim
             activePanel = IUILittoSim.UA_PANEL;
             selectedOnglet = Resources.Load<Sprite>("images/ihm/onglet_selectionne");
             notSelectedOnglet = Resources.Load<Sprite>("images/ihm/onglet_non_selectionne");
-    }
+        }
 
         void Start()
         {
+
+            UIElementUPLayerList = new List<string> { "Button_Action_Prefab", "Action_Recap_Main_Panel", "Messages_Main_Panel", "TooltipView",
+            //"Onglets_Area", "Canvas_Tips", "ActionButtonTooltipView",
+            "Buttons_Area",
+            "Actions_Main_Panel",
+            "MiniMapCameraContainer", "Actions_Area", "LittoSIM_Logo_Panel" };
+
+            UIElementUPLayerList = new List<string> { 
+            //"Onglets_Area", "Canvas_Tips", "ActionButtonTooltipView",
+            
+           };
+
             setActivePanel(IUILittoSim.ONGLET_AMENAGEMENT);
         }
 
@@ -43,6 +57,7 @@ namespace ummisco.gama.unity.littosim
         {
 
         }
+
         public void SetUp()
         {
 
@@ -50,7 +65,7 @@ namespace ummisco.gama.unity.littosim
 
         public void setActivePanel(string panelName)
         {
-            if (panelName.Equals(IUILittoSim.ONGLET_AMENAGEMENT))
+           if (panelName.Equals(IUILittoSim.ONGLET_AMENAGEMENT))
             {
                 setCanvasVisible(IUILittoSim.UA_PANEL);
                 setCanvasVisible(IUILittoSim.UA_MAP_PANEL);
@@ -123,7 +138,7 @@ namespace ummisco.gama.unity.littosim
                 Coastal_Defense_ACTION_DISPLAY_FLOODING.SetActive(false);
                 Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA.SetActive(false);
                 Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA.SetActive(false);
-                
+
             }
             else if (panelName.Equals(IUILittoSim.ONGLET_DEFENSE))
             {
@@ -200,7 +215,8 @@ namespace ummisco.gama.unity.littosim
 
         public static string getActiveMapPanel()
         {
-            if (activePanel.Equals(IUILittoSim.DEF_COTE_PANEL)) {
+            if (activePanel.Equals(IUILittoSim.DEF_COTE_PANEL))
+            {
                 return IUILittoSim.DEF_COTE_MAP_PANEL;
             }
             else
@@ -219,6 +235,5 @@ namespace ummisco.gama.unity.littosim
         {
             Debug.Log("The Methode is without parameter ");
         }
-
     }
 }
