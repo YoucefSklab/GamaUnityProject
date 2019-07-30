@@ -487,7 +487,12 @@ namespace ummisco.gama.unity.SceneManager
             if (GUI.Button(new Rect(20, 1, 100, 20), "Quitter!"))
             {
                 client.Disconnect();
-                Application.Quit();
+                #if UNITY_EDITOR
+                                UnityEditor.EditorApplication.isPlaying = false;
+                #else
+                        Application.Quit ();
+                #endif
+                
             }
         }
 

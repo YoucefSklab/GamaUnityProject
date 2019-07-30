@@ -94,6 +94,8 @@ namespace ummisco.gama.unity.littosim
             CanvasGroup cg = GameObject.Find("Canvas_Tips").GetComponent<CanvasGroup>();
             cg.interactable = false;
             cg.alpha = 0;
+
+           
         }
 
 

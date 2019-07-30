@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using ummisco.gama.unity.SceneManager;
 
 namespace ummisco.gama.unity.littosim
 {
@@ -22,7 +23,10 @@ namespace ummisco.gama.unity.littosim
         GameObject Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA = null;
         GameObject Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA = null;
 
-        private List<string> UIElementUPLayerList; 
+        GameObject Ua_Panel;
+        GameObject Def_Cote_Panel;
+
+        private List<string> UIElementUPLayerList;
 
         public UIManager()
         {
@@ -44,11 +48,14 @@ namespace ummisco.gama.unity.littosim
             "Actions_Main_Panel",
             "MiniMapCameraContainer", "Actions_Area", "LittoSIM_Logo_Panel" };
 
-            UIElementUPLayerList = new List<string> { 
-            //"Onglets_Area", "Canvas_Tips", "ActionButtonTooltipView",
-            
-           };
+            UIElementUPLayerList = new List<string>
+            {
+                //"Onglets_Area", "Canvas_Tips", "ActionButtonTooltipView",
 
+            };
+
+            Ua_Panel = GameObject.Find("Ua_Panel");
+            Def_Cote_Panel = GameObject.Find("Def_Cote_Panel");
             setActivePanel(IUILittoSim.ONGLET_AMENAGEMENT);
         }
 
@@ -65,52 +72,30 @@ namespace ummisco.gama.unity.littosim
 
         public void setActivePanel(string panelName)
         {
-           if (panelName.Equals(IUILittoSim.ONGLET_AMENAGEMENT))
+            GetButtonsInstances();
+            if (panelName.Equals(IUILittoSim.ONGLET_AMENAGEMENT))
             {
-                setCanvasVisible(IUILittoSim.UA_PANEL);
-                setCanvasVisible(IUILittoSim.UA_MAP_PANEL);
-                setCanvasInvisible(IUILittoSim.DEF_COTE_PANEL);
-                setCanvasInvisible(IUILittoSim.DEF_COTE_MAP_PANEL);
-
-                SetSpriteSelected(IUILittoSim.ONGLET_AMENAGEMENT);
-
-                SetTargetInvisible(GameObject.Find(IUILittoSim.DEF_COTE_PANEL));
-                SetTargetInvisible(GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL));
-                SetTargetVisible(GameObject.Find(IUILittoSim.UA_PANEL));
-                SetTargetVisible(GameObject.Find(IUILittoSim.UA_MAP_PANEL));
-
-                SetSpriteDeselected(IUILittoSim.ONGLET_DEFENSE);
-
-                activePanel = IUILittoSim.UA_PANEL;
-
+                SetLandUseTab();
             }
             else if (panelName.Equals(IUILittoSim.ONGLET_DEFENSE))
             {
-                setCanvasVisible(IUILittoSim.DEF_COTE_PANEL);
-                setCanvasVisible(IUILittoSim.DEF_COTE_MAP_PANEL);
-                setCanvasInvisible(IUILittoSim.UA_PANEL);
-                setCanvasInvisible(IUILittoSim.UA_MAP_PANEL);
-
-                SetSpriteSelected(IUILittoSim.ONGLET_DEFENSE);
-
-                SetTargetInvisible(GameObject.Find(IUILittoSim.UA_PANEL));
-                SetTargetInvisible(GameObject.Find(IUILittoSim.UA_MAP_PANEL));
-                SetTargetVisible(GameObject.Find(IUILittoSim.DEF_COTE_PANEL));
-                SetTargetVisible(GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL));
-
-                SetSpriteDeselected(IUILittoSim.ONGLET_AMENAGEMENT);
-
-                activePanel = IUILittoSim.DEF_COTE_PANEL;
+                SetCoastalDefenseTab();
             }
-
-            SwitchCommonButton(panelName);
         }
 
 
-        public void SwitchCommonButton(string panelName)
+
+        public void GetButtonsInstances()
         {
             if (Land_Use_ACTION_INSPECT == null)
+            {
                 Land_Use_ACTION_INSPECT = GameObject.Find("Land_Use_ACTION_INSPECT");
+            }
+            else
+            {
+                return;
+            }
+
             if (Land_Use_ACTION_DISPLAY_FLOODING == null)
                 Land_Use_ACTION_DISPLAY_FLOODING = GameObject.Find("Land_Use_ACTION_DISPLAY_FLOODING");
             if (Land_Use_ACTION_DISPLAY_FLOODED_AREA == null)
@@ -126,34 +111,42 @@ namespace ummisco.gama.unity.littosim
                 Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA = GameObject.Find("Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA");
             if (Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA == null)
                 Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA = GameObject.Find("Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA");
-
-            if (panelName.Equals(IUILittoSim.ONGLET_AMENAGEMENT))
-            {
-                Land_Use_ACTION_INSPECT.SetActive(true);
-                Land_Use_ACTION_DISPLAY_FLOODING.SetActive(true);
-                Land_Use_ACTION_DISPLAY_FLOODED_AREA.SetActive(true);
-                Land_Use_ACTION_DISPLAY_PROTECTED_AREA.SetActive(true);
-
-                Coastal_Defense_ACTION_INSPECT.SetActive(false);
-                Coastal_Defense_ACTION_DISPLAY_FLOODING.SetActive(false);
-                Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA.SetActive(false);
-                Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA.SetActive(false);
-
-            }
-            else if (panelName.Equals(IUILittoSim.ONGLET_DEFENSE))
-            {
-                Land_Use_ACTION_INSPECT.SetActive(false);
-                Land_Use_ACTION_DISPLAY_FLOODING.SetActive(false);
-                Land_Use_ACTION_DISPLAY_FLOODED_AREA.SetActive(false);
-                Land_Use_ACTION_DISPLAY_PROTECTED_AREA.SetActive(false);
-
-                Coastal_Defense_ACTION_INSPECT.SetActive(true);
-                Coastal_Defense_ACTION_DISPLAY_FLOODING.SetActive(true);
-                Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA.SetActive(true);
-                Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA.SetActive(true);
-            }
         }
 
+        public void SetLandUseCommonButton()
+        {
+            /*
+            Land_Use_ACTION_INSPECT.SetActive(true);
+            Land_Use_ACTION_DISPLAY_FLOODING.SetActive(true);
+            Land_Use_ACTION_DISPLAY_FLOODED_AREA.SetActive(true);
+            Land_Use_ACTION_DISPLAY_PROTECTED_AREA.SetActive(true);
+
+            Coastal_Defense_ACTION_INSPECT.SetActive(false);
+            Coastal_Defense_ACTION_DISPLAY_FLOODING.SetActive(false);
+            Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA.SetActive(false);
+            Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA.SetActive(false);
+            */
+            SetCanvasGroupInvisible(Ua_Panel);
+            SetCanvasGroupVisible(Def_Cote_Panel);
+        }
+
+        public void SetCoastalDefenseCommonButton()
+        {
+            /*
+            Land_Use_ACTION_INSPECT.SetActive(false); 
+            Land_Use_ACTION_DISPLAY_FLOODING.SetActive(false);
+            Land_Use_ACTION_DISPLAY_FLOODED_AREA.SetActive(false);
+            Land_Use_ACTION_DISPLAY_PROTECTED_AREA.SetActive(false);
+
+            Coastal_Defense_ACTION_INSPECT.SetActive(true);
+            Coastal_Defense_ACTION_DISPLAY_FLOODING.SetActive(true);
+            Coastal_Defense_ACTION_DISPLAY_FLOODED_AREA.SetActive(true);
+            Coastal_Defense_ACTION_DISPLAY_PROTECTED_AREA.SetActive(true);
+            */
+
+            SetCanvasGroupInvisible(Def_Cote_Panel);
+            SetCanvasGroupVisible(Ua_Panel);
+        }
 
 
         public void SetSpriteSelected(string ongletName)
@@ -165,6 +158,21 @@ namespace ummisco.gama.unity.littosim
         {
             GameObject.Find(ongletName).GetComponent<Image>().sprite = notSelectedOnglet;
         }
+
+        void SetCanvasGroupInvisible(GameObject Target)
+        {
+            CanvasGroup canvasGroup = Target.GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 0f; 
+            canvasGroup.blocksRaycasts = false; //this prevents the UI element to receive input events
+        }
+
+        void SetCanvasGroupVisible(GameObject Target)
+        {
+            CanvasGroup canvasGroup = Target.GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 1f;
+            canvasGroup.blocksRaycasts = true; 
+        }
+
 
         void SetTargetInvisible(GameObject Target)
         {
@@ -192,20 +200,37 @@ namespace ummisco.gama.unity.littosim
             return parentCanvas.transform.TransformPoint(movePos);
         }
 
-        public void setCanvasVisible(string name)
+        public void SetCoastalDefenseTab()
         {
-            GameObject panel = GameObject.Find(name);
-            CanvasGroup canvas = panel.GetComponent<CanvasGroup>();
-            canvas.alpha = 1f;
-            canvas.blocksRaycasts = true;
+            SetSpeciesActive(IUILittoSim.COASTAL_DEFENSE, true);
+            SetSpriteSelected(IUILittoSim.ONGLET_DEFENSE);
+            SetSpriteDeselected(IUILittoSim.ONGLET_AMENAGEMENT);
+            activePanel = IUILittoSim.DEF_COTE_PANEL;
+            SetCoastalDefenseCommonButton();
         }
 
-        public void setCanvasInvisible(string name)
+        public void SetLandUseTab()
         {
-            GameObject panel = GameObject.Find(name);
-            CanvasGroup canvas = panel.GetComponent<CanvasGroup>();
-            canvas.alpha = 0f;
-            canvas.blocksRaycasts = false;
+            SetSpeciesActive(IUILittoSim.COASTAL_DEFENSE, false);
+            SetSpriteSelected(IUILittoSim.ONGLET_AMENAGEMENT);
+            SetSpriteDeselected(IUILittoSim.ONGLET_DEFENSE);
+            activePanel = IUILittoSim.UA_PANEL;
+            SetLandUseCommonButton();
+
+            
+        }
+
+
+        public void SetSpeciesActive(string speciesName, bool value)
+        {
+            List<GameObject> coastalDefenseElement = null;
+            GamaManager.gamaAgentList.TryGetValue(speciesName, out coastalDefenseElement);
+
+            if(coastalDefenseElement != null)
+            foreach (GameObject obj in coastalDefenseElement)
+            {
+                obj.SetActive(value);
+            }
         }
 
         public string getActivePanel()
@@ -223,17 +248,6 @@ namespace ummisco.gama.unity.littosim
             {
                 return IUILittoSim.UA_MAP_PANEL;
             }
-
-        }
-
-        public static void HideObject(string object_name)
-        {
-            Debug.Log("The introduced object name is " + object_name);
-        }
-
-        public static void HideObjectNoParameter()
-        {
-            Debug.Log("The Methode is without parameter ");
         }
     }
 }
