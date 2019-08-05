@@ -672,7 +672,6 @@ namespace ummisco.gama.unity.littosim
             GamaManager.AddTag(ILittoSimConcept.FLOOD_RISK_AREA_TAG);
             GamaManager.AddTag(ILittoSimConcept.PROTECTED_AREA_TAG);
             GamaManager.AddTag(ILittoSimConcept.ROAD_TAG);
-
             GamaManager.AddTag(ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG);
             GamaManager.AddTag(ILittoSimConcept.COASTAL_DEFENSE_COMMON_BUTTON_TAG);
         }

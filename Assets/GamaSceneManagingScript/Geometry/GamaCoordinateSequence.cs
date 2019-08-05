@@ -1,8 +1,9 @@
 
 using System.Collections.Generic;
+using ummisco.gama.unity.datastructure;
 using UnityEngine;
 
-namespace ummisco.gama.unity.GamaAgent
+namespace ummisco.gama.unity.geometry
 {
     public struct GamaCoordinateSequence
     {

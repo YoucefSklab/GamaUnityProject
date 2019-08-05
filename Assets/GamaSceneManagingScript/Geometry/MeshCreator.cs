@@ -1,7 +1,8 @@
 ﻿using System;
+using ummisco.gama.unity.utils;
 using UnityEngine;
 
-namespace ummisco.gama.unity.utils
+namespace ummisco.gama.unity.geometry
 {
     public class MeshCreator
     {

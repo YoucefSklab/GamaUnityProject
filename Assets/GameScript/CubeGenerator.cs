@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using ummisco.gama.unity.utils;
 using System;
 using System.Collections;
+using ummisco.gama.unity.utils.converter;
 
 [RequireComponent(typeof (MeshFilter))]
 [RequireComponent(typeof (MeshRenderer))]

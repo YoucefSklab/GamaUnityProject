@@ -5,6 +5,7 @@ using System.IO;
 using System;
 using UnityEngine;
 using ummisco.gama.unity.GamaAgent;
+using ummisco.gama.unity.datastructure;
 
 namespace ummisco.gama.unity.utils
 {

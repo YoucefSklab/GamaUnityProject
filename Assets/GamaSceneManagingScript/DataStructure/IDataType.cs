@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ummisco.gama.unity.utils
+namespace ummisco.gama.unity.datastructure
 {
     public class IDataType
     {

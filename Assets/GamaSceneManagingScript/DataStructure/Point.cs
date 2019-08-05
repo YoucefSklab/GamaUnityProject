@@ -1,5 +1,5 @@
 ﻿
-namespace gama.unity.datastructure
+namespace ummisco.gama.unity.datastructure
 {
     public struct Point
     {

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ummisco.gama.unity.utils
+namespace ummisco.gama.unity.geometry
 {
     public class Triangulator
     {

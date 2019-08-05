@@ -660,7 +660,10 @@ namespace ummisco.gama.unity.SceneManager
 
         public static void AddTag(string tag)
         {
+            // causes errors with build
+            /*
             UnityEngine.Object[] asset = AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset");
+          //  UnityEngine.Object[] asset =  Resources.LoadAll("ProjectSettings/TagManager.asset");
             if ((asset != null) && (asset.Length > 0))
             {
                 SerializedObject so = new SerializedObject(asset[0]);
@@ -678,6 +681,7 @@ namespace ummisco.gama.unity.SceneManager
                 so.ApplyModifiedProperties();
                 so.Update();
             }
+            */
         }
 
 

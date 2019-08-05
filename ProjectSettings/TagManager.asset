@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - DeleteActionButton
+  - Land_Use
+  - Coastal_Defense
+  - District
+  - Protected_Area
+  - Road
+  - Flood_Risk_Area
+  - Land_Use_Common_Button
+  - Coastal_Defense_Common_Button
   layers:
   - Default
   - TransparentFX

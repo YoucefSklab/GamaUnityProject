@@ -3,9 +3,9 @@ using System;
 using UnityEngine;
 using System.Xml;
 using ummisco.gama.unity.GamaAgent;
-using gama.unity.datastructure;
+using ummisco.gama.unity.datastructure;
 
-namespace ummisco.gama.unity.utils
+namespace ummisco.gama.unity.utils.xml
 {
     public class UtilXmlOldToDelete
     {

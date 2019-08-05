@@ -9,6 +9,7 @@ using System;
 using System.Xml;
 using UnityEngine.UI;
 using ummisco.gama.unity.GamaConcepts;
+using ummisco.gama.unity.datastructure;
 
 namespace ummisco.gama.unity.topics
 {

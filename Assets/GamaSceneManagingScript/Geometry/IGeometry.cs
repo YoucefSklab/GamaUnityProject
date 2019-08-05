@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ummisco.gama.unity.GamaAgent
+namespace ummisco.gama.unity.geometry
 {
     public static class  IGeometry
     {

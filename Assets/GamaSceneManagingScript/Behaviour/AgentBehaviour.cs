@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
+﻿using UnityEngine;
 
 namespace ummisco.gama.unity.Behaviour
 {
@@ -29,9 +26,7 @@ namespace ummisco.gama.unity.Behaviour
 			if (isOnInputMove) {
 				onInputMove ();
 			}
-		}
-	
-	
+		}	
 	
 		public void rotateObject()
 		{
@@ -39,18 +34,12 @@ namespace ummisco.gama.unity.Behaviour
 		}
 
 		public void onInputMove(){
-			
 			float moveHorizontal = Input.GetAxis ("Horizontal");
 			float moveVertical = Input.GetAxis ("Vertical");
 			Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 			rb.AddForce (movement * speed);
 		}
-	
-	
-	
-	
-	
-	
+			
 	}
 }
 

@@ -10,6 +10,7 @@ using System.Linq;
 using System;
 using System.Xml;
 using UnityEngine.UI;
+using ummisco.gama.unity.utils.converter;
 
 namespace ummisco.gama.unity.topics
 {

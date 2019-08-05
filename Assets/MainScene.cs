@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ummisco.gama.unity.datastructure;
 using ummisco.gama.unity.GamaAgent;
+using ummisco.gama.unity.geometry;
 using ummisco.gama.unity.littosim;
 using ummisco.gama.unity.messages;
-using ummisco.gama.unity.SceneManager;
-using ummisco.gama.unity.utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

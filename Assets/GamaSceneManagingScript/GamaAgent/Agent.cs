@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using ummisco.gama.unity.littosim;
+using ummisco.gama.unity.datastructure;
+using ummisco.gama.unity.geometry;
 
 namespace ummisco.gama.unity.GamaAgent
 {

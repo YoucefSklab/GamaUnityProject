@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using UnityEngine;
 
-namespace ummisco.gama.unity.GamaAgent
+namespace ummisco.gama.unity.datastructure
 {
     [XmlRoot("color")]
     public struct GamaColor

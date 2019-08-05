@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace ummisco.gama.unity.utils
+namespace ummisco.gama.unity.geometry
 {
     public class UvCalculator
     {

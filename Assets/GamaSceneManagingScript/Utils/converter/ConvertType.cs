@@ -4,9 +4,9 @@ using System;
 using UnityEngine;
 using System.Reflection;
 using System.Xml;
-using gama.unity.datastructure;
+using ummisco.gama.unity.datastructure;
 
-namespace ummisco.gama.unity.utils
+namespace ummisco.gama.unity.utils.converter
 {
 	public class ConvertType
 	{

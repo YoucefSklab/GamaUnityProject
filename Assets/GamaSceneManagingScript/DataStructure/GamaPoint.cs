@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace ummisco.gama.unity.GamaAgent
+namespace ummisco.gama.unity.datastructure
 {
     [XmlRoot("GamaPoint")]
     public class GamaPoint

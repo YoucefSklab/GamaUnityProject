@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using ummisco.gama.unity.datastructure;
 using ummisco.gama.unity.GamaAgent;
 
 namespace ummisco.gama.unity.messages

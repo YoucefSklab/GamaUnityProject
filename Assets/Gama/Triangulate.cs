@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ummisco.gama.unity.geometry;
 using ummisco.gama.unity.utils;
 using UnityEditor;
 using UnityEngine;

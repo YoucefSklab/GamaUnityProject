@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using ummisco.gama.unity.messages;
-using ummisco.gama.unity.utils;
-using ummisco.gama.unity.SceneManager;
 using ummisco.gama.unity.GamaConcepts;
 using System.Reflection;
 using System.Linq;
 using System;
 using System.Xml;
 using ummisco.gama.unity.notification;
-using System.Xml.Linq;
+using ummisco.gama.unity.datastructure;
+using ummisco.gama.unity.utils.converter;
 
 namespace ummisco.gama.unity.topics
 {

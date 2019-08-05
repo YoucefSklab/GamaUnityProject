@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using ummisco.gama.unity.datastructure;
+using ummisco.gama.unity.geometry;
 
 namespace ummisco.gama.unity.GamaAgent
 {

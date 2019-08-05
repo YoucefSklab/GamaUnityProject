@@ -10,6 +10,8 @@ using System.Xml;
 using System.Globalization;
 using ummisco.gama.unity.GamaConcepts;
 using ummisco.gama.unity.SceneManager;
+using ummisco.gama.unity.Behaviour;
+using ummisco.gama.unity.utils.converter;
 
 namespace ummisco.gama.unity.topics
 {
