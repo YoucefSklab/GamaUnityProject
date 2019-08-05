@@ -14,8 +14,9 @@ public class TestModalWindow : MonoBehaviour
 	public Sprite WarningIcon;               //Your warning icon
 	public Sprite QuestionIcon;              //Your question icon
     public GameObject UIPanel;
+    public GameObject ModalWindow;
 
-	void Awake()
+    void Awake()
 	  {
 		ModalPanel = ModalPanel.Instance();         //Instantiate the panel
 		DisplayManager = DisplayManager.Instance(); //Instantiate the Display Manager
@@ -26,24 +27,35 @@ public class TestModalWindow : MonoBehaviour
 	  {
 		Sprite icon = null;
         UIPanel.SetActive(true);
+        //ModalWindow.SetActive(true);
         ModalPanel.MessageBox(icon, "Test 11 Yes No Cancel", "Would you like a poke in the eye?\nHow about with a sharp stick?", instance.TestYesFunction, instance.TestNoFunction, instance.TestCancelFunction, instance.TestOkFunction, false, "YesNoCancel");
-        Debug.Log("------------------->");
+
     }
     
     //Test function:  Pop up the Modal Window with Yes, No, and Cancel buttons and an Icon.
     public void TestYNCI()
 	  {
+        string test = " test message";
 		Sprite icon = ProgramIcon;
         UIPanel.SetActive(true);
         ModalPanel.MessageBox(icon, "Test 22 Yes No Cancel Icon", "Do you like this icon?", TestYesFunction, TestNoFunction, TestCancelFunction, TestOkFunction, true, "YesNoCancel");
-           
-        while (ModalWindow.answer == null)
+
+        GameObject.Find("Button #1").GetComponent<ResponseModalWindow>().onYes = () =>
+                                        {
+                                            Debug.Log("Handling Yes response... "+test);
+                                        };
+
+        GameObject.Find("Button #2").GetComponent<ResponseModalWindow>().onNo = () =>
         {
-            System.Threading.Thread.Sleep(1000);
-        }
-        
-        Debug.Log("End of Coroutine !");
-    }
+            Debug.Log("Handling No response...");
+        };
+        GameObject.Find("Button #3").GetComponent<ResponseModalWindow>().onCancel = () =>
+            {
+                Debug.Log("Handling cancel option.");
+                // For example you can choose to make the message dissapear
+
+            };
+       }
     //Test function:  Pop up the Modal Window with Yes and No buttons.
     public void TestYN()
 	 {

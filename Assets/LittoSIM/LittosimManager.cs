@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using ummisco.gama.unity.SceneManager;
 using ummisco.gama.unity.littosim.ActionPrefab;
+using ummisco.gama.unity.utils;
 
 namespace ummisco.gama.unity.littosim
 {
@@ -128,14 +129,31 @@ namespace ummisco.gama.unity.littosim
                             sendDeleteAction(bj.transform.parent.name);
                         }
                 }
+
             }
+
+            if (actionToDo != 0 && Input.GetMouseButtonDown(0))
+            {
+                Vector3 position = Input.mousePosition;
+                CheckIfContainedInCanvas check = new CheckIfContainedInCanvas();
+               
+                if (check.isPointInCanvas(mapCanvas, position))
+                {
+                    Debug.Log("yes mouse activated at position -> " + position);
+                    createNewElement();
+                }
+               
+
+            }
+
         }
 
         public void createNewElement()
         {
             Vector3 position = Input.mousePosition;
             Debug.Log("Mouse position is : " + position);
-            position = uiManager.GetComponent<UIManager>().worldToUISpace(uiCanvas, position);
+            //position = uiManager.GetComponent<UIManager>().worldToUISpace(uiCanvas, position);
+            position = uiManager.GetComponent<UIManager>().worldToUISpace(mapCanvas, position);
             position.z = -80;
             sendGamaMessage(position);
 
@@ -144,19 +162,18 @@ namespace ummisco.gama.unity.littosim
             //  if (1 == 2) 
             {
                 GameObject panelChild = GameObject.CreatePrimitive(PrimitiveType.Cube); //Instantiate(UA);
+                GameObject panelParent = GameObject.Find(IUILittoSim.UA_MAP_PANEL);
+                panelChild.AddComponent<RectTransform>();
+                panelChild.transform.SetParent(panelParent.transform);
+                panelChild.GetComponent<RectTransform>().localPosition = new Vector3(0,0,0);
+               
+
                 panelChild.name = "UA" + position.x + "_" + position.y;
                 panelChild.transform.position = position;
                 panelChild.transform.localScale = new Vector3(50f, 50f, 50f);
-                if (UIManager.activePanel.Equals(IUILittoSim.UA_PANEL))
-                {
-                    GameObject panelParent = GameObject.Find(IUILittoSim.UA_MAP_PANEL);
-                    panelChild.transform.SetParent(panelParent.transform);
-                }
-                else if (UIManager.activePanel.Equals(IUILittoSim.DEF_COTE_PANEL))
-                {
-                    GameObject panelParent = GameObject.Find(IUILittoSim.DEF_COTE_MAP_PANEL);
-                    panelChild.transform.SetParent(panelParent.transform);
-                }
+               
+               
+                
             }
            Debug.Log("Final created position is :" + position);
         }
