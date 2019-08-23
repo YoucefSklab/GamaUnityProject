@@ -3,6 +3,7 @@ using UnityEngine;
 using ummisco.gama.unity.littosim;
 using ummisco.gama.unity.datastructure;
 using ummisco.gama.unity.geometry;
+using System.Collections.Generic;
 
 namespace ummisco.gama.unity.GamaAgent
 {
@@ -25,6 +26,7 @@ namespace ummisco.gama.unity.GamaAgent
         public int index { set; get; }
         public string nature { get; set; }
         public string geometry { get; set; }
+        public List<AgentAttribute> attributes { set; get; }
 
         public string type { set; get; }
         public float height { get; set; }
@@ -103,7 +105,18 @@ namespace ummisco.gama.unity.GamaAgent
                     return IGeometry.EARTH;
             }
         }
-        
+
+        public string getAttributeValue(string atName)
+        {            
+            foreach(AgentAttribute attr in attributes)
+            {
+                if (attr.name.Equals(atName))
+                {
+                    return attr.value;
+                }
+            }
+            return null;
+        }
     }
 }
 

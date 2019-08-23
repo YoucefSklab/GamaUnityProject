@@ -1,4 +1,6 @@
-﻿using ummisco.gama.unity.GamaAgent;
+﻿using System;
+using ummisco.gama.unity.datastructure;
+using ummisco.gama.unity.GamaAgent;
 using ummisco.gama.unity.geometry;
 using ummisco.gama.unity.littosim;
 using ummisco.gama.unity.SceneManager;
@@ -28,6 +30,14 @@ public class AgentCreator : MonoBehaviour
         MeshRenderer meshRenderer = (MeshRenderer) newObject.AddComponent(typeof(MeshRenderer));
         MeshFilter meshFilter = (MeshFilter) newObject.AddComponent(typeof(MeshFilter));
         MeshCollider meshCollider = (MeshCollider) newObject.AddComponent<MeshCollider>();
+
+
+        Debug.Log("----> Agent's attributes are : "+agent.attributes.Count);
+
+        foreach(AgentAttribute a in agent.attributes)
+        {
+            Debug.Log("Attribute name is: " + a.name);
+        }
 
         newObject.GetComponent<Transform>().SetParent(parentTransform);
         float elvation = elevate ? agent.height : 0;
@@ -179,27 +189,44 @@ public class AgentCreator : MonoBehaviour
 
     public void AttacheCode(GameObject obj, int speciesId, Agent agent)
     {
+        
         switch (speciesId)
         {
             case IUILittoSim.LAND_USE_ID: // Land_Use
                 obj.AddComponent<Land_Use>();
-                obj.GetComponent<Land_Use>().id = 1;
-                obj.GetComponent<Land_Use>().lu_name = agent.agentName+"_"+1;
-                obj.GetComponent<Land_Use>().lu_code = 1;
-                obj.GetComponent<Land_Use>().dist_code = "dist_code_"+1;
-                obj.GetComponent<Land_Use>().population = 1;
-                obj.GetComponent<Land_Use>().mean_alt = 1;
+
+                Int32.TryParse(agent.getAttributeValue("ID"), out obj.GetComponent<Land_Use>().id);
+                Int32.TryParse(agent.getAttributeValue("lu_code"), out obj.GetComponent<Land_Use>().lu_code);
+                obj.GetComponent<Land_Use>().lu_name = agent.getAttributeValue("lu_name");
+                Int32.TryParse(agent.getAttributeValue("population"), out obj.GetComponent<Land_Use>().population);
+
+                obj.GetComponent<Land_Use>().dist_code = agent.getAttributeValue("dist_code");
+                float.TryParse(agent.getAttributeValue("mean_alt"), out obj.GetComponent<Land_Use>().mean_alt);
+                bool.TryParse(agent.getAttributeValue("is_in_densification"), out obj.GetComponent<Land_Use>().is_in_densification);
+                bool.TryParse(agent.getAttributeValue("focus_on_me"), out obj.GetComponent<Land_Use>().focus_on_me);
+                bool.TryParse(agent.getAttributeValue("is_adapted_type"), out obj.GetComponent<Land_Use>().is_adapted_type);
+                bool.TryParse(agent.getAttributeValue("is_urban_type"), out obj.GetComponent<Land_Use>().is_urban_type);
+                Int32.TryParse(agent.getAttributeValue("expro_cost"), out obj.GetComponent<Land_Use>().expro_cost);
+
+
                 break;
             case IUILittoSim.COASTAL_DEFENSE_ID: // Coastal_Defense
+
                 obj.AddComponent<Coastal_Defense>();
-                obj.GetComponent<Coastal_Defense>().type = "Type";
-                obj.GetComponent<Coastal_Defense>().district_code = agent.agentName+"_code_"+2;
-                obj.GetComponent<Coastal_Defense>().status = "status";
+                Int32.TryParse(agent.getAttributeValue("coast_def_id"), out obj.GetComponent<Coastal_Defense>().coast_def_id);
+                obj.GetComponent<Coastal_Defense>().type = agent.getAttributeValue("type");
+                obj.GetComponent<Coastal_Defense>().district_code = agent.getAttributeValue("district_code");
+                //obj.GetComponent<Coastal_Defense>().color = agent.getAttributeValue("color");
+                float.TryParse(agent.getAttributeValue("height"), out obj.GetComponent<Coastal_Defense>().height);
+                bool.TryParse(agent.getAttributeValue("ganivelle"), out obj.GetComponent<Coastal_Defense>().ganivelle);
+                float.TryParse(agent.getAttributeValue("alt"), out obj.GetComponent<Coastal_Defense>().alt);
+                obj.GetComponent<Coastal_Defense>().status = agent.getAttributeValue("status");
+                Int32.TryParse(agent.getAttributeValue("length_coast_def"), out obj.GetComponent<Coastal_Defense>().length_coast_def);
                 break;
             case IUILittoSim.DISTRICT_ID: // District
                 obj.AddComponent<District>();
-                obj.GetComponent<District>().district_name = agent.agentName + "_name";
-                obj.GetComponent<District>().district_code = agent.agentName +"_code";               
+                obj.GetComponent<District>().district_name = agent.getAttributeValue("district_name");
+                obj.GetComponent<District>().district_code = agent.getAttributeValue("district_code");
                 break;
             case IUILittoSim.PROTECTED_AREA_ID: // Protected_Area
                 obj.AddComponent<Protected_Area>();

@@ -12,6 +12,7 @@ namespace ummisco.gama.unity.littosim
        
         public string district_name;
         public string district_code;
+
         public Vector3 localScale = new Vector3(0.2f, 0.2f, 0.2f);
 
         // Start is called before the first frame update

@@ -5,8 +5,10 @@ using ummisco.gama.unity.geometry;
 
 namespace ummisco.gama.unity.GamaAgent
 {
+    [System.Serializable]
     [XmlRoot("msi.gama.extensions.messaging.GamaMessage")]
     [XmlInclude(typeof(Content))]
+    [XmlInclude(typeof(AgentAttribute))]
     public class UnityAgent
     {
         public string unread { get; set; }
@@ -39,7 +41,7 @@ namespace ummisco.gama.unity.GamaAgent
             agent.height = this.contents.height;
             agent.color = this.contents.color;
             agent.agentCoordinate = getCoordinateSequence();
-
+            agent.attributes = this.contents.attributes;
 
             return agent;
         }
@@ -82,12 +84,16 @@ namespace ummisco.gama.unity.GamaAgent
         public string species { get; set; }
         [XmlElement("geometryType")]
         public string geometryType { get; set; }
+
         public List<GamaPoint> vertices { get; set; }
         public GamaColor color { get; set; }
         [XmlElement("height")]
         public float height { get; set; }
         [XmlElement("location")]
         public GamaPoint location { get; set; }
+
+        public List<AgentAttribute> attributes { set; get; }
+
 
         public Content()
         {
