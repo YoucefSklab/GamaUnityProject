@@ -8,8 +8,13 @@ using ummisco.gama.unity.utils.converter;
 [RequireComponent(typeof (MeshRenderer))]
 public class CubeGenerator : MonoBehaviour {
 
+    public int intVar = 0;
+    public string stringVar = "";
+    public float floatVar = 0.0f;
+    public bool boolVar = false;
 
-	private Rigidbody rb;
+
+    private Rigidbody rb;
 	public float inverseMoveTime;
 	public float moveTime = 10000.1f;
 

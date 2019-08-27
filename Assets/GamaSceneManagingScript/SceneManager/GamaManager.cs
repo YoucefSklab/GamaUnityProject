@@ -16,6 +16,8 @@ using ummisco.gama.unity.GamaAgent;
 using ummisco.gama.unity.littosim;
 using ummisco.gama.unity.files;
 using UnityEditor;
+using ummisco.gama.unity.datastructure;
+using UnityEngine.UI;
 
 namespace ummisco.gama.unity.SceneManager
 {
@@ -69,10 +71,8 @@ namespace ummisco.gama.unity.SceneManager
         private GameObject mainTopicManager;
         private GameObject agentCreator;
 
-
-
-
-
+        public static Dictionary<string, string> agentsTopicDic = new Dictionary<string, string>();
+                          
 
         List<MqttMsgPublishEventArgs> msgList = new List<MqttMsgPublishEventArgs>();
 
@@ -146,6 +146,7 @@ namespace ummisco.gama.unity.SceneManager
             client.Subscribe(new string[] { MqttSetting.NOTIFICATION_TOPIC }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
             client.Subscribe(new string[] { "littosim" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+            //client.Subscribe(new string[] { "listdata" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
             client.Publish("littosim", System.Text.Encoding.UTF8.GetBytes(client.ClientId));
 
@@ -171,19 +172,42 @@ namespace ummisco.gama.unity.SceneManager
             while (msgList.Count > 0)
             {
                 MqttMsgPublishEventArgs e = msgList[0];
+                /*
                 if (!MqttSetting.getTopicsInList().Contains(e.Topic))
                 {
                     Debug.Log("-> The Topic '" + e.Topic + "' doesn't exist in the defined list. Please check! (the message will be deleted!)");
                     msgList.Remove(e);
                     return;
                 }
+                */
 
                 receivedMsg = System.Text.Encoding.UTF8.GetString(e.Message);
 
-            //     Debug.Log("-> Received Message is : " + receivedMsg);
+                //     Debug.Log("-> Received Message is : " + receivedMsg);
 
+                if (agentsTopicDic.Keys.Contains(e.Topic)){
+
+                    // DO Not DELETE
+                    /*
+                    string serialisedObject = new XStream().ToXml(receivedMsg);
+                    GamaExposeMessage deserialisedObject = (GamaExposeMessage) new XStream().FromXml(serialisedObject);
+                    */
+                    //Debug.Log("The topic is : " + e.Topic);
+                    GamaExposeMessage exposeMessage = new GamaExposeMessage(receivedMsg);
+
+                    SetAttribute(agentsTopicDic[e.Topic], exposeMessage.attributesList);
+
+                    foreach (var pair in exposeMessage.attributesList)
+                    {
+                    //    Debug.Log("Attribyte name s: " + pair.Key + " Value is : " + pair.Value);
+                    }
+                    Debug.Log("The agent forthis tipoc is " + agentsTopicDic[e.Topic]);
+                }
+                else
                 switch (e.Topic)
                 {
+                    //case "listdata":
+                    //    break;
                     case MqttSetting.MAIN_TOPIC:
                         //------------------------------------------------------------------------------
                         //  Debug.Log(totalAgents+ "  -> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
@@ -685,6 +709,115 @@ namespace ummisco.gama.unity.SceneManager
             */
         }
 
+        public void subscribeToTopic(object args)
+        {
+            object[] obj = (object[])args;
+            string agentName = (string)obj[0];
+            string topic = (string)obj[1];
+            client.Subscribe(new string[] { topic }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+            agentsTopicDic.Add(topic, agentName);
+        }
+
+
+
+
+        // The method to call Game Objects methods
+        //----------------------------------------
+        public void SetAttribute(string agentName, Dictionary<string, string> data)
+        {
+            Debug.Log("Set the attributes ---- ");
+            GameObject targetGameObject = GameObject.Find(agentName);
+            MonoBehaviour[] scripts  = targetGameObject.GetComponents<MonoBehaviour>();
+            int size = data.Count;
+
+            List<string> keyList = new List<string>(data.Keys);
+            string obj = data[keyList.ElementAt(0)];
+
+            FieldInfo[] fieldInfoSet = targetGameObject.GetComponent(scripts[0].GetType()).GetType().GetFields();
+
+            foreach (KeyValuePair<string, string> pair in data)
+            {
+                foreach (FieldInfo fi in fieldInfoSet)
+                {
+                    if (fi.Name.Equals(pair.Key.ToString()))
+                    {
+                        UnityEngine.Component ob = (UnityEngine.Component)targetGameObject.GetComponent(scripts[0].GetType());
+
+                        if (fi.FieldType.Equals(typeof(UnityEngine.UI.Text)))
+                        {
+
+                            Component[] cs = (Component[])targetGameObject.GetComponents(typeof(Component));
+                            foreach (Component c in cs)
+                            {
+                                if (c.name.Equals(pair.Key.ToString()))
+                                {
+                                    Text txt = targetGameObject.GetComponent<Text>();
+
+                                    txt.text = "Score : ";
+                                }
+                            }
+
+                            //	Debug.Log ("try to get the fields lis  " + fi.GetType ().GetField ("text").ToString ());
+                            FieldInfo[] fieldInfoSet2 = fi.FieldType.GetFields();
+                            Debug.Log("Its fieldInfoSet2 is 1 ----> : " + fieldInfoSet2.ToList().ToString());
+                            foreach (FieldInfo fi2 in fieldInfoSet2)
+                            {
+                                Debug.Log("Its Name is 1 ----> : " + fi2.Name);
+                                //Debug.Log ("Its Value is 1 ----> : " + fi2.GetValue ());
+                            }
+
+                            //fi.FieldType.GetFields ();
+
+                            //fi.SetValue (ob, setObject);
+
+                        }
+                        else
+                        {
+                            //TODO: need to complete this list
+                            Debug.Log("Its Name is ----> : " + fi.Name + " and type is :" + fi.FieldType.ToString());
+                            switch (fi.FieldType.ToString())
+                            {
+
+                                case IDataType.UNITY_INT:
+                                    Debug.Log("Its type is ----> :" + fi.FieldType);
+                                    int valInt = Convert.ToInt32(pair.Value);
+                                    fi.SetValue(ob, valInt);
+                                    break;
+                                case IDataType.UNITY_DOUBLE:
+                                    Debug.Log("Its type is ----> :" + fi.FieldType);
+                                    double valDouble = Convert.ToDouble(pair.Value);
+                                    fi.SetValue(ob, valDouble);
+                                    break;
+                                case IDataType.UNITY_SINGLE:
+                                    Debug.Log("Its type is ----> :" + fi.FieldType);
+                                    fi.SetValue(ob, Convert.ToSingle(pair.Value));
+                                    break;
+                                case IDataType.UNITY_BOOLEAN:
+                                    Debug.Log("Its type is ----> :" + fi.FieldType);
+                                    fi.SetValue(ob, Convert.ChangeType(pair.Value, fi.FieldType));
+                                    break;
+                                case IDataType.UNITY_STRING:
+                                    Debug.Log("Its type is ----> :" + fi.FieldType);
+                                    fi.SetValue(ob, (System.String)pair.Value);
+                                    break;
+                                case IDataType.UNITY_CHAR:
+                                    Debug.Log("Its type is ----> :" + fi.FieldType);
+                                    char valChar = Convert.ToChar(pair.Value);
+                                    fi.SetValue(ob, valChar);
+                                    break;
+
+                                default:
+
+                                    break;
+
+                            }
+                            //fi.SetValue (ob, (Convert.ChangeType (pair.Value, fi.FieldType)));
+                        }
+                        //	fi.SetValue (ob, (Convert.ChangeType (pair.Value, fi.FieldType)));
+                    }
+                }
+            }
+        }
 
     }
 }

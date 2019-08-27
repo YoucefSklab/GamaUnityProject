@@ -121,8 +121,9 @@ namespace ummisco.gama.unity.utils
 			topicsList.Add (NOTIFICATION_TOPIC);
 			topicsList.Add (CREATE_TOPIC);
 			topicsList.Add (DESTROY_TOPIC);
+            topicsList.Add ("listdata");
 
-			return topicsList;
+            return topicsList;
 		}
 	}
 

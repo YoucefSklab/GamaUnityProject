@@ -6,7 +6,7 @@ namespace ummisco.gama.unity.messages
 	[Serializable()]
     //[XmlRoot ("ummisco.gama.unity.messages.GamaMessage")]
     [XmlRoot ("msi.gama.extensions.messaging.GamaMessage")]
-    [XmlInclude(typeof(contents))]
+    [XmlInclude(typeof(Contents))]
 	public class LittosimMessageOld
 	{
 		public Boolean unread { get; set;}

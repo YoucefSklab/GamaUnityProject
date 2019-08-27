@@ -49,6 +49,7 @@ namespace ummisco.gama.unity.messages
             using (TextReader sr = new StringReader(aciResponseData))
             {
                 var serializer = new System.Xml.Serialization.XmlSerializer(classDeserialization.GetType());
+                
                 object result = (object)serializer.Deserialize(sr);
                 msg = result;
             }

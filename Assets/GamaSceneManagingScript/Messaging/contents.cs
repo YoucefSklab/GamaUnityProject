@@ -7,7 +7,7 @@ namespace ummisco.gama.unity.messages
     [Serializable()]
     //[System.Xml.Serialization.XmlRoot ("ummisco.gama.unity.messages.CreatedAgentMessage.contents")]
    // [XmlRoot ("ummisco.gama.unity.messages.CreatedAgentMessage.contents")]
-    public class contents
+    public class Contents
     {
         public string name { get; set; }
         public int type { get; set; }
@@ -17,7 +17,7 @@ namespace ummisco.gama.unity.messages
 
         public float z { get; set; }
 
-        public contents(string name, int type, float x, float y, float z)
+        public Contents(string name, int type, float x, float y, float z)
         {
             this.name = name;
             this.type = type;
@@ -27,11 +27,11 @@ namespace ummisco.gama.unity.messages
 
         }
 
-        public contents(){
+        public Contents(){
 
         }
 
-        public contents(string name, int type, float x, float y)
+        public Contents(string name, int type, float x, float y)
         {
             this.name = name;
             this.type = type;

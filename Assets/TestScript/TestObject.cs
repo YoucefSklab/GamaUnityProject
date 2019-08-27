@@ -3,6 +3,10 @@
 public class TestObject : MonoBehaviour
 {
 
+    public int intVar = 0;
+    public string stringVar = "";
+    public float floatVar = 0.0f;
+    public bool boolVar = false;
 
     void Start()
     {
