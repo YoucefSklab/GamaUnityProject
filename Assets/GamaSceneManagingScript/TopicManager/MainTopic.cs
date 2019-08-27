@@ -7,7 +7,8 @@ using System.Reflection;
 using System.Linq;
 using System;
 using ummisco.gama.unity.GamaAgent;
-using ummisco.gama.unity.SceneManager;
+using ummisco.gama.unity.Scene;
+using ummisco.gama.unity.Network;
 
 namespace ummisco.gama.unity.topics
 {
@@ -50,7 +51,7 @@ namespace ummisco.gama.unity.topics
         public void sendTopic()
         {
 
-            GameObject objectManager = getGameObjectByName(MqttSetting.GAMA_MANAGER_OBJECT_NAME, UnityEngine.Object.FindObjectsOfType<GameObject>());
+            GameObject objectManager = getGameObjectByName(IMQTTConnector.GAMA_MANAGER_OBJECT_NAME, UnityEngine.Object.FindObjectsOfType<GameObject>());
             //Debug.Log("The content is: " + topicMessage.contents.ToString());
 
             // Agent gamaAgent = UtilXml.getAgent((XmlNode[])topicMessage.contents);

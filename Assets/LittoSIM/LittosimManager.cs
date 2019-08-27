@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using ummisco.gama.unity.messages;
 using UnityEngine;
 using UnityEngine.UI;
-using uPLibrary.Networking.M2Mqtt.Messages;
-using ummisco.gama.unity.SceneManager;
-using ummisco.gama.unity.littosim.ActionPrefab;
+using ummisco.gama.unity.Scene;
+
 using ummisco.gama.unity.utils;
 
 namespace ummisco.gama.unity.littosim
 {
     public class LittosimManager : MonoBehaviour
     {
-        public static int actionToDo = 0;
-        public static int gameNbr = 0;
+        public static int actionToDo;
+        public static int gameNbr;
         public static GameObject UAPrefab;
 
         public GameObject ActionPanelPrefab;
@@ -37,10 +35,10 @@ namespace ummisco.gama.unity.littosim
         public Vector2 initialMessagePosition;
         public Vector2 lastMessagePosition;
 
-        public int elementCounter = 0;
-        public int actionCounter = 0;
-        public int recapActionCounter = 0;
-        public int messageCounter = 0;
+        public int elementCounter;
+        public int actionCounter;
+        public int recapActionCounter;
+        public int messageCounter;
 
         public GameObject valider;
         public GameObject valider_text;
@@ -49,11 +47,11 @@ namespace ummisco.gama.unity.littosim
         public float lineHeight = 80f;
         public float zCoordinate = 60;
 
-        public Canvas uiCanvas = null;
-        public Canvas mapCanvas = null;
+        public Canvas uiCanvas;
+        public Canvas mapCanvas;
 
         private GameObject uiManager;
-        private GameObject main_canvas;
+       
         
 
         void Awak()
@@ -65,11 +63,8 @@ namespace ummisco.gama.unity.littosim
         {
 
             AddLittosimTags();
-
             uiManager = GameObject.Find(IUILittoSim.UI_MANAGER);
-            main_canvas = GameObject.Find(IUILittoSim.MAIN_CANVAS);
-
-
+           
             initialPosition = new Vector2(0f, 0f);
             lastPosition = new Vector2(0f, 0f);
 
@@ -80,13 +75,11 @@ namespace ummisco.gama.unity.littosim
             lastMessagePosition = new Vector2(1032f, -40f);
                         
             SetUpLittosimUI();
-           
-
         }
 
         public void SetUpLittosimUI()
         {
-            deactivateValider();
+            DeactivateValider();
 
             Destroy(GameObject.Find(IUILittoSim.ACTION_PANEL_PREFAB));
             Destroy(GameObject.Find(IUILittoSim.MESSAGE_PANEL_PREFAB));
@@ -95,8 +88,6 @@ namespace ummisco.gama.unity.littosim
             CanvasGroup cg = GameObject.Find("Canvas_Tips").GetComponent<CanvasGroup>();
             cg.interactable = false;
             cg.alpha = 0;
-
-           
         }
 
 
@@ -117,16 +108,14 @@ namespace ummisco.gama.unity.littosim
             if (Input.GetMouseButtonDown(0))
             {
                 GameObject bj;
-                bj = (UnityEngine.EventSystems.EventSystem.current != null) ? UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject : null;
+                bj = UnityEngine.EventSystems.EventSystem.current?.currentSelectedGameObject;
 
                 if (bj != null)
                 {
-                    Vector3 mouse = Input.mousePosition;
-                    if (bj is GameObject)
+                   if (bj is GameObject)
                         if (bj.tag.Equals("DeleteActionButton"))
                         {
-                            Debug.Log(" --------->  to delete : " + bj.name);
-                            sendDeleteAction(bj.transform.parent.name);
+                            SendDeleteAction(bj.transform.parent.name);
                         }
                 }
 
@@ -140,7 +129,7 @@ namespace ummisco.gama.unity.littosim
                 if (check.isPointInCanvas(mapCanvas, position))
                 {
                     Debug.Log("yes mouse activated at position -> " + position);
-                    createNewElement();
+                    CreateNewElement();
                 }
                
 
@@ -148,14 +137,14 @@ namespace ummisco.gama.unity.littosim
 
         }
 
-        public void createNewElement()
+        public void CreateNewElement()
         {
             Vector3 position = Input.mousePosition;
             Debug.Log("Mouse position is : " + position);
             //position = uiManager.GetComponent<UIManager>().worldToUISpace(uiCanvas, position);
             position = uiManager.GetComponent<UIManager>().worldToUISpace(mapCanvas, position);
             position.z = -80;
-            sendGamaMessage(position);
+            SendGamaMessage(position);
 
             // To delete
             // TODO to detete 
@@ -191,36 +180,36 @@ namespace ummisco.gama.unity.littosim
 
 
 
-        public void sendGamaMessage(Vector3 position)
+        public void SendGamaMessage(Vector3 position)
         {
             switch (actionToDo)
             {
                 case ILittoSimConcept.ACTION_URBANISE:
-                    publishMessage(getSerializedMessage(ILittoSimConcept.ACTION_URBANISE, position));
+                    PublishMessage(GetSerializedMessage(ILittoSimConcept.ACTION_URBANISE, position));
                     break;
                 case ILittoSimConcept.ACTION_DENSIFIE:
-                    publishMessage(getSerializedMessage(ILittoSimConcept.ACTION_DENSIFIE, position));
+                    PublishMessage(GetSerializedMessage(ILittoSimConcept.ACTION_DENSIFIE, position));
                     break;
                 case ILittoSimConcept.ACTION_DIGUE:
-                    publishMessage(getSerializedMessage(ILittoSimConcept.ACTION_DIGUE, position));
+                    PublishMessage(GetSerializedMessage(ILittoSimConcept.ACTION_DIGUE, position));
                     break;
                 case ILittoSimConcept.ACTION_AGRICULTURAL:
-                    publishMessage(getSerializedMessage(ILittoSimConcept.ACTION_AGRICULTURAL, position));
+                    PublishMessage(GetSerializedMessage(ILittoSimConcept.ACTION_AGRICULTURAL, position));
                     break;
                 case ILittoSimConcept.ACTION_NATURAL:
-                    publishMessage(getSerializedMessage(ILittoSimConcept.ACTION_NATURAL, position));
+                    PublishMessage(GetSerializedMessage(ILittoSimConcept.ACTION_NATURAL, position));
                     break;
             }
             actionToDo = 0;
             gameNbr++;
         }
 
-        public string getSerializedMessage(int idAction, Vector3 position)
+        public string GetSerializedMessage(int idAction, Vector3 position)
         {
             return MsgSerialization.serialization(new LittosimMessage(ILittoSimConcept.GAMA_TOPIC, ILittoSimConcept.GAMA_AGENT, idAction, position.x, position.y, DateTime.Now.ToString()));
         }
 
-        public void addCube(Vector3 position, Color color, int type, string name, string texte, int delay, int montant, GameObject parentObject)
+        public void AddCube(Vector3 position, Color color, int type, string name, string texte, int delay, int montant, GameObject parentObject)
         {
             GameObject createdObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
             createdObject.transform.position = position;
@@ -228,10 +217,10 @@ namespace ummisco.gama.unity.littosim
             Renderer rend = createdObject.GetComponent<Renderer>();
             rend.material.color = color;
             createdObject.transform.SetParent(parentObject.transform);
-            addObjectOnPanel(type, name, texte, delay, montant);
+            AddObjectOnPanel(type, name, texte, delay, montant);
         }
 
-        public void addSphere(Vector3 position, Color color, int type, string name, string texte, int delay, int montant, GameObject parentObject)
+        public void AddSphere(Vector3 position, Color color, int type, string name, string texte, int delay, int montant, GameObject parentObject)
         {
             GameObject createdObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             createdObject.transform.position = position;
@@ -239,10 +228,10 @@ namespace ummisco.gama.unity.littosim
             Renderer rend = createdObject.GetComponent<Renderer>();
             rend.material.color = color;
             createdObject.transform.SetParent(parentObject.transform);
-            addObjectOnPanel(type, name, texte, delay, montant);
+            AddObjectOnPanel(type, name, texte, delay, montant);
         }
 
-        public void addCapsule(Vector3 position, Color color, int type, string name, string texte, int delay, int montant, GameObject parentObject)
+        public void AddCapsule(Vector3 position, Color color, int type, string name, string texte, int delay, int montant, GameObject parentObject)
         {
             GameObject createdObject = GameObject.CreatePrimitive(PrimitiveType.Capsule);
             createdObject.transform.position = position;
@@ -250,10 +239,10 @@ namespace ummisco.gama.unity.littosim
             Renderer rend = createdObject.GetComponent<Renderer>();
             rend.material.color = color;
             createdObject.transform.SetParent(parentObject.transform);
-            addObjectOnPanel(type, name, texte, delay, montant);
+            AddObjectOnPanel(type, name, texte, delay, montant);
         }
 
-        public void addCylinder(Vector3 position, Color color, int type, string name, string texte, int delay, int montant, GameObject parentObject)
+        public void AddCylinder(Vector3 position, Color color, int type, string name, string texte, int delay, int montant, GameObject parentObject)
         {
             GameObject createdObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             createdObject.transform.position = position;
@@ -261,11 +250,11 @@ namespace ummisco.gama.unity.littosim
             Renderer rend = createdObject.GetComponent<Renderer>();
             rend.material.color = color;
             createdObject.transform.SetParent(parentObject.transform);
-            addObjectOnPanel(type, name, texte, delay, montant);
+            AddObjectOnPanel(type, name, texte, delay, montant);
 
         }
 
-        public void addCube2(Vector3 position, Color color, int type, string name, string texte, int delay, int montant, GameObject parentObject)
+        public void AddCube2(Vector3 position, Color color, int type, string name, string texte, int delay, int montant, GameObject parentObject)
         {
             GameObject createdObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
             createdObject.transform.position = position;
@@ -273,14 +262,14 @@ namespace ummisco.gama.unity.littosim
             Renderer rend = createdObject.GetComponent<Renderer>();
             rend.material.color = color;
             createdObject.transform.SetParent(parentObject.transform);
-            addObjectOnPanel(type, name, texte, delay, montant);
+            AddObjectOnPanel(type, name, texte, delay, montant);
         }
 
-        public void gamaAddElement(object args)
+        public void GamaAddElement(object args)
         {
             object[] obj = (object[])args;
             int type = Int32.Parse((string)obj[0]);
-            string name = (string)obj[1];
+            string eltName = (string)obj[1];
             string texte = (string)obj[2];
             int delay = Int32.Parse((string)obj[3]);
             int montant = Int32.Parse((string)obj[4]);
@@ -293,39 +282,39 @@ namespace ummisco.gama.unity.littosim
             switch (type)
             {
                 case 1:
-                    addCube(position, Color.red, type, name, texte, delay, montant, parentObject);
+                    AddCube(position, Color.red, type, eltName, texte, delay, montant, parentObject);
                     break;
                 case 2:
-                    addCube(position, Color.blue, type, name, texte, delay, montant, parentObject);
+                    AddCube(position, Color.blue, type, eltName, texte, delay, montant, parentObject);
                     break;
                 case 3:
-                    addCube(position, Color.green, type, name, texte, delay, montant, parentObject);
+                    AddCube(position, Color.green, type, eltName, texte, delay, montant, parentObject);
                     break;
                 case 4:
-                    addCube(position, Color.yellow, type, name, texte, delay, montant, parentObject);
+                    AddCube(position, Color.yellow, type, eltName, texte, delay, montant, parentObject);
                     break;
                 case 5:
-                    addCube(position, Color.white, type, name, texte, delay, montant, parentObject);
+                    AddCube(position, Color.white, type, eltName, texte, delay, montant, parentObject);
                     break;
             }
 
             elementCounter++;
         }
 
-        public void deleteActionFromList(object args)
+        public void DeleteActionFromList(object args)
         {
             object[] obj = (object[])args;
-            string name = (string)obj[0];
+            string eltName = (string)obj[0];
 
             if (actionsList.Count > 0)
             {
-                GameObject gameObj = GameObject.Find(name);
+                GameObject gameObj = GameObject.Find(eltName);
 
                 actionsList.Remove(gameObj);
 
                 foreach (var gameOb in actionsList)
                 {
-                    if (gameOb.name.Equals(name))
+                    if (gameOb.name.Equals(eltName))
                     {
                         actionsList.Remove(gameOb);
                         break;
@@ -334,62 +323,61 @@ namespace ummisco.gama.unity.littosim
 
                 Destroy(gameObj);
                 lastPosition = initialPosition;
-                foreach (var gameObject in actionsList)
+                foreach (var objGame in actionsList)
                 {
-                    gameObject.GetComponent<RectTransform>().anchoredPosition = lastPosition;
-                    lastPosition.y = lastPosition.y - lineHeight;
+                    objGame.GetComponent<RectTransform>().anchoredPosition = lastPosition;
+                    lastPosition.y -= lineHeight;
                 }
             }
             //Debug.Log("Here to delete the action from the list the action " + name);
-            updateValiderPosition();
+            UpdateValiderPosition();
         }
 
-        public void gamaAddValidElement(object args)
+        public void GamaAddValidElement(object args)
         {
             object[] obj = (object[])args;
-            int type = Int32.Parse((string)obj[0]);
-            string name = (string)obj[1];
+            //int type = Int32.Parse((string)obj[0]);
+            string objName = (string)obj[1];
             string texte = (string)obj[2];
             int delay = Int32.Parse((string)obj[3]);
 
             GameObject panelParent = GameObject.Find(IUILittoSim.ACTION_LIST_RECAP_PANEL);
-            createRecapActionPaneChild(type, name, panelParent, texte, delay);
+            CreateRecapActionPaneChild(objName, panelParent, texte, delay);
         }
 
-        public void publishMessage(string message)
+        public void PublishMessage(string message)
         {
             Debug.Log("Prepare to send message");
             //int msgId = GamaManager.client.Publish(LITTOSSIM_TOPIC, System.Text.Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-            int msgId = GamaManager.client.Publish(ILittoSimConcept.LITTOSIM_TOPIC, System.Text.Encoding.UTF8.GetBytes(message));
-            Debug.Log("-- > msgId is: " + msgId + " -> " + message);
+            GamaManager.connector.Publish(ILittoSimConcept.LITTOSIM_TOPIC, message);
         }
 
-        public void addObjectOnPanel(int type, string name, string texte, int delay, int montant)
+        public void AddObjectOnPanel(int type, string name, string texte, int delay, int montant)
         {
             GameObject ActionsPanelParent = GameObject.Find(IUILittoSim.ACTION_LIST_PANEL);
-            activateValider();
+            ActivateValider();
 
             switch (type)
             {
                 case 1:
-                    createActionPaneChild(type, name, ActionsPanelParent, texte, delay.ToString(), montant.ToString());
+                    CreateActionPaneChild( name, ActionsPanelParent, texte, delay.ToString(), montant.ToString());
                     break;
                 case 2:
-                    createActionPaneChild(type, name, ActionsPanelParent, texte, delay.ToString(), montant.ToString());
+                    CreateActionPaneChild( name, ActionsPanelParent, texte, delay.ToString(), montant.ToString());
                     break;
                 case 3:
-                    createActionPaneChild(type, name, ActionsPanelParent, texte, delay.ToString(), montant.ToString());
+                    CreateActionPaneChild( name, ActionsPanelParent, texte, delay.ToString(), montant.ToString());
                     break;
                 case 4:
-                    createActionPaneChild(type, name, ActionsPanelParent, texte, delay.ToString(), montant.ToString());
+                    CreateActionPaneChild( name, ActionsPanelParent, texte, delay.ToString(), montant.ToString());
                     break;
                 case 5:
-                    createActionPaneChild(type, name, ActionsPanelParent, texte, delay.ToString(), montant.ToString());
+                    CreateActionPaneChild( name, ActionsPanelParent, texte, delay.ToString(), montant.ToString());
                     break;
             }
         }
 
-        public Vector2 getAtActionPanelPosition()
+        public Vector2 GetAtActionPanelPosition()
         {
             if (actionsList.Count > 0)
             {
@@ -405,7 +393,7 @@ namespace ummisco.gama.unity.littosim
             }
         }
 
-        public Vector2 getAtRecapActionPanelPosition()
+        public Vector2 GetAtRecapActionPanelPosition()
         {
             if (recapActionsList.Count > 0)
             {
@@ -417,20 +405,20 @@ namespace ummisco.gama.unity.littosim
             }
         }
 
-        public void updateRecapActionPosition()
+        public void UpdateRecapActionPosition()
         {
             if (recapActionsList.Count > 0)
             {
                 lastRecapPosition = initialRecapPosition;
-                foreach (var gameObject in recapActionsList)
+                foreach (var objGame in recapActionsList)
                 {
-                    gameObject.GetComponent<RectTransform>().anchoredPosition = lastRecapPosition;
-                    lastRecapPosition.y = lastRecapPosition.y - lineHeight;
+                    objGame.GetComponent<RectTransform>().anchoredPosition = lastRecapPosition;
+                    lastRecapPosition.y -= lineHeight;
                 }
             }
         }
 
-        public Vector2 getAtMessagePanelPosition()
+        public Vector2 GetAtMessagePanelPosition()
         {
             if (messagesList.Count > 0)
             {
@@ -442,7 +430,7 @@ namespace ummisco.gama.unity.littosim
             }
         }
 
-        public void createActionPaneChild(int type, string name, GameObject panelParent, string texte, string delay, string montant)
+        public void CreateActionPaneChild(string name, GameObject panelParent, string texte, string delay, string montant)
         {
 
             GameObject panelChild = Instantiate(ActionPanelPrefab);
@@ -451,7 +439,7 @@ namespace ummisco.gama.unity.littosim
             panelChild.name = name;
 
             childRectTrans.parent = parentRectTran;
-            childRectTrans.anchoredPosition = getAtActionPanelPosition();
+            childRectTrans.anchoredPosition = GetAtActionPanelPosition();
 
             actionsList.Add(panelChild);
             panelChild.transform.Find(IUILittoSim.ACTION_TITLE).GetComponent<Text>().text = texte;
@@ -459,7 +447,7 @@ namespace ummisco.gama.unity.littosim
             panelChild.transform.Find(IUILittoSim.ACTION_BUDGET).GetComponent<Text>().text = (montant);
 
 
-            updateValiderPosition();
+            UpdateValiderPosition();
 
             if (actionsList.Count >= 10)
             {
@@ -468,7 +456,7 @@ namespace ummisco.gama.unity.littosim
             actionCounter++;
         }
 
-        public void updateValiderPosition()
+        public void UpdateValiderPosition()
         {
             if (actionsList.Count > 0)
             {
@@ -488,37 +476,37 @@ namespace ummisco.gama.unity.littosim
             }
             else
             {
-                deactivateValider();
+                DeactivateValider();
             }
         }
 
-        public void deactivateValider()
+        public void DeactivateValider()
         {
             valider.SetActive(false);//.active = false;
             valider_text.SetActive(false);//.active = false;
             valider_montant.SetActive(false);//.active = false;
         }
 
-        public void activateValider()
+        public void ActivateValider()
         {
             valider.SetActive(true);//.active = false;
             valider_text.SetActive(true);//.active = false;
             valider_montant.SetActive(true);//.active = false;
         }
 
-        public void validateActionList()
+        public void ValidateActionList()
         {
             string message = MsgSerialization.serialization(new LittosimMessage(ILittoSimConcept.GAMA_TOPIC, "GamaMainAgent", 100, 0, 0, DateTime.Now.ToString()));
-            publishMessage(message);
+            PublishMessage(message);
         }
 
-        public void sendDeleteAction(string name)
+        public void SendDeleteAction(string name)
         {
             string message = MsgSerialization.serialization(new LittosimMessage(ILittoSimConcept.GAMA_TOPIC, "GamaMainAgent", 101, name, 0, 0, DateTime.Now.ToString()));
-            publishMessage(message);
+            PublishMessage(message);
         }
 
-        public void destroyElement(string name)
+        public void DestroyElement(string name)
         {
             if (GameObject.Find(name))
             {
@@ -527,12 +515,12 @@ namespace ummisco.gama.unity.littosim
                 Destroy(obj);
                 if (actionsList.Count == 0)
                 {
-                    deactivateValider();
+                    DeactivateValider();
                 }
             }
         }
 
-        public void createRecapActionPaneChild(int type, string name, GameObject panelParent, string texte, int delay)
+        public void CreateRecapActionPaneChild( string name, GameObject panelParent, string texte, int delay)
         {
             GameObject panelChild = Instantiate(ActionRecapPanelPrefab);
             RectTransform childRectTrans = panelChild.GetComponent<RectTransform>();
@@ -540,13 +528,13 @@ namespace ummisco.gama.unity.littosim
             panelChild.name = name;
             childRectTrans.SetParent(parentRectTran);
 
-            childRectTrans.anchoredPosition = getAtRecapActionPanelPosition();
+            childRectTrans.anchoredPosition = GetAtRecapActionPanelPosition();
             recapActionsList.Add(panelChild);
 
-            string CycleIcon = geObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_ICON, name);
-            string ValideIcon = geObjectComposedName(IUILittoSim.ACTION_RECAP_VALIDE_ICON, name);
-            string CyclePlus = geObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_PLUS, name);
-            string ActionTitre = geObjectComposedName(IUILittoSim.ACTION_RECAP_TITRE, name);
+            string CycleIcon = GeObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_ICON, name);
+            string ValideIcon = GeObjectComposedName(IUILittoSim.ACTION_RECAP_VALIDE_ICON, name);
+            string CyclePlus = GeObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_PLUS, name);
+            string ActionTitre = GeObjectComposedName(IUILittoSim.ACTION_RECAP_TITRE, name);
 
             panelChild.transform.Find(IUILittoSim.ACTION_RECAP_TITRE).transform.name = ActionTitre;
             panelChild.transform.Find(IUILittoSim.ACTION_RECAP_CYCLE_ICON).transform.name = CycleIcon;
@@ -568,14 +556,14 @@ namespace ummisco.gama.unity.littosim
                 rt.sizeDelta = new Vector2(rt.sizeDelta.x, (rt.sizeDelta.y + ((recapActionsList.Count - 5) * lineHeight)));
             }
             recapActionCounter++;
-            updateRecapActionPosition();
+            UpdateRecapActionPosition();
         }
 
-        public void newInfoMessage(object args)
+        public void NewInfoMessage(object args)
         {
             object[] obj = (object[])args;
-            int type = Int32.Parse((string)obj[0]);
-            string name = (string)obj[1];
+            //int type = Int32.Parse((string)obj[0]);
+            string nameVal = (string)obj[1];
             string texte = (string)obj[2];
 
 
@@ -584,10 +572,10 @@ namespace ummisco.gama.unity.littosim
 
             RectTransform childRectTrans = panelChild.GetComponent<RectTransform>();
             RectTransform parentRectTran = panelParent.GetComponent<RectTransform>();
-            panelChild.name = name;
+            panelChild.name = nameVal;
             childRectTrans.SetParent(parentRectTran);
 
-            childRectTrans.anchoredPosition = getAtMessagePanelPosition();
+            childRectTrans.anchoredPosition = GetAtMessagePanelPosition();
 
             messagesList.Add(panelChild);
 
@@ -599,37 +587,37 @@ namespace ummisco.gama.unity.littosim
                 messagesList.RemoveAt(0);
                 Destroy(gameObj);
                 lastMessagePosition = initialMessagePosition;
-                foreach (var gameObject in messagesList)
+                foreach (var objGame in messagesList)
                 {
-                    gameObject.GetComponent<RectTransform>().anchoredPosition = lastMessagePosition;
-                    lastMessagePosition.y = lastMessagePosition.y - lineHeight;
+                    objGame.GetComponent<RectTransform>().anchoredPosition = lastMessagePosition;
+                    lastMessagePosition.y -= lineHeight;
                 }
             }
 
             messageCounter++;
         }
 
-        public void setInitialBudget(object args)
+        public void SetInitialBudget(object args)
         {
             object[] obj = (object[])args;
             string value = (string)obj[0];
             GameObject.Find(IUILittoSim.BUDGET_INITIAL).GetComponent<Text>().text = value;
         }
 
-        public void setRemainingBudget(object args)
+        public void SetRemainingBudget(object args)
         {
             object[] obj = (object[])args;
             string value = (string)obj[0];
             GameObject.Find(IUILittoSim.BUDGET_RESTANT).GetComponent<Text>().text = value;
         }
 
-        public void setValiderMontant(string montant)
+        public void SetValiderMontant(string montant)
         {
             if (GameObject.Find(IUILittoSim.BUDGET_ACTION_LIST))
                 GameObject.Find(IUILittoSim.BUDGET_ACTION_LIST).GetComponent<Text>().text = montant;
         }
 
-        public void setValidActionActiveIcon(object args)
+        public void SetValidActionActiveIcon(object args)
         {
             object[] obj = (object[])args;
             string actionName = (string)obj[0];
@@ -639,12 +627,12 @@ namespace ummisco.gama.unity.littosim
 
             GameObject Parent = GameObject.Find(actionName);
 
-            Parent.transform.Find(geObjectComposedName(IUILittoSim.ACTION_RECAP_VALIDE_ICON, actionName)).gameObject.SetActive(icon1);
-            Parent.transform.Find(geObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_ICON, actionName)).gameObject.SetActive(icon2);
-            Parent.transform.Find(geObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_PLUS, actionName)).gameObject.SetActive(icon3);
+            Parent.transform.Find(GeObjectComposedName(IUILittoSim.ACTION_RECAP_VALIDE_ICON, actionName)).gameObject.SetActive(icon1);
+            Parent.transform.Find(GeObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_ICON, actionName)).gameObject.SetActive(icon2);
+            Parent.transform.Find(GeObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_PLUS, actionName)).gameObject.SetActive(icon3);
         }
 
-        public void setValidActionText(object args)
+        public void SetValidActionText(object args)
         {
             object[] obj = (object[])args;
             string actionName = (string)obj[0];
@@ -653,27 +641,27 @@ namespace ummisco.gama.unity.littosim
 
             GameObject Parent = GameObject.Find(actionName);
 
-            GameObject OB = Parent.transform.Find(geObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_ICON, actionName)).gameObject;
+            GameObject OB = Parent.transform.Find(GeObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_ICON, actionName)).gameObject;
             OB.transform.Find(IUILittoSim.ACTION_RECAP_ROUND).GetComponent<Text>().text = value1;
-            OB = Parent.transform.Find(geObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_PLUS, actionName)).gameObject;
+            OB = Parent.transform.Find(GeObjectComposedName(IUILittoSim.ACTION_RECAP_CYCLE_PLUS, actionName)).gameObject;
             OB.transform.Find(IUILittoSim.ACTION_RECAP_CYCLE_PLUS_NBR).GetComponent<Text>().text = value2;
         }
 
-        public string geObjectComposedName(string constVar, string name)
+        public string GeObjectComposedName(string constVar, string name)
         {
             return constVar + "_" + name;
         }
 
         public void AddLittosimTags()
         {
-            GamaManager.AddTag(ILittoSimConcept.LAND_USE_TAG);
-            GamaManager.AddTag(ILittoSimConcept.COASTAL_DEFENSE_TAG);
-            GamaManager.AddTag(ILittoSimConcept.DISTRICT_TAG);
-            GamaManager.AddTag(ILittoSimConcept.FLOOD_RISK_AREA_TAG);
-            GamaManager.AddTag(ILittoSimConcept.PROTECTED_AREA_TAG);
-            GamaManager.AddTag(ILittoSimConcept.ROAD_TAG);
-            GamaManager.AddTag(ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG);
-            GamaManager.AddTag(ILittoSimConcept.COASTAL_DEFENSE_COMMON_BUTTON_TAG);
+            SceneManager.AddTag(ILittoSimConcept.LAND_USE_TAG);
+            SceneManager.AddTag(ILittoSimConcept.COASTAL_DEFENSE_TAG);
+            SceneManager.AddTag(ILittoSimConcept.DISTRICT_TAG);
+            SceneManager.AddTag(ILittoSimConcept.FLOOD_RISK_AREA_TAG);
+            SceneManager.AddTag(ILittoSimConcept.PROTECTED_AREA_TAG);
+            SceneManager.AddTag(ILittoSimConcept.ROAD_TAG);
+            SceneManager.AddTag(ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG);
+            SceneManager.AddTag(ILittoSimConcept.COASTAL_DEFENSE_COMMON_BUTTON_TAG);
         }
 
     }

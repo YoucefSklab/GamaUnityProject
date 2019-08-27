@@ -17,7 +17,7 @@ using System.IO;
 using System.Collections.Generic;
 using ummisco.gama.unity.littosim;
 using System;
-using ummisco.gama.unity.SceneManager;
+using ummisco.gama.unity.Scene;
 using ummisco.gama.unity.utils;
 
 namespace ummisco.gama.unity.files

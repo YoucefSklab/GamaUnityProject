@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using ummisco.gama.unity.littosim.ActionPrefab;
-using ummisco.gama.unity.SceneManager;
+using ummisco.gama.unity.Scene;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,5 +1,5 @@
 ﻿using System;
-using ummisco.gama.unity.SceneManager;
+using ummisco.gama.unity.Scene;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -75,12 +75,12 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
             if (isButtonActivated)
             {
                 isButtonActivated = false;
-                GamaManager.SetSpeciesEnabled(species, isButtonActivated);
+                SceneManager.SetSpeciesEnabled(species, isButtonActivated);
             }
             else
             {
                 isButtonActivated = true;
-                GamaManager.SetSpeciesEnabled(species, isButtonActivated);
+                SceneManager.SetSpeciesEnabled(species, isButtonActivated);
             }
 
             Debug.Log("--  --  --  --  > The action code is " + action_code);// + action.code);

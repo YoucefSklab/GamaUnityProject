@@ -19,7 +19,7 @@ using System.Reflection;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using ummisco.gama.unity.notification;
-
+using ummisco.gama.unity.Network;
 
 public class PlayerController : MonoBehaviour
 {
@@ -220,9 +220,9 @@ public class PlayerController : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
-		MqttSetting.allObjects = UnityEngine.Object.FindObjectsOfType<GameObject> ();
+		IMQTTConnector.allObjects = UnityEngine.Object.FindObjectsOfType<GameObject> ();
 
-		gamaManager = gama.getGameObjectByName (MqttSetting.GAMA_MANAGER_OBJECT_NAME);
+		gamaManager = gama.getGameObjectByName (IMQTTConnector.GAMA_MANAGER_OBJECT_NAME);
 
 		if (other.gameObject.CompareTag ("Pick Up")) {
 			other.gameObject.SetActive (false);

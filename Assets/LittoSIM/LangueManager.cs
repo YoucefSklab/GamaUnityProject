@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ummisco.gama.unity.files;
-using ummisco.gama.unity.SceneManager;
+using ummisco.gama.unity.Scene;
 using ummisco.gama.unity.utils;
 using UnityEngine;
 using UnityEngine.UI;

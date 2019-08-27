@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using ummisco.gama.unity.SceneManager;
+using ummisco.gama.unity.Scene;
 
 namespace ummisco.gama.unity.littosim
 {
@@ -224,7 +224,7 @@ namespace ummisco.gama.unity.littosim
         public void SetSpeciesActive(string speciesName, bool value)
         {
             List<GameObject> coastalDefenseElement = null;
-            GamaManager.gamaAgentList.TryGetValue(speciesName, out coastalDefenseElement);
+            ApplicationContexte.gamaAgentList.TryGetValue(speciesName, out coastalDefenseElement);
 
             if(coastalDefenseElement != null)
             foreach (GameObject obj in coastalDefenseElement)

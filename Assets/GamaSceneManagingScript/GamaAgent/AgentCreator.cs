@@ -3,7 +3,7 @@ using ummisco.gama.unity.datastructure;
 using ummisco.gama.unity.GamaAgent;
 using ummisco.gama.unity.geometry;
 using ummisco.gama.unity.littosim;
-using ummisco.gama.unity.SceneManager;
+using ummisco.gama.unity.Scene;
 using UnityEngine;
 
 public class AgentCreator : MonoBehaviour
@@ -73,7 +73,7 @@ public class AgentCreator : MonoBehaviour
 
         AttacheCode(newObject, speciesId, agent);
 
-        GamaManager.addObjectToList(agent.species, newObject);
+        ApplicationContexte.addObjectToList(agent.species, newObject);
     }
 
     

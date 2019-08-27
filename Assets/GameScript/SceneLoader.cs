@@ -1,5 +1,5 @@
 ﻿using System;
-using ummisco.gama.unity.SceneManager;
+using ummisco.gama.unity.Scene;
 using UnityEngine;
 
 namespace AssemblyCSharp

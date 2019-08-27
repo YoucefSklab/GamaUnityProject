@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using System.IO;
-using ummisco.gama.unity.SceneManager;
+using ummisco.gama.unity.Scene;
 
 namespace ummisco.gama.unity.files
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ummisco.gama.unity.messages;
 using ummisco.gama.unity.utils;
-using ummisco.gama.unity.SceneManager;
+using ummisco.gama.unity.Scene;
 
 using System.Reflection;
 using System.Linq;

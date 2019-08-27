@@ -3,11 +3,8 @@ using UnityEngine;
 using ummisco.gama.unity.messages;
 using ummisco.gama.unity.utils;
 using ummisco.gama.unity.notification;
-
-using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using System;
-using System.Xml.Linq;
 using System.Linq;
 using System.Reflection;
 using ummisco.gama.unity.topics;
@@ -15,44 +12,27 @@ using ummisco.gama.unity.topics;
 using ummisco.gama.unity.GamaAgent;
 using ummisco.gama.unity.littosim;
 using ummisco.gama.unity.files;
-using UnityEditor;
 using ummisco.gama.unity.datastructure;
 using UnityEngine.UI;
+using ummisco.gama.unity.Network;
 
-namespace ummisco.gama.unity.SceneManager
+namespace ummisco.gama.unity.Scene
 {
     public class GamaManager : MonoBehaviour
     {
-        private static GamaManager m_Instance = null;
+        private static GamaManager m_Instance;
         public static GameObject MainCamera;
-        public long total = 0;
-        public int totalAgents = 0;
-        public int nbrMessage = 0;
-        public bool readMessage = false;
-
         public static GamaManager Instance { get { return m_Instance; } }
 
         public string receivedMsg = "";
-        public string clientId;
-        public static MqttClient client;
-        public GamaMethods gama = new GamaMethods();
-        public TopicMessage currentMsg;
-
-        public GameObject[] allObjects = null;
-        public GameObject gamaManager = null;
-        public GameObject targetGameObject = null;
-        public GameObject topicGameObject = null;
-        public object[] obj = null;
-
-        public GameObject plane = null;
+                   
+        public GameObject gamaManager;
+        public GameObject targetGameObject;
+        public GameObject topicGameObject;
+        public object[] obj;
 
         public Transform Land_Use_Transform;
         public Transform Coastal_Defense_Transform;
-
-        public static Dictionary<string, List<GameObject>> gamaAgentList = new Dictionary<string, List<GameObject>>();
-
-        //public static Agent[] gamaAgentList = new Agent[5000];
-        public static int nbrAgent = 0;
 
         public Material matGreen;
         public Material matGreenLighter;
@@ -66,89 +46,55 @@ namespace ummisco.gama.unity.SceneManager
 
         public Transform parentObjectTransform;
 
-        public GameObject setTopicManager, getTotpicManager, moveTopicManager, notificationTopicManager;
-
         private GameObject mainTopicManager;
         private GameObject agentCreator;
 
         public static Dictionary<string, string> agentsTopicDic = new Dictionary<string, string>();
-                          
 
-        List<MqttMsgPublishEventArgs> msgList = new List<MqttMsgPublishEventArgs>();
-
+        public static MQTTConnector connector;
+        public static SceneManager sceneManager;
+                
         void Awake()
         {
             m_Instance = this;
-            //Check if instance already exists
-            //If instance already exists and it's not this:
-            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a gamaManager.
             if (m_Instance == null)
                 m_Instance = this;
             else if (m_Instance != this)
                 Destroy(gameObject);
 
-            //Sets this to not be destroyed when reloading scene
-            //DontDestroyOnLoad(gameObject);
-
-            MqttSetting.allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-            allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-
             gamaManager = gameObject;
             MainCamera = GameObject.Find("MainCamera");
 
             // Create the Topic's manager GameObjects
-            new GameObject(MqttSetting.COLOR_TOPIC_MANAGER).AddComponent<ColorTopic>();
-            new GameObject(MqttSetting.POSITION_TOPIC_MANAGER).AddComponent<PositionTopic>();
-            new GameObject(MqttSetting.SET_TOPIC_MANAGER).AddComponent<SetTopic>();
-            new GameObject(MqttSetting.GET_TOPIC_MANAGER).AddComponent<GetTopic>();
-            new GameObject(MqttSetting.MONO_FREE_TOPIC_MANAGER).AddComponent<MonoFreeTopic>();
-            new GameObject(MqttSetting.MULTIPLE_FREE_TOPIC_MANAGER).AddComponent<MultipleFreeTopic>();
-            new GameObject(MqttSetting.CREATE_TOPIC_MANAGER).AddComponent<CreateTopic>();
-            new GameObject(MqttSetting.DESTROY_TOPIC_MANAGER).AddComponent<DestroyTopic>();
-            new GameObject(MqttSetting.MOVE_TOPIC_MANAGER).AddComponent<MoveTopic>();
-            new GameObject(MqttSetting.NOTIFICATION_TOPIC_MANAGER).AddComponent<NotificationTopic>();
-            new GameObject(MqttSetting.PROPERTY_TOPIC_MANAGER).AddComponent<PropertyTopic>();
-            (mainTopicManager = new GameObject(MqttSetting.MAIN_TOPIC_MANAGER)).AddComponent<MainTopic>();
+            new GameObject(IMQTTConnector.COLOR_TOPIC_MANAGER).AddComponent<ColorTopic>();
+            new GameObject(IMQTTConnector.POSITION_TOPIC_MANAGER).AddComponent<PositionTopic>();
+            new GameObject(IMQTTConnector.SET_TOPIC_MANAGER).AddComponent<SetTopic>();
+            new GameObject(IMQTTConnector.GET_TOPIC_MANAGER).AddComponent<GetTopic>();
+            new GameObject(IMQTTConnector.MONO_FREE_TOPIC_MANAGER).AddComponent<MonoFreeTopic>();
+            new GameObject(IMQTTConnector.MULTIPLE_FREE_TOPIC_MANAGER).AddComponent<MultipleFreeTopic>();
+            new GameObject(IMQTTConnector.CREATE_TOPIC_MANAGER).AddComponent<CreateTopic>();
+            new GameObject(IMQTTConnector.DESTROY_TOPIC_MANAGER).AddComponent<DestroyTopic>();
+            new GameObject(IMQTTConnector.MOVE_TOPIC_MANAGER).AddComponent<MoveTopic>();
+            new GameObject(IMQTTConnector.NOTIFICATION_TOPIC_MANAGER).AddComponent<NotificationTopic>();
+            new GameObject(IMQTTConnector.PROPERTY_TOPIC_MANAGER).AddComponent<PropertyTopic>();
+
+            new GameObject(IMQTTConnector.MQTT_CONNECTOR).AddComponent<MQTTConnector>();
+            new GameObject(IMQTTConnector.SCENE_MANAGER).AddComponent<SceneManager>();
+
+            (mainTopicManager = new GameObject(IMQTTConnector.MAIN_TOPIC_MANAGER)).AddComponent<MainTopic>();
 
             new GameObject(IGamaManager.CSVREADER).AddComponent<CSVReader>().transform.SetParent(gamaManager.transform);
 
-
         }
-
 
         // Use this for initialization
         void Start()
         {
-
-
-            //MqttSetting.SERVER_URL = "localhost";
-            //MqttSetting.SERVER_PORT = 1883;
-            var timestamp = DateTime.Now.ToFileTime();
-            clientId = Guid.NewGuid().ToString() + timestamp;
-            client = new MqttClient(MqttSetting.SERVER_URL, MqttSetting.SERVER_PORT, false, null);
-
-            client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
-
-            // client.Connect(clientId, MqttSetting.DEFAULT_USER, MqttSetting.DEFAULT_PASSWORD);
-            client.Connect(clientId);
-
-            client.Subscribe(new string[] { MqttSetting.MAIN_TOPIC }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            client.Subscribe(new string[] { MqttSetting.MONO_FREE_TOPIC }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            client.Subscribe(new string[] { MqttSetting.MULTIPLE_FREE_TOPIC }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            client.Subscribe(new string[] { MqttSetting.POSITION_TOPIC }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            client.Subscribe(new string[] { MqttSetting.COLOR_TOPIC }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            client.Subscribe(new string[] { MqttSetting.GET_TOPIC }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            client.Subscribe(new string[] { MqttSetting.SET_TOPIC }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            client.Subscribe(new string[] { MqttSetting.MOVE_TOPIC }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            client.Subscribe(new string[] { MqttSetting.PROPERTY_TOPIC }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            client.Subscribe(new string[] { MqttSetting.CREATE_TOPIC }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            client.Subscribe(new string[] { MqttSetting.DESTROY_TOPIC }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            client.Subscribe(new string[] { MqttSetting.NOTIFICATION_TOPIC }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-
-            client.Subscribe(new string[] { "littosim" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-            //client.Subscribe(new string[] { "listdata" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-
-            client.Publish("littosim", System.Text.Encoding.UTF8.GetBytes(client.ClientId));
+            sceneManager = GameObject.Find(IMQTTConnector.SCENE_MANAGER).GetComponent<SceneManager>();
+            connector = GameObject.Find(IMQTTConnector.MQTT_CONNECTOR).GetComponent<MQTTConnector>();
+            connector.Connect();
+            connector.initTopics();
+            connector.Subscribe("littosim");
 
             agentCreator = GameObject.Find("AgentCreator");
 
@@ -158,22 +104,19 @@ namespace ummisco.gama.unity.SceneManager
 
         void FixedUpdate()
         {
-            handleMessage();
+            HandleMessage();
         }
 
 
-        public void handleMessage()
-        {
-            GameObject uiManager = GameObject.Find(IUILittoSim.UI_MANAGER);
-            Canvas canvas = GameObject.Find("MapCanvas").GetComponent<Canvas>();
-
+        public void HandleMessage()
+        {                   
 
             // if(readMessage)
-            while (msgList.Count > 0)
+            while (connector.hasNextMessage())
             {
-                MqttMsgPublishEventArgs e = msgList[0];
+                MqttMsgPublishEventArgs e = connector.getNextMessage();
                 /*
-                if (!MqttSetting.getTopicsInList().Contains(e.Topic))
+                if (!IMQTTConnector.getTopicsInList().Contains(e.Topic))
                 {
                     Debug.Log("-> The Topic '" + e.Topic + "' doesn't exist in the defined list. Please check! (the message will be deleted!)");
                     msgList.Remove(e);
@@ -195,22 +138,16 @@ namespace ummisco.gama.unity.SceneManager
                     //Debug.Log("The topic is : " + e.Topic);
                     GamaExposeMessage exposeMessage = new GamaExposeMessage(receivedMsg);
 
-                    SetAttribute(agentsTopicDic[e.Topic], exposeMessage.attributesList);
-
-                    foreach (var pair in exposeMessage.attributesList)
-                    {
-                    //    Debug.Log("Attribyte name s: " + pair.Key + " Value is : " + pair.Value);
-                    }
-                    Debug.Log("The agent forthis tipoc is " + agentsTopicDic[e.Topic]);
+                    sceneManager.SetAttribute(agentsTopicDic[e.Topic], exposeMessage.attributesList);
                 }
                 else
                 switch (e.Topic)
                 {
                     //case "listdata":
                     //    break;
-                    case MqttSetting.MAIN_TOPIC:
+                    case IMQTTConnector.MAIN_TOPIC:
                         //------------------------------------------------------------------------------
-                        //  Debug.Log(totalAgents+ "  -> Topic to deal with is : " + MqttSetting.MAIN_TOPIC);
+                        //  Debug.Log(totalAgents+ "  -> Topic to deal with is : " + IMQTTConnector.MAIN_TOPIC);
                        
                         UnityAgent unityAgent = (UnityAgent)MsgSerialization.deserialization(receivedMsg, new UnityAgent());
                         Agent agent = unityAgent.GetAgent();
@@ -253,16 +190,16 @@ namespace ummisco.gama.unity.SceneManager
                                 else
                                 {
                                     obj = new object[] { unityAgent, targetGameObject };
-                                    mainTopicManager.GetComponent(MqttSetting.MAIN_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                                    mainTopicManager.GetComponent(IMQTTConnector.MAIN_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
                                 }
                                 break;
                         }
 
                         //------------------------------------------------------------------------------
                         break;
-                    case MqttSetting.MONO_FREE_TOPIC:
+                    case IMQTTConnector.MONO_FREE_TOPIC:
                         //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + MqttSetting.MONO_FREE_TOPIC);
+                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.MONO_FREE_TOPIC);
                         MonoFreeTopicMessage monoFreeTopicMessage = (MonoFreeTopicMessage)MsgSerialization.deserialization(receivedMsg, new MonoFreeTopicMessage());
                         targetGameObject = GameObject.Find(monoFreeTopicMessage.objectName);
                         obj = new object[] { monoFreeTopicMessage, targetGameObject };
@@ -273,12 +210,12 @@ namespace ummisco.gama.unity.SceneManager
                             break;
                         }
                         //    Debug.Log("The message is to " + monoFreeTopicMessage.objectName + " about the methode " + monoFreeTopicMessage.methodName + " and attribute " + monoFreeTopicMessage.attribute);
-                        GameObject.Find(MqttSetting.MONO_FREE_TOPIC_MANAGER).GetComponent(MqttSetting.MONO_FREE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                        GameObject.Find(IMQTTConnector.MONO_FREE_TOPIC_MANAGER).GetComponent(IMQTTConnector.MONO_FREE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
                         //------------------------------------------------------------------------------
                         break;
-                    case MqttSetting.MULTIPLE_FREE_TOPIC:
+                    case IMQTTConnector.MULTIPLE_FREE_TOPIC:
                         //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + MqttSetting.MULTIPLE_FREE_TOPIC);
+                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.MULTIPLE_FREE_TOPIC);
 
                         MultipleFreeTopicMessage multipleFreetopicMessage = (MultipleFreeTopicMessage)MsgSerialization.deserialization(receivedMsg, new MultipleFreeTopicMessage());
                         targetGameObject = GameObject.Find(multipleFreetopicMessage.objectName);
@@ -290,12 +227,12 @@ namespace ummisco.gama.unity.SceneManager
                             break;
                         }
 
-                        GameObject.Find(MqttSetting.MULTIPLE_FREE_TOPIC_MANAGER).GetComponent(MqttSetting.MULTIPLE_FREE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                        GameObject.Find(IMQTTConnector.MULTIPLE_FREE_TOPIC_MANAGER).GetComponent(IMQTTConnector.MULTIPLE_FREE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
                         //------------------------------------------------------------------------------
                         break;
-                    case MqttSetting.POSITION_TOPIC:
+                    case IMQTTConnector.POSITION_TOPIC:
                         //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + MqttSetting.POSITION_TOPIC);
+                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.POSITION_TOPIC);
 
                         PositionTopicMessage positionTopicMessage = (PositionTopicMessage)MsgSerialization.deserialization(receivedMsg, new PositionTopicMessage());
                         targetGameObject = GameObject.Find(positionTopicMessage.objectName);
@@ -308,15 +245,15 @@ namespace ummisco.gama.unity.SceneManager
                         }
                         else
                         {
-                            GameObject.Find(MqttSetting.POSITION_TOPIC_MANAGER).GetComponent(MqttSetting.POSITION_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                            GameObject.Find(IMQTTConnector.POSITION_TOPIC_MANAGER).GetComponent(IMQTTConnector.POSITION_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
 
                         }
 
                         //------------------------------------------------------------------------------
                         break;
-                    case MqttSetting.MOVE_TOPIC:
+                    case IMQTTConnector.MOVE_TOPIC:
                         //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + MqttSetting.MOVE_TOPIC);
+                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.MOVE_TOPIC);
                         Debug.Log("-> the message is : " + receivedMsg);
                         MoveTopicMessage moveTopicMessage = (MoveTopicMessage)MsgSerialization.deserialization(receivedMsg, new MoveTopicMessage());
                         Debug.Log("-> the position to move to is : " + moveTopicMessage.position);
@@ -331,12 +268,12 @@ namespace ummisco.gama.unity.SceneManager
                             break;
                         }
 
-                        GameObject.Find(MqttSetting.MOVE_TOPIC_MANAGER).GetComponent(MqttSetting.MOVE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                        GameObject.Find(IMQTTConnector.MOVE_TOPIC_MANAGER).GetComponent(IMQTTConnector.MOVE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
                         //------------------------------------------------------------------------------
                         break;
-                    case MqttSetting.COLOR_TOPIC:
+                    case IMQTTConnector.COLOR_TOPIC:
                         //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + MqttSetting.COLOR_TOPIC);
+                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.COLOR_TOPIC);
 
                         ColorTopicMessage colorTopicMessage = (ColorTopicMessage)MsgSerialization.deserialization(receivedMsg, new ColorTopicMessage());
                         targetGameObject = GameObject.Find(colorTopicMessage.objectName);
@@ -348,13 +285,13 @@ namespace ummisco.gama.unity.SceneManager
                             break;
                         }
 
-                        GameObject.Find(MqttSetting.COLOR_TOPIC_MANAGER).GetComponent(MqttSetting.COLOR_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                        GameObject.Find(IMQTTConnector.COLOR_TOPIC_MANAGER).GetComponent(IMQTTConnector.COLOR_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
 
                         //------------------------------------------------------------------------------
                         break;
-                    case MqttSetting.GET_TOPIC:
+                    case IMQTTConnector.GET_TOPIC:
                         //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + MqttSetting.GET_TOPIC);
+                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.GET_TOPIC);
                         string value = null;
 
                         GetTopicMessage getTopicMessage = (GetTopicMessage)MsgSerialization.deserialization(receivedMsg, new GetTopicMessage());
@@ -369,13 +306,13 @@ namespace ummisco.gama.unity.SceneManager
 
                         obj = new object[] { getTopicMessage, targetGameObject, value };
 
-                        GameObject.Find(MqttSetting.GET_TOPIC_MANAGER).GetComponent(MqttSetting.GET_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
-                        sendReplay(clientId, "GamaAgent", getTopicMessage.attribute, (string)obj[2]);
+                        GameObject.Find(IMQTTConnector.GET_TOPIC_MANAGER).GetComponent(IMQTTConnector.GET_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                        SendReplay(connector.clientId, "GamaAgent", getTopicMessage.attribute, (string)obj[2]);
                         //------------------------------------------------------------------------------
                         break;
-                    case MqttSetting.SET_TOPIC:
+                    case IMQTTConnector.SET_TOPIC:
                         //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + MqttSetting.SET_TOPIC);
+                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.SET_TOPIC);
 
                         SetTopicMessage setTopicMessage = (SetTopicMessage)MsgSerialization.deserialization(receivedMsg, new SetTopicMessage());
                         // Debug.Log("-> Target game object name: " + setTopicMessage.objectName);
@@ -390,12 +327,12 @@ namespace ummisco.gama.unity.SceneManager
 
                         obj = new object[] { setTopicMessage, targetGameObject };
 
-                        GameObject.Find(MqttSetting.SET_TOPIC_MANAGER).GetComponent(MqttSetting.SET_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                        GameObject.Find(IMQTTConnector.SET_TOPIC_MANAGER).GetComponent(IMQTTConnector.SET_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
                         //------------------------------------------------------------------------------
                         break;
-                    case MqttSetting.PROPERTY_TOPIC:
+                    case IMQTTConnector.PROPERTY_TOPIC:
                         //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + MqttSetting.PROPERTY_TOPIC);
+                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.PROPERTY_TOPIC);
 
                         try
                         {
@@ -418,23 +355,23 @@ namespace ummisco.gama.unity.SceneManager
 
                         obj = new object[] { propertyTopicMessage, targetGameObject };
 
-                        GameObject.Find(MqttSetting.PROPERTY_TOPIC_MANAGER).GetComponent(MqttSetting.PROPERTY_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                        GameObject.Find(IMQTTConnector.PROPERTY_TOPIC_MANAGER).GetComponent(IMQTTConnector.PROPERTY_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
                         //------------------------------------------------------------------------------
                         break;
 
-                    case MqttSetting.CREATE_TOPIC:
+                    case IMQTTConnector.CREATE_TOPIC:
                         //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + MqttSetting.CREATE_TOPIC);
+                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.CREATE_TOPIC);
                         // Debug.Log("-> Message: " + receivedMsg);
                         CreateTopicMessage createTopicMessage = (CreateTopicMessage)MsgSerialization.deserialization(receivedMsg, new CreateTopicMessage());
                         obj = new object[] { createTopicMessage };
 
-                        GameObject.Find(MqttSetting.CREATE_TOPIC_MANAGER).GetComponent(MqttSetting.CREATE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                        GameObject.Find(IMQTTConnector.CREATE_TOPIC_MANAGER).GetComponent(IMQTTConnector.CREATE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
                         //------------------------------------------------------------------------------
                         break;
-                    case MqttSetting.DESTROY_TOPIC:
+                    case IMQTTConnector.DESTROY_TOPIC:
                         //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + MqttSetting.DESTROY_TOPIC);
+                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.DESTROY_TOPIC);
 
                         DestroyTopicMessage destroyTopicMessage = (DestroyTopicMessage)MsgSerialization.deserialization(receivedMsg, new DestroyTopicMessage());
                         obj = new object[] { destroyTopicMessage };
@@ -445,12 +382,12 @@ namespace ummisco.gama.unity.SceneManager
                             break;
                         }
 
-                        GameObject.Find(MqttSetting.DESTROY_TOPIC_MANAGER).GetComponent(MqttSetting.DESTROY_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                        GameObject.Find(IMQTTConnector.DESTROY_TOPIC_MANAGER).GetComponent(IMQTTConnector.DESTROY_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
                         //------------------------------------------------------------------------------
                         break;
-                    case MqttSetting.NOTIFICATION_TOPIC:
+                    case IMQTTConnector.NOTIFICATION_TOPIC:
                         //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + MqttSetting.NOTIFICATION_TOPIC);
+                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.NOTIFICATION_TOPIC);
 
                         NotificationTopicMessage notificationTopicMessage = (NotificationTopicMessage)MsgSerialization.deserialization(receivedMsg, new NotificationTopicMessage());
                         obj = new object[] { notificationTopicMessage };
@@ -462,94 +399,56 @@ namespace ummisco.gama.unity.SceneManager
                             break;
                         }
 
-                        GameObject.Find(MqttSetting.NOTIFICATION_TOPIC_MANAGER).GetComponent(MqttSetting.NOTIFICATION_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                        GameObject.Find(IMQTTConnector.NOTIFICATION_TOPIC_MANAGER).GetComponent(IMQTTConnector.NOTIFICATION_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
 
                         //------------------------------------------------------------------------------
                         break;
                     default:
                         //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + MqttSetting.DEFAULT_TOPIC);
+                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.DEFAULT_TOPIC);
                         //------------------------------------------------------------------------------
                         break;
                 }
-
-                msgList.Remove(e);
+               
             }
-
-            checkForNotifications();
-            GameObject mapBuilder = GameObject.Find("MapBuilder");
-            //GameObject mapBuilder = GameObject.Find("MapBuilder");
-            //regionMap = (RegionMap) FindObjectOfType(typeof(RegionMap));
-            //GameObject mapBuilder  = (GameObject) FindObjectOfType(typeof(MapBuilder));
-            /*
-            if (mapBuilder != null)
-            {
-                mapBuilder.GetComponent<RegionMap>().SendMessage("DrawNewAgents");
-            }
-            else
-            {
-                Debug.Log("No such Object. Sorry");
-            }
-            */
-
-
+            CheckForNotifications();
         }
 
 
 
-        void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
-        {
-            msgList.Add(e);
-            receivedMsg = System.Text.Encoding.UTF8.GetString(e.Message);
-            //    Debug.Log(">  New Message received on topic : " + e.Topic);
-            //    Debug.Log(">  content is :" + e.Message);
-        }
-
-
+          
 
         void OnGUI()
         {
             if (GUI.Button(new Rect(20, 1, 100, 20), "Quitter!"))
             {
-                client.Disconnect();
+                connector.Disconnect();
                 #if UNITY_EDITOR
                                 UnityEditor.EditorApplication.isPlaying = false;
                 #else
                         Application.Quit ();
                 #endif
-
-
             }
-
-            
-
         }
 
-
-        public void tester()
+        public void Tester()
         {
-            client.Publish("Gama", System.Text.Encoding.UTF8.GetBytes("Good, Bug fixed -> Sending from Unity3D!!! Good"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
+            connector.Publish("Gama", "Good, Bug fixed -> Sending from Unity3D!!! Good");
         }
 
-
-        public void sendGotBoxMsg()
+        public void SendGotBoxMsg()
         {
-
-            GamaReponseMessage msg = new GamaReponseMessage(clientId, "GamaAgent", "Got a Box notification", DateTime.Now.ToString());
-
+            GamaReponseMessage msg = new GamaReponseMessage(connector.clientId, "GamaAgent", "Got a Box notification", DateTime.Now.ToString());
             string message = MsgSerialization.msgSerialization(msg);
-            client.Publish("Gama", System.Text.Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-            //client.Publish ("Gama", System.Text.Encoding.UTF8.GetBytes ("Good, Another box2"));
+            connector.Publish("Gama", message);
         }
 
         // à revoir en utilisant publishMessage
-        public void sendReplay(string sender, string receiver, string fieldName, string fieldValue)
+        public void SendReplay(string sender, string receiver, string fieldName, string fieldValue)
         {
-
             ReplayMessage msg = new ReplayMessage(sender, receiver, "content not set", fieldName, fieldValue, DateTime.Now.ToString());
             string message = MsgSerialization.serialization(msg);
-
-            publishMessage(message, MqttSetting.REPLAY_TOPIC);
+            connector.Publish(IMQTTConnector.REPLAY_TOPIC, message);
         }
 
         void OnDestroy()
@@ -562,95 +461,9 @@ namespace ummisco.gama.unity.SceneManager
         {
 
         }
+                       
 
-        // The method to call Game Objects methods
-        //----------------------------------------
-        public void sendMessageToGameObject(GameObject gameObject, string methodName, Dictionary<object, object> data)
-        {
-
-            int size = data.Count;
-            List<object> keyList = new List<object>(data.Keys);
-
-            System.Reflection.MethodInfo info = gameObject.GetComponent("PlayerController").GetType().GetMethod(methodName);
-            ParameterInfo[] par = info.GetParameters();
-
-            for (int j = 0; j < par.Length; j++)
-            {
-                System.Reflection.ParameterInfo par1 = par[j];
-
-                //   Debug.Log("->>>>>>>>>>>>>>--> parametre Name >>=>>=>>=  " + par1.Name);
-                //   Debug.Log("->>>>>>>>>>>>>>--> parametre Type >>=>>=>>=  " + par1.ParameterType);
-
-            }
-
-            switch (size)
-            {
-                case 0:
-                    gameObject.SendMessage(methodName);
-                    break;
-                case 1:
-                    gameObject.SendMessage(methodName, convertParameter(data[keyList.ElementAt(0)], par[0]));
-                    break;
-
-                default:
-                    object[] obj = new object[size + 1];
-                    int i = 0;
-                    foreach (KeyValuePair<object, object> pair in data)
-                    {
-                        obj[i] = pair.Value;
-                        i++;
-                    }
-                    gameObject.SendMessage(methodName, obj);
-                    break;
-            }
-        }
-
-        public object convertParameter(object val, ParameterInfo par)
-        {
-            object propValue = Convert.ChangeType(val, par.ParameterType);
-            return propValue;
-        }
-
-        public static void addObjectToList(string species, GameObject obj)
-        {
-            if (gamaAgentList.ContainsKey(species) == true)
-            {
-                gamaAgentList[species].Add(obj);
-            }
-            else
-            {
-                List<GameObject> list = new List<GameObject>();
-                list.Add(obj);
-                gamaAgentList.Add(species, list);
-            }
-        }
-
-        public static void removeObjectFromList(string species, GameObject obj)
-        {
-            if (gamaAgentList.ContainsKey(species))
-            {
-                if (gamaAgentList[species].Contains(obj))
-                {
-                    gamaAgentList[species].Remove(obj);
-                }
-            }
-        }
-
-        public static void SetSpeciesEnabled(string species, bool enabled)
-        {
-            if (gamaAgentList.ContainsKey(species))
-            {
-                List<GameObject> list = gamaAgentList[species];
-
-                foreach(GameObject obj in list)
-                {
-                    obj.SetActive(enabled);
-                }
-                
-            }
-        }
-
-        public void checkForNotifications()
+        public void CheckForNotifications()
         {
             if (NotificationRegistry.notificationsList.Count >= 1)
             {
@@ -660,8 +473,8 @@ namespace ummisco.gama.unity.SceneManager
                     { // TODO Implement a mecanism of notification frequency!
                         if (el.notify)
                         {
-                            string msg = getReplayNotificationMessage(el);
-                            publishMessage(msg, MqttSetting.NOTIFY_MSG);
+                            string msg = GetReplayNotificationMessage(el);
+                            connector.Publish(IMQTTConnector.NOTIFY_MSG, msg);
                             el.notify = false;
                             el.isSent = true;
                             Debug.Log("------------------>>>>  Notification " + el.notificationId + " is sent");
@@ -671,153 +484,24 @@ namespace ummisco.gama.unity.SceneManager
             }
         }
 
-        public string getReplayNotificationMessage(NotificationEntry el)
+
+        public string GetReplayNotificationMessage(NotificationEntry el)
         {
             NotificationMessage msg = new NotificationMessage("Unity", el.agentId, "Contents Not set", DateTime.Now.ToString(), el.notificationId);
             string message = MsgSerialization.serializationPlainXml(msg);
             return message;
         }
+             
 
-        public void publishMessage(string message, string topic)
-        {
-            client.Publish(topic, System.Text.Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
-        }
 
-        public static void AddTag(string tag)
-        {
-            // causes errors with build
-            /*
-            UnityEngine.Object[] asset = AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset");
-          //  UnityEngine.Object[] asset =  Resources.LoadAll("ProjectSettings/TagManager.asset");
-            if ((asset != null) && (asset.Length > 0))
-            {
-                SerializedObject so = new SerializedObject(asset[0]);
-                SerializedProperty tags = so.FindProperty("tags");
-
-                for (int i = 0; i < tags.arraySize; ++i)
-                {
-                    if (tags.GetArrayElementAtIndex(i).stringValue == tag)
-                    {
-                        return;     // Tag already present, nothing to do.
-                    }
-                }
-                tags.InsertArrayElementAtIndex(0);
-                tags.GetArrayElementAtIndex(0).stringValue = tag;
-                so.ApplyModifiedProperties();
-                so.Update();
-            }
-            */
-        }
-
-        public void subscribeToTopic(object args)
+        public void SubscribeToTopic(object args)
         {
             object[] obj = (object[])args;
             string agentName = (string)obj[0];
             string topic = (string)obj[1];
-            client.Subscribe(new string[] { topic }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+            connector.Subscribe(topic);
             agentsTopicDic.Add(topic, agentName);
         }
-
-
-
-
-        // The method to call Game Objects methods
-        //----------------------------------------
-        public void SetAttribute(string agentName, Dictionary<string, string> data)
-        {
-            Debug.Log("Set the attributes ---- ");
-            GameObject targetGameObject = GameObject.Find(agentName);
-            MonoBehaviour[] scripts  = targetGameObject.GetComponents<MonoBehaviour>();
-            int size = data.Count;
-
-            List<string> keyList = new List<string>(data.Keys);
-            string obj = data[keyList.ElementAt(0)];
-
-            FieldInfo[] fieldInfoSet = targetGameObject.GetComponent(scripts[0].GetType()).GetType().GetFields();
-
-            foreach (KeyValuePair<string, string> pair in data)
-            {
-                foreach (FieldInfo fi in fieldInfoSet)
-                {
-                    if (fi.Name.Equals(pair.Key.ToString()))
-                    {
-                        UnityEngine.Component ob = (UnityEngine.Component)targetGameObject.GetComponent(scripts[0].GetType());
-
-                        if (fi.FieldType.Equals(typeof(UnityEngine.UI.Text)))
-                        {
-
-                            Component[] cs = (Component[])targetGameObject.GetComponents(typeof(Component));
-                            foreach (Component c in cs)
-                            {
-                                if (c.name.Equals(pair.Key.ToString()))
-                                {
-                                    Text txt = targetGameObject.GetComponent<Text>();
-
-                                    txt.text = "Score : ";
-                                }
-                            }
-
-                            //	Debug.Log ("try to get the fields lis  " + fi.GetType ().GetField ("text").ToString ());
-                            FieldInfo[] fieldInfoSet2 = fi.FieldType.GetFields();
-                            Debug.Log("Its fieldInfoSet2 is 1 ----> : " + fieldInfoSet2.ToList().ToString());
-                            foreach (FieldInfo fi2 in fieldInfoSet2)
-                            {
-                                Debug.Log("Its Name is 1 ----> : " + fi2.Name);
-                                //Debug.Log ("Its Value is 1 ----> : " + fi2.GetValue ());
-                            }
-
-                            //fi.FieldType.GetFields ();
-
-                            //fi.SetValue (ob, setObject);
-
-                        }
-                        else
-                        {
-                            //TODO: need to complete this list
-                            Debug.Log("Its Name is ----> : " + fi.Name + " and type is :" + fi.FieldType.ToString());
-                            switch (fi.FieldType.ToString())
-                            {
-
-                                case IDataType.UNITY_INT:
-                                    Debug.Log("Its type is ----> :" + fi.FieldType);
-                                    int valInt = Convert.ToInt32(pair.Value);
-                                    fi.SetValue(ob, valInt);
-                                    break;
-                                case IDataType.UNITY_DOUBLE:
-                                    Debug.Log("Its type is ----> :" + fi.FieldType);
-                                    double valDouble = Convert.ToDouble(pair.Value);
-                                    fi.SetValue(ob, valDouble);
-                                    break;
-                                case IDataType.UNITY_SINGLE:
-                                    Debug.Log("Its type is ----> :" + fi.FieldType);
-                                    fi.SetValue(ob, Convert.ToSingle(pair.Value));
-                                    break;
-                                case IDataType.UNITY_BOOLEAN:
-                                    Debug.Log("Its type is ----> :" + fi.FieldType);
-                                    fi.SetValue(ob, Convert.ChangeType(pair.Value, fi.FieldType));
-                                    break;
-                                case IDataType.UNITY_STRING:
-                                    Debug.Log("Its type is ----> :" + fi.FieldType);
-                                    fi.SetValue(ob, (System.String)pair.Value);
-                                    break;
-                                case IDataType.UNITY_CHAR:
-                                    Debug.Log("Its type is ----> :" + fi.FieldType);
-                                    char valChar = Convert.ToChar(pair.Value);
-                                    fi.SetValue(ob, valChar);
-                                    break;
-
-                                default:
-
-                                    break;
-
-                            }
-                            //fi.SetValue (ob, (Convert.ChangeType (pair.Value, fi.FieldType)));
-                        }
-                        //	fi.SetValue (ob, (Convert.ChangeType (pair.Value, fi.FieldType)));
-                    }
-                }
-            }
-        }
-
+                          
     }
 }
