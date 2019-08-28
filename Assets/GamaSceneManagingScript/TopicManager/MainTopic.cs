@@ -1,13 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using ummisco.gama.unity.messages;
-using ummisco.gama.unity.utils;
-using System.Reflection;
-using System.Linq;
-using System;
 using ummisco.gama.unity.GamaAgent;
-using ummisco.gama.unity.Scene;
 using ummisco.gama.unity.Network;
 
 namespace ummisco.gama.unity.topics
@@ -40,15 +32,15 @@ namespace ummisco.gama.unity.topics
 
         public void ProcessTopic(object obj)
         {
-            setAllProperties(obj);
-            sendTopic();
+            SetAllProperties(obj);
+            SendTopic();
 
         }
 
 
         // The method to call Game Objects methods
         //----------------------------------------
-        public void sendTopic()
+        public void SendTopic()
         {
 
             GameObject objectManager = getGameObjectByName(IMQTTConnector.GAMA_MANAGER_OBJECT_NAME, UnityEngine.Object.FindObjectsOfType<GameObject>());
@@ -65,7 +57,7 @@ namespace ummisco.gama.unity.topics
 
         }
 
-        public override void setAllProperties(object args)
+        public override void SetAllProperties(object args)
         {
             object[] obj = (object[])args;
             this.unityAgent = (UnityAgent)obj[0];

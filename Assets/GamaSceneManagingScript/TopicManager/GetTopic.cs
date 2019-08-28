@@ -1,12 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using ummisco.gama.unity.messages;
-using ummisco.gama.unity.utils;
 using System.Reflection;
-using System.Linq;
-using System;
-using System.Xml;
+
 
 
 namespace ummisco.gama.unity.topics
@@ -17,7 +12,7 @@ namespace ummisco.gama.unity.topics
         protected string valueIs = "";
         public GetTopicMessage topicMessage;
 
-        public GetTopic(TopicMessage currentMsg, GameObject gameObj) : base(gameObj)
+        public GetTopic(GameObject gameObj) : base(gameObj)
         {
 
         }
@@ -36,11 +31,11 @@ namespace ummisco.gama.unity.topics
 
         public void ProcessTopic(object[] obj)
         {
-            this.setAllProperties(obj);
+            this.SetAllProperties(obj);
             if (targetGameObject != null)
             {
                 string attribute = topicMessage.attribute;
-                obj[2] = (object)getValueToSend(attribute);
+                obj[2] = (object)GetValueToSend(attribute);
 
                 Debug.Log("Method called and returned -> " + obj[2]);
             }
@@ -48,7 +43,7 @@ namespace ummisco.gama.unity.topics
 
         // The method to call Game Objects methods
         //----------------------------------------
-        public string getValueToSend(string attibute)
+        public string GetValueToSend(string attibute)
         {
 
             FieldInfo[] fieldInfoGet = targetGameObject.GetComponent(scripts[0].GetType()).GetType().GetFields();
@@ -66,7 +61,7 @@ namespace ummisco.gama.unity.topics
             return msgReplay;
         }
 
-        public override void setAllProperties(object args)
+        public override void SetAllProperties(object args)
         {
             object[] obj = (object[])args;
             this.topicMessage = (GetTopicMessage)obj[0];

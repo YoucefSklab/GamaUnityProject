@@ -30,8 +30,6 @@ namespace ummisco.gama.unity.messages
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xml);
 
-            XElement xmlrt = XElement.Parse(messageContent);
-
             XmlNodeList titles = xmlDoc.GetElementsByTagName("entry");
 
             foreach (XmlNode elt in titles)
@@ -44,12 +42,6 @@ namespace ummisco.gama.unity.messages
                 attributesList.Add(attributeNode.InnerText, valueNode.InnerText);
             }
         }
-
-        public static explicit operator GamaExposeMessage(int v)
-        {
-            throw new NotImplementedException();
-        }
     }
-
 }
 

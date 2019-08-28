@@ -12,12 +12,11 @@ namespace ummisco.gama.unity.topics
     public class Topic : MonoBehaviour
     {
 
-        protected MsgSerialization msgDes = new MsgSerialization();
         protected GamaMethods gama = new GamaMethods();
 
-        protected GameObject targetGameObject { get; set; }
+        protected GameObject targetGameObject;
 
-        protected MonoBehaviour[] scripts { get; set; }
+        protected MonoBehaviour[] scripts;
 
         void Awake()
         {
@@ -38,25 +37,25 @@ namespace ummisco.gama.unity.topics
 
         public Topic(GameObject gameO)
         {
-            this.targetGameObject = targetGameObject;
+            this.targetGameObject = gameO;
             this.scripts = targetGameObject.GetComponents<MonoBehaviour>();
 
         }
 
-        public virtual MethodInfo[] getMethodsInfo(BindingFlags flags)
+        public virtual MethodInfo[] GetMethodsInfo(BindingFlags flags)
         {
-            setScript();
+            SetScript();
             return targetGameObject.GetComponent(scripts[0].GetType()).GetType().GetMethods(flags);
         }
 
-        public virtual void setAllProperties(object args)
+        public virtual void SetAllProperties(object args)
         {
             object[] obj = (object[])args;
             this.targetGameObject = (GameObject)obj[0];
             this.scripts = targetGameObject.GetComponents<MonoBehaviour>();
         }
 
-        public void setScript()
+        public void SetScript()
         {
             this.scripts = targetGameObject.GetComponents<MonoBehaviour>();
         }
@@ -70,7 +69,7 @@ namespace ummisco.gama.unity.topics
         //public abstract void sendTopic<T> (GameObject targetGameObject, string methodName, Dictionary<object, object> data)
         //	where T : Component;
         /*{
-			setAllProperties (obj);
+			SetAllProperties (obj);
 
 			if (targetGameObject != null) {
 

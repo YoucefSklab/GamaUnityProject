@@ -37,13 +37,13 @@ namespace ummisco.gama.unity.topics
 
         public void ProcessTopic(object obj)
         {
-            setAllProperties(obj);
-            sendTopic();
+            SetAllProperties(obj);
+            SendTopic();
         }
 
         // The method to call Game Objects methods
         //----------------------------------------
-        public void sendTopic()
+        public void SendTopic()
         {
             Component[] cs = (Component[])targetGameObject.GetComponents(typeof(Component));
             XmlNode[] node = (XmlNode[])topicMessage.value;
@@ -108,7 +108,7 @@ namespace ummisco.gama.unity.topics
             }
         }
 
-        public override void setAllProperties(object args)
+        public override void SetAllProperties(object args)
         {
             object[] obj = (object[])args;
             this.topicMessage = (PropertyTopicMessage)obj[0];

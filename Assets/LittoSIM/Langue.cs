@@ -14,7 +14,7 @@ namespace ummisco.gama.unity.littosim
            
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return ("Langue element: " + this.element + " value: " + this.value);
         }

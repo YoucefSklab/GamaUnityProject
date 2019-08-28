@@ -54,9 +54,9 @@ namespace ummisco.gama.unity.Network
             msgList.Add(e);
         }
 
-        public MqttMsgPublishEventArgs getNextMessage()
+        public MqttMsgPublishEventArgs GetNextMessage()
         {
-            if (hasNextMessage())
+            if (HasNextMessage())
             {
                 MqttMsgPublishEventArgs msg = msgList[0];
                 msgList.Remove(msg);
@@ -69,7 +69,7 @@ namespace ummisco.gama.unity.Network
            
         }
 
-        public bool hasNextMessage()
+        public bool HasNextMessage()
         {
             if (msgList.Count > 0) return true;
             return false;
@@ -80,31 +80,33 @@ namespace ummisco.gama.unity.Network
             client.Disconnect();
         }
 
-        public static List<string> getTopicsInList()
+        public static List<string> GetTopicsInList()
         {
-            List<string> topicsList = new List<string>();
-            topicsList.Add(IMQTTConnector.MAIN_TOPIC);
-            topicsList.Add(IMQTTConnector.MONO_FREE_TOPIC);
-            topicsList.Add(IMQTTConnector.MULTIPLE_FREE_TOPIC);
-            topicsList.Add(IMQTTConnector.POSITION_TOPIC);
-            topicsList.Add(IMQTTConnector.COLOR_TOPIC);
-            topicsList.Add(IMQTTConnector.REPLAY_TOPIC);
-            topicsList.Add(IMQTTConnector.DEFAULT_TOPIC);
-            topicsList.Add(IMQTTConnector.SET_TOPIC);
-            topicsList.Add(IMQTTConnector.GET_TOPIC);
-            topicsList.Add(IMQTTConnector.MOVE_TOPIC);
-            topicsList.Add(IMQTTConnector.PROPERTY_TOPIC);
-            topicsList.Add(IMQTTConnector.NOTIFICATION_TOPIC);
-            topicsList.Add(IMQTTConnector.CREATE_TOPIC);
-            topicsList.Add(IMQTTConnector.DESTROY_TOPIC);
-            topicsList.Add("listdata");
+            List<string> topicsList = new List<string>
+            {
+                IMQTTConnector.MAIN_TOPIC,
+                IMQTTConnector.MONO_FREE_TOPIC,
+                IMQTTConnector.MULTIPLE_FREE_TOPIC,
+                IMQTTConnector.POSITION_TOPIC,
+                IMQTTConnector.COLOR_TOPIC,
+                IMQTTConnector.REPLAY_TOPIC,
+                IMQTTConnector.DEFAULT_TOPIC,
+                IMQTTConnector.SET_TOPIC,
+                IMQTTConnector.GET_TOPIC,
+                IMQTTConnector.MOVE_TOPIC,
+                IMQTTConnector.PROPERTY_TOPIC,
+                IMQTTConnector.NOTIFICATION_TOPIC,
+                IMQTTConnector.CREATE_TOPIC,
+                IMQTTConnector.DESTROY_TOPIC,
+                "listdata"
+            };
             return topicsList;
         }
 
 
-        public void initTopics()
+        public void InitTopics()
         {
-            List<string> topicsList = getTopicsInList();
+            List<string> topicsList = GetTopicsInList();
 
             foreach(string topic in topicsList)
             {

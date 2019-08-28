@@ -206,7 +206,7 @@ namespace ummisco.gama.unity.littosim
 
         public string GetSerializedMessage(int idAction, Vector3 position)
         {
-            return MsgSerialization.serialization(new LittosimMessage(ILittoSimConcept.GAMA_TOPIC, ILittoSimConcept.GAMA_AGENT, idAction, position.x, position.y, DateTime.Now.ToString()));
+            return MsgSerialization.ToXML(new LittosimMessage(ILittoSimConcept.GAMA_TOPIC, ILittoSimConcept.GAMA_AGENT, idAction, position.x, position.y, DateTime.Now.ToString()));
         }
 
         public void AddCube(Vector3 position, Color color, int type, string name, string texte, int delay, int montant, GameObject parentObject)
@@ -496,13 +496,13 @@ namespace ummisco.gama.unity.littosim
 
         public void ValidateActionList()
         {
-            string message = MsgSerialization.serialization(new LittosimMessage(ILittoSimConcept.GAMA_TOPIC, "GamaMainAgent", 100, 0, 0, DateTime.Now.ToString()));
+            string message = MsgSerialization.ToXML(new LittosimMessage(ILittoSimConcept.GAMA_TOPIC, "GamaMainAgent", 100, 0, 0, DateTime.Now.ToString()));
             PublishMessage(message);
         }
 
         public void SendDeleteAction(string name)
         {
-            string message = MsgSerialization.serialization(new LittosimMessage(ILittoSimConcept.GAMA_TOPIC, "GamaMainAgent", 101, name, 0, 0, DateTime.Now.ToString()));
+            string message = MsgSerialization.ToXML(new LittosimMessage(ILittoSimConcept.GAMA_TOPIC, "GamaMainAgent", 101, name, 0, 0, DateTime.Now.ToString()));
             PublishMessage(message);
         }
 

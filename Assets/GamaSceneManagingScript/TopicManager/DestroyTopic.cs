@@ -1,12 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using ummisco.gama.unity.messages;
-using ummisco.gama.unity.utils;
-using System.Reflection;
-using System.Linq;
-using System;
-using System.Xml;
+
 
 
 namespace ummisco.gama.unity.topics
@@ -36,12 +30,12 @@ namespace ummisco.gama.unity.topics
 
         public void ProcessTopic(object obj)
         {
-            setAllProperties(obj);
+            SetAllProperties(obj);
             // Debug.Log ("Order received. Let's destroy the GameObject ");
             Destroy(GameObject.Find(topicMessage.objectName));
         }
 
-        public override void setAllProperties(object args)
+        public override void SetAllProperties(object args)
         {
             object[] obj = (object[])args;
             this.topicMessage = (DestroyTopicMessage)obj[0];

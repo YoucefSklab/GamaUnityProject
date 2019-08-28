@@ -1,13 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using ummisco.gama.unity.messages;
-using ummisco.gama.unity.utils;
-using System.Reflection;
-using System.Linq;
-using System;
 using System.Xml;
-using System.Globalization;
 using ummisco.gama.unity.GamaConcepts;
 using ummisco.gama.unity.Scene;
 using ummisco.gama.unity.Behaviour;
@@ -42,13 +35,13 @@ namespace ummisco.gama.unity.topics
         public void ProcessTopic(object obj)
         {
             //Debug.Log ("Order received. Let's create the object ");
-            setAllProperties(obj);
-            sendTopic();
+            SetAllProperties(obj);
+            SendTopic();
         }
 
         // The method to call Game Objects methods
         //----------------------------------------
-        public void sendTopic()
+        public void SendTopic()
         {
 
             GameObject objectManager = GameObject.Find(IGamaManager.GAMA_MANAGER);
@@ -103,7 +96,7 @@ namespace ummisco.gama.unity.topics
 
         }
 
-        public override void setAllProperties(object args)
+        public override void SetAllProperties(object args)
         {
             object[] obj = (object[])args;
             this.topicMessage = (CreateTopicMessage)obj[0];

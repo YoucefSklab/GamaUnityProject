@@ -1,15 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using ummisco.gama.unity.messages;
-using ummisco.gama.unity.utils;
-using System.Reflection;
-using System.Linq;
-using System;
-using System.Xml;
-using System.Xml.Linq;
-using System.Globalization;
-using ummisco.gama.unity.GamaConcepts;
+
 
 namespace ummisco.gama.unity.topics
 {
@@ -41,19 +33,19 @@ namespace ummisco.gama.unity.topics
 
         public void ProcessTopic(object obj)
         {
-            setAllProperties(obj);
+            SetAllProperties(obj);
 
             rb = targetGameObject.GetComponent<Rigidbody>();
 
             Vector3 movement = topicMessage.position.toVector3D();
 
-            sendTopic(movement);
+            SendTopic(movement);
 
         }
 
         // The method to call Game Objects methods
         //----------------------------------------
-        public void sendTopic(Vector3 movement)
+        public void SendTopic(Vector3 movement)
         {
 
             if (topicMessage.smoothMove)
@@ -115,7 +107,7 @@ namespace ummisco.gama.unity.topics
             //rb.Sleep ();
         }
 
-        public override void setAllProperties(object args)
+        public override void SetAllProperties(object args)
         {
             object[] obj = (object[])args;
             this.topicMessage = (MoveTopicMessage)obj[0];

@@ -1,12 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using ummisco.gama.unity.messages;
-using ummisco.gama.unity.utils;
 using System.Reflection;
-using System.Linq;
-using System;
-using System.Xml;
 using ummisco.gama.unity.utils.converter;
 
 namespace ummisco.gama.unity.topics
@@ -15,7 +9,7 @@ namespace ummisco.gama.unity.topics
     {
         public MonoFreeTopicMessage topicMessage;
 
-        public MonoFreeTopic(TopicMessage currentMsg, GameObject gameObj) : base(gameObj)
+        public MonoFreeTopic(GameObject gameObj) : base(gameObj)
         {
 
         }
@@ -34,10 +28,10 @@ namespace ummisco.gama.unity.topics
 
         public void ProcessTopic(object obj)
         {
-            setAllProperties(obj);
+            SetAllProperties(obj);
 
             BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-            MethodInfo[] info = getMethodsInfo(flags);
+            MethodInfo[] info = GetMethodsInfo(flags);
 
             for (int i = 0; i < info.Length; i++)
             {
@@ -53,13 +47,13 @@ namespace ummisco.gama.unity.topics
 
             if (targetGameObject != null)
             {
-                sendTopic(targetGameObject, (string)topicMessage.methodName, (string)topicMessage.attribute);
+                SendTopic(targetGameObject, (string)topicMessage.methodName, (string)topicMessage.attribute);
             }
         }
 
         // The method to call Game Objects methods
         //----------------------------------------
-        public void sendTopic(GameObject targetGameObject, string methodName, string attributeValue)
+        public void SendTopic(GameObject targetGameObject, string methodName, string attributeValue)
         {
             MethodInfo methInfo = targetGameObject.GetComponent(scripts[0].GetType()).GetType().GetMethod(methodName);
             ParameterInfo[] parameter = methInfo.GetParameters();
@@ -67,7 +61,7 @@ namespace ummisco.gama.unity.topics
             targetGameObject.SendMessage(methodName, ConvertType.convertParameter(obj, parameter[0]));
         }
 
-        public override void setAllProperties(object args)
+        public override void SetAllProperties(object args)
         {
             object[] obj = (object[])args;
             this.topicMessage = (MonoFreeTopicMessage)obj[0];
@@ -77,7 +71,7 @@ namespace ummisco.gama.unity.topics
         /*
 		public void ProcessTopic (object obj)
 		{
-			setAllProperties (obj);
+			SetAllProperties (obj);
 
 			BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
 			MethodInfo[] info = getMethodsInfo (flags);

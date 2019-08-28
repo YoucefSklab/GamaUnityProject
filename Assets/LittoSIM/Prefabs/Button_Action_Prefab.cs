@@ -13,9 +13,9 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
         public string button_icon;
         public string type;
         public Vector3 position;
-        public Boolean isOn = false;
-        public bool isButtonActivated = false;
-        public bool OnOffButton = false;
+        public Boolean isOn;
+        public bool isButtonActivated;
+        public bool OnOffButton;
         public string species = "";
 
         private void Start()
@@ -69,7 +69,7 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
             rt.sizeDelta = new Vector2(Config.BUTTON_SIZE/10, Config.BUTTON_SIZE/10);
         }
         
-        public void onAddButtonClicked()
+        public void OnAddButtonClicked()
         {
             if(OnOffButton)
             if (isButtonActivated)
@@ -98,11 +98,9 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
             if (!isOn)
             {
                 GameObject showTooltip = GameObject.Find("ActionButtonTooltipView");
-                string lng = "";
-
-                if (ILangue.current_langue.TryGetValue(this.button_help_message, out lng))
+                if (ILangue.current_langue.TryGetValue(this.button_help_message, out string lng))
                 {
-                    GameObject.Find("action_help_message").GetComponent<Text>().text = "  "+lng;
+                    GameObject.Find("action_help_message").GetComponent<Text>().text = "  " + lng;
                 }
                 else
                 {

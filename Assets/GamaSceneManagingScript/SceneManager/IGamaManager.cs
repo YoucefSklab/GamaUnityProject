@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ummisco.gama.unity.Scene
 {
-    public class IGamaManager
+    public static class IGamaManager
     {
         //Object's names'
         public const string GAMA_MANAGER= "GamaManager";
@@ -49,10 +49,6 @@ namespace ummisco.gama.unity.Scene
 
         public const string CSVREADER = "CSVReader";
 
-        public IGamaManager()
-        {
-
-        }
-
+       
     }
 }

@@ -1,14 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using ummisco.gama.unity.messages;
-using ummisco.gama.unity.utils;
-using System.Reflection;
-using System.Linq;
-using System;
-using System.Xml;
-
-
 
 namespace ummisco.gama.unity.topics
 {
@@ -17,7 +8,7 @@ namespace ummisco.gama.unity.topics
 
         public ColorTopicMessage topicMessage;
 
-        private static ColorTopic m_Instance = null;
+        private static ColorTopic m_Instance;
 
         public static ColorTopic Instance { get { return m_Instance; } }
 
@@ -26,7 +17,7 @@ namespace ummisco.gama.unity.topics
             if (m_Instance == null) m_Instance = this;
         }
 
-        public ColorTopic(TopicMessage currentMsg, GameObject gameObj) : base(gameObj)
+        public ColorTopic(GameObject gameObj) : base(gameObj)
         {
 
         }
@@ -46,20 +37,20 @@ namespace ummisco.gama.unity.topics
 
         public void ProcessTopic(object obj)
         {
-            setAllProperties(obj);
-            sendTopic();
+            SetAllProperties(obj);
+            SendTopic();
         }
 
         // The method to call Game Objects methods
         //----------------------------------------
-        public void sendTopic()
+        public void SendTopic()
         {
             targetGameObject.GetComponent<Renderer>().material.color = new Color(topicMessage.red, topicMessage.green, topicMessage.blue);  // Tools.stringToColor (color);
             Debug.Log("The color is : " + topicMessage.red + " - " + topicMessage.green + " - " + topicMessage.blue);
 
         }
 
-        public override void setAllProperties(object args)
+        public override void SetAllProperties(object args)
         {
             object[] obj = (object[])args;
             this.topicMessage = (ColorTopicMessage)obj[0];

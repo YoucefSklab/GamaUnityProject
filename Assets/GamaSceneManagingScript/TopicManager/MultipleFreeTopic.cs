@@ -1,11 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using ummisco.gama.unity.messages;
-using ummisco.gama.unity.utils;
-using System.Reflection;
-using System.Linq;
-using System;
 using System.Xml;
 
 namespace ummisco.gama.unity.topics
@@ -37,10 +32,10 @@ namespace ummisco.gama.unity.topics
 		public void ProcessTopic (object obj)
 		{
 
-			setAllProperties (obj);
+			SetAllProperties (obj);
 
-			BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-			MethodInfo[] info = getMethodsInfo (flags);
+			//BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+			//MethodInfo[] info = GetMethodsInfo (flags);
 
             /*
 			for (int i = 0; i < info.Length; i++) {
@@ -76,21 +71,21 @@ namespace ummisco.gama.unity.topics
 					dataDictionary.Add (atr, vl);
 				}
 
-				sendTopic (targetGameObject, (string)topicMessage.methodName, dataDictionary);
+				SendTopic (targetGameObject, (string)topicMessage.methodName, dataDictionary);
 
 			} 
 		}
 
 		// The method to call Game Objects methods
 		//----------------------------------------
-		public void sendTopic (GameObject targetGameObject, string methodName, Dictionary<object, object> data)
+		public void SendTopic (GameObject targetGameObject, string methodName, Dictionary<object, object> data)
 		{
 
-			int size = data.Count;
+			
 			List<object> keyList = new List<object> (data.Keys);
 
-			MethodInfo methInfo = targetGameObject.GetComponent (scripts[0].GetType ()).GetType ().GetMethod (methodName);
-			ParameterInfo[] parameter = methInfo.GetParameters ();
+			//MethodInfo methInfo = targetGameObject.GetComponent (scripts[0].GetType ()).GetType ().GetMethod (methodName);
+			//ParameterInfo[] parameter = methInfo.GetParameters ();
 
 			int nbr = 0;
 			obj  = new object[keyList.Count];
@@ -106,10 +101,10 @@ namespace ummisco.gama.unity.topics
 		}
 
 
-		public override void setAllProperties (object args)
+		public override void SetAllProperties (object args)
 		{
-			object[] obj = (object[])args;
-			this.topicMessage = (MultipleFreeTopicMessage)obj [0];
+			object[] objArgs = (object[])args;
+			this.topicMessage = (MultipleFreeTopicMessage)objArgs[0];
 			this.targetGameObject = (GameObject)obj [1];
 		}
 

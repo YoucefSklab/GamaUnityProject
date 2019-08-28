@@ -8,10 +8,10 @@ using ummisco.gama.unity.utils.converter;
 [RequireComponent(typeof (MeshRenderer))]
 public class CubeGenerator : MonoBehaviour {
 
-    public int intVar = 0;
-    public string stringVar = "";
-    public float floatVar = 0.0f;
-    public bool boolVar = false;
+    public int intVar;
+    public string stringVar;
+    public float floatVar;
+    public bool boolVar;
 
 
     private Rigidbody rb;
@@ -22,26 +22,22 @@ public class CubeGenerator : MonoBehaviour {
     public List<UIVertex> pList = new List<UIVertex>();
     public Material pMat;
 
-    public MapBuilder mapBuilder ; //= new MapBuilder();
-
-	GameObject objectTest;
+    public MapBuilder mapBuilder ; 
 
 
-	Boolean isMove = false;
+
+
+    Boolean isMove;
 
 	void Start () {
-
-        
-        
-
 
     }
 
     [Obsolete]
-    private void SetPolygonShape(string name)
+    private void SetPolygonShape(string objectName)
     {
 
-        GameObject ob = GameObject.Find(name);
+        GameObject ob = GameObject.Find(objectName);
 
         ob.AddComponent<MeshFilter>();
         ob.AddComponent<MeshRenderer>();
@@ -108,13 +104,14 @@ public class CubeGenerator : MonoBehaviour {
     }
 
 
-    private GameObject CreateCube (string name) {
+    private GameObject CreateCube (string objectName) {
 
-		GameObject ob = new GameObject(name);
+        GameObject ob = new GameObject()
+        {
+            name = objectName
+        };
 
-		ob.name = name;
-
-		ob.AddComponent<MeshFilter>();
+        ob.AddComponent<MeshFilter>();
 		ob.AddComponent<MeshRenderer>();
 		//ob.AddComponent<Rigidbody>();
 		//ob.AddComponent<BoxCollider>();
@@ -160,52 +157,33 @@ public class CubeGenerator : MonoBehaviour {
 		mesh.triangles = triangles;
 		//mesh.Optimize ();
 		mesh.RecalculateNormals ();
-
-
+        
 		ob.GetComponent<MeshFilter>().mesh = mesh;
-
-
-		return ob;
+        return ob;
 	}
-
-
-
+       
 	void FixedUpdate ()
 	{
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
-
-		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
+        		
 	//	rb.AddForce (movement * 20);
 	//	rb.MovePosition (movement);
 	//	transform.position = new Vector3 (moveHorizontal, 0.0f, moveVertical+1);
 
 		if (isMove) {
 			//transform.position = new Vector3 (moveHorizontal+3, 0.0f, moveVertical+4);
-			moveToPosition (moveHorizontal+20,  0.0f, moveVertical+18, 10);
+			MoveToPosition (moveHorizontal+20,  0.0f, moveVertical+18, 10);
 			isMove = false;
 		}
-
 	}
-
-	public void UpdatePosition (float moveHorizontal, float moveVertical)
-	{
-		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-		//rb.AddForce (movement * speed);
-		//rb.MovePosition (movement);
-	}
-
-
+      
 	public void OnMoveEvent()
 	{
 		Debug.Log("OnMove called.");
 	}
 
-
-
-
-
-	public void moveToPosition (float xDir, float yDir, float zDir, int speed)
+    public void MoveToPosition (float xDir, float yDir, float zDir, int speed)
 	{
 
 		//Store start position to move from, based on objects current transform position.
@@ -213,8 +191,6 @@ public class CubeGenerator : MonoBehaviour {
 
 		// Calculate end position based on the direction parameters passed in when calling Move.
 		Vector3 end = start + new Vector3 (xDir, yDir, zDir);
-
-		Vector3 movement = new Vector3 (xDir, yDir, zDir);
 
 		//rb.AddForce (movement * speed);
 
@@ -227,9 +203,7 @@ public class CubeGenerator : MonoBehaviour {
 		//Calculate the remaining distance to move based on the square magnitude of the difference between current position and end parameter. 
 		//Square magnitude is used instead of magnitude because it's computationally cheaper.
 		float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
-
-	
-
+        
 		inverseMoveTime = 100f;
 
 		//While that distance is greater than a very small amount (Epsilon, almost zero):
@@ -251,13 +225,9 @@ public class CubeGenerator : MonoBehaviour {
 			//Return and loop until sqrRemainingDistance is close enough to zero to end the function
 			yield return null;
 		}
-
 		rb.position = end;
 		rb.velocity = Vector3.zero;
 		rb.angularVelocity = Vector3.zero;
-
-
-
 	}
 
 }

@@ -93,7 +93,7 @@ namespace ummisco.gama.unity.Scene
             sceneManager = GameObject.Find(IMQTTConnector.SCENE_MANAGER).GetComponent<SceneManager>();
             connector = GameObject.Find(IMQTTConnector.MQTT_CONNECTOR).GetComponent<MQTTConnector>();
             connector.Connect();
-            connector.initTopics();
+            connector.InitTopics();
             connector.Subscribe("littosim");
 
             agentCreator = GameObject.Find("AgentCreator");
@@ -112,9 +112,9 @@ namespace ummisco.gama.unity.Scene
         {                   
 
             // if(readMessage)
-            while (connector.hasNextMessage())
+            while (connector.HasNextMessage())
             {
-                MqttMsgPublishEventArgs e = connector.getNextMessage();
+                MqttMsgPublishEventArgs e = connector.GetNextMessage();
                 /*
                 if (!IMQTTConnector.getTopicsInList().Contains(e.Topic))
                 {
@@ -149,7 +149,7 @@ namespace ummisco.gama.unity.Scene
                         //------------------------------------------------------------------------------
                         //  Debug.Log(totalAgents+ "  -> Topic to deal with is : " + IMQTTConnector.MAIN_TOPIC);
                        
-                        UnityAgent unityAgent = (UnityAgent)MsgSerialization.deserialization(receivedMsg, new UnityAgent());
+                        UnityAgent unityAgent = (UnityAgent)MsgSerialization.FromXML(receivedMsg, new UnityAgent());
                         Agent agent = unityAgent.GetAgent();
 
                         switch (agent.species)
@@ -200,7 +200,7 @@ namespace ummisco.gama.unity.Scene
                     case IMQTTConnector.MONO_FREE_TOPIC:
                         //------------------------------------------------------------------------------
                         Debug.Log("-> Topic to deal with is : " + IMQTTConnector.MONO_FREE_TOPIC);
-                        MonoFreeTopicMessage monoFreeTopicMessage = (MonoFreeTopicMessage)MsgSerialization.deserialization(receivedMsg, new MonoFreeTopicMessage());
+                        MonoFreeTopicMessage monoFreeTopicMessage = (MonoFreeTopicMessage)MsgSerialization.FromXML(receivedMsg, new MonoFreeTopicMessage());
                         targetGameObject = GameObject.Find(monoFreeTopicMessage.objectName);
                         obj = new object[] { monoFreeTopicMessage, targetGameObject };
 
@@ -217,7 +217,7 @@ namespace ummisco.gama.unity.Scene
                         //------------------------------------------------------------------------------
                         Debug.Log("-> Topic to deal with is : " + IMQTTConnector.MULTIPLE_FREE_TOPIC);
 
-                        MultipleFreeTopicMessage multipleFreetopicMessage = (MultipleFreeTopicMessage)MsgSerialization.deserialization(receivedMsg, new MultipleFreeTopicMessage());
+                        MultipleFreeTopicMessage multipleFreetopicMessage = (MultipleFreeTopicMessage)MsgSerialization.FromXML(receivedMsg, new MultipleFreeTopicMessage());
                         targetGameObject = GameObject.Find(multipleFreetopicMessage.objectName);
                         obj = new object[] { multipleFreetopicMessage, targetGameObject };
 
@@ -234,7 +234,7 @@ namespace ummisco.gama.unity.Scene
                         //------------------------------------------------------------------------------
                         Debug.Log("-> Topic to deal with is : " + IMQTTConnector.POSITION_TOPIC);
 
-                        PositionTopicMessage positionTopicMessage = (PositionTopicMessage)MsgSerialization.deserialization(receivedMsg, new PositionTopicMessage());
+                        PositionTopicMessage positionTopicMessage = (PositionTopicMessage)MsgSerialization.FromXML(receivedMsg, new PositionTopicMessage());
                         targetGameObject = GameObject.Find(positionTopicMessage.objectName);
                         obj = new object[] { positionTopicMessage, targetGameObject };
 
@@ -255,7 +255,7 @@ namespace ummisco.gama.unity.Scene
                         //------------------------------------------------------------------------------
                         Debug.Log("-> Topic to deal with is : " + IMQTTConnector.MOVE_TOPIC);
                         Debug.Log("-> the message is : " + receivedMsg);
-                        MoveTopicMessage moveTopicMessage = (MoveTopicMessage)MsgSerialization.deserialization(receivedMsg, new MoveTopicMessage());
+                        MoveTopicMessage moveTopicMessage = (MoveTopicMessage)MsgSerialization.FromXML(receivedMsg, new MoveTopicMessage());
                         Debug.Log("-> the position to move to is : " + moveTopicMessage.position);
                         Debug.Log("-> the speed is : " + moveTopicMessage.speed);
                         Debug.Log("-> the object to move is : " + moveTopicMessage.objectName);
@@ -275,7 +275,7 @@ namespace ummisco.gama.unity.Scene
                         //------------------------------------------------------------------------------
                         Debug.Log("-> Topic to deal with is : " + IMQTTConnector.COLOR_TOPIC);
 
-                        ColorTopicMessage colorTopicMessage = (ColorTopicMessage)MsgSerialization.deserialization(receivedMsg, new ColorTopicMessage());
+                        ColorTopicMessage colorTopicMessage = (ColorTopicMessage)MsgSerialization.FromXML(receivedMsg, new ColorTopicMessage());
                         targetGameObject = GameObject.Find(colorTopicMessage.objectName);
                         obj = new object[] { colorTopicMessage, targetGameObject };
 
@@ -294,7 +294,7 @@ namespace ummisco.gama.unity.Scene
                         Debug.Log("-> Topic to deal with is : " + IMQTTConnector.GET_TOPIC);
                         string value = null;
 
-                        GetTopicMessage getTopicMessage = (GetTopicMessage)MsgSerialization.deserialization(receivedMsg, new GetTopicMessage());
+                        GetTopicMessage getTopicMessage = (GetTopicMessage)MsgSerialization.FromXML(receivedMsg, new GetTopicMessage());
                         targetGameObject = GameObject.Find(getTopicMessage.objectName);
 
 
@@ -314,7 +314,7 @@ namespace ummisco.gama.unity.Scene
                         //------------------------------------------------------------------------------
                         Debug.Log("-> Topic to deal with is : " + IMQTTConnector.SET_TOPIC);
 
-                        SetTopicMessage setTopicMessage = (SetTopicMessage)MsgSerialization.deserialization(receivedMsg, new SetTopicMessage());
+                        SetTopicMessage setTopicMessage = (SetTopicMessage)MsgSerialization.FromXML(receivedMsg, new SetTopicMessage());
                         // Debug.Log("-> Target game object name: " + setTopicMessage.objectName);
                         Debug.Log("-> Message: " + receivedMsg);
                         targetGameObject = GameObject.Find(setTopicMessage.objectName);
@@ -343,7 +343,7 @@ namespace ummisco.gama.unity.Scene
                             Debug.Log("Error : " + er.Message);
                         }
 
-                        PropertyTopicMessage propertyTopicMessage = (PropertyTopicMessage)MsgSerialization.deserialization(receivedMsg, new PropertyTopicMessage());
+                        PropertyTopicMessage propertyTopicMessage = (PropertyTopicMessage)MsgSerialization.FromXML(receivedMsg, new PropertyTopicMessage());
                         Debug.Log("-> Target game object name: " + propertyTopicMessage.objectName);
                         targetGameObject = GameObject.Find(propertyTopicMessage.objectName);
 
@@ -363,7 +363,7 @@ namespace ummisco.gama.unity.Scene
                         //------------------------------------------------------------------------------
                         Debug.Log("-> Topic to deal with is : " + IMQTTConnector.CREATE_TOPIC);
                         // Debug.Log("-> Message: " + receivedMsg);
-                        CreateTopicMessage createTopicMessage = (CreateTopicMessage)MsgSerialization.deserialization(receivedMsg, new CreateTopicMessage());
+                        CreateTopicMessage createTopicMessage = (CreateTopicMessage)MsgSerialization.FromXML(receivedMsg, new CreateTopicMessage());
                         obj = new object[] { createTopicMessage };
 
                         GameObject.Find(IMQTTConnector.CREATE_TOPIC_MANAGER).GetComponent(IMQTTConnector.CREATE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
@@ -373,7 +373,7 @@ namespace ummisco.gama.unity.Scene
                         //------------------------------------------------------------------------------
                         Debug.Log("-> Topic to deal with is : " + IMQTTConnector.DESTROY_TOPIC);
 
-                        DestroyTopicMessage destroyTopicMessage = (DestroyTopicMessage)MsgSerialization.deserialization(receivedMsg, new DestroyTopicMessage());
+                        DestroyTopicMessage destroyTopicMessage = (DestroyTopicMessage)MsgSerialization.FromXML(receivedMsg, new DestroyTopicMessage());
                         obj = new object[] { destroyTopicMessage };
 
                         if (topicGameObject == null)
@@ -389,7 +389,7 @@ namespace ummisco.gama.unity.Scene
                         //------------------------------------------------------------------------------
                         Debug.Log("-> Topic to deal with is : " + IMQTTConnector.NOTIFICATION_TOPIC);
 
-                        NotificationTopicMessage notificationTopicMessage = (NotificationTopicMessage)MsgSerialization.deserialization(receivedMsg, new NotificationTopicMessage());
+                        NotificationTopicMessage notificationTopicMessage = (NotificationTopicMessage)MsgSerialization.FromXML(receivedMsg, new NotificationTopicMessage());
                         obj = new object[] { notificationTopicMessage };
 
 
@@ -439,7 +439,7 @@ namespace ummisco.gama.unity.Scene
         public void SendGotBoxMsg()
         {
             GamaReponseMessage msg = new GamaReponseMessage(connector.clientId, "GamaAgent", "Got a Box notification", DateTime.Now.ToString());
-            string message = MsgSerialization.msgSerialization(msg);
+            string message = MsgSerialization.ToXML(msg);
             connector.Publish("Gama", message);
         }
 
@@ -447,7 +447,7 @@ namespace ummisco.gama.unity.Scene
         public void SendReplay(string sender, string receiver, string fieldName, string fieldValue)
         {
             ReplayMessage msg = new ReplayMessage(sender, receiver, "content not set", fieldName, fieldValue, DateTime.Now.ToString());
-            string message = MsgSerialization.serialization(msg);
+            string message = MsgSerialization.ToXML(msg);
             connector.Publish(IMQTTConnector.REPLAY_TOPIC, message);
         }
 
@@ -488,7 +488,7 @@ namespace ummisco.gama.unity.Scene
         public string GetReplayNotificationMessage(NotificationEntry el)
         {
             NotificationMessage msg = new NotificationMessage("Unity", el.agentId, "Contents Not set", DateTime.Now.ToString(), el.notificationId);
-            string message = MsgSerialization.serializationPlainXml(msg);
+            string message = MsgSerialization.SerializationPlainXml(msg);
             return message;
         }
              

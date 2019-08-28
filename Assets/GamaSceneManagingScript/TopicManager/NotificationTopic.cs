@@ -3,7 +3,6 @@ using UnityEngine;
 using ummisco.gama.unity.messages;
 using ummisco.gama.unity.GamaConcepts;
 using System.Reflection;
-using System.Linq;
 using System;
 using System.Xml;
 using ummisco.gama.unity.notification;
@@ -31,69 +30,70 @@ namespace ummisco.gama.unity.topics
         // Update is called once per frame
         public override void Update()
         {
-            if(1==2)
-            if (NotificationRegistry.notificationsList.Count >= 1)
-            {
-                foreach (NotificationEntry el in NotificationRegistry.notificationsList)
+             /*
+                if (NotificationRegistry.notificationsList.Count >= 1)
                 {
-                    if (!el.notify && !el.isSent)
+                    foreach (NotificationEntry el in NotificationRegistry.notificationsList)
                     {
-                        switch (el.fieldType)
+                        if (!el.notify && !el.isSent)
                         {
-                            case IGamaConcept.ITEM_FIELD:
-                                Debug.Log("Check for field notification");
-                                if (isFieldNotification(el))
-                                {
-                                    Debug.Log("------->>  Yes you have to send  a field notification");
-                                    el.notify = true;
-                                }
-                                else
-                                {
+                            switch (el.fieldType)
+                            {
+                                case IGamaConcept.ITEM_FIELD:
+                                    Debug.Log("Check for field notification");
+                                    if (IsFieldNotification(el))
+                                    {
+                                        Debug.Log("------->>  Yes you have to send  a field notification");
+                                        el.notify = true;
+                                    }
+                                    else
+                                    {
 
-                                    //Debug.Log ("------->>  Sorry, No need to send notification");
-                                }
-                                break;
-                            case IGamaConcept.ITEM_PROPERTY:
+                                        //Debug.Log ("------->>  Sorry, No need to send notification");
+                                    }
+                                    break;
+                                case IGamaConcept.ITEM_PROPERTY:
 
-                                Debug.Log("Check for propety notification with id: " + el.notificationId + " and name : " + el.fieldName);
+                                    Debug.Log("Check for propety notification with id: " + el.notificationId + " and name : " + el.fieldName);
 
-                                if (isPropertyNotification(el))
-                                {
-                                    Debug.Log("------->>  Yes you have to send a property notification");
-                                    el.notify = true;
-                                }
-                                else
-                                {
+                                    if (isPropertyNotification(el))
+                                    {
+                                        Debug.Log("------->>  Yes you have to send a property notification");
+                                        el.notify = true;
+                                    }
+                                    else
+                                    {
 
-                                    //Debug.Log ("------->>  Sorry, No need to send notification");
-                                }
+                                        //Debug.Log ("------->>  Sorry, No need to send notification");
+                                    }
 
-                                //Debug.Log ("Property notification");
-                                break;
-                            default:
+                                    //Debug.Log ("Property notification");
+                                    break;
+                                default:
 
-                                break;
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            if (!el.isSent)
+                                Debug.Log("Notification " + el.notificationId + " should have been sent!");
                         }
                     }
-                    else
-                    {
-                        if (!el.isSent)
-                            Debug.Log("Notification " + el.notificationId + " should have been sent!");
-                    }
                 }
-            }
+                */
         }
 
         public void ProcessTopic(object obj)
         {
-            setAllProperties(obj);
+            SetAllProperties(obj);
 
             NotificationEntry notif = new NotificationEntry(topicMessage.notificationId, topicMessage.objectName, topicMessage.fieldType, topicMessage.fieldName, topicMessage.fieldValue, topicMessage.fieldOperator, topicMessage.sender);
             NotificationRegistry.addToList(notif);
 
         }
 
-        public Boolean isFieldNotification(NotificationEntry entry)
+        public Boolean IsFieldNotification(NotificationEntry entry)
         {
             GameObject targetGameObject = GameObject.Find(entry.objectName);
             scripts = targetGameObject.GetComponents<MonoBehaviour>();
@@ -154,10 +154,10 @@ namespace ummisco.gama.unity.topics
             return false;
         }
 
-        public Boolean isPropertyNotification(NotificationEntry entry)
+        public Boolean IsPropertyNotification(NotificationEntry entry)
         {
             GameObject targetGameObject = GameObject.Find(entry.objectName);
-            Component[] cs = (Component[])targetGameObject.GetComponents(typeof(Component));
+            //Component[] cs = (Component[])targetGameObject.GetComponents(typeof(Component));
 
             Debug.Log("Check in isPropertyNotification for propety notification");
             if (entry.fieldName.Equals(IGamaConcept.ITEM_POSITION)) //TODO: to review this and make it work with  all king of properties 
@@ -255,12 +255,9 @@ namespace ummisco.gama.unity.topics
 
         // The method to call Game Objects methods
         //----------------------------------------
-        public void sendTopic(GameObject targetGameObject, Dictionary<object, object> data)
+        public void SendTopic(GameObject targetGameObject, Dictionary<object, object> data)
         {
-            int size = data.Count;
-            List<object> keyList = new List<object>(data.Keys);
-            object obj = data[keyList.ElementAt(0)];
-
+            
             FieldInfo[] fieldInfoSet = targetGameObject.GetComponent(scripts[0].GetType()).GetType().GetFields();
 
             foreach (KeyValuePair<object, object> pair in data)
@@ -276,7 +273,7 @@ namespace ummisco.gama.unity.topics
             }
         }
 
-        public override void setAllProperties(object args)
+        public override void SetAllProperties(object args)
         {
             object[] obj = (object[])args;
             this.topicMessage = (NotificationTopicMessage)obj[0];

@@ -1,24 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
-using System.Diagnostics;
+﻿using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
-using System;
+
 
 
 namespace ummisco.gama.unity.messages
 {
-    public class MsgSerialization
+    public static class MsgSerialization
     {
 
-        public MsgSerialization()
-        {
-
-        }
-
-        public static TopicMessage msgDeserialization(string aciResponseData)
+        public static TopicMessage FromXML(string aciResponseData)
         {
             TopicMessage msg;
             using (TextReader sr = new StringReader(aciResponseData))
@@ -31,7 +22,7 @@ namespace ummisco.gama.unity.messages
         }
 
 
-        public static SetTopicMessage desSetTopicMsg(string aciResponseData)
+        public static SetTopicMessage SesSetTopicMsg(string aciResponseData)
         {
             SetTopicMessage msg;
             using (TextReader sr = new StringReader(aciResponseData))
@@ -43,7 +34,7 @@ namespace ummisco.gama.unity.messages
             return msg;
         }
 
-        public static object deserialization(string aciResponseData, object classDeserialization)
+        public static object FromXML(string aciResponseData, object classDeserialization)
         {
             object msg;
             using (TextReader sr = new StringReader(aciResponseData))
@@ -56,7 +47,7 @@ namespace ummisco.gama.unity.messages
             return msg;
         }
 
-        public static ItemAttributes msgItemDeserialization(string aciResponseData)
+        public static ItemAttributes MsgItemDeserialization(string aciResponseData)
         {
             ItemAttributes msg;
             using (TextReader sr = new StringReader(aciResponseData))
@@ -68,7 +59,7 @@ namespace ummisco.gama.unity.messages
             return msg;
         }
 
-        public static string getMsgAttribute(string aciResponseData, string att)
+        public static string FromXML(string aciResponseData, string att)
         {
             using (TextReader sr = new StringReader(aciResponseData))
             {
@@ -93,12 +84,14 @@ namespace ummisco.gama.unity.messages
         }
 
 
-        public static string msgSerialization(GamaReponseMessage msgResponseData)
+        public static string ToXML(GamaReponseMessage msgResponseData)
         {
             XmlSerializer serializer = new XmlSerializer(msgResponseData.GetType());
-            var settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.OmitXmlDeclaration = true;
+            var settings = new XmlWriterSettings
+            {
+                Indent = true,
+                OmitXmlDeclaration = true
+            };
 
             using (var stream = new StringWriter())
             using (var writer = XmlWriter.Create(stream, settings))
@@ -118,7 +111,7 @@ namespace ummisco.gama.unity.messages
         }
 
 
-        public static string serialization(object msgResponseData)
+        public static string ToXML(object msgResponseData)
         {
 
             XmlSerializer serializer = new XmlSerializer(msgResponseData.GetType());
@@ -132,32 +125,27 @@ namespace ummisco.gama.unity.messages
             }
         }
 
-        public static string serializationPlainXml(object msgResponseData)
+        public static string SerializationPlainXml(object msgResponseData)
         {
 
             XmlSerializer serializer = new XmlSerializer(msgResponseData.GetType());
-            var settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.OmitXmlDeclaration = true;
+            var settings = new XmlWriterSettings
+            {
+                Indent = true,
+                OmitXmlDeclaration = true
+            };
 
             using (var stream = new StringWriter())
             using (var writer = XmlWriter.Create(stream, settings))
-            {           //using (StringWriter writer = new StringWriter ()) 
-
+            {
+                //using (StringWriter writer = new StringWriter ()) 
                 // removes namespace
                 var xmlns = new XmlSerializerNamespaces();
                 xmlns.Add(string.Empty, string.Empty);
 
-
                 serializer.Serialize(writer, msgResponseData, xmlns);
                 return stream.ToString();
-
-                //return writer.ToString ();
             }
         }
-
-
-
     }
-
 }

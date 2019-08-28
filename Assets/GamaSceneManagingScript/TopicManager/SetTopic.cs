@@ -37,7 +37,7 @@ namespace ummisco.gama.unity.topics
 
         public void ProcessTopic(object obj)
         {
-            setAllProperties(obj);
+            SetAllProperties(obj);
 
             if (targetGameObject != null)
             {
@@ -64,20 +64,14 @@ namespace ummisco.gama.unity.topics
                 }
                 dataDictionary.Add(atr, vl);
 
-                sendTopic(targetGameObject, dataDictionary);
+                SendTopic(targetGameObject, dataDictionary);
             }
         }
 
         // The method to call Game Objects methods
         //----------------------------------------
-        public void sendTopic(GameObject targetGameObject, Dictionary<object, object> data)
+        public void SendTopic(GameObject targetGameObject, Dictionary<object, object> data)
         {
-
-            int size = data.Count;
-
-            List<object> keyList = new List<object>(data.Keys);
-            object obj = data[keyList.ElementAt(0)];
-
             FieldInfo[] fieldInfoSet = targetGameObject.GetComponent(scripts[0].GetType()).GetType().GetFields();
 
             foreach (KeyValuePair<object, object> pair in data)
@@ -160,7 +154,7 @@ namespace ummisco.gama.unity.topics
             }
         }
 
-        public override void setAllProperties(object args)
+        public override void SetAllProperties(object args)
         {
             object[] obj = (object[])args;
             this.topicMessage = (SetTopicMessage)obj[0];

@@ -19,7 +19,7 @@ namespace ummisco.gama.unity.topics
     {
         public PositionTopicMessage topicMessage;
 
-        public PositionTopic(TopicMessage currentMsg, GameObject gameObj) : base(gameObj)
+        public PositionTopic(GameObject gameObj) : base(gameObj)
         {
 
         }
@@ -38,24 +38,24 @@ namespace ummisco.gama.unity.topics
 
         public void ProcessTopic(object obj)
         {
-            setAllProperties(obj);
+            SetAllProperties(obj);
 
             if (targetGameObject != null)
             {
                 Vector3 position = topicMessage.position.toVector3D();
 
-                sendTopic(position);
+                SendTopic(position);
             }
         }
 
         // The method to call Game Objects methods
         //----------------------------------------
-        public void sendTopic(Vector3 position)
+        public void SendTopic(Vector3 position)
         {
             targetGameObject.transform.position = position;
         }
 
-        public override void setAllProperties(object args)
+        public override void SetAllProperties(object args)
         {
             object[] obj = (object[])args;
             this.topicMessage = (PositionTopicMessage)obj[0];

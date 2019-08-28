@@ -182,11 +182,11 @@ public class MainScene : MonoBehaviour
 
             unityAgent.contents = contents;
 
-            string message = MsgSerialization.serialization(unityAgent);
+            string message = MsgSerialization.ToXML(unityAgent);
 
             Debug.Log("Message is " + message);
 
-            UnityAgent newAgent = (UnityAgent)MsgSerialization.deserialization(message, new UnityAgent());
+            UnityAgent newAgent = (UnityAgent)MsgSerialization.FromXML(message, new UnityAgent());
 
             Agent gamaAgent = newAgent.GetAgent();
 

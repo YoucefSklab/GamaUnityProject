@@ -16,17 +16,12 @@ namespace ummisco.gama.unity.littosim
 
         public Dictionary<string, Langue> langueDic = new Dictionary<string, Langue>();
 
-        public LangueManager()
-        {
-
-        }
-
         void Start()
         {
             ReadConfigFile();
             string lng = Config.LANGUAGE;
 
-            GameObject obj = null;
+            GameObject obj;
             obj = GameObject.Find(IGamaManager.CSV_READER);
             obj.GetComponent<CSVReader>().lng = lng;
             obj.SendMessage("loadCSVFile");
@@ -47,8 +42,7 @@ namespace ummisco.gama.unity.littosim
 
         public string GetLangueElementValue(Dictionary<string, Langue> dic, string elementName, string langue, string defaultName)
         {
-            Langue tempElement = null;
-            if (dic.TryGetValue(elementName, out tempElement))
+            if (dic.TryGetValue(elementName, out Langue tempElement))
             {
                 if (langue.Equals("fr"))
                 {
@@ -83,8 +77,7 @@ namespace ummisco.gama.unity.littosim
             string fileContent = csvParser.readDataIntoString(configFilePath);
 
             string[] lines = fileContent.Split("\n"[0]);
-            string allFile = "";
-
+           
             foreach (string line in lines)
             {
                 string[] splitString = line.Split(new string[] { ";" }, StringSplitOptions.None);
