@@ -47,7 +47,7 @@ public class Triangulate : MonoBehaviour
         triangulator.setPoints(vertices2D);
 
         poly = new GameObject("Poly_1");
-
+        poly.AddComponent(typeof(MeshFilter));
         poly.AddComponent(typeof(MeshRenderer));
         poly.GetComponent<MeshFilter>().mesh.Clear();
         poly.GetComponent<MeshFilter>().mesh = CreateMesh(10);

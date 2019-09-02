@@ -11,6 +11,8 @@ namespace ummisco.gama.unity.Scene
         public const string GAMA_MAIN_CAMERA = "MainCamera";
         public const string CSV_READER = "CSVReader";
 
+        public const string AGENT_CREATOR = "AgentCreator";
+
         public const string RESOURCES_PATH = "Assets/Resources/";
 
 

@@ -70,7 +70,7 @@ namespace ummisco.gama.unity.topics
 					}
 					dataDictionary.Add (atr, vl);
 				}
-
+               
 				SendTopic (targetGameObject, (string)topicMessage.methodName, dataDictionary);
 
 			} 
@@ -94,10 +94,9 @@ namespace ummisco.gama.unity.topics
 				nbr++;
 			}
 
-			//= data [keyList.ElementAt (0)];
-			targetGameObject.SendMessage (methodName, obj);
-
-		
+           
+             targetGameObject.SendMessage(methodName, obj);
+           
 		}
 
 
@@ -105,7 +104,7 @@ namespace ummisco.gama.unity.topics
 		{
 			object[] objArgs = (object[])args;
 			this.topicMessage = (MultipleFreeTopicMessage)objArgs[0];
-			this.targetGameObject = (GameObject)obj [1];
+			this.targetGameObject = (GameObject)objArgs[1];
 		}
 
 	}

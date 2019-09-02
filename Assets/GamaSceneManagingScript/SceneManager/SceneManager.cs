@@ -25,7 +25,7 @@ namespace ummisco.gama.unity.Scene
 
         public static void AddTag(string tag)
         {
-            Debug.Log(tag);
+            // Debug.Log(tag);
             // causes errors with build
             /*
             UnityEngine.Object[] asset = AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset");

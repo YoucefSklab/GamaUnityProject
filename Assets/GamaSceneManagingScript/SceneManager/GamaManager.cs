@@ -80,10 +80,11 @@ namespace ummisco.gama.unity.Scene
 
             new GameObject(IMQTTConnector.MQTT_CONNECTOR).AddComponent<MQTTConnector>();
             new GameObject(IMQTTConnector.SCENE_MANAGER).AddComponent<SceneManager>();
-
+            
             (mainTopicManager = new GameObject(IMQTTConnector.MAIN_TOPIC_MANAGER)).AddComponent<MainTopic>();
 
             new GameObject(IGamaManager.CSVREADER).AddComponent<CSVReader>().transform.SetParent(gamaManager.transform);
+            new GameObject(IGamaManager.AGENT_CREATOR).AddComponent<AgentCreator>();
 
         }
 
@@ -111,8 +112,7 @@ namespace ummisco.gama.unity.Scene
         public void HandleMessage()
         {                   
 
-            // if(readMessage)
-            while (connector.HasNextMessage())
+           while (connector.HasNextMessage())
             {
                 MqttMsgPublishEventArgs e = connector.GetNextMessage();
                 /*
@@ -147,7 +147,7 @@ namespace ummisco.gama.unity.Scene
                     //    break;
                     case IMQTTConnector.MAIN_TOPIC:
                         //------------------------------------------------------------------------------
-                        //  Debug.Log(totalAgents+ "  -> Topic to deal with is : " + IMQTTConnector.MAIN_TOPIC);
+                          Debug.Log("  -> Topic to deal with is : " + IMQTTConnector.MAIN_TOPIC);
                        
                         UnityAgent unityAgent = (UnityAgent)MsgSerialization.FromXML(receivedMsg, new UnityAgent());
                         Agent agent = unityAgent.GetAgent();
@@ -189,8 +189,10 @@ namespace ummisco.gama.unity.Scene
                                 }
                                 else
                                 {
+                                    Debug.Log("Generic Object creation ");
                                     obj = new object[] { unityAgent, targetGameObject };
-                                    mainTopicManager.GetComponent(IMQTTConnector.MAIN_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                                    mainTopicManager.GetComponent<MainTopic>().ProcessTopic(obj);
+                                    //mainTopicManager.GetComponent(IMQTTConnector.MAIN_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
                                 }
                                 break;
                         }

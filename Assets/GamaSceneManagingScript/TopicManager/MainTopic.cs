@@ -1,6 +1,7 @@
 using UnityEngine;
 using ummisco.gama.unity.GamaAgent;
 using ummisco.gama.unity.Network;
+using ummisco.gama.unity.geometry;
 
 namespace ummisco.gama.unity.topics
 {
@@ -10,6 +11,7 @@ namespace ummisco.gama.unity.topics
         public UnityAgent unityAgent;
         public GameObject newObject;
         public Color objectColor;
+
 
 
         public MainTopic(UnityAgent unityAgent, GameObject gameObj) : base(gameObj)
@@ -34,7 +36,7 @@ namespace ummisco.gama.unity.topics
         {
             SetAllProperties(obj);
             SendTopic();
-
+            Debug.Log("Topic processed");
         }
 
 
@@ -42,8 +44,29 @@ namespace ummisco.gama.unity.topics
         //----------------------------------------
         public void SendTopic()
         {
+            GameObject agentCreator = GameObject.Find("AgentCreator");
+            Agent agent = unityAgent.GetAgent();
+            
+            if(agent.geometry.Equals(IGeometry.POLYGON) || agent.geometry.Equals(IGeometry.Polygon))
+            {
+                agentCreator.GetComponent<AgentCreator>().CreateGenericPolygonAgent(agent, true, "Building", -40);
+            }
 
-            GameObject objectManager = getGameObjectByName(IMQTTConnector.GAMA_MANAGER_OBJECT_NAME, UnityEngine.Object.FindObjectsOfType<GameObject>());
+            if (agent.geometry.Equals(IGeometry.LINESTRING) || agent.geometry.Equals(IGeometry.LineString))
+            {
+                agentCreator.GetComponent<AgentCreator>().CreateGenericLineAgent(agent, true, 3f, "Road", -10);
+            }
+
+            if (agent.geometry.Equals(IGeometry.POINT) || agent.geometry.Equals(IGeometry.Point))
+            {
+                agentCreator.GetComponent<AgentCreator>().CreateGenericPointAgent(agent, 20f, "Road", -50);
+            }
+           
+
+
+
+
+            //GameObject objectManager = getGameObjectByName(IMQTTConnector.GAMA_MANAGER_OBJECT_NAME, UnityEngine.Object.FindObjectsOfType<GameObject>());
             //Debug.Log("The content is: " + topicMessage.contents.ToString());
 
             // Agent gamaAgent = UtilXml.getAgent((XmlNode[])topicMessage.contents);

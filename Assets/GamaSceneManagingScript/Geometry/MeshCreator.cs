@@ -19,6 +19,26 @@ namespace ummisco.gama.unity.geometry
             tri.setAllPoints(tri.Convert2dTo3dVertices());
             mesh.vertices = tri.VerticesWithElevation(elevation);
             mesh.triangles = tri.Triangulate3dMesh();
+    
+
+            // For Android Build
+            // Unwrapping.GenerateSecondaryUVSet(m);
+
+            mesh.RecalculateNormals();
+            mesh.RecalculateBounds();
+            // For Android Build
+            // MeshUtility.Optimize(m);
+            return mesh;
+        }
+
+
+        public Mesh CreateMesh2(float elevation, Vector2[] vect)
+        {
+            Mesh mesh = new Mesh();
+            Triangulator tri = new Triangulator(vect);
+            tri.setAllPoints(tri.Convert2dTo3dVertices());
+            mesh.vertices = tri.VerticesWithElevation(elevation);
+            mesh.triangles = tri.Triangulate3dMesh2();
 
             // For Android Build
             // Unwrapping.GenerateSecondaryUVSet(m);

@@ -76,7 +76,123 @@ public class AgentCreator : MonoBehaviour
         ApplicationContexte.addObjectToList(agent.species, newObject);
     }
 
-    
+
+    public void CreateGenericPolygonAgent(Agent agent, bool elevate, string tagName, float zAxis)
+    {
+        GameObject newObject = new GameObject(agent.agentName);
+        MeshRenderer meshRenderer = (MeshRenderer)newObject.AddComponent(typeof(MeshRenderer));
+        MeshFilter meshFilter = (MeshFilter)newObject.AddComponent(typeof(MeshFilter));
+        MeshCollider meshCollider = (MeshCollider)newObject.AddComponent<MeshCollider>();
+
+
+        Debug.Log("----> Agent's attributes are : " + agent.attributes.Count);
+
+        foreach (AgentAttribute a in agent.attributes)
+        {
+            Debug.Log("Attribute name is: " + a.name);
+        }
+
+        //newObject.GetComponent<Transform>().SetParent(parentTransform);
+        float elvation = elevate ? agent.height : 0;
+
+        meshFilter.mesh = meshCreator.CreateMesh2(elvation, agent.agentCoordinate.getVector2Coordinates());
+        //newObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(agent.height, agent.ConvertVertices());
+
+        meshFilter.mesh.name = "CustomMesh";
+        //newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(30, agent.ConvertVertices());
+  
+        Material mat = new Material(Shader.Find("Specular"));
+        //mat.color = agent.color.getColorFromGamaColor();
+        mat.color = Color.blue;
+        meshRenderer.material = mat;
+        meshCollider.sharedMesh = meshFilter.mesh;
+
+        Vector3 posi = agent.location;
+        posi.y = -posi.y;
+
+        //posi = uiManager.GetComponent<UIManager>().worldToUISpace(canvas, posi);
+
+        RectTransform rt = (newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
+
+        rt.anchorMin = new Vector2(0, 1);
+        rt.anchorMax = new Vector2(0, 1);
+        rt.pivot = new Vector2(0, 1);
+
+        newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
+        posi = newObject.GetComponent<RectTransform>().localPosition;
+        newObject.GetComponent<RectTransform>().localPosition = new Vector3(posi.x, posi.y, zAxis);
+
+        if (tagName != null)
+        {
+            newObject.tag = tagName;
+        }
+
+        //AttacheCode(newObject, speciesId, agent);
+
+        ApplicationContexte.addObjectToList(agent.species, newObject);
+    }
+
+
+    public void CreateGenericPointAgent(Agent agent, float height, string tagName, float zAxis)
+    {
+        
+        GameObject newObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        newObject.name = agent.agentName;
+        newObject.transform.localScale = new Vector3(height, height, height);
+
+        //MeshRenderer meshRenderer = (MeshRenderer)newObject.AddComponent(typeof(MeshRenderer));
+        //MeshFilter meshFilter = (MeshFilter)newObject.AddComponent(typeof(MeshFilter));
+        //MeshCollider meshCollider = (MeshCollider)newObject.AddComponent<MeshCollider>();
+
+        MeshFilter meshFilter = (MeshFilter)newObject.GetComponent<MeshFilter>();
+        MeshRenderer meshRenderer = (MeshRenderer)newObject.GetComponent<MeshRenderer>();
+        MeshCollider meshCollider = (MeshCollider)newObject.GetComponent<MeshCollider>();
+
+        //newObject.GetComponent<Transform>().SetParent(parentTransform);
+        float elvation = height;
+
+        //meshFilter.mesh = meshCreator.CreateMesh2(elvation, agent.agentCoordinate.getVector2Coordinates());
+        //newObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(agent.height, agent.ConvertVertices());
+
+        meshFilter.mesh.name = "CustomMesh";
+        //newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(30, agent.ConvertVertices());
+
+        Material mat = new Material(Shader.Find("Specular"));
+        //mat.color = agent.color.getColorFromGamaColor();
+        mat.color = Color.yellow;
+        meshRenderer.material = mat;
+        //meshCollider.sharedMesh = meshFilter.mesh;
+
+        Vector3 posi = agent.location;
+        posi.y = -posi.y;
+
+        /*
+        //posi = uiManager.GetComponent<UIManager>().worldToUISpace(canvas, posi);
+
+        RectTransform rt = (newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
+
+        rt.anchorMin = new Vector2(0, 1);
+        rt.anchorMax = new Vector2(0, 1);
+        rt.pivot = new Vector2(0, 1);
+
+        newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
+       // posi = newObject.GetComponent<RectTransform>().localPosition;
+        newObject.GetComponent<RectTransform>().localPosition = new Vector3(posi.x, posi.y, zAxis);
+        */
+
+        newObject.transform.localPosition = new Vector3(posi.x, posi.y, zAxis);
+
+        if (tagName != null)
+        {
+            newObject.tag = tagName;
+        }
+
+        //AttacheCode(newObject, speciesId, agent);
+
+        ApplicationContexte.addObjectToList(agent.species, newObject);
+    }
+
+
     public void CreateLineAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate, float lineWidth, string tagName, float zPosition)
     {
         GameObject newObject = new GameObject(agent.agentName);
@@ -100,6 +216,49 @@ public class AgentCreator : MonoBehaviour
         line.BakeMesh(mesh);
         meshFilter.sharedMesh = mesh;
        
+        RectTransform rt = newObject.AddComponent<RectTransform>(); //(newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
+
+        rt.anchorMin = new Vector2(0, 1);
+        rt.anchorMax = new Vector2(0, 1);
+        rt.pivot = new Vector2(0, 1);
+
+        rt.anchoredPosition = new Vector3(0, 0, 0);
+        Vector3 p = rt.localPosition;
+        rt.localPosition = new Vector3(p.x, p.y, zPosition);
+
+        if (tagName != null)
+        {
+            newObject.tag = tagName;
+        }
+        GameObject.Destroy(line);
+
+    }
+
+
+    public void CreateGenericLineAgent(Agent agent, bool elevate, float lineWidth, string tagName, float zPosition)
+    {
+        GameObject newObject = new GameObject(agent.agentName);
+        var meshFilter = newObject.AddComponent<MeshFilter>();
+        LineRenderer line = newObject.AddComponent<LineRenderer>();
+        Mesh mesh = new Mesh();
+        var meshRenderer = newObject.AddComponent<MeshRenderer>();
+        meshRenderer.sharedMaterial = lineMaterial;
+        Material mat = new Material(Shader.Find("Specular"));
+        mat.color = Color.red;
+        meshRenderer.sharedMaterial = mat;
+        //LineRenderer line = (LineRenderer)newObject.GetComponent(typeof(LineRenderer));
+
+        line.useWorldSpace = true;
+
+        line.positionCount = agent.agentCoordinate.getVector3Coordinates().Length;
+        line.SetPositions(agent.agentCoordinate.getVector3Coordinates());
+        //line.positionCount = agent.agentCoordinate.getVector2Coordinates().Length / 2;
+        line.material = lineMaterial;
+        line.startWidth = lineWidth;
+        line.endWidth = lineWidth;
+        line.BakeMesh(mesh);
+        meshFilter.sharedMesh = mesh;
+
         RectTransform rt = newObject.AddComponent<RectTransform>(); //(newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
 
         rt.anchorMin = new Vector2(0, 1);

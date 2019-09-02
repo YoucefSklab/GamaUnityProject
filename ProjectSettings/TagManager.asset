@@ -13,6 +13,9 @@ TagManager:
   - Flood_Risk_Area
   - Land_Use_Common_Button
   - Coastal_Defense_Common_Button
+  - Polygon
+  - Building
+  - Point
   layers:
   - Default
   - TransparentFX

@@ -75,7 +75,7 @@ namespace ummisco.gama.unity.GamaAgent
                     return "buildings";
                 case IGeometry.LINESTRING:
                     return "rouds";
-                case IGeometry.POINTS:
+                case IGeometry.POINT:
                     return "objects";
                 case IGeometry.WATER:
                     return "water";
@@ -95,7 +95,7 @@ namespace ummisco.gama.unity.GamaAgent
                     return "Buildings";
                 case IGeometry.LINESTRING:
                     return "Rouds";
-                case IGeometry.POINTS:
+                case IGeometry.POINT:
                     return "Objects";
                 case IGeometry.WATER:
                     return "Water";

@@ -404,6 +404,69 @@ namespace ummisco.gama.unity.geometry
         }
 
 
+        public int[] Triangulate3dMesh2()
+        {
+            // convert the initial polygon to triangles
+            int[] tris = Triangulate();
+
+            // Array to contain all the triangules of the mesh
+            int[] triangles = new int[tris.Length * 2 + m_points.Count * 6];
+
+
+            // Compute triangules of front vertices
+            int count_tris = 0;
+            for (int i = 0; i < tris.Length; i += 3)
+            {
+                triangles[i + 0] = tris[i + 0];
+                triangles[i + 1] = tris[i + 1];
+                triangles[i + 2] = tris[i + 2];
+            }
+
+            // Compute triangules of back vertices
+            count_tris += tris.Length;
+            for (int i = 0; i < tris.Length; i += 3)
+            {
+                triangles[count_tris + i + 0] = tris[i + 2] + m_points.Count;
+                triangles[count_tris + i + 1] = tris[i + 1] + m_points.Count;
+                triangles[count_tris + i + 2] = tris[i + 0] + m_points.Count;
+            }
+
+
+            count_tris += tris.Length;
+            for (int i = 0; i < m_points.Count; i++)
+            {
+                // triangles around the perimeter of the object
+                int n = (i + 1) % m_points.Count;
+                int n2 = (i + m_points.Count + 1) % (m_points.Count * 2);
+                // false
+                //triangles[count_tris + 0] = i;
+                //triangles[count_tris + 1] = i + m_points.Count;
+                //triangles[count_tris + 2] = n;
+
+                // Correct for Building elevation
+                triangles[count_tris + 0] = n;
+                triangles[count_tris + 1] = i + m_points.Count;
+                triangles[count_tris + 2] = i;
+
+
+                // correct // false with building elvation
+                //triangles[count_tris + 0] = n;
+                //triangles[count_tris + 1] = i;
+                //triangles[count_tris + 2] = i + m_points.Count;
+
+                //building elevation
+                triangles[count_tris + 3] = n;//i + m_points.Count;
+                int i2 = (n2 >= m_points.Count) ? (n2) : m_points.Count;
+                triangles[count_tris + 4] = i2; //i;
+                triangles[count_tris + 5] = i + m_points.Count;//n2;
+
+                count_tris += 6;
+            }
+
+            return triangles;
+
+        }
+
 
 
         public int[] get3DTriangulesFrom2DOld()
