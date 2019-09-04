@@ -163,7 +163,7 @@ namespace ummisco.gama.unity.topics
             if (entry.fieldName.Equals(IGamaConcept.ITEM_POSITION)) //TODO: to review this and make it work with  all king of properties 
             {
                 XmlNode[] node = (XmlNode[])entry.fieldValue;
-                Vector3 vect = ConvertType.vector3FromXmlNode(node, IGamaConcept.GAMA_POINT_CLASS);
+                Vector3 vect = ConvertType.Vector3FromXmlNode(node, IGamaConcept.GAMA_POINT_CLASS);
 
                 Vector3 propValue = (Vector3)targetGameObject.transform.position;
                 Debug.Log("Return - > " + CompareVector3(entry.fieldOperator, vect, propValue) + "v1 = " + vect + " v2 = " + propValue);

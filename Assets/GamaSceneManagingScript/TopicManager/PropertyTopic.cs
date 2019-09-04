@@ -68,7 +68,7 @@ namespace ummisco.gama.unity.topics
 
                         if (propertyInfo.PropertyType.Equals(typeof(Vector3)))
                         {
-                            Vector3 vect = ConvertType.vector3FromXmlNode(node, IGamaConcept.GAMA_POINT_CLASS);
+                            Vector3 vect = ConvertType.Vector3FromXmlNode(node, IGamaConcept.GAMA_POINT_CLASS);
                             propertyInfo.SetValue(obj, (object)vect, null);
                         }
                         else

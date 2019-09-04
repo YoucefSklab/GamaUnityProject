@@ -190,7 +190,7 @@ namespace ummisco.gama.unity.littosim
             }
         }
 
-        public Vector3 worldToUISpace(Canvas parentCanvas, Vector3 worldPos)
+        public static Vector3 worldToUISpace(Canvas parentCanvas, Vector3 worldPos)
         {
             Vector3 screenPos = worldPos;
             Vector2 movePos;

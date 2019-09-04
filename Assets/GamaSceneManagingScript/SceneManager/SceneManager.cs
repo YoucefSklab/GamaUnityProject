@@ -10,6 +10,10 @@ namespace ummisco.gama.unity.Scene
 {
     public class SceneManager : MonoBehaviour
     {
+        public static bool isGenericScene;
+        public static RectTransform worldEnveloppeRT;
+        public static Canvas worldEnveloppeCanvas;
+
         public static void SetSpeciesEnabled(string species, bool enabled)
         {
             if (ApplicationContexte.gamaAgentList.ContainsKey(species))
@@ -48,6 +52,62 @@ namespace ummisco.gama.unity.Scene
                 so.Update();
             }
             */
+        }
+
+        public void CreateEnveloppe()
+        {
+            if (isGenericScene)
+            {
+                GameObject enveloppeObject = new GameObject(IGamaManager.WORLD_ENVELOPPE);
+                GameObject canvasEnveloppeObject = new GameObject(IGamaManager.CANVAS_ENVELOPPE);
+                canvasEnveloppeObject.AddComponent<Canvas>();
+                canvasEnveloppeObject.AddComponent<RectTransform>();
+                canvasEnveloppeObject.AddComponent<CanvasScaler>();
+                canvasEnveloppeObject.AddComponent<GraphicRaycaster>();
+
+                enveloppeObject.AddComponent<RectTransform>();
+
+                RectTransform canvasRT = canvasEnveloppeObject.GetComponent<RectTransform>();
+                worldEnveloppeRT = enveloppeObject.GetComponent<RectTransform>();
+
+
+                canvasRT.sizeDelta = new Vector2(855f, 984f);
+                canvasEnveloppeObject.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
+
+                canvasRT.anchorMin = new Vector2(0, 1);
+                canvasRT.anchorMax = new Vector2(0, 1);
+                canvasRT.pivot = new Vector2(0, 1);
+                               
+                worldEnveloppeRT.SetParent(canvasRT);
+
+                worldEnveloppeRT.anchorMin = new Vector2(0, 1);
+                worldEnveloppeRT.anchorMax = new Vector2(0, 1);
+                worldEnveloppeRT.pivot = new Vector2(0, 1);
+
+                enveloppeObject.transform.position = new Vector3(0, 0, 0);
+            }            
+        }
+
+        public void SetGenericScene(bool value)
+        {
+            isGenericScene = value;
+        }
+
+        public void SetWorldEnvelope(object args)
+        {
+            object[] obj = (object[])args;
+            string mapName = (string)obj[0];
+            float x = float.Parse((string)obj[1]);
+            float y = float.Parse((string)obj[2]);
+            if (isGenericScene)
+            {
+                GameObject.Find(IGamaManager.WORLD_ENVELOPPE).GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
+            }
+            else
+            {
+                GameObject.Find(mapName).GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
+            }
+            
         }
 
 

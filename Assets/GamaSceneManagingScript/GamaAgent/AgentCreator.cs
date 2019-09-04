@@ -77,57 +77,33 @@ public class AgentCreator : MonoBehaviour
     }
 
 
+
+
     public void CreateGenericPolygonAgent(Agent agent, bool elevate, string tagName, float zAxis)
     {
         GameObject newObject = new GameObject(agent.agentName);
-        MeshRenderer meshRenderer = (MeshRenderer)newObject.AddComponent(typeof(MeshRenderer));
-        MeshFilter meshFilter = (MeshFilter)newObject.AddComponent(typeof(MeshFilter));
-        MeshCollider meshCollider = (MeshCollider)newObject.AddComponent<MeshCollider>();
 
-
-        Debug.Log("----> Agent's attributes are : " + agent.attributes.Count);
-
-        foreach (AgentAttribute a in agent.attributes)
-        {
-            Debug.Log("Attribute name is: " + a.name);
-        }
-
-        //newObject.GetComponent<Transform>().SetParent(parentTransform);
-        float elvation = elevate ? agent.height : 0;
-
-        meshFilter.mesh = meshCreator.CreateMesh2(elvation, agent.agentCoordinate.getVector2Coordinates());
-        //newObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(agent.height, agent.ConvertVertices());
-
-        meshFilter.mesh.name = "CustomMesh";
-        //newGameObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(30, agent.ConvertVertices());
-  
-        Material mat = new Material(Shader.Find("Specular"));
-        //mat.color = agent.color.getColorFromGamaColor();
-        mat.color = Color.blue;
-        meshRenderer.material = mat;
-        meshCollider.sharedMesh = meshFilter.mesh;
-
-        Vector3 posi = agent.location;
-        posi.y = -posi.y;
-
-        //posi = uiManager.GetComponent<UIManager>().worldToUISpace(canvas, posi);
+        //GameObject newObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        newObject.name = agent.agentName;
+        newObject.transform.localScale = new Vector3(1f, 1f, 1f);
 
         RectTransform rt = (newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
-
+        rt.SetParent(SceneManager.worldEnveloppeRT);
+              
         rt.anchorMin = new Vector2(0, 1);
         rt.anchorMax = new Vector2(0, 1);
         rt.pivot = new Vector2(0, 1);
-
-        newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
-        posi = newObject.GetComponent<RectTransform>().localPosition;
-        newObject.GetComponent<RectTransform>().localPosition = new Vector3(posi.x, posi.y, zAxis);
+        rt.sizeDelta = new Vector2(10, 10);
 
         if (tagName != null)
         {
             newObject.tag = tagName;
         }
 
-        //AttacheCode(newObject, speciesId, agent);
+        newObject.AddComponent<Agent>();
+        newObject.GetComponent<Agent>().SetAttributes(agent);
+        newObject.GetComponent<Agent>().InitAgent(elevate, zAxis);
+
 
         ApplicationContexte.addObjectToList(agent.species, newObject);
     }
@@ -148,7 +124,7 @@ public class AgentCreator : MonoBehaviour
         MeshRenderer meshRenderer = (MeshRenderer)newObject.GetComponent<MeshRenderer>();
         MeshCollider meshCollider = (MeshCollider)newObject.GetComponent<MeshCollider>();
 
-        //newObject.GetComponent<Transform>().SetParent(parentTransform);
+        newObject.GetComponent<Transform>().SetParent(SceneManager.worldEnveloppeRT);
         float elvation = height;
 
         //meshFilter.mesh = meshCreator.CreateMesh2(elvation, agent.agentCoordinate.getVector2Coordinates());
@@ -187,6 +163,7 @@ public class AgentCreator : MonoBehaviour
             newObject.tag = tagName;
         }
 
+
         //AttacheCode(newObject, speciesId, agent);
 
         ApplicationContexte.addObjectToList(agent.species, newObject);
@@ -217,7 +194,7 @@ public class AgentCreator : MonoBehaviour
         meshFilter.sharedMesh = mesh;
        
         RectTransform rt = newObject.AddComponent<RectTransform>(); //(newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
-
+       
         rt.anchorMin = new Vector2(0, 1);
         rt.anchorMax = new Vector2(0, 1);
         rt.pivot = new Vector2(0, 1);
@@ -260,7 +237,7 @@ public class AgentCreator : MonoBehaviour
         meshFilter.sharedMesh = mesh;
 
         RectTransform rt = newObject.AddComponent<RectTransform>(); //(newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
-
+        rt.SetParent(SceneManager.worldEnveloppeRT);
         rt.anchorMin = new Vector2(0, 1);
         rt.anchorMax = new Vector2(0, 1);
         rt.pivot = new Vector2(0, 1);

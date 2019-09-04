@@ -91,13 +91,9 @@ namespace ummisco.gama.unity.littosim
         }
 
 
-        public void SetMapPanelSize(object args)
+        public void SetWorldEnvelope(object args)
         {
-            object[] obj = (object[])args;
-            string mapName = (string)obj[0];
-            float x = float.Parse((string)obj[1]);
-            float y = float.Parse((string)obj[2]);
-            GameObject.Find(mapName).GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
+            GameObject.Find(IGamaManager.SCENE_MANAGER).GetComponent<SceneManager>().SetWorldEnvelope(args);
         }
 
        
@@ -142,7 +138,7 @@ namespace ummisco.gama.unity.littosim
             Vector3 position = Input.mousePosition;
             Debug.Log("Mouse position is : " + position);
             //position = uiManager.GetComponent<UIManager>().worldToUISpace(uiCanvas, position);
-            position = uiManager.GetComponent<UIManager>().worldToUISpace(mapCanvas, position);
+            position = UIManager.worldToUISpace(mapCanvas, position);
             position.z = -80;
             SendGamaMessage(position);
 

@@ -4,6 +4,7 @@ using ummisco.gama.unity.littosim;
 using ummisco.gama.unity.datastructure;
 using ummisco.gama.unity.geometry;
 using System.Collections.Generic;
+using ummisco.gama.unity.Scene;
 
 namespace ummisco.gama.unity.GamaAgent
 {
@@ -52,7 +53,7 @@ namespace ummisco.gama.unity.GamaAgent
             for(int i=0; i < vertices.Length; i++)
             {
                 Vector3 vect = vertices[i];
-                Vector3 p = uiManager.GetComponent<UIManager>().worldToUISpace(canvas, vect);
+                Vector3 p = UIManager.worldToUISpace(canvas, vect);
                 Vector2 p2 = p;
                 newVertices[i] = p2;
             }
@@ -116,6 +117,148 @@ namespace ummisco.gama.unity.GamaAgent
                 }
             }
             return null;
+        }
+
+
+        public void SetAttributes(Agent agent)
+        {
+            this.name = agent.agentName;
+            this.agentCoordinate = agent.agentCoordinate;
+            this.color = agent.color;
+            this.rotation = agent.rotation;
+            this.location = agent.location;
+            this.scale = agent.scale;
+            this.isRotate = agent.isRotate;
+            this.isOnInputMove = agent.isOnInputMove;
+            this.rb = agent.rb;
+            this.speed = agent.speed;
+            this.species = agent.species;
+            this.index = agent.index;
+            this.nature = agent.nature;
+            this.geometry = agent.geometry;
+            this.attributes = agent.attributes;
+        }
+
+        public void InitAgent(bool elevate, float zAxis)
+        {
+           SetMeshVerticesPosition(elevate, zAxis);
+        }
+
+
+        public void SetMeshVerticesPosition(bool elevate, float zAxis)
+        {
+
+            MeshCreator meshCreator = new MeshCreator();
+            MeshRenderer meshRenderer = (MeshRenderer)gameObject.AddComponent(typeof(MeshRenderer));
+            MeshFilter meshFilter = (MeshFilter)gameObject.AddComponent(typeof(MeshFilter));
+
+
+            for (var i = 0; i < meshFilter.mesh.vertices.Length; i++)
+            {
+              //  Debug.Log(" ------->>>>>>>      Vertices " + i + " position is: " + meshFilter.mesh.vertices[i]);
+                            
+                // vertices[i] = new Vector3(vert.x + diffX[i], -(vert.y + diffY[i]), vert.z);
+                //vertices[i] = new Vector3(location.x - vert.x, location.y - vert.y, vert.z);
+                //vertices[i] += Vector3.up * Time.deltaTime;
+            }
+
+
+            float elvation = elevate ? this.height : 0;
+            transform.localPosition = new Vector3(this.location.x, -this.location.y, zAxis);
+
+
+
+      
+
+
+
+
+
+        
+
+
+            
+
+           
+
+            meshFilter.mesh.Clear();
+            meshFilter.mesh = meshCreator.CreateMesh2(elvation, this.agentCoordinate.getVector2Coordinates());
+           
+
+            meshFilter.mesh.name = "CustomMesh";
+
+            Material mat = new Material(Shader.Find("Specular"));
+            //mat.color = agent.color.getColorFromGamaColor();
+            mat.color = Color.blue;
+            meshRenderer.material = mat;
+            //meshCollider.sharedMesh = meshFilter.mesh;
+
+
+
+         
+
+
+            Vector3[] vertices;
+            vertices = meshFilter.mesh.vertices;
+            Matrix4x4 localToWorld = transform.localToWorldMatrix;
+
+            float[] diffX = new float[meshFilter.mesh.vertices.Length];
+            float[] diffY = new float[meshFilter.mesh.vertices.Length];
+
+            // compute diff
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                Vector3 v = vertices[i];
+                diffX[i] = location.x - v.x;
+                diffY[i] = location.y - v.y;
+            }
+
+            //transform.localPosition = new Vector3(this.location.x, this.location.y);
+
+            for (var i = 0; i < vertices.Length; i++)
+            {
+                 Debug.Log("Vertices " + i + " position is: " + vertices[i]);
+              
+                Vector3 world_v = localToWorld.MultiplyPoint3x4(vertices[i]);
+                //Vector2 newP = new Vector2(0, 0);
+               // world_v = transform.TransformPoint(vertices[i]);
+                //world_v = new Vector3(world_v.x - 800, world_v.y - 800, world_v.z);
+
+               
+               // RectTransformUtility.ScreenPointToLocalPointInRectangle(SceneManager.worldEnveloppeRT, world_v, SceneManager.worldEnveloppeCanvas.worldCamera, out newP);
+                world_v = Camera.main.transform.TransformPoint(world_v);
+                vertices[i] = world_v;
+
+                // vertices[i] = new Vector3(vert.x + diffX[i], -(vert.y + diffY[i]), vert.z);
+                //vertices[i] = new Vector3(location.x - vert.x, location.y - vert.y, vert.z);
+                //vertices[i] += Vector3.up * Time.deltaTime;
+            }
+
+            meshFilter.mesh.SetVertices(vertices);
+            meshFilter.mesh.Optimize();
+            
+           
+           
+
+
+            
+
+            
+           
+            
+            for (var i = 0; i < meshFilter.mesh.vertices.Length; i++)
+            {
+                Debug.Log("New Vertices " + i + " position is: " + meshFilter.mesh.vertices[i]);
+                //Vector3 vert = vertices[i];
+                //vertices[i] = new Vector3(vert.x, -vert.y, vert.z);
+               
+            }
+            
+            // assign the local vertices array into the vertices array of the Mesh.
+            // mesh.vertices = vertices;
+            // mesh.RecalculateBounds();
+
+
         }
     }
 }

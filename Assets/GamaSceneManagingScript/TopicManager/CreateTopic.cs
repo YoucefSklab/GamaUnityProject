@@ -79,12 +79,12 @@ namespace ummisco.gama.unity.topics
             // Set the position to the new GameObject
             //---------------------------------------
             XmlNode[] positionNode = (XmlNode[])topicMessage.position;
-            Vector3 movement = ConvertType.vector3FromXmlNode(positionNode, IGamaConcept.GAMA_POINT_CLASS);
+            Vector3 movement = ConvertType.Vector3FromXmlNode(positionNode, IGamaConcept.GAMA_POINT_CLASS);
             newObject.transform.position = movement;
 
 
             XmlNode[] colorNode = (XmlNode[])topicMessage.color;
-            objectColor = ConvertType.rgbColorFromXmlNode(colorNode, IGamaConcept.GAMA_RGB_COLOR_CLASS);
+            objectColor = ConvertType.RgbColorFromXmlNode(colorNode, IGamaConcept.GAMA_RGB_COLOR_CLASS);
 
             objectColor.a = 1.0f;
 

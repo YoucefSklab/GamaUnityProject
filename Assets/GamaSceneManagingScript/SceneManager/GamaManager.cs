@@ -493,7 +493,12 @@ namespace ummisco.gama.unity.Scene
             string message = MsgSerialization.SerializationPlainXml(msg);
             return message;
         }
-             
+
+        public void SetWorldEnvelope(object args)
+        {
+            GameObject.Find(IGamaManager.SCENE_MANAGER).GetComponent<SceneManager>().SetWorldEnvelope(args);
+        }
+
 
 
         public void SubscribeToTopic(object args)
@@ -504,6 +509,14 @@ namespace ummisco.gama.unity.Scene
             connector.Subscribe(topic);
             agentsTopicDic.Add(topic, agentName);
         }
-                          
+
+        public void InitGenericScene(object args)
+        {
+            GameObject.Find(IGamaManager.SCENE_MANAGER).GetComponent<SceneManager>().SetGenericScene(true);
+            GameObject.Find(IGamaManager.SCENE_MANAGER).GetComponent<SceneManager>().CreateEnveloppe();
+            GameObject.Find(IGamaManager.SCENE_MANAGER).GetComponent<SceneManager>().SetWorldEnvelope(args);
+           
+        }
+              
     }
 }

@@ -58,7 +58,7 @@ namespace ummisco.gama.unity.topics
             MethodInfo methInfo = targetGameObject.GetComponent(scripts[0].GetType()).GetType().GetMethod(methodName);
             ParameterInfo[] parameter = methInfo.GetParameters();
             object obj = attributeValue;
-            targetGameObject.SendMessage(methodName, ConvertType.convertParameter(obj, parameter[0]));
+            targetGameObject.SendMessage(methodName, ConvertType.ConvertParameter(obj, parameter[0]));
         }
 
         public override void SetAllProperties(object args)

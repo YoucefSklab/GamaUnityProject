@@ -8,10 +8,10 @@ using ummisco.gama.unity.datastructure;
 
 namespace ummisco.gama.unity.utils.converter
 {
-	public class ConvertType
+	public static class ConvertType
 	{
 
-		public static string listToString (List<string> inputList, string sep)
+		public static string ListToString (List<string> inputList, string sep)
 		{
 			StringBuilder builder = new StringBuilder ();
 			foreach (string elt in inputList) {
@@ -39,13 +39,13 @@ namespace ummisco.gama.unity.utils.converter
 			return dict;
 		}
 
-		public static object convertParameter (object val, ParameterInfo par)
+		public static object ConvertParameter (object val, ParameterInfo par)
 		{
 			object propValue = Convert.ChangeType (val, par.ParameterType);
 			return propValue;
 		}
 
-		public static Color stringToColor (string color)
+		public static Color StringToColor (string color)
 		{
 			return (Color)typeof(Color).GetProperty (color.ToLowerInvariant ()).GetValue (null, null);
 		}
@@ -54,7 +54,7 @@ namespace ummisco.gama.unity.utils.converter
 
 
 
-		public static Vector3 vector3FromXmlNode (XmlNode[] node, string fieldName)
+		public static Vector3 Vector3FromXmlNode (XmlNode[] node, string fieldName)
 		{
 			float X = 0;
 			float Y = 0;
@@ -62,9 +62,8 @@ namespace ummisco.gama.unity.utils.converter
 			Boolean itExist = false;
 
 			foreach (XmlNode n in node) {
-				if (n.Value == fieldName) {
-					itExist = true;
-				}
+
+				itExist |= n.Value == fieldName;
 
 				if (n.Name == "x") {
 					X = float.Parse (n.InnerText); // convert the strings to float and apply to the Y variable.
@@ -87,7 +86,7 @@ namespace ummisco.gama.unity.utils.converter
 
 
 
-		public static Point pointFromXmlElement (XmlNodeList listPoints)
+		public static Point PointFromXmlElement (XmlNodeList listPoints)
 		{
 			float X = 0;
 			float Y = 0;
@@ -113,7 +112,7 @@ namespace ummisco.gama.unity.utils.converter
 
 
 
-		public static object valueFromXmlNode (XmlNode[] node, string fieldName)
+		public static object ValueFromXmlNode (XmlNode[] node, string fieldName)
 		{
 			float X = 0;
 			float Y = 0;
@@ -125,11 +124,7 @@ namespace ummisco.gama.unity.utils.converter
 			foreach (XmlNode n in node) {
 
 
-			
-
-				if (n.Value == fieldName) {
-					itExist = true;
-				}
+				itExist |= n.Value == fieldName;
 
 				if (n.Name == "x") {
 					X = float.Parse (n.InnerText); // convert the strings to float and apply to the Y variable.
@@ -151,7 +146,7 @@ namespace ummisco.gama.unity.utils.converter
 		}
 
 
-		public static Color rgbColorFromXmlNode (XmlNode[] node, string fieldName)
+		public static Color RgbColorFromXmlNode (XmlNode[] node, string fieldName)
 		{
 			int red = 0;
 			int green = 0;
@@ -159,9 +154,7 @@ namespace ummisco.gama.unity.utils.converter
 			Boolean itExist = false;
 
 			foreach (XmlNode n in node) {
-				if (n.Value == fieldName) {
-					itExist = true;
-				}
+				itExist |= n.Value == fieldName;
 				if (n.Name == "red") {
 					red = Int32.Parse (n.InnerText);
 				}
