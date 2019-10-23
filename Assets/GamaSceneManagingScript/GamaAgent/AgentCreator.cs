@@ -81,12 +81,13 @@ public class AgentCreator : MonoBehaviour
 
     public void CreateGenericPolygonAgent(Agent agent, bool elevate, string tagName, float zAxis)
     {
-        GameObject newObject = new GameObject(agent.agentName);
+        GameObject newObject = new GameObject()
+        {
+            name = agent.agentName
+        };
 
-        //GameObject newObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        newObject.name = agent.agentName;
-        newObject.transform.localScale = new Vector3(1f, 1f, 1f);
-
+        //newObject.transform.localScale = new Vector3(1f, 1f, 1f);
+        /*
         RectTransform rt = (newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
         rt.SetParent(SceneManager.worldEnveloppeRT);
               
@@ -94,7 +95,7 @@ public class AgentCreator : MonoBehaviour
         rt.anchorMax = new Vector2(0, 1);
         rt.pivot = new Vector2(0, 1);
         rt.sizeDelta = new Vector2(10, 10);
-
+        */
         if (tagName != null)
         {
             newObject.tag = tagName;
@@ -102,7 +103,7 @@ public class AgentCreator : MonoBehaviour
 
         newObject.AddComponent<Agent>();
         newObject.GetComponent<Agent>().SetAttributes(agent);
-        newObject.GetComponent<Agent>().InitAgent(elevate, zAxis);
+        newObject.GetComponent<Agent>().InitAgent(SceneManager.worldEnveloppeRT,elevate, zAxis);
 
 
         ApplicationContexte.addObjectToList(agent.species, newObject);

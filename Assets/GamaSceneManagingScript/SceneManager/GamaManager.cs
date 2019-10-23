@@ -156,7 +156,8 @@ namespace ummisco.gama.unity.Scene
                         {
                             case IUILittoSim.LAND_USE:
                                 agent.height = 10;
-                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, matGreen, IUILittoSim.LAND_USE_ID, true, ILittoSimConcept.LAND_USE_TAG, -60);
+                                //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, matGreen, IUILittoSim.LAND_USE_ID, true, ILittoSimConcept.LAND_USE_TAG, -60);
+                                agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, matRed, IUILittoSim.LAND_USE_ID, true, ILittoSimConcept.LAND_USE_TAG, -60);
                                 break;
                             case IUILittoSim.COASTAL_DEFENSE:
                                 agent.height = 10;

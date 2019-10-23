@@ -197,6 +197,7 @@ namespace ummisco.gama.unity.littosim
 
             RectTransformUtility.ScreenPointToLocalPointInRectangle(parentCanvas.transform as RectTransform, screenPos, parentCanvas.worldCamera, out movePos);
 
+          
             return parentCanvas.transform.TransformPoint(movePos);
         }
 

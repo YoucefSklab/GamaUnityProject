@@ -70,6 +70,7 @@ namespace ummisco.gama.unity.Scene
                 RectTransform canvasRT = canvasEnveloppeObject.GetComponent<RectTransform>();
                 worldEnveloppeRT = enveloppeObject.GetComponent<RectTransform>();
 
+                worldEnveloppeCanvas = canvasEnveloppeObject.GetComponent<Canvas>();
 
                 canvasRT.sizeDelta = new Vector2(855f, 984f);
                 canvasEnveloppeObject.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
