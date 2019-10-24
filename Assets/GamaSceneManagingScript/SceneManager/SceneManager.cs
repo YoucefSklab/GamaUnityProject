@@ -103,6 +103,9 @@ namespace ummisco.gama.unity.Scene
             if (isGenericScene)
             {
                 GameObject.Find(IGamaManager.WORLD_ENVELOPPE).GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
+                GameObject mainCamera = GameObject.Find(IGamaManager.GAMA_MAIN_CAMERA);
+                mainCamera.transform.parent = GameObject.Find(IGamaManager.WORLD_ENVELOPPE).transform;
+                mainCamera.transform.position = new Vector3((x / 2), -(y / 2), -1000);
             }
             else
             {

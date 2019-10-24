@@ -1,19 +1,15 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using ummisco.gama.unity.messages;
-using ummisco.gama.unity.utils;
 using ummisco.gama.unity.notification;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using System;
 using System.Linq;
-using System.Reflection;
 using ummisco.gama.unity.topics;
 
 using ummisco.gama.unity.GamaAgent;
 using ummisco.gama.unity.littosim;
 using ummisco.gama.unity.files;
-using ummisco.gama.unity.datastructure;
-using UnityEngine.UI;
 using ummisco.gama.unity.Network;
 
 namespace ummisco.gama.unity.Scene
@@ -513,10 +509,12 @@ namespace ummisco.gama.unity.Scene
 
         public void InitGenericScene(object args)
         {
+         
+
             GameObject.Find(IGamaManager.SCENE_MANAGER).GetComponent<SceneManager>().SetGenericScene(true);
             GameObject.Find(IGamaManager.SCENE_MANAGER).GetComponent<SceneManager>().CreateEnveloppe();
             GameObject.Find(IGamaManager.SCENE_MANAGER).GetComponent<SceneManager>().SetWorldEnvelope(args);
-           
+        
         }
               
     }
