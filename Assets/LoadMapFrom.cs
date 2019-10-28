@@ -83,7 +83,7 @@ public class LoadMapFrom : MonoBehaviour
             newGameObject.AddComponent(typeof(MeshRenderer));
             newGameObject.AddComponent(typeof(MeshFilter));
 
-            newGameObject.GetComponent<MeshFilter>().mesh = CreateMesh(elevation, listPoint);
+            newGameObject.GetComponent<MeshFilter>().mesh = CreateMesh(elevation, listPoint, new Vector3(0,0,0));
             newGameObject.GetComponent<MeshFilter>().mesh.name = "CustomMesh";
             newGameObject.GetComponent<Renderer>().material = mat;
             newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
@@ -102,12 +102,12 @@ public class LoadMapFrom : MonoBehaviour
         }
     }
 
-    public Mesh CreateMesh(int elevation, Vector2[] vect)
+    public Mesh CreateMesh(int elevation, Vector2[] vect, Vector3 shiftMesh)
     {
         Mesh mesh = new Mesh();
         Triangulator tri = new Triangulator(vect);
         tri.setAllPoints(tri.Convert2dTo3dVertices());
-        mesh.vertices = tri.VerticesWithElevation(elevation);
+        mesh.vertices = tri.VerticesWithElevation(elevation, shiftMesh);
         mesh.triangles = tri.Triangulate3dMesh();
 
         // For Android Build

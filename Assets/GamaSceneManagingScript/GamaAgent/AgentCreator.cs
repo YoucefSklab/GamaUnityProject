@@ -23,7 +23,7 @@ public class AgentCreator : MonoBehaviour
     {
         
     }
-
+   
     public void CreateAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate, string tagName, float zAxis)
     {
         GameObject newObject = new GameObject(agent.agentName);
@@ -42,7 +42,7 @@ public class AgentCreator : MonoBehaviour
         newObject.GetComponent<Transform>().SetParent(parentTransform);
         float elvation = elevate ? agent.height : 0;
 
-        meshFilter.mesh = meshCreator.CreateMesh(elvation, agent.agentCoordinate.getVector2Coordinates());
+        meshFilter.mesh = meshCreator.CreateMesh(elvation, agent.agentCoordinate.getVector2Coordinates(), new Vector3(0,0,0));
         //newObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(agent.height, agent.ConvertVertices());
 
         meshFilter.mesh.name = "CustomMesh";

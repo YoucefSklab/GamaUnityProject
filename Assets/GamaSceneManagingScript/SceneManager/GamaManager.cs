@@ -186,7 +186,7 @@ namespace ummisco.gama.unity.Scene
                                 }
                                 else
                                 {
-                                    Debug.Log("Generic Object creation ");
+                                    Debug.Log("Generic Object creation : "+ unityAgent.contents.agentName);
                                     obj = new object[] { unityAgent, targetGameObject };
                                     mainTopicManager.GetComponent<MainTopic>().ProcessTopic(obj);
                                     //mainTopicManager.GetComponent(IMQTTConnector.MAIN_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
@@ -508,8 +508,7 @@ namespace ummisco.gama.unity.Scene
         }
 
         public void InitGenericScene(object args)
-        {
-         
+        {      
 
             GameObject.Find(IGamaManager.SCENE_MANAGER).GetComponent<SceneManager>().SetGenericScene(true);
             GameObject.Find(IGamaManager.SCENE_MANAGER).GetComponent<SceneManager>().CreateEnveloppe();

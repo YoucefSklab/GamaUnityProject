@@ -86,7 +86,7 @@ public class LoadMapFromSHape: MonoBehaviour
 
     public void CreateMesh(int elevation, Mesh m)
     {
-        m.vertices = triangulator.VerticesWithElevation(elevation);
+        m.vertices = triangulator.VerticesWithElevation(elevation, new Vector3(0,0,0));
         triangulator.setAllPoints(triangulator.Convert2dTo3dVertices());
         m.triangles = triangulator.Triangulate3dMesh();
 

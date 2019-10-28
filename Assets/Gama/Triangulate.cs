@@ -50,7 +50,7 @@ public class Triangulate : MonoBehaviour
         poly.AddComponent(typeof(MeshFilter));
         poly.AddComponent(typeof(MeshRenderer));
         poly.GetComponent<MeshFilter>().mesh.Clear();
-        poly.GetComponent<MeshFilter>().mesh = CreateMesh(10);
+        poly.GetComponent<MeshFilter>().mesh = CreateMesh(10, new Vector3(0,0,0));
         poly.GetComponent<Renderer>().material = myNewMaterial;
 
        /*
@@ -374,14 +374,14 @@ public class Triangulate : MonoBehaviour
 
 
 
-    public Mesh CreateMesh(int elevation)
+    public Mesh CreateMesh(int elevation, Vector3 shiftPosition)
     {
 
         Mesh m = new Mesh();
 
         m.Clear();
         triangulator.setAllPoints(triangulator.Convert2dTo3dVertices());
-        m.vertices = triangulator.VerticesWithElevation(elevation);
+        m.vertices = triangulator.VerticesWithElevation(elevation, shiftPosition);
         m.triangles = triangulator.Triangulate3dMesh();
 
         // For Android Build

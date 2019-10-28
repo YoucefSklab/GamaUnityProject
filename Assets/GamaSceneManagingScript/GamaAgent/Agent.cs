@@ -126,7 +126,7 @@ namespace ummisco.gama.unity.GamaAgent
             this.agentCoordinate = agent.agentCoordinate;
             this.color = agent.color;
             this.rotation = agent.rotation;
-            this.location = agent.location;
+            this.location = agent.location;//TransformGamaCoordinates(agent.location);
             this.scale = agent.scale;
             this.isRotate = agent.isRotate;
             this.isOnInputMove = agent.isOnInputMove;
@@ -139,6 +139,11 @@ namespace ummisco.gama.unity.GamaAgent
             this.attributes = agent.attributes;
         }
 
+        public Vector3 TransformGamaCoordinates(Vector3 gamaPoint)
+        {
+            return new Vector3(IGamaManager.x_axis_transform * gamaPoint.x, IGamaManager.y_axis_transform * gamaPoint.y, IGamaManager.z_axis_transform * gamaPoint.z);
+        }
+
         public void InitAgent(RectTransform rtParent, bool elevate, float zAxis)
         {
             SetMeshVerticesPosition(rtParent, elevate, zAxis);
@@ -147,95 +152,38 @@ namespace ummisco.gama.unity.GamaAgent
 
         public void SetMeshVerticesPosition(RectTransform rtParent, bool elevate, float zAxis)
         {
+            float elvation = elevate ? this.height : 0;
+            elvation = 40;
+          
+            Vector3 newPosition = SceneManager.worldEnveloppeCanvas.transform.InverseTransformPoint(new Vector3(this.location.x, IGamaManager.y_axis_transform * this.location.y));
+            newPosition = UIManager.worldToUISpace(SceneManager.worldEnveloppeCanvas, new Vector3(this.location.x, IGamaManager.y_axis_transform * this.location.y));
+           
+            newPosition = rtParent.InverseTransformPoint(new Vector3(this.location.x, IGamaManager.y_axis_transform * this.location.y));
 
+            Debug.Log("Corresponding world position is : " + newPosition);
+            
+
+            transform.SetParent(rtParent);
+            transform.localPosition = newPosition;
+       
+            //_________________
+                        
             MeshCreator meshCreator = new MeshCreator();
             MeshRenderer meshRenderer = (MeshRenderer)gameObject.AddComponent(typeof(MeshRenderer));
             MeshFilter meshFilter = (MeshFilter)gameObject.AddComponent(typeof(MeshFilter));
-            
-            for (var i = 0; i < meshFilter.mesh.vertices.Length; i++)
-            {
-                //  Debug.Log(" ------->>>>>>>      Vertices " + i + " position is: " + meshFilter.mesh.vertices[i]);
-
-                // vertices[i] = new Vector3(vert.x + diffX[i], -(vert.y + diffY[i]), vert.z);
-                //vertices[i] = new Vector3(location.x - vert.x, location.y - vert.y, vert.z);
-                //vertices[i] += Vector3.up * Time.deltaTime;
-            }
-
-
-            float elvation = elevate ? this.height : 0;
-            elvation = 40;
-            //transform.localPosition = new Vector3(this.location.x, -this.location.y, zAxis);
-
-            // transform.position = new Vector3(this.location.x, this.location.y, zAxis);
-
-
 
             meshFilter.mesh.Clear();
-            meshFilter.mesh = meshCreator.CreateMesh2(elvation, this.agentCoordinate.getVector2Coordinates());
+            meshFilter.mesh = meshCreator.CreateMesh2(elvation, this.agentCoordinate.getVector2Coordinates(), this.location);
 
 
             meshFilter.mesh.name = "CustomMesh";
-
+         
             Material mat = new Material(Shader.Find("Specular"));
             //mat.color = agent.color.getColorFromGamaColor();
             mat.color = Color.blue;
             meshRenderer.material = mat;
             //meshCollider.sharedMesh = meshFilter.mesh;
 
-            //transform.localPosition = new Vector3(this.location.x, this.location.y);
-
-            Vector3 newPosition = SceneManager.worldEnveloppeCanvas.transform.InverseTransformPoint(new Vector3(this.location.x, -this.location.y));
-            newPosition = UIManager.worldToUISpace(SceneManager.worldEnveloppeCanvas, new Vector3(this.location.x, -this.location.y));
-           
-            newPosition = SceneManager.worldEnveloppeRT.InverseTransformPoint(new Vector3(this.location.x, -this.location.y));
-
-            Debug.Log("Corresponding world position is : " + newPosition);
-
-            transform.SetParent(SceneManager.worldEnveloppeRT);
-            transform.localPosition = newPosition;
-
-            GameObject objet = new GameObject("Test");
-
-            meshRenderer = (MeshRenderer)objet.AddComponent(typeof(MeshRenderer));
-            meshFilter = (MeshFilter)objet.AddComponent(typeof(MeshFilter));
-
-            objet.AddComponent<RectTransform>();
-
-            objet.GetComponent<RectTransform>().anchorMin = new Vector2(0, 1);
-            objet.GetComponent<RectTransform>().anchorMax = new Vector2(0, 1);
-            objet.GetComponent<RectTransform>().pivot = new Vector2(0, 1);
-           // objet.GetComponent<RectTransform>().sizeDelta = new Vector2(10, 10);
-            
-            objet.transform.SetParent(SceneManager.worldEnveloppeRT);
-            objet.transform.localPosition = new Vector3(this.location.x, -this.location.y);
-            Vector3 oldPosition = objet.transform.position;
-
-           
-            meshFilter.mesh = meshCreator.CreateMesh2(elvation, this.agentCoordinate.getVector2Coordinates());
-
-            objet.transform.position = oldPosition;
-            meshRenderer.transform.localPosition = oldPosition;
-            meshRenderer.transform.position = oldPosition;
-            
-
-            Debug.Log(" The canvas localPosition center is : " + SceneManager.worldEnveloppeCanvas.transform.localPosition);
-            Debug.Log(" The canvas position center is : " + SceneManager.worldEnveloppeCanvas.transform.position);
-            Debug.Log(" The canvas position center is : " + SceneManager.worldEnveloppeRT.localPosition);
-            Debug.Log(" The canvas position center is : " + SceneManager.worldEnveloppeRT.position);
-            Debug.Log(" The canvas position center is : " + SceneManager.worldEnveloppeRT.anchoredPosition);
-            Debug.Log(" The canvas position center is : " + SceneManager.worldEnveloppeRT.anchoredPosition3D);
-
-            //transform.localPosition = new Vector3(this.location.x, -this.location.y);
-            //transform.position = newPosition;
-            // RectTransform rt = (gameObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
-            /*
-           rt.SetParent(rtParent);
-           rt.anchoredPosition = new Vector3(this.location.x, -this.location.y, zAxis);
-           rt.anchorMin = new Vector2(0, 1);
-           rt.anchorMax = new Vector2(0, 1);
-           rt.pivot = new Vector2(0, 1);
-           rt.sizeDelta = new Vector2(10, 10);
-           */
 
         }
 
@@ -278,7 +226,7 @@ namespace ummisco.gama.unity.GamaAgent
 
 
             meshFilter.mesh.Clear();
-            meshFilter.mesh = meshCreator.CreateMesh2(elvation, this.agentCoordinate.getVector2Coordinates());
+            meshFilter.mesh = meshCreator.CreateMesh2(elvation, this.agentCoordinate.getVector2Coordinates(), this.location);
 
 
             meshFilter.mesh.name = "CustomMesh";

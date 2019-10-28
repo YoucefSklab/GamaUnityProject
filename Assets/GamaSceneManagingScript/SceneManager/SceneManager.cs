@@ -103,15 +103,25 @@ namespace ummisco.gama.unity.Scene
             if (isGenericScene)
             {
                 GameObject.Find(IGamaManager.WORLD_ENVELOPPE).GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
-                GameObject mainCamera = GameObject.Find(IGamaManager.GAMA_MAIN_CAMERA);
-                mainCamera.transform.parent = GameObject.Find(IGamaManager.WORLD_ENVELOPPE).transform;
-                mainCamera.transform.position = new Vector3((x / 2), -(y / 2), -1000);
+                SetMainCameraInitialPosition(x, y);
             }
             else
             {
                 GameObject.Find(mapName).GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
             }
             
+        }
+
+        public void SetMainCameraInitialPosition(float x, float y, float z)
+        {
+            GameObject mainCamera = GameObject.Find(IGamaManager.GAMA_MAIN_CAMERA);
+            mainCamera.transform.parent = GameObject.Find(IGamaManager.WORLD_ENVELOPPE).transform;
+            mainCamera.transform.position = new Vector3((x / 2), -(y / 2), IGamaManager.z_axis_main_camera);
+        }
+
+        public void SetMainCameraInitialPosition(float x, float y)
+        {
+            SetMainCameraInitialPosition(x, y, 0);
         }
 
 

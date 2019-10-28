@@ -55,6 +55,11 @@ namespace ummisco.gama.unity.Scene
 
         public const string CSVREADER = "CSVReader";
 
+        public const int x_axis_transform = 1;
+        public const int y_axis_transform = -1;
+        public const int z_axis_transform = 1;
+        public const int z_axis_main_camera = -900;
+
        
     }
 }
