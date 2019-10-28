@@ -18,6 +18,7 @@ namespace ummisco.gama.unity.GamaAgent
         public GamaColor color { set; get; }
         public Vector3 rotation { set; get; }
         public Vector3 location { set; get; }
+        public Vector3 initialLocation { set; get; }
         public Vector3 scale { set; get; }
         public bool isRotate { set; get; }
         public bool isOnInputMove { set; get; }
@@ -44,7 +45,7 @@ namespace ummisco.gama.unity.GamaAgent
 
         public Vector2[] ConvertVertices()
         {
-            Vector3[] vertices = this.agentCoordinate.getVector3Coordinates();
+            Vector3[] vertices = this.agentCoordinate.GetVector3Coordinates();
             Vector2[] newVertices = new Vector2[vertices.Length];
 
             GameObject uiManager = GameObject.Find(IUILittoSim.UI_MANAGER);
@@ -126,7 +127,8 @@ namespace ummisco.gama.unity.GamaAgent
             this.agentCoordinate = agent.agentCoordinate;
             this.color = agent.color;
             this.rotation = agent.rotation;
-            this.location = agent.location;//TransformGamaCoordinates(agent.location);
+            this.location = TransformGamaCoordinates(agent.location);
+            this.initialLocation = agent.location;
             this.scale = agent.scale;
             this.isRotate = agent.isRotate;
             this.isOnInputMove = agent.isOnInputMove;
@@ -154,17 +156,15 @@ namespace ummisco.gama.unity.GamaAgent
         {
             float elvation = elevate ? this.height : 0;
             elvation = 40;
-          
-            Vector3 newPosition = SceneManager.worldEnveloppeCanvas.transform.InverseTransformPoint(new Vector3(this.location.x, IGamaManager.y_axis_transform * this.location.y));
-            newPosition = UIManager.worldToUISpace(SceneManager.worldEnveloppeCanvas, new Vector3(this.location.x, IGamaManager.y_axis_transform * this.location.y));
-           
-            newPosition = rtParent.InverseTransformPoint(new Vector3(this.location.x, IGamaManager.y_axis_transform * this.location.y));
 
-            Debug.Log("Corresponding world position is : " + newPosition);
-            
+            /*
+            Vector3 newPosition = SceneManager.worldEnveloppeCanvas.transform.InverseTransformPoint(new Vector3(this.location.x,  this.location.y));
+            newPosition = UIManager.worldToUISpace(SceneManager.worldEnveloppeCanvas, new Vector3(this.location.x, this.location.y));
+            newPosition = rtParent.InverseTransformPoint(new Vector3(this.location.x, this.location.y));
+             */
 
             transform.SetParent(rtParent);
-            transform.localPosition = newPosition;
+            transform.localPosition = this.location;
        
             //_________________
                         
@@ -173,7 +173,7 @@ namespace ummisco.gama.unity.GamaAgent
             MeshFilter meshFilter = (MeshFilter)gameObject.AddComponent(typeof(MeshFilter));
 
             meshFilter.mesh.Clear();
-            meshFilter.mesh = meshCreator.CreateMesh2(elvation, this.agentCoordinate.getVector2Coordinates(), this.location);
+            meshFilter.mesh = meshCreator.CreateMesh2(elvation, this.agentCoordinate.GetVector2Coordinates(), this.initialLocation);
 
 
             meshFilter.mesh.name = "CustomMesh";
@@ -226,7 +226,7 @@ namespace ummisco.gama.unity.GamaAgent
 
 
             meshFilter.mesh.Clear();
-            meshFilter.mesh = meshCreator.CreateMesh2(elvation, this.agentCoordinate.getVector2Coordinates(), this.location);
+            meshFilter.mesh = meshCreator.CreateMesh2(elvation, this.agentCoordinate.GetVector2Coordinates(), this.location);
 
 
             meshFilter.mesh.name = "CustomMesh";

@@ -11,6 +11,8 @@ namespace ummisco.gama.unity.GamaAgent
     [XmlInclude(typeof(AgentAttribute))]
     public class UnityAgent
     {
+        private readonly string agentName;
+
         public string unread { get; set; }
         public string sender { get; set; }
         public string receivers { get; set; }
@@ -21,7 +23,7 @@ namespace ummisco.gama.unity.GamaAgent
 
         public UnityAgent(string agentName)
         {
-
+            this.agentName = agentName;
         }
 
         public UnityAgent()
@@ -31,32 +33,28 @@ namespace ummisco.gama.unity.GamaAgent
 
         public Agent GetAgent()
         {
-            Agent agent = new Agent(this.contents.agentName);
-
-            agent.isDrawed = false;
-            agent.isRotate = false;
-            agent.species = this.contents.species;
-            agent.location = this.contents.location.toVector3D();
-            agent.geometry = this.contents.geometryType;
-            agent.height = this.contents.height;
-            agent.color = this.contents.color;
-            agent.agentCoordinate = getCoordinateSequence();
-            agent.attributes = this.contents.attributes;
+            Agent agent = new Agent(this.contents.agentName)
+            {
+                isDrawed = false,
+                isRotate = false,
+                species = this.contents.species,
+                location = this.contents.location.toVector3D(),
+                geometry = this.contents.geometryType,
+                height = this.contents.height,
+                color = this.contents.color,
+                agentCoordinate = GetCoordinateSequence(),
+                attributes = this.contents.attributes
+            };
 
             return agent;
         }
 
-
-
-        public GamaCoordinateSequence getCoordinateSequence()
+        public GamaCoordinateSequence GetCoordinateSequence()
         {
             List<GamaPoint> listPoints = new List<GamaPoint>();
 
             foreach (GamaPoint point in contents.vertices)
             {
-               // point.x = point.x - (18120/2);
-               // point.y = point.y - (12620/2);
-                point.y = - point.y;
                 listPoints.Add(point);
             }
 

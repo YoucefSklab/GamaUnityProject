@@ -54,12 +54,12 @@ namespace ummisco.gama.unity.topics
 
             if (agent.geometry.Equals(IGeometry.LINESTRING) || agent.geometry.Equals(IGeometry.LineString))
             {
-                agentCreator.GetComponent<AgentCreator>().CreateGenericLineAgent(agent, true, 3f, "Road", -10);
+                agentCreator.GetComponent<AgentCreator>().CreateGenericLineAgent(agent, 3f, "Road", -10);
             }
 
             if (agent.geometry.Equals(IGeometry.POINT) || agent.geometry.Equals(IGeometry.Point))
             {
-                agentCreator.GetComponent<AgentCreator>().CreateGenericPointAgent(agent, 20f, "Road", -50);
+                agentCreator.GetComponent<AgentCreator>().CreateGenericPointAgent(agent, 10f, "Road", -50);
             }
            
 

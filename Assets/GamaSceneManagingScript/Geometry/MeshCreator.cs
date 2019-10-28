@@ -12,12 +12,12 @@ namespace ummisco.gama.unity.geometry
         }
 
 
-        public Mesh CreateMesh(float elevation, Vector2[] vect, Vector3 shiftPosition)
+        public Mesh CreateMesh(float elevation, Vector2[] vect, Vector3 shifMesh)
         {
             Mesh mesh = new Mesh();
             Triangulator tri = new Triangulator(vect);
             tri.setAllPoints(tri.Convert2dTo3dVertices());
-            mesh.vertices = tri.VerticesWithElevation(elevation, shiftPosition);
+            mesh.vertices = tri.VerticesWithElevation(elevation, shifMesh);
             mesh.triangles = tri.Triangulate3dMesh();
     
 
@@ -31,13 +31,18 @@ namespace ummisco.gama.unity.geometry
             return mesh;
         }
 
+        public Mesh CreateMesh(float elevation, Vector2[] vect)
+        {
+             return CreateMesh(elevation, vect, new Vector3(0,0,0));
+        }
 
-        public Mesh CreateMesh2(float elevation, Vector2[] vect, Vector3 shiftPosition)
+
+        public Mesh CreateMesh2(float elevation, Vector2[] vect, Vector3 shifMesh)
         {
             Mesh mesh = new Mesh();
             Triangulator tri = new Triangulator(vect);
             tri.setAllPoints(tri.Convert2dTo3dVertices());
-            mesh.vertices = tri.VerticesWithElevation(elevation, shiftPosition);
+            mesh.vertices = tri.VerticesWithElevation(elevation, shifMesh);
             mesh.triangles = tri.Triangulate3dMesh2();
 
             // For Android Build
@@ -48,6 +53,11 @@ namespace ummisco.gama.unity.geometry
             // For Android Build
             // MeshUtility.Optimize(m);
             return mesh;
+        }
+
+        public Mesh CreateMesh2(float elevation, Vector2[] vect)
+        {
+          return CreateMesh2(elevation, vect, new Vector3(0,0,0));
         }
     }
 }

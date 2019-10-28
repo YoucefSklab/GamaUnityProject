@@ -140,22 +140,27 @@ namespace ummisco.gama.unity.geometry
 
 
 
-        public Vector3[] VerticesWithElevation(float elevation, Vector3 shiftPosition)
+        public Vector3[] VerticesWithElevation(float elevation, Vector3 shiftMesh)
         {
 
             Vector3[] vertices = new Vector3[m_points.Count * 2];
 
             for (int i = 0; i < m_points.Count; i++)
             {
-                vertices[i].x = - IGamaManager.x_axis_transform * (m_points[i].x - shiftPosition.x);
-                vertices[i].y = - IGamaManager.y_axis_transform * (m_points[i].y - shiftPosition.y);
-                vertices[i].z = IGamaManager.z_axis_transform *  (- elevation - shiftPosition.z);
+                vertices[i].x = - IGamaManager.x_axis_transform * (m_points[i].x - shiftMesh.x);
+                vertices[i].y = - IGamaManager.y_axis_transform * (m_points[i].y - shiftMesh.y);
+                vertices[i].z = IGamaManager.z_axis_transform *  (- elevation - shiftMesh.z);
                 // front vertex
-                vertices[i + m_points.Count].x = - IGamaManager.x_axis_transform * (m_points[i].x - shiftPosition.x);
-                vertices[i + m_points.Count].y = - IGamaManager.y_axis_transform * (m_points[i].y - shiftPosition.y);
-                vertices[i + m_points.Count].z = IGamaManager.z_axis_transform * (elevation - shiftPosition.z);  // back vertex   
+                vertices[i + m_points.Count].x = - IGamaManager.x_axis_transform * (m_points[i].x - shiftMesh.x);
+                vertices[i + m_points.Count].y = - IGamaManager.y_axis_transform * (m_points[i].y - shiftMesh.y);
+                vertices[i + m_points.Count].z = IGamaManager.z_axis_transform * (IGamaManager.z_axis_elevation - shiftMesh.z);  // back vertex   
             }
             return vertices;
+        }
+
+        public Vector3[] VerticesWithElevation(float elevation)
+        {
+            return VerticesWithElevation(elevation, new Vector3(0,0,0));
         }
 
 
