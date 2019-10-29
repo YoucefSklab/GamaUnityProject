@@ -1,4 +1,5 @@
 
+using System;
 using System.Xml.Serialization;
 using UnityEngine;
 
@@ -24,34 +25,20 @@ namespace ummisco.gama.unity.datastructure
             return string.Format("({0}, {1}, {2})", value, falpha,name);
         }
 
-        public static Color getColorFromGamaColor(GamaColor color)
+        public Color GetRgb()
         {
             Color newColor = new Color();
 
-            var bigint = (int)color.value;
+            var bigint = (int)this.value;
             var r = (bigint >> 16) & 255;
             var g = (bigint >> 8) & 255;
             var b = bigint & 255;
+            var alpha = Convert.ToInt32(falpha);
 
             newColor.r = r;
             newColor.b = b;
             newColor.g = g;
-
-            return newColor;
-        }
-
-        public Color getColorFromGamaColor()
-        {
-            Color newColor = new Color();
-
-            var bigint = (int) this.value;
-            var r = (bigint >> 16) & 255;
-            var g = (bigint >> 8) & 255;
-            var b = bigint & 255;
-
-            newColor.r = r;
-            newColor.b = b;
-            newColor.g = g;
+            newColor.a = alpha;
 
             return newColor;
         }

@@ -52,7 +52,7 @@ namespace ummisco.gama.unity.topics
         //----------------------------------------
         public void SendTopic(Vector3 position)
         {
-            targetGameObject.transform.position = position;
+            targetGameObject.transform.position = IGamaManager.TransformGamaLocation(position);
         }
 
         public override void SetAllProperties(object args)

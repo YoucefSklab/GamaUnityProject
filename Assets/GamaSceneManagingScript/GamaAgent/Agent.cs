@@ -175,12 +175,12 @@ namespace ummisco.gama.unity.GamaAgent
             meshFilter.mesh.Clear();
             meshFilter.mesh = meshCreator.CreateMesh2(elvation, this.agentCoordinate.GetVector2Coordinates(), this.initialLocation);
 
-
             meshFilter.mesh.name = "CustomMesh";
          
             Material mat = new Material(Shader.Find("Specular"));
-            //mat.color = agent.color.getColorFromGamaColor();
-            mat.color = Color.blue;
+            mat.color = this.color.GetRgb();
+
+            // mat.color = Color.blue;
             meshRenderer.material = mat;
             //meshCollider.sharedMesh = meshFilter.mesh;
 

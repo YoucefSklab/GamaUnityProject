@@ -61,6 +61,12 @@ namespace ummisco.gama.unity.Scene
         public const int z_axis_main_camera = -900; // initial value of the z axis coordinate of the main camera
         public const int z_axis_elevation = 0; // lower value of the z axis coordinate of the objects on the scene
 
-       
+
+
+        public static Vector3 TransformGamaLocation(Vector3 location)
+        {
+            return new Vector3(x_axis_transform * location.x, y_axis_transform * location.y, z_axis_transform * location.z);
+        }
+    
     }
 }

@@ -59,7 +59,7 @@ namespace ummisco.gama.unity.geometry
             Vector3[] coord = new Vector3[Points.Count];
             for (int i = 0; i < Points.Count; i++)
             {
-                Vector3 vect = new Vector3(Points[i].x, -Points[i].y, Points[i].z);
+                Vector3 vect = new Vector3(Points[i].x, IGamaManager.y_axis_transform * Points[i].y, Points[i].z);
                 coord[i] = vect;
             }
             return coord;

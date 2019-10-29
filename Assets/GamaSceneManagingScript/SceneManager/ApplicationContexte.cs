@@ -8,7 +8,7 @@ namespace ummisco.gama.unity.Scene
     {
         public static Dictionary<string, List<GameObject>> gamaAgentList = new Dictionary<string, List<GameObject>>();
 
-        public static void addObjectToList(string species, GameObject obj)
+        public static void AddObjectToList(string species, GameObject obj)
         {
             if (gamaAgentList.ContainsKey(species) == true)
             {
@@ -22,7 +22,7 @@ namespace ummisco.gama.unity.Scene
             }
         }
 
-        public static void removeObjectFromList(string species, GameObject obj)
+        public static void RemoveObjectFromList(string species, GameObject obj)
         {
             if (gamaAgentList.ContainsKey(species))
             {

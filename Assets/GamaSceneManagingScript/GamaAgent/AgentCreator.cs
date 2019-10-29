@@ -271,7 +271,7 @@ public class AgentCreator : MonoBehaviour
 
     public void AddAgentToContexte(string species, GameObject newObject)
     {
-        ApplicationContexte.addObjectToList(species, newObject);
+        ApplicationContexte.AddObjectToList(species, newObject);
     }
 
     public void CreateLine()
