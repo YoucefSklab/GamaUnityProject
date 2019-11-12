@@ -34,12 +34,12 @@ public class MainScene : MonoBehaviour
         foreach (var agent in gamaAgentList)
         {
             GameObject newGameObject;
-            newGameObject = new GameObject(agent.agentName);
+            newGameObject = new GameObject(agent.AgentName);
 
             newGameObject.AddComponent(typeof(MeshRenderer));
             newGameObject.AddComponent(typeof(MeshFilter));
 
-            newGameObject.GetComponent<MeshFilter>().mesh = new MeshCreator().CreateMesh(30, agent.agentCoordinate.GetVector2Coordinates());
+            newGameObject.GetComponent<MeshFilter>().mesh = new MeshCreator().CreateMesh(30, agent.AgentCoordinate.GetVector2Coordinates());
             newGameObject.GetComponent<MeshFilter>().mesh.name = "CustomMesh";
             newGameObject.GetComponent<Renderer>().material = mat;
             newGameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
@@ -48,11 +48,11 @@ public class MainScene : MonoBehaviour
             newGameObject.AddComponent<Land_Use>();
             newGameObject.AddComponent<MeshCollider>();
 
-            newGameObject.GetComponent<Land_Use>().lu_name = agent.agentName + "_";
+            newGameObject.GetComponent<Land_Use>().lu_name = agent.AgentName + "_";
             newGameObject.GetComponent<Land_Use>().lu_code = 12;
             newGameObject.GetComponent<Land_Use>().population = 12;
             newGameObject.GetComponent<Land_Use>().expro_cost = 12;
-            newGameObject.GetComponent<Land_Use>().density_class = agent.agentName + "_CLASSE_DENSITE_" + 12;
+            newGameObject.GetComponent<Land_Use>().density_class = agent.AgentName + "_CLASSE_DENSITE_" + 12;
         }
     }
 
@@ -126,7 +126,7 @@ public class MainScene : MonoBehaviour
             yield return null;
         }
     }
- 
+
 
     public void AgentsGenerator()
     {
@@ -144,7 +144,7 @@ public class MainScene : MonoBehaviour
             list.Add(p);
         }
 
-        for (int i=0; i<3000; i++)
+        for (int i = 0; i < 3000; i++)
         {
             UnityAgent unityAgent = new UnityAgent
             {
@@ -178,12 +178,12 @@ public class MainScene : MonoBehaviour
             Debug.Log("Agent created : agent_" + gamaAgent.name);
         }
 
-       
 
 
 
 
-      //
+
+        //
     }
 
 

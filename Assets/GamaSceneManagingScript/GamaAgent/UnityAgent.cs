@@ -35,15 +35,15 @@ namespace ummisco.gama.unity.GamaAgent
         {
             Agent agent = new Agent(this.contents.agentName)
             {
-                isDrawed = false,
-                isRotate = false,
-                species = this.contents.species,
-                location = this.contents.location.toVector3D(),
-                geometry = this.contents.geometryType,
-                height = this.contents.height,
-                color = this.contents.color,
-                agentCoordinate = GetCoordinateSequence(),
-                attributes = this.contents.attributes
+                IsDrawed = false,
+                IsRotate = false,
+                Species = this.contents.species,
+                Location = this.contents.location.toVector3D(),
+                Geometry = this.contents.geometryType,
+                Height = this.contents.height,
+                Color = this.contents.color,
+                AgentCoordinate = GetCoordinateSequence(),
+                Attributes = this.contents.attributes
             };
 
             return agent;

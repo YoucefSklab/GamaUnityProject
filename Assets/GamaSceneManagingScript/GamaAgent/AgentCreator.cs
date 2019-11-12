@@ -26,23 +26,23 @@ public class AgentCreator : MonoBehaviour
    
     public void CreateAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate, string tagName, float zAxis)
     {
-        GameObject newObject = new GameObject(agent.agentName);
+        GameObject newObject = new GameObject(agent.AgentName);
         MeshRenderer meshRenderer = (MeshRenderer) newObject.AddComponent(typeof(MeshRenderer));
         MeshFilter meshFilter = (MeshFilter) newObject.AddComponent(typeof(MeshFilter));
         MeshCollider meshCollider = (MeshCollider) newObject.AddComponent<MeshCollider>();
 
 
-        Debug.Log("----> Agent's attributes are : "+agent.attributes.Count);
+        Debug.Log("----> Agent's attributes are : "+agent.Attributes.Count);
 
-        foreach(AgentAttribute a in agent.attributes)
+        foreach(AgentAttribute a in agent.Attributes)
         {
             Debug.Log("Attribute name is: " + a.name);
         }
 
         newObject.GetComponent<Transform>().SetParent(parentTransform);
-        float elvation = elevate ? agent.height : 0;
+        float elvation = elevate ? agent.Height : 0;
 
-        meshFilter.mesh = meshCreator.CreateMesh(elvation, agent.agentCoordinate.GetVector2Coordinates());
+        meshFilter.mesh = meshCreator.CreateMesh(elvation, agent.AgentCoordinate.GetVector2Coordinates());
         //newObject.GetComponent<MeshFilter>().mesh = meshCreator.CreateMesh(agent.height, agent.ConvertVertices());
 
         meshFilter.mesh.name = "CustomMesh";
@@ -51,7 +51,7 @@ public class AgentCreator : MonoBehaviour
         meshRenderer.material = mat;
         meshCollider.sharedMesh = meshFilter.mesh;
 
-        Vector3 posi = agent.location;
+        Vector3 posi = agent.Location;
         posi.y = -posi.y;
 
         //posi = uiManager.GetComponent<UIManager>().worldToUISpace(canvas, posi);
@@ -68,7 +68,7 @@ public class AgentCreator : MonoBehaviour
 
         SetAgentTag(newObject, tagName);
         AttacheCode(newObject, speciesId, agent);
-        AddAgentToContexte(agent.species, newObject);
+        AddAgentToContexte(agent.Species, newObject);
     }
 
     public void SetAgentTag(GameObject newObject, string tagName)
@@ -89,10 +89,9 @@ public class AgentCreator : MonoBehaviour
     {
         GameObject newObject = new GameObject()
         {
-            name = agent.agentName
+            name = agent.AgentName
         };
-
-
+        
         //newObject.transform.localScale = new Vector3(1f, 1f, 1f);
         /*
         RectTransform rt = (newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
@@ -108,8 +107,8 @@ public class AgentCreator : MonoBehaviour
         newObject.GetComponent<Agent>().SetAttributes(agent);
         newObject.GetComponent<Agent>().InitAgent(SceneManager.worldEnveloppeRT,elevate, zAxis);
 
-        SetObjectSpecies(newObject, agent.species);
-        AddAgentToContexte(agent.species, newObject);
+        SetObjectSpecies(newObject, agent.Species);
+        AddAgentToContexte(agent.Species, newObject);
     }
 
 
@@ -131,7 +130,7 @@ public class AgentCreator : MonoBehaviour
     {
         
         GameObject newObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        newObject.name = agent.agentName;
+        newObject.name = agent.AgentName;
         newObject.transform.localScale = new Vector3(height, height, height);
 
         //MeshRenderer meshRenderer = (MeshRenderer)newObject.AddComponent(typeof(MeshRenderer));
@@ -157,7 +156,7 @@ public class AgentCreator : MonoBehaviour
         meshRenderer.material = mat;
         //meshCollider.sharedMesh = meshFilter.mesh;
 
-        Vector3 posi = agent.location;
+        Vector3 posi = agent.Location;
         posi.y = -posi.y;
 
         /*
@@ -178,15 +177,15 @@ public class AgentCreator : MonoBehaviour
 
         SetAgentTag(newObject, tagName);
 
-        SetObjectSpecies(newObject, agent.species);
+        SetObjectSpecies(newObject, agent.Species);
         //AttacheCode(newObject, speciesId, agent);
-        AddAgentToContexte(agent.species, newObject);
+        AddAgentToContexte(agent.Species, newObject);
     }
 
 
     public void CreateLineAgent(Agent agent, Transform parentTransform, Material mat, int speciesId, bool elevate, float lineWidth, string tagName, float zPosition)
     {
-        GameObject newObject = new GameObject(agent.agentName);
+        GameObject newObject = new GameObject(agent.AgentName);
         newObject.GetComponent<Transform>().SetParent(parentTransform);
         var meshFilter = newObject.AddComponent<MeshFilter>();
         LineRenderer line = newObject.AddComponent<LineRenderer>();
@@ -198,8 +197,8 @@ public class AgentCreator : MonoBehaviour
 
         line.useWorldSpace = true;
 
-        line.positionCount = agent.agentCoordinate.GetVector3Coordinates().Length;
-        line.SetPositions(agent.agentCoordinate.GetVector3Coordinates());
+        line.positionCount = agent.AgentCoordinate.GetVector3Coordinates().Length;
+        line.SetPositions(agent.AgentCoordinate.GetVector3Coordinates());
         //line.positionCount = agent.agentCoordinate.getVector2Coordinates().Length / 2;
         line.material = lineMaterial;
         line.startWidth = lineWidth;
@@ -226,7 +225,7 @@ public class AgentCreator : MonoBehaviour
 
     public void CreateGenericLineAgent(Agent agent, float lineWidth, string tagName, float zPosition)
     {
-        GameObject newObject = new GameObject(agent.agentName);
+        GameObject newObject = new GameObject(agent.AgentName);
         var meshFilter = newObject.AddComponent<MeshFilter>();
         LineRenderer line = newObject.AddComponent<LineRenderer>();
         Mesh mesh = new Mesh();
@@ -241,8 +240,8 @@ public class AgentCreator : MonoBehaviour
 
         line.useWorldSpace = true;
 
-        line.positionCount = agent.agentCoordinate.GetVector3Coordinates().Length;
-        line.SetPositions(agent.agentCoordinate.GetVector3Coordinates());
+        line.positionCount = agent.AgentCoordinate.GetVector3Coordinates().Length;
+        line.SetPositions(agent.AgentCoordinate.GetVector3Coordinates());
         //line.positionCount = agent.agentCoordinate.getVector2Coordinates().Length / 2;
         line.material = lineMaterial;
         line.startWidth = lineWidth;
@@ -262,8 +261,8 @@ public class AgentCreator : MonoBehaviour
 
         SetAgentTag(newObject, tagName);
 
-        SetObjectSpecies(newObject, agent.species);
-        AddAgentToContexte(agent.species, newObject);
+        SetObjectSpecies(newObject, agent.Species);
+        AddAgentToContexte(agent.Species, newObject);
 
         Destroy(line);
 
@@ -351,38 +350,38 @@ public class AgentCreator : MonoBehaviour
             case IUILittoSim.LAND_USE_ID: // Land_Use
                 obj.AddComponent<Land_Use>();
 
-                Int32.TryParse(agent.getAttributeValue("ID"), out obj.GetComponent<Land_Use>().id);
-                Int32.TryParse(agent.getAttributeValue("lu_code"), out obj.GetComponent<Land_Use>().lu_code);
-                obj.GetComponent<Land_Use>().lu_name = agent.getAttributeValue("lu_name");
-                Int32.TryParse(agent.getAttributeValue("population"), out obj.GetComponent<Land_Use>().population);
+                Int32.TryParse(agent.GetAttributeValue("ID"), out obj.GetComponent<Land_Use>().id);
+                Int32.TryParse(agent.GetAttributeValue("lu_code"), out obj.GetComponent<Land_Use>().lu_code);
+                obj.GetComponent<Land_Use>().lu_name = agent.GetAttributeValue("lu_name");
+                Int32.TryParse(agent.GetAttributeValue("population"), out obj.GetComponent<Land_Use>().population);
 
-                obj.GetComponent<Land_Use>().dist_code = agent.getAttributeValue("dist_code");
-                float.TryParse(agent.getAttributeValue("mean_alt"), out obj.GetComponent<Land_Use>().mean_alt);
-                bool.TryParse(agent.getAttributeValue("is_in_densification"), out obj.GetComponent<Land_Use>().is_in_densification);
-                bool.TryParse(agent.getAttributeValue("focus_on_me"), out obj.GetComponent<Land_Use>().focus_on_me);
-                bool.TryParse(agent.getAttributeValue("is_adapted_type"), out obj.GetComponent<Land_Use>().is_adapted_type);
-                bool.TryParse(agent.getAttributeValue("is_urban_type"), out obj.GetComponent<Land_Use>().is_urban_type);
-                Int32.TryParse(agent.getAttributeValue("expro_cost"), out obj.GetComponent<Land_Use>().expro_cost);
+                obj.GetComponent<Land_Use>().dist_code = agent.GetAttributeValue("dist_code");
+                float.TryParse(agent.GetAttributeValue("mean_alt"), out obj.GetComponent<Land_Use>().mean_alt);
+                bool.TryParse(agent.GetAttributeValue("is_in_densification"), out obj.GetComponent<Land_Use>().is_in_densification);
+                bool.TryParse(agent.GetAttributeValue("focus_on_me"), out obj.GetComponent<Land_Use>().focus_on_me);
+                bool.TryParse(agent.GetAttributeValue("is_adapted_type"), out obj.GetComponent<Land_Use>().is_adapted_type);
+                bool.TryParse(agent.GetAttributeValue("is_urban_type"), out obj.GetComponent<Land_Use>().is_urban_type);
+                Int32.TryParse(agent.GetAttributeValue("expro_cost"), out obj.GetComponent<Land_Use>().expro_cost);
 
 
                 break;
             case IUILittoSim.COASTAL_DEFENSE_ID: // Coastal_Defense
 
                 obj.AddComponent<Coastal_Defense>();
-                Int32.TryParse(agent.getAttributeValue("coast_def_id"), out obj.GetComponent<Coastal_Defense>().coast_def_id);
-                obj.GetComponent<Coastal_Defense>().type = agent.getAttributeValue("type");
-                obj.GetComponent<Coastal_Defense>().district_code = agent.getAttributeValue("district_code");
+                Int32.TryParse(agent.GetAttributeValue("coast_def_id"), out obj.GetComponent<Coastal_Defense>().coast_def_id);
+                obj.GetComponent<Coastal_Defense>().type = agent.GetAttributeValue("type");
+                obj.GetComponent<Coastal_Defense>().district_code = agent.GetAttributeValue("district_code");
                 //obj.GetComponent<Coastal_Defense>().color = agent.getAttributeValue("color");
-                float.TryParse(agent.getAttributeValue("height"), out obj.GetComponent<Coastal_Defense>().height);
-                bool.TryParse(agent.getAttributeValue("ganivelle"), out obj.GetComponent<Coastal_Defense>().ganivelle);
-                float.TryParse(agent.getAttributeValue("alt"), out obj.GetComponent<Coastal_Defense>().alt);
-                obj.GetComponent<Coastal_Defense>().status = agent.getAttributeValue("status");
-                Int32.TryParse(agent.getAttributeValue("length_coast_def"), out obj.GetComponent<Coastal_Defense>().length_coast_def);
+                float.TryParse(agent.GetAttributeValue("height"), out obj.GetComponent<Coastal_Defense>().height);
+                bool.TryParse(agent.GetAttributeValue("ganivelle"), out obj.GetComponent<Coastal_Defense>().ganivelle);
+                float.TryParse(agent.GetAttributeValue("alt"), out obj.GetComponent<Coastal_Defense>().alt);
+                obj.GetComponent<Coastal_Defense>().status = agent.GetAttributeValue("status");
+                Int32.TryParse(agent.GetAttributeValue("length_coast_def"), out obj.GetComponent<Coastal_Defense>().length_coast_def);
                 break;
             case IUILittoSim.DISTRICT_ID: // District
                 obj.AddComponent<District>();
-                obj.GetComponent<District>().district_name = agent.getAttributeValue("district_name");
-                obj.GetComponent<District>().district_code = agent.getAttributeValue("district_code");
+                obj.GetComponent<District>().district_name = agent.GetAttributeValue("district_name");
+                obj.GetComponent<District>().district_code = agent.GetAttributeValue("district_code");
                 break;
             case IUILittoSim.PROTECTED_AREA_ID: // Protected_Area
                 obj.AddComponent<Protected_Area>();

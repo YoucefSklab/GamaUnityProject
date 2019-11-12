@@ -47,17 +47,17 @@ namespace ummisco.gama.unity.topics
             GameObject agentCreator = GameObject.Find("AgentCreator");
             Agent agent = unityAgent.GetAgent();
             
-            if(agent.geometry.Equals(IGeometry.POLYGON) || agent.geometry.Equals(IGeometry.Polygon))
+            if(agent.Geometry.Equals(IGeometry.POLYGON) || agent.Geometry.Equals(IGeometry.Polygon))
             {
                 agentCreator.GetComponent<AgentCreator>().CreateGenericPolygonAgent(agent, true, "Building", -40);
             }
 
-            if (agent.geometry.Equals(IGeometry.LINESTRING) || agent.geometry.Equals(IGeometry.LineString))
+            if (agent.Geometry.Equals(IGeometry.LINESTRING) || agent.Geometry.Equals(IGeometry.LineString))
             {
                 agentCreator.GetComponent<AgentCreator>().CreateGenericLineAgent(agent, 3f, "Road", -10);
             }
 
-            if (agent.geometry.Equals(IGeometry.POINT) || agent.geometry.Equals(IGeometry.Point))
+            if (agent.Geometry.Equals(IGeometry.POINT) || agent.Geometry.Equals(IGeometry.Point))
             {
                 agentCreator.GetComponent<AgentCreator>().CreateGenericPointAgent(agent, 10f, "Road", -50);
             }
