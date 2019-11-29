@@ -27,6 +27,17 @@ namespace ummisco.gama.unity.Scene
             }
         }
 
+
+        public void Start()
+        {
+            if (GameObject.Find(IGamaManager.WORLD_ENVELOPPE))
+            {
+                worldEnveloppeRT = GameObject.Find(IGamaManager.WORLD_ENVELOPPE).GetComponent<RectTransform>();
+            }
+        }
+
+
+
         public static void AddTag(string tag)
         {
             // Debug.Log(tag);
@@ -53,6 +64,8 @@ namespace ummisco.gama.unity.Scene
             }
             */
         }
+
+
 
         public void CreateEnveloppe()
         {
@@ -100,6 +113,12 @@ namespace ummisco.gama.unity.Scene
             string mapName = (string)obj[0];
             float x = float.Parse((string)obj[1]);
             float y = float.Parse((string)obj[2]);
+
+            if (!GameObject.Find(IGamaManager.WORLD_ENVELOPPE))
+            {
+                CreateEnveloppe();
+            }
+
             if (isGenericScene)
             {
                 GameObject.Find(IGamaManager.WORLD_ENVELOPPE).GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
@@ -107,6 +126,8 @@ namespace ummisco.gama.unity.Scene
             }
             else
             {
+                
+                GameObject.Find("MapCanvas").GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
                 GameObject.Find(mapName).GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
             }
             

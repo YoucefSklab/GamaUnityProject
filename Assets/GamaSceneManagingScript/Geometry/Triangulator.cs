@@ -14,17 +14,19 @@ namespace ummisco.gama.unity.geometry
 
         public List<Vector2> all_points = new List<Vector2>();
 
+        public Vector3[] vertices3D; 
+
         public Triangulator(Vector2[] points)
         {
             m_points = new List<Vector2>(points);
         }
 
-        public void setPoints(Vector2[] points)
+        public void SetPoints(Vector2[] points)
         {
             m_points = new List<Vector2>(points);
         }
 
-        public void setAllPoints(Vector2[] points)
+        public void SetAllPoints(Vector2[] points)
         {
             all_points = new List<Vector2>(points);
         }
@@ -147,14 +149,21 @@ namespace ummisco.gama.unity.geometry
 
             for (int i = 0; i < m_points.Count; i++)
             {
+                // front vertex
                 vertices[i].x = - IGamaManager.x_axis_transform * (m_points[i].x - shiftMesh.x);
                 vertices[i].y = - IGamaManager.y_axis_transform * (m_points[i].y - shiftMesh.y);
                 vertices[i].z = IGamaManager.z_axis_transform *  (- elevation - shiftMesh.z);
-                // front vertex
+                //vertices[i].z = IGamaManager.z_axis_transform * (IGamaManager.z_axis_elevation - shiftMesh.z);
+
+
+                // back vertex
                 vertices[i + m_points.Count].x = - IGamaManager.x_axis_transform * (m_points[i].x - shiftMesh.x);
                 vertices[i + m_points.Count].y = - IGamaManager.y_axis_transform * (m_points[i].y - shiftMesh.y);
-                vertices[i + m_points.Count].z = IGamaManager.z_axis_transform * (IGamaManager.z_axis_elevation - shiftMesh.z);  // back vertex
+                vertices[i + m_points.Count].z = IGamaManager.z_axis_transform * (IGamaManager.z_axis_elevation - shiftMesh.z);
+                //vertices[i + m_points.Count].z = IGamaManager.z_axis_transform * (- elevation - shiftMesh.z);
             }
+
+            vertices3D = vertices;
 
             return vertices;
         }
@@ -167,21 +176,22 @@ namespace ummisco.gama.unity.geometry
 
         public Vector2[] Convert2dTo3dVertices()
         {
-            Vector2[] vertices2D = new Vector2[m_points.Count * 2];
+            Vector2[] vertex3D = new Vector2[m_points.Count * 2];
             for (int i = 0; i < m_points.Count; i++)
             {
                 // front vertex
-                vertices2D[i].x = m_points[i].x;
-                vertices2D[i].y = m_points[i].y;
+                vertex3D[i].x = m_points[i].x;
+                vertex3D[i].y = m_points[i].y;
+
                 // back vertex  
-                vertices2D[i + m_points.Count].x = m_points[i].x;
-                vertices2D[i + m_points.Count].y = m_points[i].y;
+                vertex3D[i + m_points.Count].x = m_points[i].x;
+                vertex3D[i + m_points.Count].y = m_points[i].y;
             }
-            return vertices2D;
+            return vertex3D;
         }
 
 
-        public List<Vector3> get3dVerticesList(float elevation)
+        public List<Vector3> Get3dVerticesList(float elevation)
         {
             Vector3[] vertices = new Vector3[m_points.Count * 2];
 
@@ -202,13 +212,12 @@ namespace ummisco.gama.unity.geometry
 
 
 
-        public int[] getTriangules()
+        public int[] GetTriangules()
         {
             // convert polygon to triangles
 
             int[] tris = Triangulate();
-            Mesh m = new Mesh();
-
+           
             int[] triangles = new int[tris.Length * 2 + m_points.Count * 6];
             int count_tris = 0;
             for (int i = 0; i < tris.Length; i += 3)
@@ -246,7 +255,7 @@ namespace ummisco.gama.unity.geometry
         }
 
 
-        public List<int> getTriangulesList()
+        public List<int> GetTriangulesList()
         {
             return Triangulate3dMesh().OfType<int>().ToList();
         }
@@ -305,7 +314,7 @@ namespace ummisco.gama.unity.geometry
         // 0 --> p, q and r are colinear 
         // 1 --> Clockwise 
         // 2 --> Counterclockwise 
-        public int orientation(Vector2 p1, Vector2 p2, Vector2 p3)
+        public int Orientation(Vector2 p1, Vector2 p2, Vector2 p3)
         {
             // See 10th slides from following link for derivation 
             // of the formula 
@@ -318,16 +327,13 @@ namespace ummisco.gama.unity.geometry
 
 
 
-        public int[] checkClockWise(int[] tr, Vector3[] vert)
+        public int[] CheckClockWise(int[] tr, Vector3 p1, Vector3 p2, Vector3 p3)
         {
 
 
             for (int i = 0; i < tr.Length; i += 3)
             {
-
-                Vector2 p1 = new Vector2(vert[tr[i + 0]].x, vert[tr[i + 0]].y);
-                Vector2 p2 = new Vector2(vert[tr[i + 1]].x, vert[tr[i + 1]].y);
-                Vector2 p3 = new Vector2(vert[tr[i + 2]].x, vert[tr[i + 2]].y);
+      
                 if (IsTriangleOrientedClockwise(p1, p2, p3))
                 {
                     // Debug.Log("Yes it is ClockWise ->- {" + tr[i + 0] + "},{" + tr[i + 1] + "},{" + tr[i + 2] + "}");
@@ -338,9 +344,6 @@ namespace ummisco.gama.unity.geometry
                     int n = tr[i + 1];
                     tr[i + 1] = tr[i + 2];
                     tr[i + 2] = n;
-                    p1 = new Vector2(vert[tr[i + 0]].x, vert[tr[i + 0]].y);
-                    p2 = new Vector2(vert[tr[i + 1]].x, vert[tr[i + 1]].y);
-                    p3 = new Vector2(vert[tr[i + 2]].x, vert[tr[i + 2]].y);
                 }
             }
             return tr;
@@ -412,11 +415,14 @@ namespace ummisco.gama.unity.geometry
         }
 
 
-        public int[] Triangulate3dMesh2()
+        public int[] Triangulate3dMesh2(Vector3[] vertices)
         {
             // convert the initial polygon to triangles
             int[] tris = Triangulate();
 
+            // points of a triangle
+            Vector3 p1,p2,p3;
+           
             // Array to contain all the triangules of the mesh
             int[] triangles = new int[tris.Length * 2 + m_points.Count * 6];
 
@@ -425,10 +431,25 @@ namespace ummisco.gama.unity.geometry
             int count_tris = 0;
             for (int i = 0; i < tris.Length; i += 3)
             {
+                
                 triangles[i + 0] = tris[i + 0];
                 triangles[i + 1] = tris[i + 1];
                 triangles[i + 2] = tris[i + 2];
+                
+                p1 = vertices[triangles[i + 0]];
+                p2 = vertices[triangles[i + 1]];
+                p3 = vertices[triangles[i + 2]];
+                               
+                if (Orientation(p1, p2, p3) == 2) // The triangle is Conter ClockWise. Need to Clock wise it.
+                {
+                    int n = triangles[i + 1];
+                    triangles[i + 1] = triangles[i + 2];
+                    triangles[i + 2] = n;
+                }
+                                             
             }
+
+
 
             // Compute triangules of back vertices
             count_tris += tris.Length;
@@ -437,6 +458,18 @@ namespace ummisco.gama.unity.geometry
                 triangles[count_tris + i + 0] = tris[i + 2] + m_points.Count;
                 triangles[count_tris + i + 1] = tris[i + 1] + m_points.Count;
                 triangles[count_tris + i + 2] = tris[i + 0] + m_points.Count;
+                            
+                p1 = vertices[triangles[count_tris + i + 0]];
+                p2 = vertices[triangles[count_tris + i + 1]];
+                p3 = vertices[triangles[count_tris + i + 2]];
+                                
+                if (Orientation(p1, p2, p3) == 1) //  // The triangle is ClockWise. Need to Counter clockwise it (back vertices).
+                {
+                    int n = triangles[count_tris + i + 1];
+                    triangles[count_tris + i + 1] = triangles[count_tris + i + 2];
+                    triangles[count_tris + i + 2] = n;
+                }
+              
             }
 
 
@@ -477,12 +510,10 @@ namespace ummisco.gama.unity.geometry
 
 
 
-        public int[] get3DTriangulesFrom2DOld()
+        public int[] Get3DTriangulesFrom2DOld()
         {
             // convert the initial polygon to triangles
             int[] tris = Triangulate();
-
-            Mesh m = new Mesh();
 
             // Array to contain all the triangules of the mesh
             int[] triangles = new int[tris.Length * 2 + m_points.Count * 6];
@@ -531,8 +562,30 @@ namespace ummisco.gama.unity.geometry
 
 
 
-        public Mesh clockwiseMesh(Mesh mesh)
+        public Mesh ClockwiseMesh(Mesh mesh)
         {
+            int[] triangles = mesh.triangles;
+            Vector3[] vertices = mesh.vertices;
+
+            mesh.Clear();
+
+            for(int i=0; i<triangles.Length; i+=3)
+            {
+                Vector3 p1 = vertices[triangles[i]];
+                Vector3 p2 = vertices[triangles[i+1]];
+                Vector3 p3 = vertices[triangles[i+2]];
+
+                if(Orientation(p1, p2, p3) == 2)
+                {
+                    int n = triangles[i + 1];
+                    triangles[i + 1] = triangles[i + 2];
+                    triangles[i + 2] = n;
+                }
+            }
+
+            mesh.vertices = vertices;
+            mesh.triangles = triangles;
+
             return mesh;
         }
 

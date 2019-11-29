@@ -16,7 +16,7 @@ namespace ummisco.gama.unity.geometry
         {
             Mesh mesh = new Mesh();
             Triangulator tri = new Triangulator(vect);
-            tri.setAllPoints(tri.Convert2dTo3dVertices());
+            tri.SetAllPoints(tri.Convert2dTo3dVertices());
             mesh.vertices = tri.VerticesWithElevation(elevation, shifMesh);
             mesh.triangles = tri.Triangulate3dMesh();
     
@@ -41,9 +41,9 @@ namespace ummisco.gama.unity.geometry
         {
             Mesh mesh = new Mesh();
             Triangulator tri = new Triangulator(vect);
-            tri.setAllPoints(tri.Convert2dTo3dVertices());
+            tri.SetAllPoints(tri.Convert2dTo3dVertices());
             mesh.vertices = tri.VerticesWithElevation(elevation, shifMesh);
-            mesh.triangles = tri.Triangulate3dMesh2();
+            mesh.triangles = tri.Triangulate3dMesh2(mesh.vertices);
 
             // For Android Build
             // Unwrapping.GenerateSecondaryUVSet(m);

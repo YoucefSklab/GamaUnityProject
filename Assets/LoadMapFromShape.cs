@@ -56,7 +56,7 @@ public class LoadMapFromSHape: MonoBehaviour
                 listPoint[j] = v;
                 j++;
             }
-            triangulator.setPoints(listPoint);
+            triangulator.SetPoints(listPoint);
 
             poly = new GameObject("Poly_" + i);
 
@@ -88,7 +88,7 @@ public class LoadMapFromSHape: MonoBehaviour
     {
         Mesh mesh = new Mesh();
         m.vertices = triangulator.VerticesWithElevation(elevation);
-        triangulator.setAllPoints(triangulator.Convert2dTo3dVertices());
+        triangulator.SetAllPoints(triangulator.Convert2dTo3dVertices());
         m.triangles = triangulator.Triangulate3dMesh();
 
         // For Android Build

@@ -83,31 +83,27 @@ public class AgentCreator : MonoBehaviour
         }
     }
 
-
-
     public void CreateGenericPolygonAgent(Agent agent, bool elevate, string tagName, float zAxis)
+    {
+        CreateGenericPolygonAgent(agent, elevate, tagName, zAxis, true);
+    }
+
+    public void CreateGenericPolygonAgent(Agent agent, bool elevate, string tagName, float zAxis, bool groupBySpecies)
     {
         GameObject newObject = new GameObject()
         {
             name = agent.AgentName
         };
         
-        //newObject.transform.localScale = new Vector3(1f, 1f, 1f);
-        /*
-        RectTransform rt = (newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
-        rt.SetParent(SceneManager.worldEnveloppeRT);
-              
-        rt.anchorMin = new Vector2(0, 1);
-        rt.anchorMax = new Vector2(0, 1);
-        rt.pivot = new Vector2(0, 1);
-        rt.sizeDelta = new Vector2(10, 10);
-        */
         SetAgentTag(newObject, tagName);
         newObject.AddComponent<Agent>();
         newObject.GetComponent<Agent>().SetAttributes(agent);
-        newObject.GetComponent<Agent>().InitAgent(SceneManager.worldEnveloppeRT,elevate, zAxis);
-
-        SetObjectSpecies(newObject, agent.Species);
+        newObject.GetComponent<Agent>().InitAgent(SceneManager.worldEnveloppeRT, elevate, zAxis);
+        if (groupBySpecies)
+        {
+            SetObjectSpecies(newObject, agent.Species);
+        }
+      
         AddAgentToContexte(agent.Species, newObject);
     }
 
@@ -127,6 +123,11 @@ public class AgentCreator : MonoBehaviour
     }
 
     public void CreateGenericPointAgent(Agent agent, float height, string tagName, float zAxis)
+    {
+        CreateGenericPointAgent(agent, height, tagName, zAxis, true);
+    }
+
+    public void CreateGenericPointAgent(Agent agent, float height, string tagName, float zAxis, bool groupBySpecies)
     {
         
         GameObject newObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -177,7 +178,10 @@ public class AgentCreator : MonoBehaviour
 
         SetAgentTag(newObject, tagName);
 
-        SetObjectSpecies(newObject, agent.Species);
+        if (groupBySpecies)
+        {
+            SetObjectSpecies(newObject, agent.Species);
+        }
         //AttacheCode(newObject, speciesId, agent);
         AddAgentToContexte(agent.Species, newObject);
     }
@@ -218,12 +222,18 @@ public class AgentCreator : MonoBehaviour
 
         SetAgentTag(newObject, tagName);
 
+        SetObjectSpecies(newObject, agent.Species);
+      
+
         Destroy(line);
 
     }
 
-
     public void CreateGenericLineAgent(Agent agent, float lineWidth, string tagName, float zPosition)
+    {
+        CreateGenericLineAgent(agent, lineWidth, tagName, zPosition, true);
+    }
+        public void CreateGenericLineAgent(Agent agent, float lineWidth, string tagName, float zPosition, bool groupBySpecies)
     {
         GameObject newObject = new GameObject(agent.AgentName);
         var meshFilter = newObject.AddComponent<MeshFilter>();
@@ -260,8 +270,12 @@ public class AgentCreator : MonoBehaviour
         rt.localPosition = new Vector3(p.x, p.y, zPosition);
 
         SetAgentTag(newObject, tagName);
+        if (groupBySpecies)
+        {
+            SetObjectSpecies(newObject, agent.Species);
+        }
+        
 
-        SetObjectSpecies(newObject, agent.Species);
         AddAgentToContexte(agent.Species, newObject);
 
         Destroy(line);
@@ -278,7 +292,7 @@ public class AgentCreator : MonoBehaviour
   
         Vector3[] v = { new Vector3(2397, 901, 0), new Vector3(2388, 909, 0), new Vector3(2376, 917, 0), new Vector3(2352, 933, 0), new Vector3(2327, 949, 0), new Vector3(2296, 970, 0), new Vector3(2267, 989, 0), new Vector3(2237, 1009, 0), new Vector3(2207, 1029, 0), new Vector3(2197, 1036, 0), new Vector3(2189, 1043, 0), new Vector3(2182, 1050, 0), new Vector3(2175, 1059, 0), new Vector3(2171, 1069, 0), new Vector3(2168, 1079, 0) };
         GameObject newObject = new GameObject("TEST_LINE_AGENT_1", typeof(LineRenderer));
-        newObject.GetComponent<Transform>().SetParent(GameObject.Find("Ua_Map_Panel").GetComponent<RectTransform>());
+        newObject.GetComponent<Transform>().SetParent(GameObject.Find("WorldEnveloppe").GetComponent<RectTransform>());
        // newObject.AddComponent<LineRenderer>();
         //LineRenderer line = (LineRenderer)newObject.GetComponent(typeof(LineRenderer));
         LineRenderer line = newObject.GetComponent<LineRenderer>();

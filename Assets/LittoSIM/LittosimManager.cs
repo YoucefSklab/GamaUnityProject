@@ -147,7 +147,7 @@ namespace ummisco.gama.unity.littosim
             //  if (1 == 2) 
             {
                 GameObject panelChild = GameObject.CreatePrimitive(PrimitiveType.Cube); //Instantiate(UA);
-                GameObject panelParent = GameObject.Find(IUILittoSim.UA_MAP_PANEL);
+                GameObject panelParent = GameObject.Find(IUILittoSim.WORLD_ENVELOPPE);
                 panelChild.AddComponent<RectTransform>();
                 panelChild.transform.SetParent(panelParent.transform);
                 panelChild.GetComponent<RectTransform>().localPosition = new Vector3(0,0,0);

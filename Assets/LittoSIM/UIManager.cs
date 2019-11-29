@@ -247,7 +247,7 @@ namespace ummisco.gama.unity.littosim
             }
             else
             {
-                return IUILittoSim.UA_MAP_PANEL;
+                return IUILittoSim.WORLD_ENVELOPPE;
             }
         }
     }

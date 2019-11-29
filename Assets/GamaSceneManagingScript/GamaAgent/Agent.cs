@@ -138,6 +138,8 @@ namespace ummisco.gama.unity.GamaAgent
             this.Geometry = agent.Geometry;
             this.Attributes = agent.Attributes;
             this.Height = agent.Height;
+
+            Debug.Log(agent.AgentName+ " -----------> Agent color is " + agent.Color.value);
         }
 
         public Vector3 TransformGamaCoordinates(Vector3 gamaPoint)
@@ -155,8 +157,8 @@ namespace ummisco.gama.unity.GamaAgent
         {
             float elvation = elevate ? this.Height : 0;
             transform.SetParent(rtParent);
-            transform.localPosition = this.Location;
-                               
+            transform.localPosition = new Vector3(this.Location.x, this.Location.y, zAxis);
+
             MeshCreator meshCreator = new MeshCreator();
             MeshRenderer meshRenderer = (MeshRenderer)gameObject.AddComponent(typeof(MeshRenderer));
             MeshFilter meshFilter = (MeshFilter)gameObject.AddComponent(typeof(MeshFilter));

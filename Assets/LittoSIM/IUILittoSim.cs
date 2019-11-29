@@ -8,7 +8,7 @@ namespace ummisco.gama.unity.littosim
         public static string UA_PANEL = "Ua_Panel";
         public static string DEF_COTE_PANEL = "Def_Cote_Panel";
 
-        public static string UA_MAP_PANEL = "Ua_Map_Panel";
+        public static string WORLD_ENVELOPPE = "WorldEnveloppe";
         public static string DEF_COTE_MAP_PANEL = "Def_Cote_Map_Panel";
 
         public static string ONGLET_AMENAGEMENT = "Onglet_Amenagement";

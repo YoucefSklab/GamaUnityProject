@@ -44,7 +44,7 @@ public class Triangulate : MonoBehaviour
         GameObject poly;
 
         //vertices2D = vertices2D5;
-        triangulator.setPoints(vertices2D);
+        triangulator.SetPoints(vertices2D);
 
         poly = new GameObject("Poly_1");
         poly.AddComponent(typeof(MeshFilter));
@@ -380,7 +380,7 @@ public class Triangulate : MonoBehaviour
         Mesh m = new Mesh();
 
         m.Clear();
-        triangulator.setAllPoints(triangulator.Convert2dTo3dVertices());
+        triangulator.SetAllPoints(triangulator.Convert2dTo3dVertices());
         m.vertices = triangulator.VerticesWithElevation(elevation);
         m.triangles = triangulator.Triangulate3dMesh();
 

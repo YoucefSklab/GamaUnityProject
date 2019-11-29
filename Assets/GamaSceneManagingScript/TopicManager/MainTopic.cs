@@ -59,7 +59,7 @@ namespace ummisco.gama.unity.topics
 
             if (agent.Geometry.Equals(IGeometry.POINT) || agent.Geometry.Equals(IGeometry.Point))
             {
-                agentCreator.GetComponent<AgentCreator>().CreateGenericPointAgent(agent, 10f, "Road", -50);
+                agentCreator.GetComponent<AgentCreator>().CreateGenericPointAgent(agent, 10f, "Point", -50);
             }
            
 
