@@ -42,7 +42,7 @@ namespace ummisco.gama.unity.topics
 
             if (targetGameObject != null)
             {
-                Vector3 position = topicMessage.position.toVector3D();
+                Vector3 position = topicMessage.position.ToVector3D();
 
                 SendTopic(position);
             }

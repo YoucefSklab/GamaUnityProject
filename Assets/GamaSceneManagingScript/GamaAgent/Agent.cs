@@ -138,7 +138,7 @@ namespace ummisco.gama.unity.GamaAgent
             this.Geometry = agent.Geometry;
             this.Attributes = agent.Attributes;
             this.Height = agent.Height;
-
+            
             Debug.Log(agent.AgentName+ " -----------> Agent color is " + agent.Color.value);
         }
 

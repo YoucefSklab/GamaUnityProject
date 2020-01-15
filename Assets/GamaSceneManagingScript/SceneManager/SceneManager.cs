@@ -11,8 +11,32 @@ namespace ummisco.gama.unity.Scene
     public class SceneManager : MonoBehaviour
     {
         public static bool isGenericScene;
+        public static bool isOpenGL2;
         public static RectTransform worldEnveloppeRT;
         public static Canvas worldEnveloppeCanvas;
+        
+        public static Vector2 AnchorMin   // property
+        {
+            get { return isOpenGL2 ? new Vector2(0, 0) : new Vector2(0, 1); }
+            set => AnchorMin = isOpenGL2 ? new Vector2(0, 0) : new Vector2(0, 1);
+        }
+
+        public static Vector2 AnchorMax   // property
+        {
+            get { return isOpenGL2 ? new Vector2(0, 0) : new Vector2(0, 1); }
+            set => AnchorMax = isOpenGL2 ? new Vector2(0, 0) : new Vector2(0, 1);
+        }
+
+        public static Vector2 Pivot   // property
+        {
+            get { return isOpenGL2 ? new Vector2(0, 0) : new Vector2(0, 1); }
+            set => Pivot = isOpenGL2 ? new Vector2(0, 0) : new Vector2(0, 1);
+        }
+
+
+
+
+
 
         public static void SetSpeciesEnabled(string species, bool enabled)
         {
@@ -71,6 +95,7 @@ namespace ummisco.gama.unity.Scene
         {
             if (isGenericScene)
             {
+                
                 GameObject enveloppeObject = new GameObject(IGamaManager.WORLD_ENVELOPPE);
                 GameObject canvasEnveloppeObject = new GameObject(IGamaManager.CANVAS_ENVELOPPE);
                 canvasEnveloppeObject.AddComponent<Canvas>();
@@ -88,15 +113,21 @@ namespace ummisco.gama.unity.Scene
                 canvasRT.sizeDelta = new Vector2(855f, 984f);
                 canvasEnveloppeObject.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
 
-                canvasRT.anchorMin = new Vector2(0, 1);
-                canvasRT.anchorMax = new Vector2(0, 1);
-                canvasRT.pivot = new Vector2(0, 1);
-                               
+                canvasRT.anchorMin = SceneManager.AnchorMin;
+                canvasRT.anchorMax = SceneManager.AnchorMax;
+                canvasRT.pivot = SceneManager.Pivot;
+
                 worldEnveloppeRT.SetParent(canvasRT);
 
-                worldEnveloppeRT.anchorMin = new Vector2(0, 1);
-                worldEnveloppeRT.anchorMax = new Vector2(0, 1);
-                worldEnveloppeRT.pivot = new Vector2(0, 1);
+                canvasRT.anchorMin = SceneManager.AnchorMin;
+                canvasRT.anchorMax = SceneManager.AnchorMax;
+                canvasRT.pivot = SceneManager.Pivot;
+
+                worldEnveloppeRT.anchorMin = SceneManager.AnchorMin;
+                worldEnveloppeRT.anchorMax = SceneManager.AnchorMax;
+                worldEnveloppeRT.pivot = SceneManager.Pivot;
+
+               
 
                 enveloppeObject.transform.position = new Vector3(0, 0, 0);
             }            
@@ -116,7 +147,10 @@ namespace ummisco.gama.unity.Scene
 
             if (!GameObject.Find(IGamaManager.WORLD_ENVELOPPE))
             {
-                CreateEnveloppe();
+                if (isGenericScene)
+                {
+                    CreateEnveloppe();
+                }
             }
 
             if (isGenericScene)
@@ -189,6 +223,24 @@ namespace ummisco.gama.unity.Scene
         {
             object propValue = Convert.ChangeType(val, par.ParameterType);
             return propValue;
+        }
+
+        public Vector2 GetAnchorMin()
+        {
+            if(isOpenGL2) return new Vector2(0, 0);
+            return new Vector2(0, 1);
+        }
+
+        public Vector2 GetAnchorMax()
+        {
+            if (isOpenGL2) return new Vector2(0, 0);
+            return new Vector2(0, 1);
+        }
+
+        public Vector2 GetPivot()
+        {
+            if (isOpenGL2) return new Vector2(0, 0);
+            return new Vector2(0, 1);
         }
 
 

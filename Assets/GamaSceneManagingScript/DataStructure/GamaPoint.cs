@@ -34,7 +34,7 @@ namespace ummisco.gama.unity.datastructure
             return string.Format("({0}, {1}, {2})", x, y,z);
         }
 
-        public UnityEngine.Vector3 toVector3D (){
+        public UnityEngine.Vector3 ToVector3D (){
             return new UnityEngine.Vector3(x,y,z);
         }
     }

@@ -55,8 +55,15 @@ namespace ummisco.gama.unity.Scene
 
         public const string CSVREADER = "CSVReader";
 
+       
         public const int x_axis_transform = 1;
-        public const int y_axis_transform = -1;
+        //public static int y_axis_transform = SceneManager.isOpenGL2 ? 1 : -1;
+        public static int y_axis_transform   // property
+        {
+            get { return SceneManager.isOpenGL2 ? 1 : -1; }   
+            set { y_axis_transform = value; }
+        }
+
         public const int z_axis_transform = 1;
         public const int z_axis_main_camera = -900; // initial value of the z axis coordinate of the main camera
         public const int z_axis_elevation = 0; // lower value of the z axis coordinate of the objects on the scene

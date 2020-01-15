@@ -513,7 +513,8 @@ namespace ummisco.gama.unity.Scene
         }
 
         public void InitGenericScene(object args)
-        {      
+        {
+            SceneManager.isOpenGL2 = false;
             GameObject.Find(IGamaManager.SCENE_MANAGER).GetComponent<SceneManager>().SetGenericScene(true);
             GameObject.Find(IGamaManager.SCENE_MANAGER).GetComponent<SceneManager>().SetWorldEnvelope(args);
         }

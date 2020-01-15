@@ -37,7 +37,7 @@ namespace ummisco.gama.unity.topics
 
             rb = targetGameObject.GetComponent<Rigidbody>();
 
-            Vector3 movement = topicMessage.position.toVector3D();
+            Vector3 movement = topicMessage.position.ToVector3D();
 
             SendTopic(movement);
 

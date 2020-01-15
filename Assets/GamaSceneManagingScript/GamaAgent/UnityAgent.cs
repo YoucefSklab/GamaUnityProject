@@ -38,7 +38,7 @@ namespace ummisco.gama.unity.GamaAgent
                 IsDrawed = false,
                 IsRotate = false,
                 Species = this.contents.species,
-                Location = this.contents.location.toVector3D(),
+                Location = this.contents.location.ToVector3D(),
                 Geometry = this.contents.geometryType,
                 Height = this.contents.height,
                 Color = this.contents.color,

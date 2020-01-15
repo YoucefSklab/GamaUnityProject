@@ -58,10 +58,10 @@ public class AgentCreator : MonoBehaviour
         
         RectTransform rt = (newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
 
-        rt.anchorMin = new Vector2(0, 1);
-        rt.anchorMax = new Vector2(0, 1);
-        rt.pivot = new Vector2(0, 1);
-               
+        rt.anchorMin = SceneManager.AnchorMin;
+        rt.anchorMax = SceneManager.AnchorMax;
+        rt.pivot = SceneManager.Pivot;
+
         newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
         posi = newObject.GetComponent<RectTransform>().localPosition;
         newObject.GetComponent<RectTransform>().localPosition = new Vector3(posi.x, posi.y, zAxis);
@@ -165,9 +165,9 @@ public class AgentCreator : MonoBehaviour
 
         RectTransform rt = (newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
 
-        rt.anchorMin = new Vector2(0, 1);
-        rt.anchorMax = new Vector2(0, 1);
-        rt.pivot = new Vector2(0, 1);
+        rt.anchorMin = SceneManager.AnchorMin; 
+        rt.anchorMax = SceneManager.AnchorMax;
+        rt.pivot = SceneManager.Pivot;
 
         newObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
        // posi = newObject.GetComponent<RectTransform>().localPosition;
@@ -211,10 +211,10 @@ public class AgentCreator : MonoBehaviour
         meshFilter.sharedMesh = mesh;
        
         RectTransform rt = newObject.AddComponent<RectTransform>(); //(newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
-       
-        rt.anchorMin = new Vector2(0, 1);
-        rt.anchorMax = new Vector2(0, 1);
-        rt.pivot = new Vector2(0, 1);
+
+        rt.anchorMin = SceneManager.AnchorMin;
+        rt.anchorMax = SceneManager.AnchorMax;
+        rt.pivot = SceneManager.Pivot;
 
         rt.anchoredPosition = new Vector3(0, 0, 0);
         Vector3 p = rt.localPosition;
@@ -261,9 +261,9 @@ public class AgentCreator : MonoBehaviour
 
         RectTransform rt = newObject.AddComponent<RectTransform>(); //(newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
         rt.SetParent(SceneManager.worldEnveloppeRT);
-        rt.anchorMin = new Vector2(0, 1);
-        rt.anchorMax = new Vector2(0, 1);
-        rt.pivot = new Vector2(0, 1);
+        rt.anchorMin = SceneManager.AnchorMin; 
+        rt.anchorMax = SceneManager.AnchorMax;
+        rt.pivot = SceneManager.Pivot;
 
         rt.anchoredPosition = new Vector3(0, 0, 0);
         Vector3 p = rt.localPosition;
