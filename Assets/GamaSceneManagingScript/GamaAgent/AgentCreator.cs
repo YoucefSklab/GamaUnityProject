@@ -157,8 +157,8 @@ public class AgentCreator : MonoBehaviour
         meshRenderer.material = mat;
         //meshCollider.sharedMesh = meshFilter.mesh;
 
-        Vector3 posi = agent.Location;
-        posi.y = -posi.y;
+        Vector3 posi = agent.GetLocation();
+       
 
         /*
         //posi = uiManager.GetComponent<UIManager>().worldToUISpace(canvas, posi);
@@ -231,33 +231,41 @@ public class AgentCreator : MonoBehaviour
 
     public void CreateGenericLineAgent(Agent agent, float lineWidth, string tagName, float zPosition)
     {
-        CreateGenericLineAgent(agent, lineWidth, tagName, zPosition, true);
+        CreateGenericLineAgent(agent, lineWidth, tagName, zPosition, true, false);
     }
-        public void CreateGenericLineAgent(Agent agent, float lineWidth, string tagName, float zPosition, bool groupBySpecies)
+
+    public void CreateGenericLineAgent(Agent agent, float lineWidth, string tagName, float zPosition, bool groupBySpecies, bool withMesh)
     {
         GameObject newObject = new GameObject(agent.AgentName);
         var meshFilter = newObject.AddComponent<MeshFilter>();
         LineRenderer line = newObject.AddComponent<LineRenderer>();
-        Mesh mesh = new Mesh();
-        var meshRenderer = newObject.AddComponent<MeshRenderer>();
-        meshRenderer.sharedMaterial = lineMaterial;
-        Material mat = new Material(Shader.Find("Specular"))
-        {
-            color = Color.red
-        };
-        meshRenderer.sharedMaterial = mat;
-        //LineRenderer line = (LineRenderer)newObject.GetComponent(typeof(LineRenderer));
 
         line.useWorldSpace = true;
-
         line.positionCount = agent.AgentCoordinate.GetVector3Coordinates().Length;
         line.SetPositions(agent.AgentCoordinate.GetVector3Coordinates());
         //line.positionCount = agent.agentCoordinate.getVector2Coordinates().Length / 2;
         line.material = lineMaterial;
         line.startWidth = lineWidth;
         line.endWidth = lineWidth;
-        line.BakeMesh(mesh);
-        meshFilter.sharedMesh = mesh;
+
+        if (withMesh)
+        {
+            Mesh mesh = new Mesh();
+            var meshRenderer = newObject.AddComponent<MeshRenderer>();
+            meshRenderer.sharedMaterial = lineMaterial;
+            Material mat = new Material(Shader.Find("Specular"))
+            {
+                color = Color.red
+            };
+            meshRenderer.sharedMaterial = mat;
+            //LineRenderer line = (LineRenderer)newObject.GetComponent(typeof(LineRenderer));
+                        
+            line.BakeMesh(mesh);
+            meshFilter.sharedMesh = mesh;
+            Destroy(line);
+        }
+       
+   
 
         RectTransform rt = newObject.AddComponent<RectTransform>(); //(newObject.AddComponent<RectTransform>()).GetComponent<RectTransform>();
         rt.SetParent(SceneManager.worldEnveloppeRT);
@@ -275,10 +283,9 @@ public class AgentCreator : MonoBehaviour
             SetObjectSpecies(newObject, agent.Species);
         }
         
-
         AddAgentToContexte(agent.Species, newObject);
 
-        Destroy(line);
+        
 
     }
 

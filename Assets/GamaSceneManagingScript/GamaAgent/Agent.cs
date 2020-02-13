@@ -176,6 +176,12 @@ namespace ummisco.gama.unity.GamaAgent
             //meshCollider.sharedMesh = meshFilter.mesh;
             transform.localRotation = Quaternion.Euler(0, 0, 180);
         }
+
+
+        public Vector3 GetLocation()
+        {
+            return IGamaManager.TransformGamaLocation(Location);
+        }
                
     }
 }

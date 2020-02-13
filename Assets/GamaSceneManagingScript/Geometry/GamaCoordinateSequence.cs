@@ -40,8 +40,7 @@ namespace ummisco.gama.unity.geometry
         }
 
         public Vector2[] GetVector2Coordinates()
-        {
-           
+        {           
             if(Points.Count == 0) {return null;}
             Vector2[] coord = new Vector2[Points.Count];
             for (int i = 0; i < Points.Count; i++)
@@ -54,13 +53,13 @@ namespace ummisco.gama.unity.geometry
 
         public Vector3[] GetVector3Coordinates()
         {
-            
             if(Points.Count == 0) {return null;}
             Vector3[] coord = new Vector3[Points.Count];
             for (int i = 0; i < Points.Count; i++)
             {
-                Vector3 vect = new Vector3(Points[i].x, IGamaManager.y_axis_transform * Points[i].y, Points[i].z);
-                coord[i] = vect;
+                coord[i] = new Vector3( IGamaManager.x_axis_transform * Points[i].x,
+                                        IGamaManager.y_axis_transform * Points[i].y,
+                                        IGamaManager.z_axis_transform * Points[i].z);
             }
             return coord;
         }

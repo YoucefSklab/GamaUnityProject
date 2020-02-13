@@ -149,6 +149,7 @@ namespace ummisco.gama.unity.geometry
 
             for (int i = 0; i < m_points.Count; i++)
             {
+                
                 // front vertex
                 vertices[i].x = -IGamaManager.x_axis_transform * (m_points[i].x - shiftMesh.x);
                 vertices[i].y = -IGamaManager.y_axis_transform * (m_points[i].y - shiftMesh.y);
@@ -161,6 +162,22 @@ namespace ummisco.gama.unity.geometry
                 vertices[i + m_points.Count].y = -IGamaManager.y_axis_transform * (m_points[i].y - shiftMesh.y);
                 vertices[i + m_points.Count].z = IGamaManager.z_axis_transform * (IGamaManager.z_axis_elevation - shiftMesh.z);
                 //vertices[i + m_points.Count].z = IGamaManager.z_axis_transform * (- elevation - shiftMesh.z);
+                
+
+                /*
+                // front vertex
+                vertices[i].x = - IGamaManager.x_axis_transform * (m_points[i].x - shiftMesh.x);
+                vertices[i].y = - IGamaManager.y_axis_transform * (m_points[i].y - shiftMesh.y);
+                //vertices[i].z = IGamaManager.z_axis_transform * (-elevation - shiftMesh.z);
+                vertices[i].z = IGamaManager.z_axis_transform * (IGamaManager.z_axis_elevation - shiftMesh.z);
+
+
+                // back vertex
+                vertices[i + m_points.Count].x = - IGamaManager.x_axis_transform * (m_points[i].x - shiftMesh.x);
+                vertices[i + m_points.Count].y = - IGamaManager.y_axis_transform * (m_points[i].y - shiftMesh.y);
+                //vertices[i + m_points.Count].z = IGamaManager.z_axis_transform * (IGamaManager.z_axis_elevation - shiftMesh.z);
+                vertices[i + m_points.Count].z = IGamaManager.z_axis_transform * (- elevation - shiftMesh.z);
+                */
             }
 
             vertices3D = vertices;
@@ -197,9 +214,17 @@ namespace ummisco.gama.unity.geometry
 
             for (int i = 0; i < m_points.Count; i++)
             {
+                //vertices[i].x = IGamaManager.x_axis_transform * m_points[i].x;
+                //vertices[i].y = IGamaManager.y_axis_transform * m_points[i].y;
+                //vertices[i].z = IGamaManager.z_axis_transform * 0;  //- elevation; // front vertex
+
+                //vertices[i + m_points.Count].x = IGamaManager.x_axis_transform * m_points[i].x;
+                //vertices[i + m_points.Count].y = IGamaManager.y_axis_transform * m_points[i].y;
+                //vertices[i + m_points.Count].z = IGamaManager.z_axis_transform * elevation; // 0; // elevation;  // back vertex
+
                 vertices[i].x = IGamaManager.x_axis_transform * m_points[i].x;
                 vertices[i].y = IGamaManager.y_axis_transform * m_points[i].y;
-                vertices[i].z = IGamaManager.z_axis_transform * -elevation; // front vertex
+                vertices[i].z = IGamaManager.z_axis_transform * - elevation; // front vertex
 
                 vertices[i + m_points.Count].x = IGamaManager.x_axis_transform * m_points[i].x;
                 vertices[i + m_points.Count].y = IGamaManager.y_axis_transform * m_points[i].y;
