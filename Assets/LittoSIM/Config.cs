@@ -10,7 +10,7 @@ public static class Config
         //[ User]
         public static string LANGUAGE = "fr";
         public static List<string> LANGUAGE_LIST = new List<string>();
-        public static int BUTTON_SIZE  = 1500;
+        public static float BUTTON_SIZE  = 100;
         public static bool LOG_USER_ACTION = true;
         public static bool SAVE_SHP = false;
 

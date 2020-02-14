@@ -99,6 +99,7 @@ public class AgentCreator : MonoBehaviour
         newObject.AddComponent<Agent>();
         newObject.GetComponent<Agent>().SetAttributes(agent);
         newObject.GetComponent<Agent>().InitAgent(SceneManager.worldEnveloppeRT, elevate, zAxis);
+        
         if (groupBySpecies)
         {
             SetObjectSpecies(newObject, agent.Species);
@@ -117,8 +118,10 @@ public class AgentCreator : MonoBehaviour
         else
         {
             GameObject obj = new GameObject(species);
+            //obj.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
             newObject.transform.SetParent(obj.transform);
             obj.transform.SetParent(SceneManager.worldEnveloppeRT);
+            obj.transform.localPosition = new Vector3(0, 0, 0);
         }
     }
 

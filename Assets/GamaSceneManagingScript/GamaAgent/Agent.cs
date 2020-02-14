@@ -159,6 +159,8 @@ namespace ummisco.gama.unity.GamaAgent
             transform.SetParent(rtParent);
             transform.localPosition = new Vector3(this.Location.x, this.Location.y, zAxis);
 
+           
+
             MeshCreator meshCreator = new MeshCreator();
             MeshRenderer meshRenderer = (MeshRenderer)gameObject.AddComponent(typeof(MeshRenderer));
             MeshFilter meshFilter = (MeshFilter)gameObject.AddComponent(typeof(MeshFilter));

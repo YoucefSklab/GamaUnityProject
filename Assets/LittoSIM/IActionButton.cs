@@ -6,8 +6,8 @@ namespace ummisco.gama.unity.littosim
 
     public class IActionButton
     {
-        public static float max_x = 1400;
-        public static float min_x = -1400;
+        public static float max_x = 450; //1400;
+        public static float min_x = -450; //-1400;
         public static int action_nbr = 10;
         
         public static float y = 0f;

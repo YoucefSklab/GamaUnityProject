@@ -160,9 +160,12 @@ namespace ummisco.gama.unity.Scene
             }
             else
             {
-                
-                GameObject.Find("MapCanvas").GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
+                Vector3 p = GameObject.Find("Map_Canvas").transform.position;
+                //GameObject.Find("MapCanvas").GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
                 GameObject.Find(mapName).GetComponent<RectTransform>().sizeDelta = new Vector2(x, y);
+                GameObject.Find(mapName).GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
+                GameObject.Find(mapName).transform.position = p;
+                GameObject.Find(mapName).GetComponent<RectTransform>().pivot = new Vector2(0.0f, 1.0f);
             }
             
         }

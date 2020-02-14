@@ -67,6 +67,8 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
             RectTransform rt = gameObject.GetComponent<RectTransform>();
             rt.localPosition = this.position;
             rt.sizeDelta = new Vector2(Config.BUTTON_SIZE/10, Config.BUTTON_SIZE/10);
+            rt.sizeDelta = new Vector2(40, 40);
+           // rt.sizeDelta = new Vector2(Config.BUTTON_SIZE / 10, Config.BUTTON_SIZE / 10);
         }
         
         public void OnAddButtonClicked()
