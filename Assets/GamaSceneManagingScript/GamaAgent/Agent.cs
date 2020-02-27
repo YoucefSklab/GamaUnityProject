@@ -158,8 +158,7 @@ namespace ummisco.gama.unity.GamaAgent
             float elvation = elevate ? this.Height : 0;
             transform.SetParent(rtParent);
             transform.localPosition = new Vector3(this.Location.x, this.Location.y, zAxis);
-
-           
+                       
 
             MeshCreator meshCreator = new MeshCreator();
             MeshRenderer meshRenderer = (MeshRenderer)gameObject.AddComponent(typeof(MeshRenderer));
@@ -177,6 +176,8 @@ namespace ummisco.gama.unity.GamaAgent
             meshRenderer.material = mat;
             //meshCollider.sharedMesh = meshFilter.mesh;
             transform.localRotation = Quaternion.Euler(0, 0, 180);
+
+            gameObject.AddComponent<MeshCollider>();
         }
 
 

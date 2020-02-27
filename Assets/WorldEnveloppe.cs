@@ -70,25 +70,7 @@ public class WorldEnveloppe : MonoBehaviour
 
     void Update()
     {
-        /*
-        float fov = Camera.main.fieldOfView;
-        Debug.Log("Old fov is " + fov);
-
-        fov += Input.GetAxis("Mouse ScrollWheel") * sensitivity;
-
-        Debug.Log("sensitivity fov is " + fov);
-
-        fov = Mathf.Clamp(fov, minFov, maxFov);
-
-        Debug.Log("Mathf fov is " + fov);
-
-        Camera.main.fieldOfView = fov;
-
-        gameObject.transform.localScale *= scaleFactor;
-
-        Debug.Log(" -----> ");
-        */
-
+    
         float scrollWheelInput = Input.GetAxis("Mouse ScrollWheel");
 
         if (Mathf.Abs(scrollWheelInput) > float.Epsilon)
@@ -97,8 +79,17 @@ public class WorldEnveloppe : MonoBehaviour
             _currentZoom = Mathf.Clamp(_currentZoom, _minZoom, _maxZoom);
             _startPinchScreenPosition = (Vector2)Input.mousePosition;
 
+            
             if (Mathf.Abs(gameObject.transform.localScale.x - _currentZoom) > 0.001f)
+            {
+                //gameObject.transform.position = GameObject.Find("Map_Canvas").transform.position;
+                 // gameObject.transform.localPosition = GetEnveloppeCentred(GameObject.Find("Map_Canvas").transform.localPosition, GameObject.Find("Map_Canvas").GetComponent<RectTransform>().sizeDelta);
+                //gameObject.transform.localPosition = GetEnveloppeCentred(GameObject.Find("Map_Canvas").transform.localPosition, gameObject.transform.GetComponent<RectTransform>().sizeDelta);
                 gameObject.transform.localScale = Vector3.Lerp(gameObject.transform.localScale, Vector3.one * _currentZoom, _zoomLerpSpeed * Time.deltaTime);
+
+                gameObject.transform.localPosition = new Vector3(-4614.0f, 7487.0f, 0.0f);
+            }
+
 
 
 
@@ -108,7 +99,7 @@ public class WorldEnveloppe : MonoBehaviour
             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, _startPinchScreenPosition, null, out _startPinchCenterPosition);
             Vector2 pivotPosition = new Vector3(rectTransform.pivot.x * rectTransform.rect.size.x, rectTransform.pivot.y * rectTransform.rect.size.y);
             Vector2 posFromBottomLeft = pivotPosition + _startPinchCenterPosition;
-            SetPivot(rectTransform, new Vector2(posFromBottomLeft.x / rectTransform.rect.width, posFromBottomLeft.y / rectTransform.rect.height));
+          //  SetPivot(rectTransform, new Vector2(posFromBottomLeft.x / rectTransform.rect.width, posFromBottomLeft.y / rectTransform.rect.height));
             
 
         }
@@ -124,8 +115,8 @@ public class WorldEnveloppe : MonoBehaviour
 
 
 
-        Vector3 MapCanvasPosition = GameObject.Find("Map_Canvas").transform.localPosition;
-      //gameObject.transform.localPosition = GameObject.Find("Map_Canvas").transform.localPosition;
+        //Vector3 MapCanvasPosition = GameObject.Find("Map_Canvas").transform.localPosition;
+        //gameObject.transform.localPosition = GameObject.Find("Map_Canvas").transform.localPosition;
 
     }
 
@@ -159,6 +150,10 @@ public class WorldEnveloppe : MonoBehaviour
     }
 
 
+    Vector3 GetEnveloppeCentred(Vector3 MapCanvasCenter, Vector2 EnveloppeDim)
+    {
+        return new Vector3(MapCanvasCenter.x - (EnveloppeDim.x / 2), MapCanvasCenter.y + (EnveloppeDim.y / 2), 0);
+    }
 
 
 

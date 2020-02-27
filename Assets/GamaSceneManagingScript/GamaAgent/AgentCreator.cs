@@ -106,6 +106,11 @@ public class AgentCreator : MonoBehaviour
         }
       
         AddAgentToContexte(agent.Species, newObject);
+        if (agent.Species.Equals("Land_Use")){
+            newObject.AddComponent<Land_Use>();
+        }
+      
+  
     }
 
 
