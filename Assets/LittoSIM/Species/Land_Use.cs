@@ -43,6 +43,8 @@ namespace ummisco.gama.unity.littosim
             cg = GameObject.Find("Canvas_Tips").GetComponent<CanvasGroup>();
             canvas = GameObject.Find("Canvas_Tips").GetComponent<Canvas>();
             tips = GameObject.Find("Tips");
+
+            
         }
 
         public void UAInit(UnityAgent unityAgent)
@@ -98,12 +100,12 @@ namespace ummisco.gama.unity.littosim
 
         void SetInfo()
         {
-            GameObject.Find("attribute_1").GetComponent<Text>().text = "ID: " + id;
-            GameObject.Find("attribute_2").GetComponent<Text>().text = "Name: " + gameObject.name; //  lu_name;
-            GameObject.Find("attribute_3").GetComponent<Text>().text = "Code: " + lu_code;
-            GameObject.Find("attribute_4").GetComponent<Text>().text = "District Code: " + dist_code;
-            GameObject.Find("attribute_5").GetComponent<Text>().text = "Population: " + population;
-            GameObject.Find("attribute_6").GetComponent<Text>().text = "Mean alt: " + mean_alt;
+            GameObject.Find("attribute_1").GetComponent<Text>().text = "ID: " + gameObject.GetComponent<Agent>().GetAttributeValue("id");// id;
+            GameObject.Find("attribute_2").GetComponent<Text>().text = "Name: " + gameObject.GetComponent<Agent>().GetAttributeValue("lu_name"); //  lu_name;
+            GameObject.Find("attribute_3").GetComponent<Text>().text = "Code: " + gameObject.GetComponent<Agent>().GetAttributeValue("lu_code"); //lu_code;
+            GameObject.Find("attribute_4").GetComponent<Text>().text = "District Code: " + gameObject.GetComponent<Agent>().GetAttributeValue("dist_code");//dist_code;
+            GameObject.Find("attribute_5").GetComponent<Text>().text = "Population: " + gameObject.GetComponent<Agent>().GetAttributeValue("population"); //population;
+            GameObject.Find("attribute_6").GetComponent<Text>().text = "Mean alt: " + gameObject.GetComponent<Agent>().GetAttributeValue("mean_alt"); // mean_alt;
         }
 
         void ResetSetInfo()
