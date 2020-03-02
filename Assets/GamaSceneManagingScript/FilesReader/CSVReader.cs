@@ -19,6 +19,7 @@ using ummisco.gama.unity.littosim;
 using System;
 using ummisco.gama.unity.Scene;
 using ummisco.gama.unity.utils;
+using UnityEngine.UI;
 
 namespace ummisco.gama.unity.files
 {
@@ -32,19 +33,18 @@ namespace ummisco.gama.unity.files
 
         public void Start()
         {
-
-            CSVParser csvParser = new CSVParser();
-            string fileContent = csvParser.readDataIntoString(path);
-            langueDic = GetInDictionnary(fileContent, lng);
-
-        }
-
-        public void loadCSVFile()
-        {
             StreamReader reader = new StreamReader(path);
-            string fileContent = reader.ReadToEnd();
-            langueDic = GetInDictionnary(fileContent, lng);
+            string content = reader.ReadToEnd();
+           langueDic = GetInDictionnary(content, lng);
+           //langueDic = GetInDictionnary(new CSVParser().ReadDataIntoString(path), lng);
         }
+
+        
+        public void LoadCSVFile()
+        {
+           langueDic = GetInDictionnary(new StreamReader(path).ReadToEnd(), lng);
+        }
+        
 
         // get csv langue in dictionnary
         static public Dictionary<string, Langue> GetInDictionnary(string csvText, string lng)
@@ -84,6 +84,10 @@ namespace ummisco.gama.unity.files
             if (lng.Equals("fr"))
             {
                 value = splitString[1];
+                Text txt = GameObject.Find("Te").GetComponent<Text>();
+                var textFile = Resources.Load<TextAsset>("config/Test");
+                txt.text = textFile.ToString();
+
             }
             else if (lng.Equals("en"))
             {

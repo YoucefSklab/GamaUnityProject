@@ -432,6 +432,8 @@ namespace ummisco.gama.unity.Scene
                 #else
                         Application.Quit ();
                 #endif
+               
+                 Application.Quit ();
             }
         }
 

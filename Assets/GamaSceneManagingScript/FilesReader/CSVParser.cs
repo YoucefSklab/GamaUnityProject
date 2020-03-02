@@ -24,7 +24,7 @@ namespace ummisco.gama.unity.files
 
         }
 
-        public string readDataIntoString(string csvFilePath)
+        public string ReadDataIntoString(string csvFilePath)
         {
             StreamReader reader = new StreamReader(csvFilePath);
             return reader.ReadToEnd();

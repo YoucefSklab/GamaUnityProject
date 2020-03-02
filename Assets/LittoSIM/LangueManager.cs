@@ -24,7 +24,7 @@ namespace ummisco.gama.unity.littosim
             GameObject obj;
             obj = GameObject.Find(IGamaManager.CSV_READER);
             obj.GetComponent<CSVReader>().lng = lng;
-            obj.SendMessage("loadCSVFile");
+            obj.SendMessage("LoadCSVFile");
             langueDic = obj.GetComponent<CSVReader>().langueDic;
             SetUpLangueDictionnary();
 
@@ -74,7 +74,7 @@ namespace ummisco.gama.unity.littosim
         {
             CSVParser csvParser = new CSVParser();
             configFilePath = IGamaManager.RESOURCES_PATH + "config/littosim.conf";
-            string fileContent = csvParser.readDataIntoString(configFilePath);
+            string fileContent = csvParser.ReadDataIntoString(configFilePath);
 
             string[] lines = fileContent.Split("\n"[0]);
            
