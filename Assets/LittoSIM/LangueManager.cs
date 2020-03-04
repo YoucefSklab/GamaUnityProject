@@ -12,8 +12,6 @@ namespace ummisco.gama.unity.littosim
     {
         public static string langue = "fr";
 
-        public string configFilePath = IGamaManager.RESOURCES_PATH + "config/littosim.conf";
-
         public Dictionary<string, Langue> langueDic = new Dictionary<string, Langue>();
 
         void Start()
@@ -21,11 +19,15 @@ namespace ummisco.gama.unity.littosim
             ReadConfigFile();
             string lng = Config.LANGUAGE;
 
+            Text text = GameObject.Find("Te").GetComponent<Text>();
+            text.text = lng;
+
             GameObject obj;
             obj = GameObject.Find(IGamaManager.CSV_READER);
             obj.GetComponent<CSVReader>().lng = lng;
-            obj.SendMessage("LoadCSVFile");
+            obj.GetComponent<CSVReader>().LoadCSVFile(); 
             langueDic = obj.GetComponent<CSVReader>().langueDic;
+                       
             SetUpLangueDictionnary();
 
             
@@ -73,8 +75,7 @@ namespace ummisco.gama.unity.littosim
         public void ReadConfigFile()
         {
             CSVParser csvParser = new CSVParser();
-            configFilePath = IGamaManager.RESOURCES_PATH + "config/littosim.conf";
-            string fileContent = csvParser.ReadDataIntoString(configFilePath);
+            string fileContent = csvParser.ReadDataIntoString("littosim");
 
             string[] lines = fileContent.Split("\n"[0]);
            

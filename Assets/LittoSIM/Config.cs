@@ -8,7 +8,7 @@ public static class Config
         public static bool ACTIVEMQ_CONNECT = false;
 
         //[ User]
-        public static string LANGUAGE = "fr";
+        public static string LANGUAGE = "en";
         public static List<string> LANGUAGE_LIST = new List<string>();
         public static float BUTTON_SIZE  = 100;
         public static bool LOG_USER_ACTION = true;

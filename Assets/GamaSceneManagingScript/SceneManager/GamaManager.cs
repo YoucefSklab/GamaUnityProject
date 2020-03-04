@@ -11,6 +11,8 @@ using ummisco.gama.unity.GamaAgent;
 using ummisco.gama.unity.littosim;
 using ummisco.gama.unity.files;
 using ummisco.gama.unity.Network;
+using ummisco.gama.unity.littosim.ActionPrefab;
+using UnityEngine.UI;
 
 namespace ummisco.gama.unity.Scene
 {
@@ -87,21 +89,27 @@ namespace ummisco.gama.unity.Scene
         // Use this for initialization
         void Start()
         {
+            Text txt3 = GameObject.Find("Te3").GetComponent<Text>();
+            txt3.text = "  -> From Gama Manager Start " + System.DateTime.Now;
+            
             sceneManager = GameObject.Find(IMQTTConnector.SCENE_MANAGER).GetComponent<SceneManager>();
             connector = GameObject.Find(IMQTTConnector.MQTT_CONNECTOR).GetComponent<MQTTConnector>();
             connector.Connect();
             connector.InitTopics();
             connector.Subscribe("littosim");
-
+            /*
+            */
             agentCreator = GameObject.Find("AgentCreator");
-
-            //agentCreator.GetComponent<AgentCreator>().CreateLine();
+          
         }
 
 
         void FixedUpdate()
         {
             HandleMessage();
+
+            Text txt3 = GameObject.Find("Te2").GetComponent<Text>();
+            txt3.text = "  -> " + System.DateTime.Now;
         }
 
 

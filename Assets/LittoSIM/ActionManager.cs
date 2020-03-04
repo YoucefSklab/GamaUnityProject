@@ -29,18 +29,26 @@ namespace ummisco.gama.unity.littosim
         public void Start()
         {
             communActions = new List<string>() { "ACTION_INSPECT", "ACTION_DISPLAY_FLOODING", "ACTION_DISPLAY_FLOODED_AREA", "ACTION_DISPLAY_PROTECTED_AREA" };
-            path = IGamaManager.RESOURCES_PATH + "config/actions.conf";
-            StreamReader reader = new StreamReader(path);
-            string fileContent = reader.ReadToEnd();
-            actions_dic = GetActionsList(fileContent);
-            Dictionary<string, Action> us_actions_dic = GetUAActionsList();
-            Dictionary<string, Action> def_cote_actions_dic = GetDefCotActionsList();
+            //  path = IGamaManager.RESOURCES_PATH + "config/actions.conf";
 
-            SetUpUAActions(us_actions_dic);
-            SetUpDefCoteActions(def_cote_actions_dic);
-            AddCommunButtons();
-
+            Text BTest = GameObject.Find("BTest").GetComponent<Text>();
+            BTest.text = "  ->  Here is the script to fix buttons issue  Start()";
+            var actionsFile = Resources.Load<TextAsset>(IGamaManager.CONFIG_PATH+"actions");
+            
+            if (actionsFile != null)
+            {
+                StreamReader reader = new StreamReader(new MemoryStream(actionsFile.bytes)) ;
+                string fileContent = reader.ReadToEnd();
+                actions_dic = GetActionsList(fileContent);
+                Dictionary<string, Action> us_actions_dic = GetUAActionsList();
+                Dictionary<string, Action> def_cote_actions_dic = GetDefCotActionsList();
+                SetUpUAActions(us_actions_dic);
+                SetUpDefCoteActions(def_cote_actions_dic);
+                AddCommunButtons();
+            }
         }
+
+
 
         // Read data from CSV file
         private void readData(string fileContent)
@@ -130,6 +138,9 @@ namespace ummisco.gama.unity.littosim
         {
             GameObject Ua_Panel = GameObject.Find(IUILittoSim.UA_PANEL);
 
+            //Text BTest = GameObject.Find("BTest").GetComponent<Text>();
+            //BTest.text = "  ->  Here is the script to fix buttons issue";
+
             foreach (KeyValuePair<string, Action> act in actions)
             {
                 
@@ -174,7 +185,10 @@ namespace ummisco.gama.unity.littosim
                     action_button.GetComponent<RectTransform>().SetParent(Ua_Panel.GetComponent<RectTransform>());
                     action_button.GetComponent<Button_Action_Prefab>().SetUp("Land_Use_" + action, act.action_code, act.button_help_message, act.button_icon_file, "Land_Use", IActionButton.GetPosition(13 - nbrAct));
                     action_button.tag = ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG;
-          
+
+
+
+
                     action_button = Instantiate(GameObject.Find(ILittoSimConcept.LITTOSIM_MANANGER).GetComponent<LittosimManager>().ButtonActionPrefab);
                     action_button.name = "Coastal_Defense_" + action;
                     action_button.GetComponent<RectTransform>().SetParent(Def_Cote_Panel.GetComponent<RectTransform>());

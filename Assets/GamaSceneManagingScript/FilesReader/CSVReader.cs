@@ -26,23 +26,26 @@ namespace ummisco.gama.unity.files
     //TODO  Use the class CSVParsing to read the data from csv file
     public class CSVReader : MonoBehaviour
     {
-        //public string path = IGamaManager.RESOURCES_PATH + "langs_def.csv";
-        public string path = IGamaManager.RESOURCES_PATH + "config/langs.conf";
+        public string path = IGamaManager.CONFIG_PATH + "langs.conf";
         public string lng = Config.LANGUAGE;
         public Dictionary<string, Langue> langueDic = new Dictionary<string, Langue>();
 
         public void Start()
         {
-            StreamReader reader = new StreamReader(path);
-            string content = reader.ReadToEnd();
-           langueDic = GetInDictionnary(content, lng);
-           //langueDic = GetInDictionnary(new CSVParser().ReadDataIntoString(path), lng);
+            LoadCSVFile();
         }
 
         
         public void LoadCSVFile()
         {
-           langueDic = GetInDictionnary(new StreamReader(path).ReadToEnd(), lng);
+            var langsFile = Resources.Load<TextAsset>(IGamaManager.CONFIG_PATH + "langs");
+
+            if (langsFile != null)
+            {
+                StreamReader reader = new StreamReader(new MemoryStream(langsFile.bytes));
+                string fileContent = reader.ReadToEnd();
+                langueDic = GetInDictionnary(fileContent, lng);
+            }
         }
         
 
@@ -52,15 +55,11 @@ namespace ummisco.gama.unity.files
             string[] lines = csvText.Split("\n"[0]);
             Dictionary<string, Langue> langue = new Dictionary<string, Langue>();
 
-            string allFile = "";
-
             for (int i = 0; i < lines.Length; i++)
             {
                 Langue langueElement = GetLangueElements(lines[i], lng);
                 langue.Add(langueElement.element, langueElement);
-                allFile += "public static string " + langueElement.element + " = \"" + langueElement.value + "\"; \n";
             }
-
             return langue;
         }
 
@@ -83,19 +82,12 @@ namespace ummisco.gama.unity.files
 
             if (lng.Equals("fr"))
             {
-                value = splitString[1];
-                Text txt = GameObject.Find("Te").GetComponent<Text>();
-                var textFile = Resources.Load<TextAsset>("config/Test");
-                txt.text = textFile.ToString();
-
+                value = splitString[1];              
             }
             else if (lng.Equals("en"))
             {
                 value = splitString[2];
             }
-
-
-
             return new Langue(langueElement, value);
         }
 

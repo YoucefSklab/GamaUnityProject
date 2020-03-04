@@ -17,7 +17,7 @@ namespace ummisco.gama.unity.Scene
         public const string WORLD_ENVELOPPE = "WorldEnveloppe";
         public const string CANVAS_ENVELOPPE = "CanvasEnveloppe";
 
-        public const string RESOURCES_PATH = "Assets/Resources/";
+        public const string CONFIG_PATH = "config/";
 
 
 

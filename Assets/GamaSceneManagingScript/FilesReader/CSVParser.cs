@@ -24,10 +24,19 @@ namespace ummisco.gama.unity.files
 
         }
 
-        public string ReadDataIntoString(string csvFilePath)
+        public string ReadDataIntoString(string csvFileName)
         {
-            StreamReader reader = new StreamReader(csvFilePath);
-            return reader.ReadToEnd();
+            var file = Resources.Load<TextAsset>(IGamaManager.CONFIG_PATH+ csvFileName);
+
+            if (file != null)
+            {
+                StreamReader reader = new StreamReader(new MemoryStream(file.bytes));
+                return reader.ReadToEnd();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         // Get the path in iOS device

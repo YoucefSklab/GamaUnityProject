@@ -5,6 +5,7 @@ using ummisco.gama.unity.geometry;
 using ummisco.gama.unity.littosim;
 using ummisco.gama.unity.Scene;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AgentCreator : MonoBehaviour
 {
@@ -109,8 +110,7 @@ public class AgentCreator : MonoBehaviour
         if (agent.Species.Equals("Land_Use")){
             newObject.AddComponent<Land_Use>();
         }
-      
-  
+
     }
 
 

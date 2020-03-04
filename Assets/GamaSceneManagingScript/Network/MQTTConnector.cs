@@ -29,14 +29,23 @@ namespace ummisco.gama.unity.Network
 
         public void Connect()
         {
-            var timestamp = DateTime.Now.ToFileTime();
-            clientId = Guid.NewGuid().ToString() + timestamp;
+
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                SERVER_URL = "vmpams.ird.fr";
+                SERVER_PORT = 1935;
+            }
+
+            SERVER_URL = "vmpams.ird.fr";
+            SERVER_PORT = 1935;
+
+            clientId = Guid.NewGuid().ToString() + DateTime.Now.ToFileTime(); 
             client = new MqttClient(SERVER_URL, SERVER_PORT, false, null);
 
             client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
 
-            // client.Connect(clientId, MqttSetting.DEFAULT_USER, MqttSetting.DEFAULT_PASSWORD);
-            client.Connect(clientId);
+            client.Connect(clientId, DEFAULT_USER, DEFAULT_PASSWORD);
+            //client.Connect(clientId);
         }
 
         public void Subscribe(string topic)
