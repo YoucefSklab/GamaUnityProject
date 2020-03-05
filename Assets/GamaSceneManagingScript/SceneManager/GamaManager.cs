@@ -89,27 +89,34 @@ namespace ummisco.gama.unity.Scene
         // Use this for initialization
         void Start()
         {
-            Text txt3 = GameObject.Find("Te3").GetComponent<Text>();
-            txt3.text = "  -> From Gama Manager Start " + System.DateTime.Now;
+           
             
             sceneManager = GameObject.Find(IMQTTConnector.SCENE_MANAGER).GetComponent<SceneManager>();
             connector = GameObject.Find(IMQTTConnector.MQTT_CONNECTOR).GetComponent<MQTTConnector>();
             connector.Connect();
+
+            connector.Publish("Unity", " --------------->>> ");
+
             connector.InitTopics();
             connector.Subscribe("littosim");
-            /*
-            */
             agentCreator = GameObject.Find("AgentCreator");
-          
+
+            Text txt3 = GameObject.Find("Te3").GetComponent<Text>();
+            txt3.text = "  -> CONNECTED From Gama Manager Start " + System.DateTime.Now;
+
+
+            connector.Publish("Unity", " --------------->>> 2 ");
+
+            connector.Subscribe("vmpams");
+
+            txt3.text = "  -> MESSAGE SENT From Gama Manager Start " + System.DateTime.Now;
+
         }
 
 
         void FixedUpdate()
         {
             HandleMessage();
-
-            Text txt3 = GameObject.Find("Te2").GetComponent<Text>();
-            txt3.text = "  -> " + System.DateTime.Now;
         }
 
 
@@ -127,10 +134,10 @@ namespace ummisco.gama.unity.Scene
                     return;
                 }
                 */
-
+              
                 receivedMsg = System.Text.Encoding.UTF8.GetString(e.Message);
 
-                //     Debug.Log("-> Received Message is : " + receivedMsg);
+                Debug.Log("-> Received Message is : " + receivedMsg + " On topic : "+e.Topic);
 
                 if (agentsTopicDic.Keys.Contains(e.Topic)){
 
@@ -447,14 +454,14 @@ namespace ummisco.gama.unity.Scene
 
         public void Tester()
         {
-            connector.Publish("Gama", "Good, Bug fixed -> Sending from Unity3D!!! Good");
+            connector.Publish("Unity", "Good, Bug fixed -> Sending from Unity3D!!! Good");
         }
 
         public void SendGotBoxMsg()
         {
             GamaReponseMessage msg = new GamaReponseMessage(connector.clientId, "GamaAgent", "Got a Box notification", DateTime.Now.ToString());
             string message = MsgSerialization.ToXML(msg);
-            connector.Publish("Gama", message);
+            connector.Publish("Unity", message);
         }
 
         // à revoir en utilisant publishMessage
