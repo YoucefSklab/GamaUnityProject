@@ -14,11 +14,11 @@ namespace ummisco.gama.unity.Network
         public MqttClient client;
 
         // Server parameters
-        //public static string SERVER_URL = "localhost";
-        //public static int SERVER_PORT = 1883;
+        public static string SERVER_URL = "localhost";
+        public static int SERVER_PORT = 1883;
 
-        public static string SERVER_URL = "vmpams.ird.fr";
-        public static int SERVER_PORT = 1935;
+        //public static string SERVER_URL = "vmpams.ird.fr";
+        //public static int SERVER_PORT = 1935;
 
         //public static string SERVER_URL = "195.221.248.15";
         //public static int SERVER_PORT = 1935;
@@ -30,36 +30,21 @@ namespace ummisco.gama.unity.Network
 
         List<MqttMsgPublishEventArgs> msgList = new List<MqttMsgPublishEventArgs>();
 
-        public void Connect()
+        public void Connect(string serverUrl, int serverPort, string userId, string password)
         {
 
-            if (Application.platform == RuntimePlatform.Android)
-            {
-                SERVER_URL = "vmpams.ird.fr";
-                SERVER_PORT = 1935;
-            }
-
-            SERVER_URL = "vmpams.ird.fr";
-            SERVER_PORT = 1935;
-
             clientId = Guid.NewGuid().ToString() + DateTime.Now.ToFileTime(); 
-            client = new MqttClient(SERVER_URL, SERVER_PORT, false, null);
-
+            client = new MqttClient(serverUrl, serverPort, false, null);
+         
             client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
 
-            client.Connect(clientId, DEFAULT_USER, DEFAULT_PASSWORD);
+            client.Connect(clientId, userId, password);
+            //client.Connect(clientId);
 
-            Debug.Log("Is Connected : "+client.IsConnected );
             Debug.Log("Connected to : " + SERVER_URL + "  " + SERVER_PORT + "  " + DEFAULT_USER + "   " + DEFAULT_PASSWORD);
             //client.Connect(clientId);
 
-            Publish("Test", "$$$$$$$$$$$>> ");
-
-            Debug.Log(" Is sent: " + client.Publish("Test", System.Text.Encoding.UTF8.GetBytes("Test"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true));
-            Debug.Log(" Is sent: " + client.Publish("Test", System.Text.Encoding.UTF8.GetBytes("Test"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true));
-            Debug.Log(" Is sent: " + client.Publish("Test", System.Text.Encoding.UTF8.GetBytes("Test"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true));
-            Debug.Log(" Is sent: " + client.Publish("Test", System.Text.Encoding.UTF8.GetBytes("Test"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true));
-
+            Debug.Log(" Is sent: " + client.Publish("test", System.Text.Encoding.UTF8.GetBytes("Test 1 sur Test"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true));
         }
 
         public void Subscribe(string topic)

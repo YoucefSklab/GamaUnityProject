@@ -92,25 +92,23 @@ namespace ummisco.gama.unity.Scene
            
             
             sceneManager = GameObject.Find(IMQTTConnector.SCENE_MANAGER).GetComponent<SceneManager>();
-            connector = GameObject.Find(IMQTTConnector.MQTT_CONNECTOR).GetComponent<MQTTConnector>();
-            connector.Connect();
-
-            connector.Publish("Unity", " --------------->>> ");
-
-            connector.InitTopics();
+            
+            ConnectToBrocker(MQTTConnector.SERVER_URL, MQTTConnector.SERVER_PORT, MQTTConnector.DEFAULT_USER, MQTTConnector.DEFAULT_PASSWORD);
             connector.Subscribe("littosim");
+
             agentCreator = GameObject.Find("AgentCreator");
 
             Text txt3 = GameObject.Find("Te3").GetComponent<Text>();
             txt3.text = "  -> CONNECTED From Gama Manager Start " + System.DateTime.Now;
-
-
-            connector.Publish("Unity", " --------------->>> 2 ");
-
-            connector.Subscribe("vmpams");
-
             txt3.text = "  -> MESSAGE SENT From Gama Manager Start " + System.DateTime.Now;
 
+        }
+
+        public void ConnectToBrocker(string serverUrl, int serverPort, string userId, string password)
+        {
+            connector = GameObject.Find(IMQTTConnector.MQTT_CONNECTOR).GetComponent<MQTTConnector>();
+            connector.Connect(serverUrl, serverPort, userId, password);
+            connector.InitTopics();
         }
 
 
@@ -439,22 +437,53 @@ namespace ummisco.gama.unity.Scene
 
         void OnGUI()
         {
-            if (GUI.Button(new Rect(20, 1, 100, 20), "Quitter!"))
+            if (Application.platform == RuntimePlatform.Android)
             {
-                connector.Disconnect();
-                #if UNITY_EDITOR
-                                UnityEditor.EditorApplication.isPlaying = false;
-                #else
-                        Application.Quit ();
-                #endif
-               
-                 Application.Quit ();
+                if (GUI.Button(new Rect(20, 25, 200, 20), "Quitter! (Android)"))
+                {
+                    //connector.Disconnect();
+                    Application.Quit();
+                }
             }
+
+            if (Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor)
+            {
+                if (GUI.Button(new Rect(20, 25, 120, 20), "Quitter! (MacOS)"))
+                {
+                    //connector.Disconnect();
+                    Application.Quit();
+                }
+
+                if (GUI.Button(new Rect(160, 25, 120, 20), "Local brocker"))
+                {
+                    ConnectToBrocker("localhost", 1883, MQTTConnector.DEFAULT_USER, MQTTConnector.DEFAULT_PASSWORD);
+                    connector.Subscribe("littosim");
+                }
+
+                if (GUI.Button(new Rect(300, 25, 140, 20), "Brocker on vmpams"))
+                {
+                    ConnectToBrocker(MQTTConnector.SERVER_URL, MQTTConnector.SERVER_PORT, MQTTConnector.DEFAULT_USER, MQTTConnector.DEFAULT_PASSWORD);
+                    connector.Subscribe("littosim");
+                }
+
+                if (GUI.Button(new Rect(460, 25, 140, 20), "Send Hellow World!"))
+                {
+                    connector.Publish("test", "Hellow World");
+                }
+
+                if (GUI.Button(new Rect(620, 25, 100, 20), "Disconnect"))
+                {
+                    connector.Disconnect();
+                }
+            }
+
+          
+
         }
 
         public void Tester()
         {
-            connector.Publish("Unity", "Good, Bug fixed -> Sending from Unity3D!!! Good");
+            connector.Publish("test", "Good, Bug fixed -> Sending from Unity3D!!! Good");
         }
 
         public void SendGotBoxMsg()

@@ -143,8 +143,9 @@ namespace ummisco.gama.unity.littosim
             SendGamaMessage(position);
 
             // To delete
-            // TODO to detete 
-            //  if (1 == 2) 
+            // TODO to detete
+            Debug.Log("Selected Action is  :" + LittosimManager.actionToDo);
+            if (LittosimManager.actionToDo == 6) 
             {
                 GameObject panelChild = GameObject.CreatePrimitive(PrimitiveType.Cube); //Instantiate(UA);
                 GameObject panelParent = GameObject.Find(IUILittoSim.WORLD_ENVELOPPE);
@@ -152,13 +153,10 @@ namespace ummisco.gama.unity.littosim
                 panelChild.transform.SetParent(panelParent.transform);
                 panelChild.GetComponent<RectTransform>().localPosition = new Vector3(0,0,0);
                
-
                 panelChild.name = "UA" + position.x + "_" + position.y;
                 panelChild.transform.position = position;
                 panelChild.transform.localScale = new Vector3(50f, 50f, 50f);
-               
-               
-                
+
             }
            Debug.Log("Final created position is :" + position);
         }
@@ -196,7 +194,7 @@ namespace ummisco.gama.unity.littosim
                     PublishMessage(GetSerializedMessage(ILittoSimConcept.ACTION_NATURAL, position));
                     break;
             }
-            actionToDo = 0;
+           // actionToDo = 0;
             gameNbr++;
         }
 

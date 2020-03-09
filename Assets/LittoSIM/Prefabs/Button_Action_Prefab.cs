@@ -73,24 +73,32 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
         
         public void OnAddButtonClicked()
         {
-            if(OnOffButton)
-            if (isButtonActivated)
+            if(LittosimManager.actionToDo == action_code)
             {
-                isButtonActivated = false;
-                SceneManager.SetSpeciesEnabled(species, isButtonActivated);
+                LittosimManager.actionToDo = 0;
             }
             else
             {
-                isButtonActivated = true;
-                SceneManager.SetSpeciesEnabled(species, isButtonActivated);
+                if (OnOffButton)
+                    if (isButtonActivated)
+                    {
+                        isButtonActivated = false;
+                        SceneManager.SetSpeciesEnabled(species, isButtonActivated);
+                    }
+                    else
+                    {
+                        isButtonActivated = true;
+                        SceneManager.SetSpeciesEnabled(species, isButtonActivated);
+                    }
+
+                LittosimManager.actionToDo = action_code;
+                Debug.Log("--  --  --  --  > The action code LittosimManager.actionToDo " + LittosimManager.actionToDo);// + action.code);
+
+                //GameObject.FindWithTag(ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG).tag = "Player";  
+                //GameObject.FindWithTag(ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG).SetActive(false);
+                gameObject.tag = ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG;
             }
-
-            Debug.Log("--  --  --  --  > The action code is " + action_code);// + action.code);
-            LittosimManager.actionToDo = action_code;
-
-            //GameObject.FindWithTag(ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG).tag = "Player";  
-            //GameObject.FindWithTag(ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG).SetActive(false);
-            gameObject.tag = ILittoSimConcept.LAND_USE_COMMON_BUTTON_TAG;
+          
 
             
         }
@@ -102,15 +110,15 @@ namespace ummisco.gama.unity.littosim.ActionPrefab
                 GameObject showTooltip = GameObject.Find("ActionButtonTooltipView");
                 if (ILangue.current_langue.TryGetValue(this.button_help_message, out string lng))
                 {
-                    GameObject.Find("action_help_message").GetComponent<Text>().text = "  " + lng;
+                    GameObject.Find("action_help_message").GetComponent<Text>().text = " " + lng;
                 }
                 else
                 {
-                    GameObject.Find("action_help_message").GetComponent<Text>().text = "  ??";
+                    GameObject.Find("action_help_message").GetComponent<Text>().text = " ??";
                 }
 
                 Vector3 posi = this.transform.position;
-                showTooltip.transform.position = new Vector3(posi.x, posi.y - 130, posi.z + (-20));
+                showTooltip.transform.position = new Vector3(posi.x, posi.y - 50, posi.z + (-20));
 
                 isOn = true;
             }

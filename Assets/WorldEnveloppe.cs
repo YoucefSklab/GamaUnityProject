@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ummisco.gama.unity.littosim;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -87,7 +88,8 @@ public class WorldEnveloppe : MonoBehaviour
                 //gameObject.transform.localPosition = GetEnveloppeCentred(GameObject.Find("Map_Canvas").transform.localPosition, gameObject.transform.GetComponent<RectTransform>().sizeDelta);
                 gameObject.transform.localScale = Vector3.Lerp(gameObject.transform.localScale, Vector3.one * _currentZoom, _zoomLerpSpeed * Time.deltaTime);
 
-                gameObject.transform.localPosition = new Vector3(-4614.0f, 7487.0f, 0.0f);
+                // gameObject.transform.localPosition = new Vector3(-215f, 0f, 0.0f);
+                gameObject.transform.localPosition = new Vector3(-705f, 700f, 0.0f);
             }
 
 
@@ -104,15 +106,18 @@ public class WorldEnveloppe : MonoBehaviour
 
         }
 
+        /*
         if (Input.GetMouseButton(0))
         {
             //Vector2 point = Input.mousePosition - new Vector3(Screen.width / 2, Screen.height / 2); // convert pixel coords to canvas coords
+
             if (RectTransformUtility.RectangleContainsScreenPoint(GameObject.Find("Map_Canvas").GetComponent<RectTransform>(), Input.mousePosition))
             {
               transform.position = Input.mousePosition;
+                GameObject.Find("LittosimManager").GetComponent<LittosimManager>().CreateNewElement();
             }
         }
-
+        */
 
 
         //Vector3 MapCanvasPosition = GameObject.Find("Map_Canvas").transform.localPosition;

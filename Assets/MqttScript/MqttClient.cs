@@ -377,7 +377,9 @@ namespace uPLibrary.Networking.M2Mqtt
             string username,
             string password)
         {
+            //return this.Connect(clientId, username, password, false, MqttMsgConnect.QOS_LEVEL_AT_MOST_ONCE, false, null, null, true, MqttMsgConnect.KEEP_ALIVE_PERIOD_DEFAULT);
             return this.Connect(clientId, username, password, false, MqttMsgConnect.QOS_LEVEL_AT_MOST_ONCE, false, null, null, true, MqttMsgConnect.KEEP_ALIVE_PERIOD_DEFAULT);
+
         }
 
         /// <summary>
@@ -735,7 +737,7 @@ namespace uPLibrary.Networking.M2Mqtt
             MqttMsgPublish publish =
                     new MqttMsgPublish(topic, message, false, qosLevel, retain);
             publish.MessageId = this.GetMessageId();
-
+            
             // enqueue message to publish into the inflight queue
             this.EnqueueInflight(publish, MqttMsgFlow.ToPublish);           
 			return publish.MessageId;

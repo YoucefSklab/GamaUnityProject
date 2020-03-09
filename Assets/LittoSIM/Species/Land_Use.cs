@@ -72,12 +72,14 @@ namespace ummisco.gama.unity.littosim
         {
             Debug.Log(" From Land_Use.cs Land_use : " + gameObject.name + " OnMouseOver Method. ");
             Vector3 vect = worldToUISpace(canvas, Input.mousePosition);
-            vect.z = -400f;
+            vect.z = -4f;
             tips.GetComponent<RectTransform>().transform.position = vect;
-
+            
             SetInfo();
             cg.interactable = true;
             cg.alpha = 1;
+
+            gameObject.GetComponent<Renderer>().material.shader = Shader.Find("Self-Illumin/Outlined Diffuse");
         }
 
         public Vector3 worldToUISpace(Canvas parentCanvas, Vector3 worldPos)
@@ -96,6 +98,8 @@ namespace ummisco.gama.unity.littosim
             tips.GetComponent<RectTransform>().transform.position = new Vector3(-2500,400,-300);
             cg.interactable = false;
             cg.alpha = 0;
+
+            gameObject.GetComponent<Renderer>().material.shader = Shader.Find("Diffuse");
         }
 
         void SetInfo()
