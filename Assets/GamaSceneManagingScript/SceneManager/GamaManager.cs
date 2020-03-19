@@ -87,13 +87,14 @@ namespace ummisco.gama.unity.Scene
         }
 
         // Use this for initialization
+        [Obsolete]
         void Start()
         {
            
             
             sceneManager = GameObject.Find(IMQTTConnector.SCENE_MANAGER).GetComponent<SceneManager>();
-            
-            ConnectToBrocker(MQTTConnector.SERVER_URL, MQTTConnector.SERVER_PORT, MQTTConnector.DEFAULT_USER, MQTTConnector.DEFAULT_PASSWORD);
+
+            connector = CreateConnector(MQTTConnector.SERVER_URL, MQTTConnector.SERVER_PORT, MQTTConnector.DEFAULT_USER, MQTTConnector.DEFAULT_PASSWORD);
             connector.Subscribe("littosim");
 
             agentCreator = GameObject.Find("AgentCreator");
@@ -102,13 +103,18 @@ namespace ummisco.gama.unity.Scene
             txt3.text = "  -> CONNECTED From Gama Manager Start " + System.DateTime.Now;
             txt3.text = "  -> MESSAGE SENT From Gama Manager Start " + System.DateTime.Now;
 
+
+           
+
+           
         }
 
-        public void ConnectToBrocker(string serverUrl, int serverPort, string userId, string password)
+        public MQTTConnector CreateConnector(string serverUrl, int serverPort, string userId, string password)
         {
-            connector = GameObject.Find(IMQTTConnector.MQTT_CONNECTOR).GetComponent<MQTTConnector>();
-            connector.Connect(serverUrl, serverPort, userId, password);
-            connector.InitTopics();
+            MQTTConnector connection = GameObject.Find(IMQTTConnector.MQTT_CONNECTOR).GetComponent<MQTTConnector>();
+            connection.Connect(serverUrl, serverPort, userId, password);
+            connection.InitTopics();
+            return connection;
         }
 
 
@@ -456,13 +462,13 @@ namespace ummisco.gama.unity.Scene
 
                 if (GUI.Button(new Rect(160, 25, 120, 20), "Local brocker"))
                 {
-                    ConnectToBrocker("localhost", 1883, MQTTConnector.DEFAULT_USER, MQTTConnector.DEFAULT_PASSWORD);
+                    connector = CreateConnector("localhost", 1883, MQTTConnector.DEFAULT_USER, MQTTConnector.DEFAULT_PASSWORD);
                     connector.Subscribe("littosim");
                 }
 
                 if (GUI.Button(new Rect(300, 25, 140, 20), "Brocker on vmpams"))
                 {
-                    ConnectToBrocker(MQTTConnector.SERVER_URL, MQTTConnector.SERVER_PORT, MQTTConnector.DEFAULT_USER, MQTTConnector.DEFAULT_PASSWORD);
+                    connector = CreateConnector(MQTTConnector.SERVER_URL, MQTTConnector.SERVER_PORT, MQTTConnector.DEFAULT_USER, MQTTConnector.DEFAULT_PASSWORD);
                     connector.Subscribe("littosim");
                 }
 

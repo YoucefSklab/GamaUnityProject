@@ -122,5 +122,11 @@ namespace ummisco.gama.unity.Network
             }
         }
 
+
+        public void SendAttributeUpdate(string attributeName, object attributeValue, string MqttTopic)
+        {
+
+        }
+
     }
 }

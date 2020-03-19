@@ -84,12 +84,12 @@ public class AgentCreator : MonoBehaviour
         }
     }
 
-    public void CreateGenericPolygonAgent(Agent agent, bool elevate, string tagName, float zAxis)
+    public GameObject CreateGenericPolygonAgent(Agent agent, bool elevate, string tagName, float zAxis)
     {
-        CreateGenericPolygonAgent(agent, elevate, tagName, zAxis, true);
+        return CreateGenericPolygonAgent(agent, elevate, tagName, zAxis, true);
     }
 
-    public void CreateGenericPolygonAgent(Agent agent, bool elevate, string tagName, float zAxis, bool groupBySpecies)
+    public GameObject CreateGenericPolygonAgent(Agent agent, bool elevate, string tagName, float zAxis, bool groupBySpecies)
     {
         GameObject newObject = new GameObject()
         {
@@ -111,6 +111,7 @@ public class AgentCreator : MonoBehaviour
             newObject.AddComponent<Land_Use>();
         }
 
+        return newObject;
     }
 
 
@@ -130,12 +131,12 @@ public class AgentCreator : MonoBehaviour
         }
     }
 
-    public void CreateGenericPointAgent(Agent agent, float height, string tagName, float zAxis)
+    public GameObject CreateGenericPointAgent(Agent agent, float height, string tagName, float zAxis)
     {
-        CreateGenericPointAgent(agent, height, tagName, zAxis, true);
+        return CreateGenericPointAgent(agent, height, tagName, zAxis, true);
     }
 
-    public void CreateGenericPointAgent(Agent agent, float height, string tagName, float zAxis, bool groupBySpecies)
+    public GameObject CreateGenericPointAgent(Agent agent, float height, string tagName, float zAxis, bool groupBySpecies)
     {
         
         GameObject newObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -192,6 +193,8 @@ public class AgentCreator : MonoBehaviour
         }
         //AttacheCode(newObject, speciesId, agent);
         AddAgentToContexte(agent.Species, newObject);
+
+        return newObject;
     }
 
 
@@ -237,12 +240,12 @@ public class AgentCreator : MonoBehaviour
 
     }
 
-    public void CreateGenericLineAgent(Agent agent, float lineWidth, string tagName, float zPosition)
+    public GameObject CreateGenericLineAgent(Agent agent, float lineWidth, string tagName, float zPosition)
     {
-        CreateGenericLineAgent(agent, lineWidth, tagName, zPosition, true, false);
+        return CreateGenericLineAgent(agent, lineWidth, tagName, zPosition, true, false);
     }
 
-    public void CreateGenericLineAgent(Agent agent, float lineWidth, string tagName, float zPosition, bool groupBySpecies, bool withMesh)
+    public GameObject CreateGenericLineAgent(Agent agent, float lineWidth, string tagName, float zPosition, bool groupBySpecies, bool withMesh)
     {
         GameObject newObject = new GameObject(agent.AgentName);
         var meshFilter = newObject.AddComponent<MeshFilter>();
@@ -293,7 +296,7 @@ public class AgentCreator : MonoBehaviour
         
         AddAgentToContexte(agent.Species, newObject);
 
-        
+        return newObject;
 
     }
 

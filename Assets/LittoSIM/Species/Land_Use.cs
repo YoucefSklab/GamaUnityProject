@@ -66,6 +66,8 @@ namespace ummisco.gama.unity.littosim
         {
 
             Debug.Log("This on mouse down -> " + gameObject.name);
+            Material myMat = Resources.Load("Materials/NewNaturelle", typeof(Material)) as Material;
+            GetComponent<MeshRenderer>().material = myMat;
         }
 
         void OnMouseOver()
@@ -80,6 +82,9 @@ namespace ummisco.gama.unity.littosim
             cg.alpha = 1;
 
             gameObject.GetComponent<Renderer>().material.shader = Shader.Find("Self-Illumin/Outlined Diffuse");
+
+                     
+            //VertsColor2();
         }
 
         public Vector3 worldToUISpace(Canvas parentCanvas, Vector3 worldPos)
@@ -137,6 +142,81 @@ namespace ummisco.gama.unity.littosim
         {
             Debug.Log(" ------------------------------>>  Enter ");
             // throw new System.NotImplementedException();
+        }
+
+
+        public void VertsColor()
+        {
+            Mesh mesh = gameObject.GetComponent<MeshFilter>().mesh;
+            int[] triangles = mesh.triangles;
+            Vector3[] vertices = mesh.vertices;
+            Vector3[] verticesModified = new Vector3[triangles.Length];
+            int[] trianglesModified = new int[triangles.Length];
+            Color32 currentColor = new Color32();
+            Color32[] colors = new Color32[triangles.Length];
+            for (int i = 0; i < trianglesModified.Length; i++)
+            {
+                // Makes every vertex unique
+                verticesModified[i] = vertices[triangles[i]];
+                trianglesModified[i] = i;
+                // Every third vertex randomly chooses new color
+              //  if (i % 3 == 0)
+                {
+                    currentColor = new Color(
+                        Random.Range(0.0f, 1.0f),
+                        Random.Range(0.0f, 1.0f),
+                        Random.Range(0.0f, 1.0f),
+                        1.0f
+                    );
+                }
+                colors[i] = currentColor;
+            }
+            // Applyes changes to mesh
+            mesh.vertices = verticesModified;
+            mesh.triangles = trianglesModified;
+            mesh.colors32 = colors;
+        }
+
+        public void VertsColor2()
+        {
+            Mesh mesh = GetComponent<MeshFilter>().mesh;
+            int[] triangles = mesh.triangles;
+            Vector3[] verts = mesh.vertices;
+            Vector3[] normals = mesh.normals;
+            Vector2[] uvs = mesh.uv;
+
+            Vector3[] newVerts;
+            Vector3[] newNormals;
+            Vector2[] newUvs;
+
+            int n = triangles.Length;
+            newVerts = new Vector3[n];
+            newNormals = new Vector3[n];
+            newUvs = new Vector2[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                newVerts[i] = verts[triangles[i]];
+                newNormals[i] = normals[triangles[i]];
+                if (uvs.Length > 0)
+                {
+                    newUvs[i] = uvs[triangles[i]];
+                }
+                triangles[i] = i;
+            }
+            mesh.vertices = newVerts;
+            mesh.normals = newNormals;
+            mesh.uv = newUvs;
+            mesh.triangles = triangles;
+
+            Color[] colors = new Color[mesh.vertexCount];
+            for (int i = 0; i < colors.Length; i += 3)
+            {
+                colors[i] = Color.red;
+                colors[i + 1] = Color.green;
+                colors[i + 2] = Color.blue;
+            }
+            mesh.colors = colors;
         }
     }
 }

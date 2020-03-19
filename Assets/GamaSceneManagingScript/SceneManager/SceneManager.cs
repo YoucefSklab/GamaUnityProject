@@ -247,7 +247,11 @@ namespace ummisco.gama.unity.Scene
             return new Vector2(0, 1);
         }
 
-
+      
+        public static System.Type LoadSpeciesScript(string species)
+        {
+            return System.Type.GetType(species + ",Assembly-CSharp");
+        }
 
         // The method to call Game Objects methods
         //----------------------------------------
