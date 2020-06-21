@@ -119,6 +119,7 @@ namespace ummisco.gama.unity.topics
 
                                 case IDataType.UNITY_INT:
                                     Debug.Log("Its type is ----> :" + fi.FieldType);
+                                    fi.SetValue(ob, Convert.ToInt32(pair.Value));
                                     break;
                                 case IDataType.UNITY_DOUBLE:
                                     Debug.Log("Its type is ----> :" + fi.FieldType);

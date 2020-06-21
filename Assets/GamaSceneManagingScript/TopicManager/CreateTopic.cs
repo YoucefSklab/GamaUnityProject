@@ -79,8 +79,10 @@ namespace ummisco.gama.unity.topics
             // Set the position to the new GameObject
             //---------------------------------------
             XmlNode[] positionNode = (XmlNode[])topicMessage.position;
-            Vector3 movement = ConvertType.Vector3FromXmlNode(positionNode, IGamaConcept.GAMA_POINT_CLASS);
-            newObject.transform.position = movement;
+            Vector3 objectPosition = ConvertType.Vector3FromXmlNode(positionNode, IGamaConcept.GAMA_POINT_CLASS_NAME);
+            newObject.transform.position = objectPosition;
+
+            Debug.Log(" Game Object position is " + objectPosition);
 
 
             XmlNode[] colorNode = (XmlNode[])topicMessage.color;
@@ -91,8 +93,13 @@ namespace ummisco.gama.unity.topics
             Renderer rend = newObject.GetComponent<Renderer>();
             rend.material.color = objectColor;
 
-            objectManager.SendMessage("addObjectToList", newObject);
-            
+          
+       
+
+            GameObject aeentCreator = GameObject.Find(IGamaManager.AGENT_CREATOR);
+            aeentCreator.AddComponent<AgentCreator>().AddAgentToContexte("GenericSpecies", newObject);
+         
+
 
         }
 

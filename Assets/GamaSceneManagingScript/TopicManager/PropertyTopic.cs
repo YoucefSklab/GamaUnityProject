@@ -57,19 +57,22 @@ namespace ummisco.gama.unity.topics
             {
                 foreach (Component c in cs)
                 {
-                    //Debug.Log("name: " + c.name + " type: " + c.GetType() + " basetype: " + c.GetType().BaseType);
+                    Debug.Log("name: " + c.name + " type: " + c.GetType() + " basetype: " + c.GetType().BaseType);
                     PropertyInfo propertyInfo = c.GetType().GetProperty(topicMessage.propertyName);
 
                     if (propertyInfo != null)
                     {
-                        //Debug.Log ("------->>   Good. Property exist. Its name is : " + propertyInfo.Name + " and its value is: " + propertyInfo.GetValue ((System.Object)c, null));
+                        Debug.Log ("------->>   Good. Property exist. Its name is : " + propertyInfo.Name + " and its value is: " + propertyInfo.GetValue ((System.Object)c, null));
 
                         System.Object obj = (System.Object)c;
 
                         if (propertyInfo.PropertyType.Equals(typeof(Vector3)))
                         {
-                            Vector3 vect = ConvertType.Vector3FromXmlNode(node, IGamaConcept.GAMA_POINT_CLASS);
+                            Vector3 vect = ConvertType.Vector3FromXmlNode(node, IGamaConcept.GAMA_POINT_CLASS_NAME);
                             propertyInfo.SetValue(obj, (object)vect, null);
+
+                            Debug.Log("------->> Set new value to " + topicMessage.propertyName + " the new value is : " + vect);
+                  
                         }
                         else
                         {

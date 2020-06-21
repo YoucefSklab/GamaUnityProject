@@ -75,6 +75,11 @@ namespace ummisco.gama.unity.GamaConcepts
         public const string GAMA_RGB_COLOR_CLASS = "ummisco.gama.unity.data.type.rgbColor";
         public const string GAMA_NAMED_COLOR_CLASS = "msi.gama.util.GamaColor_-NamedGamaColor";
 
+        public const string GAMA_POINT_CLASS_NAME = "GamaPoint";
+        public const string GAMA_RGB_COLOR_CLASS_NAME = "rgbColor";
+        public const string GAMA_NAMED_COLOR_CLASS_NAME = "GamaColor_-NamedGamaColor";
+
+
         public const string GAMA_CREATE_TOPIC_MESSAGE_CLASS = "ummisco.gama.unity.messages.CreateTopicMessage";
         public const string GAMA_DESTROY_TOPIC_MESSAGE_CLASS = "ummisco.gama.unity.messages.DestroyTopicMessage";
        

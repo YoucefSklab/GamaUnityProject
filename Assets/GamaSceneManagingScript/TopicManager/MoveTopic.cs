@@ -50,10 +50,12 @@ namespace ummisco.gama.unity.topics
 
             if (topicMessage.smoothMove)
             {
+
                 smoothMoveToPosition(movement, topicMessage.speed);
             }
             else
             {
+                Debug.Log("Mouve Game Object " + targetGameObject + " to position :  " + movement +  " with speed " + topicMessage.speed);
                 freeMoveToPosition(movement, topicMessage.speed);
             }
         }

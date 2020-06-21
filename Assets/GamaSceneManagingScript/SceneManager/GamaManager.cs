@@ -99,10 +99,14 @@ namespace ummisco.gama.unity.Scene
 
             agentCreator = GameObject.Find("AgentCreator");
 
-            Text txt3 = GameObject.Find("Te3").GetComponent<Text>();
-            txt3.text = "  -> CONNECTED From Gama Manager Start " + System.DateTime.Now;
-            txt3.text = "  -> MESSAGE SENT From Gama Manager Start " + System.DateTime.Now;
-
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Equals("LittoSIMInterfaceTabA3"))
+            {
+                Text txt3 = GameObject.Find("Te3").GetComponent<Text>();
+                txt3.text = "  -> CONNECTED From Gama Manager Start " + System.DateTime.Now;
+                txt3.text = "  -> MESSAGE SENT From Gama Manager Start " + System.DateTime.Now;
+            }
+            
+            
 
            
 
@@ -385,7 +389,7 @@ namespace ummisco.gama.unity.Scene
                     case IMQTTConnector.CREATE_TOPIC:
                         //------------------------------------------------------------------------------
                         Debug.Log("-> Topic to deal with is : " + IMQTTConnector.CREATE_TOPIC);
-                        // Debug.Log("-> Message: " + receivedMsg);
+                        Debug.Log("-> Message: " + receivedMsg);
                         CreateTopicMessage createTopicMessage = (CreateTopicMessage)MsgSerialization.FromXML(receivedMsg, new CreateTopicMessage());
                         obj = new object[] { createTopicMessage };
 
@@ -481,6 +485,16 @@ namespace ummisco.gama.unity.Scene
                 {
                     connector.Disconnect();
                 }
+
+                if (GUI.Button(new Rect(820, 25, 200, 20), "Send Message to Gama"))
+                {
+                   // SendGotBoxMsg();
+
+                    SendReplay("unity", "gama", "test", "field value");
+                }
+
+
+               
             }
 
           
@@ -494,9 +508,9 @@ namespace ummisco.gama.unity.Scene
 
         public void SendGotBoxMsg()
         {
-            GamaReponseMessage msg = new GamaReponseMessage(connector.clientId, "GamaAgent", "Got a Box notification", DateTime.Now.ToString());
+            GamaReponseMessage msg = new GamaReponseMessage(connector.clientId, "GamaAgent", "Message from Unity", DateTime.Now.ToString());
             string message = MsgSerialization.ToXML(msg);
-            connector.Publish("Unity", message);
+            connector.Publish("replay", message);
         }
 
         // à revoir en utilisant publishMessage
@@ -505,6 +519,7 @@ namespace ummisco.gama.unity.Scene
             ReplayMessage msg = new ReplayMessage(sender, receiver, "content not set", fieldName, fieldValue, DateTime.Now.ToString());
             string message = MsgSerialization.ToXML(msg);
             connector.Publish(IMQTTConnector.REPLAY_TOPIC, message);
+
         }
 
         void OnDestroy()

@@ -20,64 +20,22 @@ public class GamaAgent : MonoBehaviour
         set
         {
             m_strength = value;
-            map msg = new map("strength", strength);
-
-            string message = MsgSerialization.ToXML(msg);
-
-           // GamaManager.connector.Publish("setexp", message);
-
-            // ----------------------------------___-
-           
-            XmlDocument doc = new XmlDocument();
-
-            //(1) the xml declaration is recommended, but not mandatory
-          
-            XmlElement root = doc.DocumentElement;
-            
-            //(2) string.Empty makes cleaner code
-            XmlElement element1 = doc.CreateElement(string.Empty, "map", string.Empty);
-            doc.AppendChild(element1);
-
-            XmlElement element2 = doc.CreateElement(string.Empty, "entry", string.Empty);
-            element1.AppendChild(element2);
-
-            XmlElement element3 = doc.CreateElement(string.Empty, "string", string.Empty);
-            XmlText text1 = doc.CreateTextNode("strength");
-            element3.AppendChild(text1);
-            element2.AppendChild(element3);
-
-            XmlElement element4 = doc.CreateElement(string.Empty, "string", string.Empty);
-            XmlText text2 = doc.CreateTextNode(strength+"");
-            element4.AppendChild(text2);
-            element2.AppendChild(element4);
-            
-
-            StringWriter stringWriter = new StringWriter();
-            XmlTextWriter xmlTextWriter = new XmlTextWriter(stringWriter);
-            
-            doc.WriteTo(xmlTextWriter);
-
-            GamaManager.connector.Publish("setexp", stringWriter.ToString());
-
-            Debug.Log("------ > " + stringWriter.ToString());
-
-            //--------------------------------------
+            string msg = GamaListenReplay.BuildToListenReplay("strength", strength);
+            GamaManager.connector.Publish("setexp", msg);
+            Debug.Log("------ > " + msg);
         }
     }
     public int m_strength = 0;
 
     void Start()
     {
-        
-
-
-
+     
     }
 
 
     void OnGUI()
     {
-        if (GUI.Button(new Rect(20, 25, 200, 20), "Ajouter"))
+        if (GUI.Button(new Rect(20, 250, 200, 20), "Send to listen"))
           {
             strength += 2;
         }
