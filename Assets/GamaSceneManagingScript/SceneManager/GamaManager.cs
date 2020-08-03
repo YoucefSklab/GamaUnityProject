@@ -23,7 +23,7 @@ namespace ummisco.gama.unity.Scene
         public static GamaManager Instance { get { return m_Instance; } }
 
         public string receivedMsg = "";
-                   
+
         public GameObject gamaManager;
         public GameObject targetGameObject;
         public GameObject topicGameObject;
@@ -51,7 +51,7 @@ namespace ummisco.gama.unity.Scene
 
         public static MQTTConnector connector;
         public static SceneManager sceneManager;
-                
+
         void Awake()
         {
             m_Instance = this;
@@ -78,7 +78,7 @@ namespace ummisco.gama.unity.Scene
 
             new GameObject(IMQTTConnector.MQTT_CONNECTOR).AddComponent<MQTTConnector>();
             new GameObject(IMQTTConnector.SCENE_MANAGER).AddComponent<SceneManager>();
-            
+
             (mainTopicManager = new GameObject(IMQTTConnector.MAIN_TOPIC_MANAGER)).AddComponent<MainTopic>();
 
             new GameObject(IGamaManager.CSVREADER).AddComponent<CSVReader>().transform.SetParent(gamaManager.transform);
@@ -90,8 +90,6 @@ namespace ummisco.gama.unity.Scene
         [Obsolete]
         void Start()
         {
-           
-            
             sceneManager = GameObject.Find(IMQTTConnector.SCENE_MANAGER).GetComponent<SceneManager>();
 
             connector = CreateConnector(MQTTConnector.SERVER_URL, MQTTConnector.SERVER_PORT, MQTTConnector.DEFAULT_USER, MQTTConnector.DEFAULT_PASSWORD);
@@ -105,12 +103,7 @@ namespace ummisco.gama.unity.Scene
                 txt3.text = "  -> CONNECTED From Gama Manager Start " + System.DateTime.Now;
                 txt3.text = "  -> MESSAGE SENT From Gama Manager Start " + System.DateTime.Now;
             }
-            
-            
 
-           
-
-           
         }
 
         public MQTTConnector CreateConnector(string serverUrl, int serverPort, string userId, string password)
@@ -129,321 +122,318 @@ namespace ummisco.gama.unity.Scene
 
 
         public void HandleMessage()
-        {                   
+        {
 
-           while (connector.HasNextMessage())
+            while (connector.HasNextMessage())
             {
                 MqttMsgPublishEventArgs e = connector.GetNextMessage();
                 /*
-                if (!IMQTTConnector.getTopicsInList().Contains(e.Topic))
-                {
-                    Debug.Log("-> The Topic '" + e.Topic + "' doesn't exist in the defined list. Please check! (the message will be deleted!)");
-                    msgList.Remove(e);
-                    return;
-                }
-                */
-              
+				if (!IMQTTConnector.getTopicsInList().Contains(e.Topic))
+				{
+				    Debug.Log("-> The Topic '" + e.Topic + "' doesn't exist in the defined list. Please check! (the message will be deleted!)");
+				    msgList.Remove(e);
+				    return;
+				}
+				*/
+
                 receivedMsg = System.Text.Encoding.UTF8.GetString(e.Message);
 
-                Debug.Log("-> Received Message is : " + receivedMsg + " On topic : "+e.Topic);
+                Debug.Log("-> Received Message is : " + receivedMsg + " On topic : " + e.Topic);
 
-                if (agentsTopicDic.Keys.Contains(e.Topic)){
+                if (agentsTopicDic.Keys.Contains(e.Topic))
+                {
 
                     // DO Not DELETE
                     /*
-                    string serialisedObject = new XStream().ToXml(receivedMsg);
-                    GamaExposeMessage deserialisedObject = (GamaExposeMessage) new XStream().FromXml(serialisedObject);
-                    */
+					string serialisedObject = new XStream().ToXml(receivedMsg);
+					GamaExposeMessage deserialisedObject = (GamaExposeMessage) new XStream().FromXml(serialisedObject);
+					*/
                     //Debug.Log("The topic is : " + e.Topic);
                     GamaExposeMessage exposeMessage = new GamaExposeMessage(receivedMsg);
 
                     sceneManager.SetAttribute(agentsTopicDic[e.Topic], exposeMessage.attributesList);
                 }
                 else
-                switch (e.Topic)
-                {
-                    //case "listdata":
-                    //    break;
-                    case IMQTTConnector.MAIN_TOPIC:
-                        //------------------------------------------------------------------------------
-                          Debug.Log("  -> Topic to deal with is : " + IMQTTConnector.MAIN_TOPIC);
-                       
-                        UnityAgent unityAgent = (UnityAgent)MsgSerialization.FromXML(receivedMsg, new UnityAgent());
-                        Agent agent = unityAgent.GetAgent();
+                    switch (e.Topic)
+                    {
+                        //case "listdata":
+                        //    break;
+                        case IMQTTConnector.MAIN_TOPIC:
+                            //------------------------------------------------------------------------------
+                            Debug.Log("  -> Topic to deal with is : " + IMQTTConnector.MAIN_TOPIC);
 
-                        switch (agent.Species)
-                        {
-                            case IUILittoSim.LAND_USE:
-                                agent.Height = 10;
+                            UnityAgent unityAgent = (UnityAgent)MsgSerialization.FromXML(receivedMsg, new UnityAgent());
+                            Agent agent = unityAgent.GetAgent();
+
+                            switch (agent.Species)
+                            {
+                                case IUILittoSim.LAND_USE:
+                                    agent.Height = 10;
                                     //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, matRed, IUILittoSim.LAND_USE_ID, true, ILittoSimConcept.LAND_USE_TAG, -60);
                                     agentCreator.GetComponent<AgentCreator>().CreateGenericPolygonAgent(agent, true, ILittoSimConcept.LAND_USE_TAG, 0);//-60);
-                                   
+
                                     break;
-                            case IUILittoSim.COASTAL_DEFENSE:
-                                agent.Height = 10;
-                                //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, matYellow, IUILittoSim.COASTAL_DEFENSE_ID, true, ILittoSimConcept.COASTAL_DEFENSE_TAG, -80);
-                                agentCreator.GetComponent<AgentCreator>().CreateGenericPolygonAgent(agent, true, ILittoSimConcept.COASTAL_DEFENSE_TAG, -80);
+                                case IUILittoSim.COASTAL_DEFENSE:
+                                    agent.Height = 10;
+                                    //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, matYellow, IUILittoSim.COASTAL_DEFENSE_ID, true, ILittoSimConcept.COASTAL_DEFENSE_TAG, -80);
+                                    agentCreator.GetComponent<AgentCreator>().CreateGenericPolygonAgent(agent, true, ILittoSimConcept.COASTAL_DEFENSE_TAG, -80);
                                     break;
-                            case IUILittoSim.DISTRICT:
-                                agent.Height = 10;
+                                case IUILittoSim.DISTRICT:
+                                    agent.Height = 10;
                                     //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, matBlue, IUILittoSim.DISTRICT_ID, true, ILittoSimConcept.DISTRICT_TAG, -40);
                                     agentCreator.GetComponent<AgentCreator>().CreateGenericPolygonAgent(agent, true, ILittoSimConcept.DISTRICT_TAG, -40);
                                     break;
-                            case IUILittoSim.FLOOD_RISK_AREA:
-                                agent.Height = 10;
+                                case IUILittoSim.FLOOD_RISK_AREA:
+                                    agent.Height = 10;
                                     //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, matRed, IUILittoSim.FLOOD_RISK_AREA_ID, true, ILittoSimConcept.FLOOD_RISK_AREA_TAG, -100);
                                     agentCreator.GetComponent<AgentCreator>().CreateGenericPolygonAgent(agent, true, ILittoSimConcept.FLOOD_RISK_AREA_TAG, -100);
                                     break;
-                            case IUILittoSim.PROTECTED_AREA:
+                                case IUILittoSim.PROTECTED_AREA:
                                     agent.Height = 10;
                                     //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, matGreenLighter, IUILittoSim.PROTECTED_AREA_ID, true, ILittoSimConcept.PROTECTED_AREA_TAG, -100);
                                     agentCreator.GetComponent<AgentCreator>().CreateGenericPolygonAgent(agent, true, ILittoSimConcept.PROTECTED_AREA_TAG, -100);
                                     break;
-                            case IUILittoSim.ROAD:
-                                agent.Height = 0;
+                                case IUILittoSim.ROAD:
+                                    agent.Height = 0;
                                     //agentCreator.GetComponent<AgentCreator>().CreateAgent(agent, Land_Use_Transform, mat, IUILittoSim.ROAD_ID, false);
                                     //agentCreator.GetComponent<AgentCreator>().CreateLineAgent(agent, Land_Use_Transform, matWhite, IUILittoSim.ROAD_ID, false, 10f, ILittoSimConcept.ROAD_TAG, -151);
                                     agentCreator.GetComponent<AgentCreator>().CreateGenericLineAgent(agent, 10f, "Road", -151);
                                     break;
-                            default:
-                                targetGameObject = GameObject.Find(unityAgent.receivers);
-                                if (targetGameObject == null)
-                                {
-                                    Debug.LogError(" Sorry, requested gameObject is null (" + unityAgent.receivers + "). Please check you code! ");
+                                default:
+                                    targetGameObject = GameObject.Find(unityAgent.receivers);
+                                    if (targetGameObject == null)
+                                    {
+                                        Debug.LogError(" Sorry, requested gameObject is null (" + unityAgent.receivers + "). Please check you code! ");
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        Debug.Log("Generic Object creation : " + unityAgent.contents.agentName);
+                                        obj = new object[] { unityAgent, targetGameObject };
+                                        mainTopicManager.GetComponent<MainTopic>().ProcessTopic(obj);
+                                        //mainTopicManager.GetComponent(IMQTTConnector.MAIN_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                                    }
                                     break;
-                                }
-                                else
-                                {
-                                    Debug.Log("Generic Object creation : "+ unityAgent.contents.agentName);
-                                    obj = new object[] { unityAgent, targetGameObject };
-                                    mainTopicManager.GetComponent<MainTopic>().ProcessTopic(obj);
-                                    //mainTopicManager.GetComponent(IMQTTConnector.MAIN_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
-                                }
+                            }
+
+                            //------------------------------------------------------------------------------
+                            break;
+                        case IMQTTConnector.MONO_FREE_TOPIC:
+                            //------------------------------------------------------------------------------
+                            Debug.Log("-> Topic to deal with is : " + IMQTTConnector.MONO_FREE_TOPIC);
+                            MonoFreeTopicMessage monoFreeTopicMessage = (MonoFreeTopicMessage)MsgSerialization.FromXML(receivedMsg, new MonoFreeTopicMessage());
+                            targetGameObject = GameObject.Find(monoFreeTopicMessage.objectName);
+                            obj = new object[] { monoFreeTopicMessage, targetGameObject };
+
+                            if (targetGameObject == null)
+                            {
+                                Debug.LogError(" Sorry, requested gameObject is null (" + monoFreeTopicMessage.objectName + "). Please check your code! ");
                                 break;
-                        }
-
-                        //------------------------------------------------------------------------------
-                        break;
-                    case IMQTTConnector.MONO_FREE_TOPIC:
-                        //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.MONO_FREE_TOPIC);
-                        MonoFreeTopicMessage monoFreeTopicMessage = (MonoFreeTopicMessage)MsgSerialization.FromXML(receivedMsg, new MonoFreeTopicMessage());
-                        targetGameObject = GameObject.Find(monoFreeTopicMessage.objectName);
-                        obj = new object[] { monoFreeTopicMessage, targetGameObject };
-
-                        if (targetGameObject == null)
-                        {
-                            Debug.LogError(" Sorry, requested gameObject is null (" + monoFreeTopicMessage.objectName + "). Please check your code! ");
+                            }
+                            //    Debug.Log("The message is to " + monoFreeTopicMessage.objectName + " about the methode " + monoFreeTopicMessage.methodName + " and attribute " + monoFreeTopicMessage.attribute);
+                            GameObject.Find(IMQTTConnector.MONO_FREE_TOPIC_MANAGER).GetComponent(IMQTTConnector.MONO_FREE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                            //------------------------------------------------------------------------------
                             break;
-                        }
-                        //    Debug.Log("The message is to " + monoFreeTopicMessage.objectName + " about the methode " + monoFreeTopicMessage.methodName + " and attribute " + monoFreeTopicMessage.attribute);
-                        GameObject.Find(IMQTTConnector.MONO_FREE_TOPIC_MANAGER).GetComponent(IMQTTConnector.MONO_FREE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
-                        //------------------------------------------------------------------------------
-                        break;
-                    case IMQTTConnector.MULTIPLE_FREE_TOPIC:
-                        //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.MULTIPLE_FREE_TOPIC);
+                        case IMQTTConnector.MULTIPLE_FREE_TOPIC:
+                            //------------------------------------------------------------------------------
+                            Debug.Log("-> Topic to deal with is : " + IMQTTConnector.MULTIPLE_FREE_TOPIC);
 
-                        MultipleFreeTopicMessage multipleFreetopicMessage = (MultipleFreeTopicMessage)MsgSerialization.FromXML(receivedMsg, new MultipleFreeTopicMessage());
-                        targetGameObject = GameObject.Find(multipleFreetopicMessage.objectName);
-                        obj = new object[] { multipleFreetopicMessage, targetGameObject };
+                            MultipleFreeTopicMessage multipleFreetopicMessage = (MultipleFreeTopicMessage)MsgSerialization.FromXML(receivedMsg, new MultipleFreeTopicMessage());
+                            targetGameObject = GameObject.Find(multipleFreetopicMessage.objectName);
+                            obj = new object[] { multipleFreetopicMessage, targetGameObject };
 
-                        if (targetGameObject == null)
-                        {
-                            Debug.LogError(" Sorry, requested gameObject is null (" + multipleFreetopicMessage.objectName + "). Please check you code! ");
+                            if (targetGameObject == null)
+                            {
+                                Debug.LogError(" Sorry, requested gameObject is null (" + multipleFreetopicMessage.objectName + "). Please check you code! ");
+                                break;
+                            }
+
+                            GameObject.Find(IMQTTConnector.MULTIPLE_FREE_TOPIC_MANAGER).GetComponent(IMQTTConnector.MULTIPLE_FREE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                            //------------------------------------------------------------------------------
                             break;
-                        }
+                        case IMQTTConnector.POSITION_TOPIC:
+                            //------------------------------------------------------------------------------
+                            Debug.Log("-> Topic to deal with is : " + IMQTTConnector.POSITION_TOPIC);
 
-                        GameObject.Find(IMQTTConnector.MULTIPLE_FREE_TOPIC_MANAGER).GetComponent(IMQTTConnector.MULTIPLE_FREE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
-                        //------------------------------------------------------------------------------
-                        break;
-                    case IMQTTConnector.POSITION_TOPIC:
-                        //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.POSITION_TOPIC);
+                            PositionTopicMessage positionTopicMessage = (PositionTopicMessage)MsgSerialization.FromXML(receivedMsg, new PositionTopicMessage());
+                            targetGameObject = GameObject.Find(positionTopicMessage.objectName);
+                            obj = new object[] { positionTopicMessage, targetGameObject };
 
-                        PositionTopicMessage positionTopicMessage = (PositionTopicMessage)MsgSerialization.FromXML(receivedMsg, new PositionTopicMessage());
-                        targetGameObject = GameObject.Find(positionTopicMessage.objectName);
-                        obj = new object[] { positionTopicMessage, targetGameObject };
+                            if (targetGameObject == null)
+                            {
+                                Debug.LogError(" Sorry, requested gameObject is null (" + positionTopicMessage.objectName + "). Please check you code! ");
+                                break;
+                            }
+                            else
+                            {
+                                GameObject.Find(IMQTTConnector.POSITION_TOPIC_MANAGER).GetComponent(IMQTTConnector.POSITION_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
 
-                        if (targetGameObject == null)
-                        {
-                            Debug.LogError(" Sorry, requested gameObject is null (" + positionTopicMessage.objectName + "). Please check you code! ");
+                            }
+
+                            //------------------------------------------------------------------------------
                             break;
-                        }
-                        else
-                        {
-                            GameObject.Find(IMQTTConnector.POSITION_TOPIC_MANAGER).GetComponent(IMQTTConnector.POSITION_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                        case IMQTTConnector.MOVE_TOPIC:
+                            //------------------------------------------------------------------------------
+                            Debug.Log("-> Topic to deal with is : " + IMQTTConnector.MOVE_TOPIC);
+                            Debug.Log("-> the message is : " + receivedMsg);
+                            MoveTopicMessage moveTopicMessage = (MoveTopicMessage)MsgSerialization.FromXML(receivedMsg, new MoveTopicMessage());
+                            Debug.Log("-> the position to move to is : " + moveTopicMessage.position);
+                            Debug.Log("-> the speed is : " + moveTopicMessage.speed);
+                            Debug.Log("-> the object to move is : " + moveTopicMessage.objectName);
+                            targetGameObject = GameObject.Find(moveTopicMessage.objectName);
+                            obj = new object[] { moveTopicMessage, targetGameObject };
 
-                        }
+                            if (targetGameObject == null)
+                            {
+                                Debug.LogError(" Sorry, requested gameObject is null (" + moveTopicMessage.objectName + "). Please check you code! ");
+                                break;
+                            }
 
-                        //------------------------------------------------------------------------------
-                        break;
-                    case IMQTTConnector.MOVE_TOPIC:
-                        //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.MOVE_TOPIC);
-                        Debug.Log("-> the message is : " + receivedMsg);
-                        MoveTopicMessage moveTopicMessage = (MoveTopicMessage)MsgSerialization.FromXML(receivedMsg, new MoveTopicMessage());
-                        Debug.Log("-> the position to move to is : " + moveTopicMessage.position);
-                        Debug.Log("-> the speed is : " + moveTopicMessage.speed);
-                        Debug.Log("-> the object to move is : " + moveTopicMessage.objectName);
-                        targetGameObject = GameObject.Find(moveTopicMessage.objectName);
-                        obj = new object[] { moveTopicMessage, targetGameObject };
-
-                        if (targetGameObject == null)
-                        {
-                            Debug.LogError(" Sorry, requested gameObject is null (" + moveTopicMessage.objectName + "). Please check you code! ");
+                            GameObject.Find(IMQTTConnector.MOVE_TOPIC_MANAGER).GetComponent(IMQTTConnector.MOVE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                            //------------------------------------------------------------------------------
                             break;
-                        }
+                        case IMQTTConnector.COLOR_TOPIC:
+                            //------------------------------------------------------------------------------
+                            Debug.Log("-> Topic to deal with is : " + IMQTTConnector.COLOR_TOPIC);
 
-                        GameObject.Find(IMQTTConnector.MOVE_TOPIC_MANAGER).GetComponent(IMQTTConnector.MOVE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
-                        //------------------------------------------------------------------------------
-                        break;
-                    case IMQTTConnector.COLOR_TOPIC:
-                        //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.COLOR_TOPIC);
+                            ColorTopicMessage colorTopicMessage = (ColorTopicMessage)MsgSerialization.FromXML(receivedMsg, new ColorTopicMessage());
+                            targetGameObject = GameObject.Find(colorTopicMessage.objectName);
+                            obj = new object[] { colorTopicMessage, targetGameObject };
 
-                        ColorTopicMessage colorTopicMessage = (ColorTopicMessage)MsgSerialization.FromXML(receivedMsg, new ColorTopicMessage());
-                        targetGameObject = GameObject.Find(colorTopicMessage.objectName);
-                        obj = new object[] { colorTopicMessage, targetGameObject };
+                            if (targetGameObject == null)
+                            {
+                                Debug.LogError(" Sorry, requested gameObject is null (" + colorTopicMessage.objectName + "). Please check you code! ");
+                                break;
+                            }
 
-                        if (targetGameObject == null)
-                        {
-                            Debug.LogError(" Sorry, requested gameObject is null (" + colorTopicMessage.objectName + "). Please check you code! ");
+                            GameObject.Find(IMQTTConnector.COLOR_TOPIC_MANAGER).GetComponent(IMQTTConnector.COLOR_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+
+                            //------------------------------------------------------------------------------
                             break;
-                        }
+                        case IMQTTConnector.GET_TOPIC:
+                            //------------------------------------------------------------------------------
+                            Debug.Log("-> Topic to deal with is : " + IMQTTConnector.GET_TOPIC);
+                            string value = null;
 
-                        GameObject.Find(IMQTTConnector.COLOR_TOPIC_MANAGER).GetComponent(IMQTTConnector.COLOR_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
-
-                        //------------------------------------------------------------------------------
-                        break;
-                    case IMQTTConnector.GET_TOPIC:
-                        //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.GET_TOPIC);
-                        string value = null;
-
-                        GetTopicMessage getTopicMessage = (GetTopicMessage)MsgSerialization.FromXML(receivedMsg, new GetTopicMessage());
-                        targetGameObject = GameObject.Find(getTopicMessage.objectName);
+                            GetTopicMessage getTopicMessage = (GetTopicMessage)MsgSerialization.FromXML(receivedMsg, new GetTopicMessage());
+                            targetGameObject = GameObject.Find(getTopicMessage.objectName);
 
 
-                        if (targetGameObject == null)
-                        {
-                            Debug.LogError(" Sorry, requested gameObject is null (" + getTopicMessage.objectName + "). Please check you code! ");
+                            if (targetGameObject == null)
+                            {
+                                Debug.LogError(" Sorry, requested gameObject is null (" + getTopicMessage.objectName + "). Please check you code! ");
+                                break;
+                            }
+
+                            obj = new object[] { getTopicMessage, targetGameObject, value };
+
+                            GameObject.Find(IMQTTConnector.GET_TOPIC_MANAGER).GetComponent(IMQTTConnector.GET_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                            SendReplay(connector.clientId, "GamaAgent", getTopicMessage.attribute, (string)obj[2]);
+                            //------------------------------------------------------------------------------
                             break;
-                        }
+                        case IMQTTConnector.SET_TOPIC:
+                            //------------------------------------------------------------------------------
+                            Debug.Log("-> Topic to deal with is : " + IMQTTConnector.SET_TOPIC);
 
-                        obj = new object[] { getTopicMessage, targetGameObject, value };
+                            SetTopicMessage setTopicMessage = (SetTopicMessage)MsgSerialization.FromXML(receivedMsg, new SetTopicMessage());
+                            // Debug.Log("-> Target game object name: " + setTopicMessage.objectName);
+                            Debug.Log("-> Message: " + receivedMsg);
+                            targetGameObject = GameObject.Find(setTopicMessage.objectName);
 
-                        GameObject.Find(IMQTTConnector.GET_TOPIC_MANAGER).GetComponent(IMQTTConnector.GET_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
-                        SendReplay(connector.clientId, "GamaAgent", getTopicMessage.attribute, (string)obj[2]);
-                        //------------------------------------------------------------------------------
-                        break;
-                    case IMQTTConnector.SET_TOPIC:
-                        //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.SET_TOPIC);
+                            if (targetGameObject == null)
+                            {
+                                Debug.LogError(" Sorry, requested gameObject is null (" + setTopicMessage.objectName + "). Please check you code! ");
+                                break;
+                            }
 
-                        SetTopicMessage setTopicMessage = (SetTopicMessage)MsgSerialization.FromXML(receivedMsg, new SetTopicMessage());
-                        // Debug.Log("-> Target game object name: " + setTopicMessage.objectName);
-                        Debug.Log("-> Message: " + receivedMsg);
-                        targetGameObject = GameObject.Find(setTopicMessage.objectName);
+                            obj = new object[] { setTopicMessage, targetGameObject };
 
-                        if (targetGameObject == null)
-                        {
-                            Debug.LogError(" Sorry, requested gameObject is null (" + setTopicMessage.objectName + "). Please check you code! ");
+                            GameObject.Find(IMQTTConnector.SET_TOPIC_MANAGER).GetComponent(IMQTTConnector.SET_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                            //------------------------------------------------------------------------------
                             break;
-                        }
+                        case IMQTTConnector.PROPERTY_TOPIC:
+                            //------------------------------------------------------------------------------
+                            Debug.Log("-> Topic to deal with is : " + IMQTTConnector.PROPERTY_TOPIC);
 
-                        obj = new object[] { setTopicMessage, targetGameObject };
+                            try
+                            {
 
-                        GameObject.Find(IMQTTConnector.SET_TOPIC_MANAGER).GetComponent(IMQTTConnector.SET_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
-                        //------------------------------------------------------------------------------
-                        break;
-                    case IMQTTConnector.PROPERTY_TOPIC:
-                        //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.PROPERTY_TOPIC);
+                            }
+                            catch (Exception er)
+                            {
+                                Debug.Log("Error : " + er.Message);
+                            }
 
-                        try
-                        {
+                            PropertyTopicMessage propertyTopicMessage = (PropertyTopicMessage)MsgSerialization.FromXML(receivedMsg, new PropertyTopicMessage());
+                            Debug.Log("-> Target game object name: " + propertyTopicMessage.objectName);
+                            targetGameObject = GameObject.Find(propertyTopicMessage.objectName);
 
-                        }
-                        catch (Exception er)
-                        {
-                            Debug.Log("Error : " + er.Message);
-                        }
+                            if (targetGameObject == null)
+                            {
+                                Debug.LogError(" Sorry, requested gameObject is null (" + propertyTopicMessage.objectName + "). Please check you code! ");
+                                break;
+                            }
 
-                        PropertyTopicMessage propertyTopicMessage = (PropertyTopicMessage)MsgSerialization.FromXML(receivedMsg, new PropertyTopicMessage());
-                        Debug.Log("-> Target game object name: " + propertyTopicMessage.objectName);
-                        targetGameObject = GameObject.Find(propertyTopicMessage.objectName);
+                            obj = new object[] { propertyTopicMessage, targetGameObject };
 
-                        if (targetGameObject == null)
-                        {
-                            Debug.LogError(" Sorry, requested gameObject is null (" + propertyTopicMessage.objectName + "). Please check you code! ");
+                            GameObject.Find(IMQTTConnector.PROPERTY_TOPIC_MANAGER).GetComponent(IMQTTConnector.PROPERTY_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                            //------------------------------------------------------------------------------
                             break;
-                        }
 
-                        obj = new object[] { propertyTopicMessage, targetGameObject };
+                        case IMQTTConnector.CREATE_TOPIC:
+                            //------------------------------------------------------------------------------
+                            Debug.Log("-> Topic to deal with is : " + IMQTTConnector.CREATE_TOPIC);
+                            Debug.Log("-> Message: " + receivedMsg);
+                            CreateTopicMessage createTopicMessage = (CreateTopicMessage)MsgSerialization.FromXML(receivedMsg, new CreateTopicMessage());
+                            obj = new object[] { createTopicMessage };
 
-                        GameObject.Find(IMQTTConnector.PROPERTY_TOPIC_MANAGER).GetComponent(IMQTTConnector.PROPERTY_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
-                        //------------------------------------------------------------------------------
-                        break;
-
-                    case IMQTTConnector.CREATE_TOPIC:
-                        //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.CREATE_TOPIC);
-                        Debug.Log("-> Message: " + receivedMsg);
-                        CreateTopicMessage createTopicMessage = (CreateTopicMessage)MsgSerialization.FromXML(receivedMsg, new CreateTopicMessage());
-                        obj = new object[] { createTopicMessage };
-
-                        GameObject.Find(IMQTTConnector.CREATE_TOPIC_MANAGER).GetComponent(IMQTTConnector.CREATE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
-                        //------------------------------------------------------------------------------
-                        break;
-                    case IMQTTConnector.DESTROY_TOPIC:
-                        //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.DESTROY_TOPIC);
-
-                        DestroyTopicMessage destroyTopicMessage = (DestroyTopicMessage)MsgSerialization.FromXML(receivedMsg, new DestroyTopicMessage());
-                        obj = new object[] { destroyTopicMessage };
-
-                        if (topicGameObject == null)
-                        {
-                            Debug.LogError(" Sorry, requested gameObject is null (" + destroyTopicMessage.objectName + "). Please check you code! ");
+                            GameObject.Find(IMQTTConnector.CREATE_TOPIC_MANAGER).GetComponent(IMQTTConnector.CREATE_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                            //------------------------------------------------------------------------------
                             break;
-                        }
+                        case IMQTTConnector.DESTROY_TOPIC:
+                            //------------------------------------------------------------------------------
+                            Debug.Log("-> Topic to deal with is : " + IMQTTConnector.DESTROY_TOPIC);
 
-                        GameObject.Find(IMQTTConnector.DESTROY_TOPIC_MANAGER).GetComponent(IMQTTConnector.DESTROY_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
-                        //------------------------------------------------------------------------------
-                        break;
-                    case IMQTTConnector.NOTIFICATION_TOPIC:
-                        //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.NOTIFICATION_TOPIC);
+                            DestroyTopicMessage destroyTopicMessage = (DestroyTopicMessage)MsgSerialization.FromXML(receivedMsg, new DestroyTopicMessage());
+                            obj = new object[] { destroyTopicMessage };
 
-                        NotificationTopicMessage notificationTopicMessage = (NotificationTopicMessage)MsgSerialization.FromXML(receivedMsg, new NotificationTopicMessage());
-                        obj = new object[] { notificationTopicMessage };
+                            if (topicGameObject == null)
+                            {
+                                Debug.LogError(" Sorry, requested gameObject is null (" + destroyTopicMessage.objectName + "). Please check you code! ");
+                                break;
+                            }
 
-
-                        if (topicGameObject == null)
-                        {
-                            Debug.LogError(" Sorry, requested gameObject is null (" + notificationTopicMessage.objectName + "). Please check you code! ");
+                            GameObject.Find(IMQTTConnector.DESTROY_TOPIC_MANAGER).GetComponent(IMQTTConnector.DESTROY_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                            //------------------------------------------------------------------------------
                             break;
-                        }
+                        case IMQTTConnector.NOTIFICATION_TOPIC:
+                            //------------------------------------------------------------------------------
+                            Debug.Log("-> Topic to deal with is : " + IMQTTConnector.NOTIFICATION_TOPIC);
 
-                        GameObject.Find(IMQTTConnector.NOTIFICATION_TOPIC_MANAGER).GetComponent(IMQTTConnector.NOTIFICATION_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+                            NotificationTopicMessage notificationTopicMessage = (NotificationTopicMessage)MsgSerialization.FromXML(receivedMsg, new NotificationTopicMessage());
+                            obj = new object[] { notificationTopicMessage };
 
-                        //------------------------------------------------------------------------------
-                        break;
-                    default:
-                        //------------------------------------------------------------------------------
-                        Debug.Log("-> Topic to deal with is : " + IMQTTConnector.DEFAULT_TOPIC);
-                        //------------------------------------------------------------------------------
-                        break;
-                }
-               
+
+                            if (topicGameObject == null)
+                            {
+                                Debug.LogError(" Sorry, requested gameObject is null (" + notificationTopicMessage.objectName + "). Please check you code! ");
+                                break;
+                            }
+
+                            GameObject.Find(IMQTTConnector.NOTIFICATION_TOPIC_MANAGER).GetComponent(IMQTTConnector.NOTIFICATION_TOPIC_SCRIPT).SendMessage("ProcessTopic", obj);
+
+                            //------------------------------------------------------------------------------
+                            break;
+                        default:
+                            //------------------------------------------------------------------------------
+                            Debug.Log("-> Topic to deal with is : " + IMQTTConnector.DEFAULT_TOPIC);
+                            //------------------------------------------------------------------------------
+                            break;
+                    }
+
             }
             CheckForNotifications();
         }
-
-
-
-          
 
         void OnGUI()
         {
@@ -488,16 +478,16 @@ namespace ummisco.gama.unity.Scene
 
                 if (GUI.Button(new Rect(820, 25, 200, 20), "Send Message to Gama"))
                 {
-                   // SendGotBoxMsg();
+                    // SendGotBoxMsg();
 
                     SendReplay("unity", "gama", "test", "field value");
                 }
 
 
-               
+
             }
 
-          
+
 
         }
 
@@ -532,7 +522,7 @@ namespace ummisco.gama.unity.Scene
         {
 
         }
-                       
+
 
         public void CheckForNotifications()
         {

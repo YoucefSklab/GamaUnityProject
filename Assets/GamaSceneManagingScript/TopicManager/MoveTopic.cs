@@ -18,14 +18,11 @@ namespace ummisco.gama.unity.topics
 
         }
 
-        // Use this for initialization
         public override void Start()
         {
             inverseMoveTime = 1f / moveTime;
-
         }
 
-        // Update is called once per frame
         public override void Update()
         {
 
@@ -43,8 +40,6 @@ namespace ummisco.gama.unity.topics
 
         }
 
-        // The method to call Game Objects methods
-        //----------------------------------------
         public void SendTopic(Vector3 movement)
         {
 
@@ -55,7 +50,7 @@ namespace ummisco.gama.unity.topics
             }
             else
             {
-                Debug.Log("Mouve Game Object " + targetGameObject + " to position :  " + movement +  " with speed " + topicMessage.speed);
+                Debug.Log("Mouve Game Object " + targetGameObject + " to position :  " + movement + " with speed " + topicMessage.speed);
                 freeMoveToPosition(movement, topicMessage.speed);
             }
         }

@@ -20,6 +20,7 @@ public class GamaAgent : MonoBehaviour
         set
         {
             m_strength = value;
+            Debug.Log("------ > Value changed");
             string msg = GamaListenReplay.BuildToListenReplay("strength", strength);
             GamaManager.connector.Publish("setexp", msg);
             Debug.Log("------ > " + msg);
@@ -36,7 +37,7 @@ public class GamaAgent : MonoBehaviour
     void OnGUI()
     {
         if (GUI.Button(new Rect(20, 250, 200, 20), "Send to listen"))
-          {
+        {
             strength += 2;
         }
     }

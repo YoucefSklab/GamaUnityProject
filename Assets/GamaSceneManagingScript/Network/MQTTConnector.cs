@@ -6,11 +6,9 @@ using ummisco.gama.unity.utils;
 using System.Collections.Generic;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
-namespace ummisco.gama.unity.Network
-{ 
-    public class MQTTConnector : MonoBehaviour
-    {
-        public string clientId; 
+namespace ummisco.gama.unity.Network {
+    public class MQTTConnector: MonoBehaviour {
+        public string clientId;
         public MqttClient client;
 
         // Server parameters
@@ -30,12 +28,11 @@ namespace ummisco.gama.unity.Network
 
         List<MqttMsgPublishEventArgs> msgList = new List<MqttMsgPublishEventArgs>();
 
-        public void Connect(string serverUrl, int serverPort, string userId, string password)
-        {
+        public void Connect(string serverUrl, int serverPort, string userId, string password) {
 
-            clientId = Guid.NewGuid().ToString() + DateTime.Now.ToFileTime(); 
+            clientId = Guid.NewGuid().ToString() + DateTime.Now.ToFileTime();
             client = new MqttClient(serverUrl, serverPort, false, null);
-         
+
             client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
 
             client.Connect(clientId, userId, password);
@@ -47,49 +44,40 @@ namespace ummisco.gama.unity.Network
             Debug.Log(" Is sent: " + client.Publish("test", System.Text.Encoding.UTF8.GetBytes("Test 1 sur Test"), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true));
         }
 
-        public void Subscribe(string topic)
-        {
+        public void Subscribe(string topic) {
             client.Subscribe(new string[] { topic }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
         }
 
-        public void Publish(string topic, string message)
-        {
+        public void Publish(string topic, string message) {
             client.Publish(topic, System.Text.Encoding.UTF8.GetBytes(message), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
         }
-                     
-        void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
-        {
+
+        void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e) {
             msgList.Add(e);
         }
 
-        public MqttMsgPublishEventArgs GetNextMessage()
-        {
-            if (HasNextMessage())
-            {
+        public MqttMsgPublishEventArgs GetNextMessage() {
+            if(HasNextMessage()) {
                 MqttMsgPublishEventArgs msg = msgList[0];
                 msgList.Remove(msg);
                 return msg;
             }
-            else
-            {
+            else {
                 return null;
             }
-           
+
         }
 
-        public bool HasNextMessage()
-        {
-            if (msgList.Count > 0) return true;
+        public bool HasNextMessage() {
+            if(msgList.Count > 0) return true;
             return false;
         }
 
-        public void Disconnect()
-        {
+        public void Disconnect() {
             client.Disconnect();
         }
 
-        public static List<string> GetTopicsInList()
-        {
+        public static List<string> GetTopicsInList() {
             List<string> topicsList = new List<string>
             {
                 IMQTTConnector.MAIN_TOPIC,
@@ -112,19 +100,16 @@ namespace ummisco.gama.unity.Network
         }
 
 
-        public void InitTopics()
-        {
+        public void InitTopics() {
             List<string> topicsList = GetTopicsInList();
 
-            foreach(string topic in topicsList)
-            {
+            foreach(string topic in topicsList) {
                 Subscribe(topic);
             }
         }
 
 
-        public void SendAttributeUpdate(string attributeName, object attributeValue, string MqttTopic)
-        {
+        public void SendAttributeUpdate(string attributeName, object attributeValue, string MqttTopic) {
 
         }
 
