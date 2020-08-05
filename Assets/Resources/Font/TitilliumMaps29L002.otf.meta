@@ -1,0 +1,26 @@
+fileFormatVersion: 2
+guid: ed7657b97f37145988bd1d2cbc3cd51d
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: TitilliumMaps29L
+  fontNames:
+  - TitilliumMaps29L
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 22d0bb49cda6249febc0579e851d0d87, type: 3}
+  - {fileID: 12800000, guid: 6c72f189a95ad4fb19151d88edea3352, type: 3}
+  - {fileID: 12800000, guid: 0153155a385564578bf5425c0798c105, type: 3}
+  - {fileID: 12800000, guid: 0fe46b7e8fad24b52b8dff6c7a08c1a4, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
