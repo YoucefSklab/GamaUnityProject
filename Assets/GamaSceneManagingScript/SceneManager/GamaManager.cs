@@ -239,7 +239,13 @@ namespace ummisco.gama.unity.Scene
                             Debug.Log("-> Topic to deal with is : " + IMQTTConnector.MULTIPLE_FREE_TOPIC);
 
                             MultipleFreeTopicMessage multipleFreetopicMessage = (MultipleFreeTopicMessage)MsgSerialization.FromXML(receivedMsg, new MultipleFreeTopicMessage());
+
+                            
+
                             targetGameObject = GameObject.Find(multipleFreetopicMessage.objectName);
+
+                            Debug.Log("-> Concerned Game Object is : " + multipleFreetopicMessage.objectName);
+
                             obj = new object[] { multipleFreetopicMessage, targetGameObject };
 
                             if (targetGameObject == null)
@@ -557,6 +563,7 @@ namespace ummisco.gama.unity.Scene
         {
             GameObject.Find(IGamaManager.SCENE_MANAGER).GetComponent<SceneManager>().SetWorldEnvelope(args);
         }
+
 
 
 
